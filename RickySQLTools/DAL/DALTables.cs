@@ -88,6 +88,11 @@ namespace RickySQLTools.DAL
 
 		internal bool SaveToXml(ref DataSet ds)
 		{
+			DirectoryInfo di = new DirectoryInfo(Application.StartupPath + "\\Database\\");
+			if (!di.Exists)
+			{
+				di.Create();
+			}
 			string saveToPath = Application.StartupPath + "\\Database\\" + objUti.GetDbName() + ".xml";
 			ds.WriteXml(saveToPath, XmlWriteMode.WriteSchema);
 			return true;
