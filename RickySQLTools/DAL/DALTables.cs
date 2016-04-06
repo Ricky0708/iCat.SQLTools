@@ -13,15 +13,22 @@ namespace RickySQLTools.DAL
 {
 	class DALTables : DALBase
 	{
+		#region const  var & propery
 		private const string dtTables = "Tables";
 		private const string dtColumns = "Columns";
 		private const string dtFKs = "FKs";
+		private const string dtIndexes = "Indexes";
 		private const string dtSpsAndFuncs = "SpsAndFuncs";
 		private const string dtInputParams = "InputParams";
 		private const string dtOutputParams = "OutputParams";
 		private DALUtility objUti = new DALUtility();
+
 		internal DataSet ds { get; set; }
+
 		internal string ErrMsg { get; set; }
+		#endregion
+
+		#region method
 		internal bool GetDatasetFromSQL()
 		{
 			ds = new DataSet();
@@ -29,20 +36,23 @@ namespace RickySQLTools.DAL
 			{
 				using (SqlConnection conn = new SqlConnection(base.connString))
 				{
-					SqlDataAdapter da = new SqlDataAdapter(GeneratGetColScript(), conn);
+					SqlDataAdapter da = new SqlDataAdapter(GeneratScriptGetCol(), conn);
 					da.Fill(ds, dtColumns);
-					da = new SqlDataAdapter(GeneratGetTableScript(), conn);
+					da = new SqlDataAdapter(GeneratScriptGetTable(), conn);
 					da.Fill(ds, dtTables);
-					da = new SqlDataAdapter(GeneratGetFKScript(), conn);
+					da = new SqlDataAdapter(GeneratScriptGetFK(), conn);
 					da.Fill(ds, dtFKs);
-					da = new SqlDataAdapter(GeneratGetSpAndFuncScript(), conn);
+					da = new SqlDataAdapter(GeneratScriptGetIndex(), conn);
+					da.Fill(ds, dtIndexes);
+					da = new SqlDataAdapter(GeneratScriptGetSpAndFunc(), conn);
 					da.Fill(ds, dtSpsAndFuncs);
-					da = new SqlDataAdapter(GeneratGetInputParamScript(), conn);
+					da = new SqlDataAdapter(GeneratScriptGetInputParam(), conn);
 					da.Fill(ds, dtInputParams);
+
 					string script = "";
 					foreach (DataRow dr in ds.Tables[dtSpsAndFuncs].Rows)
 					{
-						script += GeneratGetOutPutParamScript(dr["SPECIFIC_NAME"].ToString()) + " UNION ALL ";
+						script += GeneratScriptGetOutPutParam(dr["SPECIFIC_NAME"].ToString()) + " UNION ALL ";
 					}
 					script = script.Substring(0, script.Length - 11);
 					da = new SqlDataAdapter(script, conn);
@@ -53,10 +63,16 @@ namespace RickySQLTools.DAL
 				//DataRelation relFK = new DataRelation("MasterDetailFKs", ds.Tables[dtTables].Columns["TableName"], ds.Tables[dtFKs].Columns["ParentTable"]);
 				//ds.Relations.Add(relFK);
 
+				DataRelation resIndex = new DataRelation("MasterDetailIndexes", ds.Tables[dtTables].Columns["TableName"], ds.Tables[dtIndexes].Columns["TableName"]);
+				ds.Relations.Add(resIndex);
+
 				DataRelation relInputParam = new DataRelation("MasterDetailInputParams", ds.Tables[dtSpsAndFuncs].Columns["SPECIFIC_NAME"], ds.Tables[dtInputParams].Columns["SPECIFIC_NAME"]);
 				ds.Relations.Add(relInputParam);
+
 				DataRelation resOutputParam = new DataRelation("MasterDetailOutputParams", ds.Tables[dtSpsAndFuncs].Columns["SPECIFIC_NAME"], ds.Tables[dtOutputParams].Columns["SPECIFIC_NAME"]);
 				ds.Relations.Add(resOutputParam);
+
+
 				return true;
 			}
 			catch (Exception ex)
@@ -100,18 +116,28 @@ namespace RickySQLTools.DAL
 
 		internal bool UpdateDescription(ref DataSet ds)
 		{
-			DataTable dt;
+			DataView dv = null;
 			StringBuilder sbSQL = new StringBuilder();
-			dt = ds.Tables[dtTables].GetChanges(DataRowState.Modified);
-			if (dt != null)
+			if (ds.Tables[dtTables].GetChanges(DataRowState.Modified) != null)
 			{
-				sbSQL = GeneratUpdateScript(sbSQL, dt, "default");
+				dv = ds.Tables[dtTables].GetChanges(DataRowState.Modified).DefaultView;
+				if (dv != null && dv.Count > 0)
+				{
+					dv.RowFilter = "TableType = '" + "VIEW" + "'";
+					sbSQL = GeneratScriptUpdate(sbSQL, dv, "VIEW");
+					dv.RowFilter = "TableType = '" + "BASE TABLE" + "'";
+					sbSQL = GeneratScriptUpdate(sbSQL, dv, "TABLE");
+				}
 			}
-			dt = ds.Tables[dtColumns].GetChanges(DataRowState.Modified);
-			if (dt != null)
+			if (ds.Tables[dtColumns].GetChanges(DataRowState.Modified) != null)
 			{
-				sbSQL = GeneratUpdateScript(sbSQL, dt, "'column'");
+				dv = ds.Tables[dtColumns].GetChanges(DataRowState.Modified).DefaultView;
+				if (dv != null && dv.Count > 0)
+				{
+					sbSQL = GeneratScriptUpdate(sbSQL, dv, "COLUMN");
+				}
 			}
+
 
 			SqlTransaction tran;
 			using (SqlConnection conn = new SqlConnection(base.connString))
@@ -137,61 +163,70 @@ namespace RickySQLTools.DAL
 
 			}
 		}
+		#endregion
 
 		#region script generator
-		private StringBuilder GeneratUpdateScript(StringBuilder sbSQL, DataTable dt, string target)
+
+		private StringBuilder GeneratScriptUpdate(StringBuilder sbSQL, DataView dv, string target)
 		{
 			using (SqlConnection conn = new SqlConnection(base.connString))
 			{
-				SqlCommand cmd = new SqlCommand(@"SELECT * 
-												  FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'table',@TableName, " + target + @", default)
+				SqlCommand cmd = new SqlCommand();
+				SqlDataReader sdr;
+				switch (target)
+				{
+					case "VIEW":
+						cmd = new SqlCommand(@"SELECT * 
+												  FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'VIEW',@TableName, default, default)
 												  WHERE
 													name='MS_Description' AND 
-													objtype = @objType AND
+													objtype = 'VIEW' AND
 													objname = @objName", conn);
+						break;
+					case "TABLE":
+						cmd = new SqlCommand(@"SELECT * 
+												  FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'TABLE',@TableName, default, default)
+												  WHERE
+													name='MS_Description' AND 
+													objtype = 'TABLE' AND
+													objname = @objName", conn);
+						break;
+					case "COLUMN":
+						cmd = new SqlCommand(@"SELECT * 
+												  FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'TABLE',@TableName, 'COLUMN', default)
+												  WHERE
+													name='MS_Description' AND 
+													objtype = 'COLUMN' AND
+													objname = @objName", conn);
+						break;
+					default:
+						break;
+				}
 
-				for (int i = 0; i < dt.Rows.Count; i++)
+
+				for (int i = 0; i < dv.Count; i++)
 				{
 					cmd.Parameters.Clear();
-					cmd.Parameters.AddWithValue("@TableName", dt.Rows[i]["TableName"].ToString());
-					switch (target)
-					{
-						case "default":
-							cmd.Parameters.AddWithValue("@objName", dt.Rows[i]["TableName"].ToString());
-							cmd.Parameters.AddWithValue("@objType", "TABLE");
-							break;
-						case "'column'":
-							cmd.Parameters.AddWithValue("@objName", dt.Rows[i]["ColName"].ToString());
-							cmd.Parameters.AddWithValue("@objType", "COLUMN");
-							break;
-						default:
-							break;
-					}
+					cmd.Parameters.AddWithValue("@TableName", dv[i]["TableName"].ToString());
+					string execFunName = "";
+					string description = "";
+					string tableName = "";
 
+					cmd.Parameters.AddWithValue("@objName", target == "COLUMN" ? dv[i]["ColName"].ToString() : dv[i]["TableName"].ToString());
 					conn.Open();
+					sdr = cmd.ExecuteReader();
+					execFunName = sdr.Read() ? "EXECUTE sp_updateextendedproperty N'MS_Description', N'" : "EXECUTE sp_addextendedproperty N'MS_Description', N'";
+					description = target == "COLUMN" ? dv[i]["ColDescription"].ToString().Replace("'", "") : dv[i]["TableDescription"].ToString().Replace("'", "");
+					tableName = dv[i]["TableName"].ToString().Replace("'", "");
 
-					SqlDataReader sdr = cmd.ExecuteReader();
 					switch (target)
 					{
-						case "default":
-							if (sdr.Read())
-							{
-								sbSQL.Append("EXECUTE sp_updateextendedproperty N'MS_Description', N'" + dt.Rows[i]["TableDescription"].ToString().Replace("'", "") + "', N'SCHEMA', N'dbo', N'TABLE', N'" + dt.Rows[i]["TableName"].ToString().Replace("'", "") + "', NULL, NULL ;");
-							}
-							else
-							{
-								sbSQL.Append("EXECUTE sp_addextendedproperty N'MS_Description', N'" + dt.Rows[i]["TableDescription"].ToString().Replace("'", "") + "', N'SCHEMA', N'dbo', N'TABLE', N'" + dt.Rows[i]["TableName"].ToString().Replace("'", "") + "', NULL, NULL ;");
-							}
+						case "VIEW":
+						case "TABLE":
+							sbSQL.Append(execFunName + description + "', N'SCHEMA', N'dbo', N'" + target + "', N'" + tableName + "', NULL, NULL ;");
 							break;
-						case "'column'":
-							if (sdr.Read())
-							{
-								sbSQL.Append("EXECUTE sp_updateextendedproperty N'MS_Description', N'" + dt.Rows[i]["ColDescription"].ToString().Replace("'", "") + "', N'SCHEMA', N'dbo', N'TABLE', N'" + dt.Rows[i]["TableName"].ToString().Replace("'", "") + "', N'COLUMN', N'" + dt.Rows[i]["ColName"].ToString().Replace("'", "") + "' ;");
-							}
-							else
-							{
-								sbSQL.Append("EXECUTE sp_addextendedproperty    N'MS_Description', N'" + dt.Rows[i]["ColDescription"].ToString().Replace("'", "") + "', N'SCHEMA', N'dbo', N'TABLE', N'" + dt.Rows[i]["TableName"].ToString().Replace("'", "") + "', N'COLUMN', N'" + dt.Rows[i]["ColName"].ToString().Replace("'", "") + "' ;");
-							}
+						case "COLUMN":
+							sbSQL.Append(execFunName + description + "', N'SCHEMA', N'dbo', N'TABLE', N'" + tableName + "', N'COLUMN', N'" + dv[i]["ColName"].ToString().Replace("'", "") + "' ;");
 							break;
 						default:
 							break;
@@ -202,21 +237,24 @@ namespace RickySQLTools.DAL
 			}
 			return sbSQL;
 		}
-		private string GeneratGetTableScript()
+
+		private string GeneratScriptGetTable()
 		{
-			string script = @"SELECT 
-								TableName = tbl.table_name, 
-								TableDescription = prop.value
+			string script = @"
+							   SELECT 
+								tbl.table_name AS TableName, 
+								prop.value AS TableDescription,
+								tbl.table_type AS TableType
 							  FROM information_schema.tables tbl
 							  LEFT JOIN sys.extended_properties prop 
 								ON prop.major_id = object_id(tbl.table_schema + '.' + tbl.table_name) 
 								AND prop.minor_id = 0
 								AND prop.name = 'MS_Description' 
-							  WHERE tbl.table_type = 'base table'";
+							  WHERE tbl.table_type = 'base table' OR tbl.table_type = 'VIEW' ";
 			return script;
 		}
 
-		private string GeneratGetColScript()
+		private string GeneratScriptGetCol()
 		{
 			string script = @"SELECT
 								a.TABLE_NAME                as TableName,
@@ -244,18 +282,35 @@ namespace RickySQLTools.DAL
 										name='MS_Description' 
 										and objtype='COLUMN' 
 										and objname Collate Chinese_Taiwan_Stroke_CI_AS=b.COLUMN_NAME
-								) as ColDescription
+								) as ColDescription,
+								ordinal_position
 							  FROM
 								INFORMATION_SCHEMA.TABLES  a
 								LEFT JOIN INFORMATION_SCHEMA.COLUMNS b ON (a.TABLE_NAME=b.TABLE_NAME)
 							  WHERE
 								TABLE_TYPE='BASE TABLE'
-							  ORDER BY
+							   UNION ALL
+							   SELECT
+								a.TABLE_NAME                as TableName,
+								(SELECT 'true' FROM sys.identity_columns c WHERE OBJECT_ID(a.TABLE_NAME) = c.object_id AND b.COLUMN_NAME  = c.name) as IsIdentity,
+								b.COLUMN_NAME               as ColName,
+								b.DATA_TYPE                 as ColType,
+								b.CHARACTER_MAXIMUM_LENGTH  as ColLength,
+								b.COLUMN_DEFAULT            as DefaultValue,
+								b.COLLATION_NAME            as 'CollationName',
+								(CASE b.IS_NULLABLE WHEN 'YES' THEN 1 ELSE 0 END) as IsNullable,
+								0 AS IsPK,
+								'not support' as ColDescription,
+								ordinal_position
+								 FROM
+								INFORMATION_SCHEMA.VIEWS  a
+								LEFT JOIN INFORMATION_SCHEMA.COLUMNS b ON (a.TABLE_NAME=b.TABLE_NAME)
+								 ORDER BY
 								a.TABLE_NAME, ordinal_position";
 			return script;
 		}
 
-		private string GeneratGetFKScript()
+		private string GeneratScriptGetFK()
 		{
 			string script = @"SELECT  
 								fk.name,
@@ -273,26 +328,39 @@ namespace RickySQLTools.DAL
 								sys.columns c2 ON fkc.referenced_column_id = c2.column_id AND fkc.referenced_object_id = c2.object_id";
 			return script;
 		}
-	
-		private string GeneratGetSpAndFuncScript()
+
+		private string GeneratScriptGetIndex()
 		{
-			string script = @"SELECT SPECIFIC_NAME, ROUTINE_DEFINITION, ROUTINE_TYPE, DATA_TYPE 
-											 FROM information_schema.routines 
-											 ORDER BY SPECIFIC_NAME";
+			string script = @"SELECT  ix.name as IndexName, t.name AS TableName, c.name AS ColName
+											FROM    sys.indexes ix
+													INNER JOIN sys.tables t ON ix.object_id = t.object_id
+													INNER JOIN sys.index_columns ic ON ic.index_id = ix.index_id AND ic.object_id = ix.object_id
+													INNER JOIN sys.columns c ON c.object_id = ix.object_id AND c.column_id = ic.column_id";
 			return script;
 		}
-		private string GeneratGetInputParamScript()
+
+		private string GeneratScriptGetSpAndFunc()
+		{
+			string script = @"   SELECT SPECIFIC_NAME, ROUTINE_DEFINITION, ROUTINE_TYPE, DATA_TYPE 
+												FROM information_schema.routines 
+												ORDER BY SPECIFIC_NAME";
+			return script;
+		}
+
+		private string GeneratScriptGetInputParam()
 		{
 			string script = @"SELECT A.SPECIFIC_NAME, A.Parameter_Name, A.Data_Type, A.Character_Maximum_Length, A.Parameter_Mode 
 										   FROM information_schema.PARAMETERS A
-										   INNER JOIN information_schema.routines B ON A.SPECIFIC_NAME = B.SPECIFIC_NAME AND B.ROUTINE_TYPE = 'PROCEDURE'";
+										   INNER JOIN information_schema.routines B ON A.SPECIFIC_NAME = B.SPECIFIC_NAME AND (B.ROUTINE_TYPE = 'PROCEDURE' OR B.ROUTINE_TYPE = 'FUNCTION')";
 			return script;
 		}
-		private string GeneratGetOutPutParamScript(string name)
+
+		private string GeneratScriptGetOutPutParam(string name)
 		{
 			string script = string.Format("SELECT '{0}' AS SPECIFIC_NAME, Name, System_Type_Name, Error_Message FROM sys.dm_exec_describe_first_result_set('{0}',null,0)", name);
 			return script;
 		}
+
 		#endregion
 	}
 }

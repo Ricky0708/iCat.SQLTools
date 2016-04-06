@@ -34,9 +34,11 @@
             this.dgvTables = new System.Windows.Forms.DataGridView();
             this.dTableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dTableDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dTableType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCommand = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.btnExportExcel = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnLoadDataFromXML = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -45,7 +47,7 @@
             this.btnUpdateDescription = new System.Windows.Forms.Button();
             this.tabTablesAndCols = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvColumns = new System.Windows.Forms.DataGridView();
             this.dColName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,6 +59,11 @@
             this.dIsIdentity = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dIsPK = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.dCollationName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.dgvIndexes = new System.Windows.Forms.DataGridView();
+            this.dIndexName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dIxColName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.dgvFK = new System.Windows.Forms.DataGridView();
             this.dName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -87,6 +94,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvTables)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabCommand.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.tabTablesAndCols.SuspendLayout();
@@ -94,12 +102,18 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
+            this.splitContainer5.Panel1.SuspendLayout();
+            this.splitContainer5.Panel2.SuspendLayout();
+            this.splitContainer5.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvColumns)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvColumns)).BeginInit();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvIndexes)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFK)).BeginInit();
             this.tabSpsAndFuncs.SuspendLayout();
@@ -122,7 +136,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(309, 650);
+            this.groupBox1.Size = new System.Drawing.Size(431, 641);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tables";
@@ -135,12 +149,13 @@
             this.dgvTables.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTables.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dTableName,
-            this.dTableDescription});
+            this.dTableDescription,
+            this.dTableType});
             this.dgvTables.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTables.Location = new System.Drawing.Point(3, 27);
             this.dgvTables.Name = "dgvTables";
             this.dgvTables.RowTemplate.Height = 24;
-            this.dgvTables.Size = new System.Drawing.Size(303, 620);
+            this.dgvTables.Size = new System.Drawing.Size(425, 611);
             this.dgvTables.TabIndex = 0;
             // 
             // dTableName
@@ -154,12 +169,19 @@
             // 
             // dTableDescription
             // 
-            this.dTableDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dTableDescription.DataPropertyName = "TableDescription";
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dTableDescription.DefaultCellStyle = dataGridViewCellStyle1;
             this.dTableDescription.HeaderText = "TableDescription";
+            this.dTableDescription.MinimumWidth = 100;
             this.dTableDescription.Name = "dTableDescription";
+            // 
+            // dTableType
+            // 
+            this.dTableType.DataPropertyName = "TableType";
+            this.dTableType.HeaderText = "TableTyle";
+            this.dTableType.Name = "dTableType";
+            this.dTableType.ReadOnly = true;
             // 
             // tabControl1
             // 
@@ -170,7 +192,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 39);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(943, 690);
+            this.tabControl1.Size = new System.Drawing.Size(1322, 685);
             this.tabControl1.TabIndex = 2;
             // 
             // tabCommand
@@ -181,19 +203,30 @@
             this.tabCommand.Location = new System.Drawing.Point(4, 30);
             this.tabCommand.Name = "tabCommand";
             this.tabCommand.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCommand.Size = new System.Drawing.Size(935, 656);
+            this.tabCommand.Size = new System.Drawing.Size(1314, 651);
             this.tabCommand.TabIndex = 1;
             this.tabCommand.Text = "Command";
             this.tabCommand.UseVisualStyleBackColor = true;
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.btnExportExcel);
             this.groupBox6.Location = new System.Drawing.Point(41, 325);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(261, 323);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Gnerator";
+            // 
+            // btnExportExcel
+            // 
+            this.btnExportExcel.Location = new System.Drawing.Point(6, 30);
+            this.btnExportExcel.Name = "btnExportExcel";
+            this.btnExportExcel.Size = new System.Drawing.Size(172, 40);
+            this.btnExportExcel.TabIndex = 4;
+            this.btnExportExcel.Text = "Export to Excel";
+            this.btnExportExcel.UseVisualStyleBackColor = true;
+            this.btnExportExcel.Click += new System.EventHandler(this.btnExportExcel_Click);
             // 
             // groupBox5
             // 
@@ -249,11 +282,11 @@
             // 
             // btnUpdateDescription
             // 
-            this.btnUpdateDescription.Location = new System.Drawing.Point(6, 172);
+            this.btnUpdateDescription.Location = new System.Drawing.Point(6, 122);
             this.btnUpdateDescription.Name = "btnUpdateDescription";
-            this.btnUpdateDescription.Size = new System.Drawing.Size(172, 40);
+            this.btnUpdateDescription.Size = new System.Drawing.Size(249, 40);
             this.btnUpdateDescription.TabIndex = 3;
-            this.btnUpdateDescription.Text = "Update_Description";
+            this.btnUpdateDescription.Text = "Update Description to SQL";
             this.btnUpdateDescription.UseVisualStyleBackColor = true;
             this.btnUpdateDescription.Click += new System.EventHandler(this.Update_Description_Click);
             // 
@@ -263,13 +296,15 @@
             this.tabTablesAndCols.Location = new System.Drawing.Point(4, 30);
             this.tabTablesAndCols.Name = "tabTablesAndCols";
             this.tabTablesAndCols.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTablesAndCols.Size = new System.Drawing.Size(935, 656);
+            this.tabTablesAndCols.Size = new System.Drawing.Size(1314, 651);
             this.tabTablesAndCols.TabIndex = 0;
             this.tabTablesAndCols.Text = "Tables & Columns";
             this.tabTablesAndCols.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
             // 
+            this.splitContainer1.BackColor = System.Drawing.Color.Transparent;
+            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(3, 3);
             this.splitContainer1.Name = "splitContainer1";
@@ -280,28 +315,29 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(929, 650);
-            this.splitContainer1.SplitterDistance = 309;
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer5);
+            this.splitContainer1.Size = new System.Drawing.Size(1308, 645);
+            this.splitContainer1.SplitterDistance = 435;
             this.splitContainer1.TabIndex = 2;
             // 
-            // splitContainer2
+            // splitContainer5
             // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.splitContainer5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer5.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer5.Name = "splitContainer5";
+            this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer2.Panel1
+            // splitContainer5.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.groupBox2);
+            this.splitContainer5.Panel1.Controls.Add(this.groupBox2);
             // 
-            // splitContainer2.Panel2
+            // splitContainer5.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.groupBox3);
-            this.splitContainer2.Size = new System.Drawing.Size(616, 650);
-            this.splitContainer2.SplitterDistance = 324;
-            this.splitContainer2.TabIndex = 1;
+            this.splitContainer5.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer5.Size = new System.Drawing.Size(869, 645);
+            this.splitContainer5.SplitterDistance = 184;
+            this.splitContainer5.TabIndex = 2;
             // 
             // groupBox2
             // 
@@ -309,7 +345,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(616, 324);
+            this.groupBox2.Size = new System.Drawing.Size(865, 180);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Columns Info";
@@ -334,7 +370,7 @@
             this.dgvColumns.Location = new System.Drawing.Point(3, 27);
             this.dgvColumns.Name = "dgvColumns";
             this.dgvColumns.RowTemplate.Height = 24;
-            this.dgvColumns.Size = new System.Drawing.Size(610, 294);
+            this.dgvColumns.Size = new System.Drawing.Size(859, 150);
             this.dgvColumns.TabIndex = 1;
             // 
             // dColName
@@ -417,13 +453,76 @@
             this.dCollationName.Name = "dCollationName";
             this.dCollationName.ReadOnly = true;
             // 
+            // splitContainer2
+            // 
+            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.groupBox7);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.groupBox3);
+            this.splitContainer2.Size = new System.Drawing.Size(869, 457);
+            this.splitContainer2.SplitterDistance = 92;
+            this.splitContainer2.TabIndex = 1;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.dgvIndexes);
+            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox7.Location = new System.Drawing.Point(0, 0);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(865, 88);
+            this.groupBox7.TabIndex = 0;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "PK && IX";
+            // 
+            // dgvIndexes
+            // 
+            this.dgvIndexes.AllowUserToAddRows = false;
+            this.dgvIndexes.AllowUserToDeleteRows = false;
+            this.dgvIndexes.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvIndexes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvIndexes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dIndexName,
+            this.dIxColName});
+            this.dgvIndexes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvIndexes.Location = new System.Drawing.Point(3, 27);
+            this.dgvIndexes.Name = "dgvIndexes";
+            this.dgvIndexes.RowTemplate.Height = 24;
+            this.dgvIndexes.Size = new System.Drawing.Size(859, 58);
+            this.dgvIndexes.TabIndex = 2;
+            // 
+            // dIndexName
+            // 
+            this.dIndexName.DataPropertyName = "IndexName";
+            this.dIndexName.HeaderText = "IndexName";
+            this.dIndexName.MinimumWidth = 200;
+            this.dIndexName.Name = "dIndexName";
+            this.dIndexName.ReadOnly = true;
+            this.dIndexName.Width = 200;
+            // 
+            // dIxColName
+            // 
+            this.dIxColName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dIxColName.DataPropertyName = "ColName";
+            this.dIxColName.HeaderText = "ColName";
+            this.dIxColName.Name = "dIxColName";
+            this.dIxColName.ReadOnly = true;
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.dgvFK);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(616, 322);
+            this.groupBox3.Size = new System.Drawing.Size(865, 357);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "FK";
@@ -445,7 +544,7 @@
             this.dgvFK.Name = "dgvFK";
             this.dgvFK.ReadOnly = true;
             this.dgvFK.RowTemplate.Height = 24;
-            this.dgvFK.Size = new System.Drawing.Size(610, 292);
+            this.dgvFK.Size = new System.Drawing.Size(859, 327);
             this.dgvFK.TabIndex = 2;
             // 
             // dName
@@ -489,7 +588,7 @@
             this.tabSpsAndFuncs.Location = new System.Drawing.Point(4, 30);
             this.tabSpsAndFuncs.Name = "tabSpsAndFuncs";
             this.tabSpsAndFuncs.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSpsAndFuncs.Size = new System.Drawing.Size(935, 656);
+            this.tabSpsAndFuncs.Size = new System.Drawing.Size(1314, 651);
             this.tabSpsAndFuncs.TabIndex = 2;
             this.tabSpsAndFuncs.Text = "SP & Func";
             this.tabSpsAndFuncs.UseVisualStyleBackColor = true;
@@ -507,8 +606,8 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(929, 650);
-            this.splitContainer3.SplitterDistance = 548;
+            this.splitContainer3.Size = new System.Drawing.Size(1308, 645);
+            this.splitContainer3.SplitterDistance = 771;
             this.splitContainer3.TabIndex = 0;
             // 
             // dgvSpsAndFuncs
@@ -527,7 +626,7 @@
             this.dgvSpsAndFuncs.Name = "dgvSpsAndFuncs";
             this.dgvSpsAndFuncs.ReadOnly = true;
             this.dgvSpsAndFuncs.RowTemplate.Height = 24;
-            this.dgvSpsAndFuncs.Size = new System.Drawing.Size(548, 650);
+            this.dgvSpsAndFuncs.Size = new System.Drawing.Size(771, 645);
             this.dgvSpsAndFuncs.TabIndex = 3;
             // 
             // dSPECIFIC_NAME
@@ -578,8 +677,8 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.dgvOutPutParams);
-            this.splitContainer4.Size = new System.Drawing.Size(377, 650);
-            this.splitContainer4.SplitterDistance = 297;
+            this.splitContainer4.Size = new System.Drawing.Size(533, 645);
+            this.splitContainer4.SplitterDistance = 294;
             this.splitContainer4.TabIndex = 0;
             // 
             // dgvInputParams
@@ -598,9 +697,8 @@
             this.dgvInputParams.Name = "dgvInputParams";
             this.dgvInputParams.ReadOnly = true;
             this.dgvInputParams.RowTemplate.Height = 24;
-            this.dgvInputParams.Size = new System.Drawing.Size(377, 297);
+            this.dgvInputParams.Size = new System.Drawing.Size(533, 294);
             this.dgvInputParams.TabIndex = 1;
-            this.dgvInputParams.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInputParams_CellContentClick);
             // 
             // dISPECIFIC_NAME
             // 
@@ -660,7 +758,7 @@
             this.dgvOutPutParams.Name = "dgvOutPutParams";
             this.dgvOutPutParams.ReadOnly = true;
             this.dgvOutPutParams.RowTemplate.Height = 24;
-            this.dgvOutPutParams.Size = new System.Drawing.Size(377, 349);
+            this.dgvOutPutParams.Size = new System.Drawing.Size(533, 347);
             this.dgvOutPutParams.TabIndex = 1;
             // 
             // dOSPECIFIC_NAME
@@ -701,7 +799,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(943, 729);
+            this.ClientSize = new System.Drawing.Size(1322, 724);
             this.Controls.Add(this.tabControl1);
             this.Name = "Tables";
             this.Text = "Tables";
@@ -710,6 +808,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvTables)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabCommand.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.tabTablesAndCols.ResumeLayout(false);
@@ -717,12 +816,18 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer5.Panel1.ResumeLayout(false);
+            this.splitContainer5.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
+            this.splitContainer5.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvColumns)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvColumns)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvIndexes)).EndInit();
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFK)).EndInit();
             this.tabSpsAndFuncs.ResumeLayout(false);
@@ -755,8 +860,6 @@
         private System.Windows.Forms.TabPage tabCommand;
         private System.Windows.Forms.DataGridView dgvFK;
         private System.Windows.Forms.Button btnUpdateDescription;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dTableName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dTableDescription;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button btnLoadDataFromSQL;
@@ -796,5 +899,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dOName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dSystem_Type_Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn dError_Message;
+        private System.Windows.Forms.Button btnExportExcel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dTableName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dTableDescription;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dTableType;
+        private System.Windows.Forms.SplitContainer splitContainer5;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.DataGridView dgvIndexes;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dIndexName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dIxColName;
     }
 }

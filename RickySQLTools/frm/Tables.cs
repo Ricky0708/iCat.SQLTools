@@ -24,6 +24,7 @@ namespace RickySQLTools
             dgvColumns.AutoGenerateColumns = false;
             dgvTables.AutoGenerateColumns = false;
             dgvFK.AutoGenerateColumns = true;
+            dgvIndexes.AutoGenerateColumns = false;
         }
 
         #region method
@@ -39,6 +40,9 @@ namespace RickySQLTools
             dvFks = ds.Tables["FKs"].DefaultView;
             dgvFK.DataSource = dvFks;
 
+            dgvIndexes.DataSource = ds;
+            dgvIndexes.DataMember = "Tables.MasterDetailIndexes";
+
             dgvSpsAndFuncs.DataSource = ds;
             dgvSpsAndFuncs.DataMember = "SpsAndFuncs";
 
@@ -53,6 +57,7 @@ namespace RickySQLTools
             {
                 string tableName = ((DataRowView)bmMaster.Current)["TableName"].ToString();
                 dvFks.RowFilter = "ParentTable = '" + tableName + "' OR ReferencedTable = '" + tableName + "'";
+                dColDescription.ReadOnly = ((DataRowView)bmMaster.Current)["TableType"].ToString() == "VIEW";
             };
             dvFks.RowFilter = "ParentTable = '" + ((DataRowView)bmMaster.Current)["TableName"].ToString()+ "' OR ReferencedTable = '" + ((DataRowView)bmMaster.Current)["TableName"].ToString() + "'";
         }
@@ -85,6 +90,7 @@ namespace RickySQLTools
                 MessageBox.Show("Success！");
             }
         }
+
         private void btnSaveToXml_Click(object sender, EventArgs e)
         {
             if (objDAL.SaveToXml(ref ds))
@@ -116,8 +122,14 @@ namespace RickySQLTools
 
         #endregion
 
-        private void dgvInputParams_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void btnExportExcel_Click(object sender, EventArgs e)
         {
+            if (ds != null)
+            {
+                DAL.DALNpoiOperator objNpoi = new DAL.DALNpoiOperator(ds);
+                objNpoi.WriteToExcel();
+                MessageBox.Show("Success Export To Excel File !!");
+            }
 
         }
     }

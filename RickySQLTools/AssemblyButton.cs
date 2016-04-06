@@ -21,6 +21,7 @@ namespace RickySQLTools
         }
         public string AssName { get; set; }
         public string ObjectName { get; set; }
+        public string connectionString { get; set; }
 
         private void AssemblyButton_MouseHover(object sender, EventArgs e)
         {
