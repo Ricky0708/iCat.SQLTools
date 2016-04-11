@@ -1,5 +1,4 @@
-﻿using RickySQLTools.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -52,14 +51,14 @@ namespace RickySQLTools
             dgvOutPutParams.DataSource = ds;
             dgvOutPutParams.DataMember = "SpsAndFuncs.MasterDetailOutputParams";
 
-            bmMaster = (BindingManagerBase)this.BindingContext[ds,"Tables"];
+            bmMaster = (BindingManagerBase)this.BindingContext[ds, "Tables"];
             bmMaster.PositionChanged += (sender, e) =>
             {
                 string tableName = ((DataRowView)bmMaster.Current)["TableName"].ToString();
                 dvFks.RowFilter = "ParentTable = '" + tableName + "' OR ReferencedTable = '" + tableName + "'";
                 dColDescription.ReadOnly = ((DataRowView)bmMaster.Current)["TableType"].ToString() == "VIEW";
             };
-            dvFks.RowFilter = "ParentTable = '" + ((DataRowView)bmMaster.Current)["TableName"].ToString()+ "' OR ReferencedTable = '" + ((DataRowView)bmMaster.Current)["TableName"].ToString() + "'";
+            dvFks.RowFilter = "ParentTable = '" + ((DataRowView)bmMaster.Current)["TableName"].ToString() + "' OR ReferencedTable = '" + ((DataRowView)bmMaster.Current)["TableName"].ToString() + "'";
         }
         #endregion
 
@@ -113,7 +112,8 @@ namespace RickySQLTools
                 ds = objDAL.ds;
                 tabControl1.SelectedTab = tabTablesAndCols;
                 BindFrm();
-            }else
+            }
+            else
             {
                 MessageBox.Show(objDAL.ErrMsg);
             }

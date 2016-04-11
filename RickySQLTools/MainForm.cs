@@ -37,7 +37,6 @@ namespace RickySQLTools
             foreach (Button btn in Panel1.Controls)
             {
                 btn.Click += new System.EventHandler(btn_Click);
-
             }
 
         }
@@ -87,10 +86,7 @@ namespace RickySQLTools
         private void ChildFormClose(Object sender, FormClosingEventArgs e)
         {
             this.TabControl1.SelectedTab.Dispose();
-
         }
         #endregion
-
-
     }
 }

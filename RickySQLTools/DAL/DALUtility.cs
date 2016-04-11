@@ -9,7 +9,6 @@ namespace RickySQLTools.DAL
 {
     internal class DALUtility: DALBase
     {
-
         internal string GetDbName()
         {
             using (SqlConnection conn = new SqlConnection(base.connString))
@@ -20,8 +19,6 @@ namespace RickySQLTools.DAL
                 conn.Close();
                 return dbName;
             }
-
         }
-
     }
 }

@@ -13,6 +13,7 @@ namespace RickySQLTools.DAL
         {
             return base.connString;
         }
+
         internal bool SaveConnectionString(string strConn)
         {
             config.AppSettings.Settings["ConnectSQLString"].Value = strConn;

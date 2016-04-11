@@ -62,11 +62,7 @@ namespace RickySQLTools.DAL
             cellStyleHeadWithBackColor.BorderBottom = BorderStyle.Medium;
             cellStyleHeadWithBackColor.SetFont(headFont);
             cellStyleHeadWithBackColor.FillPattern = FillPattern.ThinBackwardDiagonals;
-            cellStyle = (XSSFCellStyle)wb.CreateCellStyle();
-            cellStyle.BorderLeft = BorderStyle.Medium;
-            cellStyle.BorderRight = BorderStyle.Medium;
-            cellStyle.BorderTop = BorderStyle.Medium;
-            cellStyle.BorderBottom = BorderStyle.Medium;
+
 
 
             cellStyleAligCenter = (XSSFCellStyle)wb.CreateCellStyle();
