@@ -135,8 +135,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="建置完的程式.zip" />
-    <None Include="說明書.chm" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
