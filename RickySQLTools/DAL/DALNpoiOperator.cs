@@ -55,20 +55,24 @@ namespace RickySQLTools.DAL
             headFont.IsBold = true;
             cellStyleHead.SetFont(headFont);
 
-            cellStyleHeadWithBackColor= (XSSFCellStyle)wb.CreateCellStyle();
+            cellStyleHeadWithBackColor = (XSSFCellStyle)wb.CreateCellStyle();
             cellStyleHeadWithBackColor.BorderLeft = BorderStyle.Medium;
             cellStyleHeadWithBackColor.BorderRight = BorderStyle.Medium;
             cellStyleHeadWithBackColor.BorderTop = BorderStyle.Medium;
             cellStyleHeadWithBackColor.BorderBottom = BorderStyle.Medium;
             cellStyleHeadWithBackColor.SetFont(headFont);
             cellStyleHeadWithBackColor.FillPattern = FillPattern.ThinBackwardDiagonals;
-
+            cellStyle = (XSSFCellStyle)wb.CreateCellStyle();
+            cellStyle.BorderLeft = BorderStyle.Medium;
+            cellStyle.BorderRight = BorderStyle.Medium;
+            cellStyle.BorderTop = BorderStyle.Medium;
+            cellStyle.BorderBottom = BorderStyle.Medium;
 
 
             cellStyleAligCenter = (XSSFCellStyle)wb.CreateCellStyle();
-           cellStyleAligCenter.BorderLeft = BorderStyle.Medium;
-           cellStyleAligCenter.BorderRight = BorderStyle.Medium;
-           cellStyleAligCenter.BorderTop = BorderStyle.Medium;
+            cellStyleAligCenter.BorderLeft = BorderStyle.Medium;
+            cellStyleAligCenter.BorderRight = BorderStyle.Medium;
+            cellStyleAligCenter.BorderTop = BorderStyle.Medium;
             cellStyleAligCenter.BorderBottom = BorderStyle.Medium;
             cellStyleAligCenter.VerticalAlignment = VerticalAlignment.Center;
             cellStyleAligCenter.Alignment = HorizontalAlignment.Center;
