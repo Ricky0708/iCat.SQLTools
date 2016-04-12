@@ -39,7 +39,7 @@ namespace RickySQLTools.DAL
         #endregion
 
         #region public ctor and call method
-
+         
         internal DALNpoiOperator(DataSet _ds)
         {
             ds = _ds;
