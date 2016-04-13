@@ -82,36 +82,37 @@ namespace RickySQLTools.DAL
 
 		}
 
-		internal bool GetDatasetFromXml()
+		internal bool GetDatasetFromXml(string fileName)
 		{
 			ds = new DataSet();
 
-			string loadFromPath = Application.StartupPath + "\\Database\\" + objUti.GetDbName() + ".xml";
-			FileInfo fi = new FileInfo(loadFromPath);
+			FileInfo fi = new FileInfo(fileName);
 			if (fi.Exists)
 			{
-				ds.ReadXml(loadFromPath);
+				ds.ReadXml(fileName);
 				ds.AcceptChanges();
 				return true;
 			}
 			else
 			{
-				ErrMsg = "Can't find xml in \r\n " + loadFromPath;
+				ErrMsg = "Can't find xml in \r\n " + fileName;
 				return false;
 			}
 		}
 
-		internal bool SaveToXml(ref DataSet ds)
+		internal bool SaveToXml(ref DataSet ds, string fileName)
 		{
-			DirectoryInfo di = new DirectoryInfo(Application.StartupPath + "\\Database\\");
-			if (!di.Exists)
-			{
-				di.Create();
-			}
-			string saveToPath = Application.StartupPath + "\\Database\\" + objUti.GetDbName() + ".xml";
+			//DirectoryInfo di = new DirectoryInfo(fillePath);
+			//if (!di.Exists)
+			//{
+			//	di.Create();
+			//}
+			string saveToPath = fileName;
 			ds.WriteXml(saveToPath, XmlWriteMode.WriteSchema);
 			return true;
 		}
+
+
 
 		internal bool UpdateDescription(ref DataSet ds)
 		{

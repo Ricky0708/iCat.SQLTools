@@ -70,7 +70,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyButton.cs">
+    <Compile Include="CustomControll\AssemblyButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomControll\PlaceholderText.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DAL\DALBase.cs" />
@@ -96,6 +99,12 @@
     <Compile Include="frm\Tables.Designer.cs">
       <DependentUpon>Tables.cs</DependentUpon>
     </Compile>
+    <Compile Include="frm\XmlCompare.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm\XmlCompare.Designer.cs">
+      <DependentUpon>XmlCompare.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +121,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frm\Tables.resx">
       <DependentUpon>Tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm\XmlCompare.resx">
+      <DependentUpon>XmlCompare.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

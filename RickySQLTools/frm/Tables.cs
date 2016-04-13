@@ -14,7 +14,9 @@ namespace RickySQLTools
     {
         DAL.DALTables objDAL = new DAL.DALTables();
         DAL.DALUtility objUti = new DAL.DALUtility();
-        BindingManagerBase bmMaster;
+        CurrencyManager bmTables;
+        CurrencyManager bmSps;
+
         DataSet ds;
         DataView dvFks;
         public Tables()
@@ -51,14 +53,19 @@ namespace RickySQLTools
             dgvOutPutParams.DataSource = ds;
             dgvOutPutParams.DataMember = "SpsAndFuncs.MasterDetailOutputParams";
 
-            bmMaster = (BindingManagerBase)this.BindingContext[ds, "Tables"];
-            bmMaster.PositionChanged += (sender, e) =>
+            bmTables = (CurrencyManager)this.BindingContext[ds, "Tables"];
+            bmSps = (CurrencyManager)this.BindingContext[ds, "SpsAndFuncs"];
+
+            bmTables.PositionChanged += (sender, e) =>
             {
-                string tableName = ((DataRowView)bmMaster.Current)["TableName"].ToString();
-                dvFks.RowFilter = "ParentTable = '" + tableName + "' OR ReferencedTable = '" + tableName + "'";
-                dColDescription.ReadOnly = ((DataRowView)bmMaster.Current)["TableType"].ToString() == "VIEW";
+                if (bmTables.Position != -1)
+                {
+                    string tableName = ((DataRowView)bmTables.Current)["TableName"].ToString();
+                    dvFks.RowFilter = "ParentTable = '" + tableName + "' OR ReferencedTable = '" + tableName + "'";
+                    dColDescription.ReadOnly = ((DataRowView)bmTables.Current)["TableType"].ToString() == "VIEW";
+                }
             };
-            dvFks.RowFilter = "ParentTable = '" + ((DataRowView)bmMaster.Current)["TableName"].ToString() + "' OR ReferencedTable = '" + ((DataRowView)bmMaster.Current)["TableName"].ToString() + "'";
+            dvFks.RowFilter = "ParentTable = '" + ((DataRowView)bmTables.Current)["TableName"].ToString() + "' OR ReferencedTable = '" + ((DataRowView)bmTables.Current)["TableName"].ToString() + "'";
         }
         #endregion
 
@@ -92,13 +99,17 @@ namespace RickySQLTools
 
         private void btnSaveToXml_Click(object sender, EventArgs e)
         {
-            if (objDAL.SaveToXml(ref ds))
+            string fileName = objUti.SetFileName();
+            if (fileName != "")
             {
-                MessageBox.Show("Success save to  xml file!!");
-            }
-            else
-            {
-                MessageBox.Show("fail save to  xml file!!");
+                if (objDAL.SaveToXml(ref ds, fileName))
+                {
+                    MessageBox.Show("Success save to  xml file!!");
+                }
+                else
+                {
+                    MessageBox.Show("fail save to  xml file!!");
+                }
             }
         }
 
@@ -107,21 +118,27 @@ namespace RickySQLTools
         #region Event Button XML
         private void btnLoadDataFromXML_Click(object sender, EventArgs e)
         {
-            if (objDAL.GetDatasetFromXml())
-            {
-                ds = objDAL.ds;
-                tabControl1.SelectedTab = tabTablesAndCols;
-                BindFrm();
-            }
-            else
-            {
-                MessageBox.Show(objDAL.ErrMsg);
-            }
 
+            string fileName = objUti.GetFileName();
+            if (fileName != "")
+            {
+                if (objDAL.GetDatasetFromXml(fileName))
+                {
+                    ds = objDAL.ds;
+                    tabControl1.SelectedTab = tabTablesAndCols;
+                    BindFrm();
+                }
+                else
+                {
+                    MessageBox.Show(objDAL.ErrMsg);
+                }
+            }
         }
+
 
         #endregion
 
+        #region event Generator
         private void btnExportExcel_Click(object sender, EventArgs e)
         {
             if (ds != null)
@@ -129,6 +146,27 @@ namespace RickySQLTools
                 DAL.DALNpoiOperator objNpoi = new DAL.DALNpoiOperator(ds);
                 objNpoi.WriteToExcel();
                 MessageBox.Show("Success Export To Excel File !!");
+            }
+
+        }
+
+        #endregion
+
+
+        private void txtSpFilter_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Filter(object sender, EventArgs e)
+        {
+            if (bmTables!=null)
+            {
+                ((DataView)bmTables.List).RowFilter = "TableName LIKE '%" + txtTableFilter.Text + "%'";
+            }
+            if (bmSps!=null)
+            {
+                ((DataView)bmSps.List).RowFilter = "SPECIFIC_NAME LIKE '%" + txtSpFilter.Text + "%'";
             }
 
         }

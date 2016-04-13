@@ -12,4 +12,10 @@
     <ModuleName>RickySQLTools</ModuleName>
     <SEQ>2</SEQ>
   </Progs>
+  <Progs>
+    <ProgID>XmlCompare</ProgID>
+    <ProgName>Xml Compare</ProgName>
+    <ModuleName>RickySQLTools</ModuleName>
+    <SEQ>3</SEQ>
+  </Progs>
 </Programs>

@@ -35,11 +35,13 @@
             this.dTableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dTableDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dTableType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtTableFilter = new RickySQLTools.CustomControll.PlaceholderText();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCommand = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.btnExportExcel = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnCompare = new System.Windows.Forms.Button();
             this.btnLoadDataFromXML = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnSaveToXml = new System.Windows.Forms.Button();
@@ -73,6 +75,7 @@
             this.dDetailCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSpsAndFuncs = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.txtSpFilter = new RickySQLTools.CustomControll.PlaceholderText();
             this.dgvSpsAndFuncs = new System.Windows.Forms.DataGridView();
             this.dSPECIFIC_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dROUTINE_TYPE = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -133,10 +136,11 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.dgvTables);
+            this.groupBox1.Controls.Add(this.txtTableFilter);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(431, 641);
+            this.groupBox1.Size = new System.Drawing.Size(388, 654);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tables";
@@ -152,10 +156,10 @@
             this.dTableDescription,
             this.dTableType});
             this.dgvTables.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvTables.Location = new System.Drawing.Point(3, 27);
+            this.dgvTables.Location = new System.Drawing.Point(3, 58);
             this.dgvTables.Name = "dgvTables";
             this.dgvTables.RowTemplate.Height = 24;
-            this.dgvTables.Size = new System.Drawing.Size(425, 611);
+            this.dgvTables.Size = new System.Drawing.Size(382, 593);
             this.dgvTables.TabIndex = 0;
             // 
             // dTableName
@@ -183,6 +187,16 @@
             this.dTableType.Name = "dTableType";
             this.dTableType.ReadOnly = true;
             // 
+            // txtTableFilter
+            // 
+            this.txtTableFilter.BackColor = System.Drawing.SystemColors.Info;
+            this.txtTableFilter.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtTableFilter.Location = new System.Drawing.Point(3, 27);
+            this.txtTableFilter.Name = "txtTableFilter";
+            this.txtTableFilter.Size = new System.Drawing.Size(382, 31);
+            this.txtTableFilter.TabIndex = 1;
+            this.txtTableFilter.TextChanged += new System.EventHandler(this.Filter);
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabCommand);
@@ -192,7 +206,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 39);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1322, 685);
+            this.tabControl1.Size = new System.Drawing.Size(1195, 698);
             this.tabControl1.TabIndex = 2;
             // 
             // tabCommand
@@ -203,7 +217,7 @@
             this.tabCommand.Location = new System.Drawing.Point(4, 30);
             this.tabCommand.Name = "tabCommand";
             this.tabCommand.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCommand.Size = new System.Drawing.Size(1314, 651);
+            this.tabCommand.Size = new System.Drawing.Size(1187, 664);
             this.tabCommand.TabIndex = 1;
             this.tabCommand.Text = "Command";
             this.tabCommand.UseVisualStyleBackColor = true;
@@ -216,7 +230,7 @@
             this.groupBox6.Size = new System.Drawing.Size(261, 323);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Gnerator";
+            this.groupBox6.Text = "Generator";
             // 
             // btnExportExcel
             // 
@@ -226,10 +240,10 @@
             this.btnExportExcel.TabIndex = 4;
             this.btnExportExcel.Text = "Export to Excel";
             this.btnExportExcel.UseVisualStyleBackColor = true;
-            this.btnExportExcel.Click += new System.EventHandler(this.btnExportExcel_Click);
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.btnCompare);
             this.groupBox5.Controls.Add(this.btnLoadDataFromXML);
             this.groupBox5.Location = new System.Drawing.Point(308, 44);
             this.groupBox5.Name = "groupBox5";
@@ -237,6 +251,15 @@
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "XML";
+            // 
+            // btnCompare
+            // 
+            this.btnCompare.Location = new System.Drawing.Point(6, 76);
+            this.btnCompare.Name = "btnCompare";
+            this.btnCompare.Size = new System.Drawing.Size(172, 40);
+            this.btnCompare.TabIndex = 6;
+            this.btnCompare.Text = "Compare Schema";
+            this.btnCompare.UseVisualStyleBackColor = true;
             // 
             // btnLoadDataFromXML
             // 
@@ -296,7 +319,7 @@
             this.tabTablesAndCols.Location = new System.Drawing.Point(4, 30);
             this.tabTablesAndCols.Name = "tabTablesAndCols";
             this.tabTablesAndCols.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTablesAndCols.Size = new System.Drawing.Size(1314, 651);
+            this.tabTablesAndCols.Size = new System.Drawing.Size(1187, 664);
             this.tabTablesAndCols.TabIndex = 0;
             this.tabTablesAndCols.Text = "Tables & Columns";
             this.tabTablesAndCols.UseVisualStyleBackColor = true;
@@ -316,8 +339,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer5);
-            this.splitContainer1.Size = new System.Drawing.Size(1308, 645);
-            this.splitContainer1.SplitterDistance = 435;
+            this.splitContainer1.Size = new System.Drawing.Size(1181, 658);
+            this.splitContainer1.SplitterDistance = 392;
             this.splitContainer1.TabIndex = 2;
             // 
             // splitContainer5
@@ -335,8 +358,8 @@
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer5.Size = new System.Drawing.Size(869, 645);
-            this.splitContainer5.SplitterDistance = 184;
+            this.splitContainer5.Size = new System.Drawing.Size(785, 658);
+            this.splitContainer5.SplitterDistance = 187;
             this.splitContainer5.TabIndex = 2;
             // 
             // groupBox2
@@ -345,7 +368,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(865, 180);
+            this.groupBox2.Size = new System.Drawing.Size(781, 183);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Columns Info";
@@ -370,7 +393,7 @@
             this.dgvColumns.Location = new System.Drawing.Point(3, 27);
             this.dgvColumns.Name = "dgvColumns";
             this.dgvColumns.RowTemplate.Height = 24;
-            this.dgvColumns.Size = new System.Drawing.Size(859, 150);
+            this.dgvColumns.Size = new System.Drawing.Size(775, 153);
             this.dgvColumns.TabIndex = 1;
             // 
             // dColName
@@ -468,8 +491,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox3);
-            this.splitContainer2.Size = new System.Drawing.Size(869, 457);
-            this.splitContainer2.SplitterDistance = 92;
+            this.splitContainer2.Size = new System.Drawing.Size(785, 467);
+            this.splitContainer2.SplitterDistance = 94;
             this.splitContainer2.TabIndex = 1;
             // 
             // groupBox7
@@ -478,7 +501,7 @@
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox7.Location = new System.Drawing.Point(0, 0);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(865, 88);
+            this.groupBox7.Size = new System.Drawing.Size(781, 90);
             this.groupBox7.TabIndex = 0;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "PK && IX";
@@ -496,7 +519,7 @@
             this.dgvIndexes.Location = new System.Drawing.Point(3, 27);
             this.dgvIndexes.Name = "dgvIndexes";
             this.dgvIndexes.RowTemplate.Height = 24;
-            this.dgvIndexes.Size = new System.Drawing.Size(859, 58);
+            this.dgvIndexes.Size = new System.Drawing.Size(775, 60);
             this.dgvIndexes.TabIndex = 2;
             // 
             // dIndexName
@@ -522,7 +545,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(865, 357);
+            this.groupBox3.Size = new System.Drawing.Size(781, 365);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "FK";
@@ -544,7 +567,7 @@
             this.dgvFK.Name = "dgvFK";
             this.dgvFK.ReadOnly = true;
             this.dgvFK.RowTemplate.Height = 24;
-            this.dgvFK.Size = new System.Drawing.Size(859, 327);
+            this.dgvFK.Size = new System.Drawing.Size(775, 335);
             this.dgvFK.TabIndex = 2;
             // 
             // dName
@@ -588,7 +611,7 @@
             this.tabSpsAndFuncs.Location = new System.Drawing.Point(4, 30);
             this.tabSpsAndFuncs.Name = "tabSpsAndFuncs";
             this.tabSpsAndFuncs.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSpsAndFuncs.Size = new System.Drawing.Size(1314, 651);
+            this.tabSpsAndFuncs.Size = new System.Drawing.Size(1187, 664);
             this.tabSpsAndFuncs.TabIndex = 2;
             this.tabSpsAndFuncs.Text = "SP & Func";
             this.tabSpsAndFuncs.UseVisualStyleBackColor = true;
@@ -602,13 +625,24 @@
             // splitContainer3.Panel1
             // 
             this.splitContainer3.Panel1.Controls.Add(this.dgvSpsAndFuncs);
+            this.splitContainer3.Panel1.Controls.Add(this.txtSpFilter);
             // 
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(1308, 645);
-            this.splitContainer3.SplitterDistance = 771;
+            this.splitContainer3.Size = new System.Drawing.Size(1181, 658);
+            this.splitContainer3.SplitterDistance = 696;
             this.splitContainer3.TabIndex = 0;
+            // 
+            // txtSpFilter
+            // 
+            this.txtSpFilter.BackColor = System.Drawing.SystemColors.Info;
+            this.txtSpFilter.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtSpFilter.Location = new System.Drawing.Point(0, 0);
+            this.txtSpFilter.Name = "txtSpFilter";
+            this.txtSpFilter.Size = new System.Drawing.Size(696, 31);
+            this.txtSpFilter.TabIndex = 4;
+            this.txtSpFilter.TextChanged += new System.EventHandler(this.Filter);
             // 
             // dgvSpsAndFuncs
             // 
@@ -622,11 +656,11 @@
             this.dDATA_TYPE,
             this.dROUTINE_DEFINITION});
             this.dgvSpsAndFuncs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvSpsAndFuncs.Location = new System.Drawing.Point(0, 0);
+            this.dgvSpsAndFuncs.Location = new System.Drawing.Point(0, 31);
             this.dgvSpsAndFuncs.Name = "dgvSpsAndFuncs";
             this.dgvSpsAndFuncs.ReadOnly = true;
             this.dgvSpsAndFuncs.RowTemplate.Height = 24;
-            this.dgvSpsAndFuncs.Size = new System.Drawing.Size(771, 645);
+            this.dgvSpsAndFuncs.Size = new System.Drawing.Size(696, 627);
             this.dgvSpsAndFuncs.TabIndex = 3;
             // 
             // dSPECIFIC_NAME
@@ -677,8 +711,8 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.dgvOutPutParams);
-            this.splitContainer4.Size = new System.Drawing.Size(533, 645);
-            this.splitContainer4.SplitterDistance = 294;
+            this.splitContainer4.Size = new System.Drawing.Size(481, 658);
+            this.splitContainer4.SplitterDistance = 299;
             this.splitContainer4.TabIndex = 0;
             // 
             // dgvInputParams
@@ -697,7 +731,7 @@
             this.dgvInputParams.Name = "dgvInputParams";
             this.dgvInputParams.ReadOnly = true;
             this.dgvInputParams.RowTemplate.Height = 24;
-            this.dgvInputParams.Size = new System.Drawing.Size(533, 294);
+            this.dgvInputParams.Size = new System.Drawing.Size(481, 299);
             this.dgvInputParams.TabIndex = 1;
             // 
             // dISPECIFIC_NAME
@@ -758,7 +792,7 @@
             this.dgvOutPutParams.Name = "dgvOutPutParams";
             this.dgvOutPutParams.ReadOnly = true;
             this.dgvOutPutParams.RowTemplate.Height = 24;
-            this.dgvOutPutParams.Size = new System.Drawing.Size(533, 347);
+            this.dgvOutPutParams.Size = new System.Drawing.Size(481, 355);
             this.dgvOutPutParams.TabIndex = 1;
             // 
             // dOSPECIFIC_NAME
@@ -799,12 +833,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1322, 724);
+            this.ClientSize = new System.Drawing.Size(1195, 737);
             this.Controls.Add(this.tabControl1);
             this.Name = "Tables";
             this.Text = "Tables";
             this.Controls.SetChildIndex(this.tabControl1, 0);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTables)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabCommand.ResumeLayout(false);
@@ -832,6 +867,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvFK)).EndInit();
             this.tabSpsAndFuncs.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel1.PerformLayout();
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
@@ -908,5 +944,8 @@
         private System.Windows.Forms.DataGridView dgvIndexes;
         private System.Windows.Forms.DataGridViewTextBoxColumn dIndexName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dIxColName;
+        private System.Windows.Forms.Button btnCompare;
+        private CustomControll.PlaceholderText txtTableFilter;
+        private CustomControll.PlaceholderText txtSpFilter;
     }
 }
