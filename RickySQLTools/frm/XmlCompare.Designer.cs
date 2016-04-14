@@ -28,34 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(285, 263);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(211, 20);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "This feature not provide yet\r\n";
             // 
             // XmlCompare
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(783, 617);
-            this.Controls.Add(this.label1);
             this.Name = "XmlCompare";
             this.Text = "XmlCompare";
-            this.Controls.SetChildIndex(this.label1, 0);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
     }
 }

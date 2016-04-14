@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgvTables = new System.Windows.Forms.DataGridView();
             this.dTableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -75,12 +75,12 @@
             this.dDetailCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSpsAndFuncs = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.txtSpFilter = new RickySQLTools.CustomControll.PlaceholderText();
             this.dgvSpsAndFuncs = new System.Windows.Forms.DataGridView();
             this.dSPECIFIC_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dROUTINE_TYPE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dDATA_TYPE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dROUTINE_DEFINITION = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtSpFilter = new RickySQLTools.CustomControll.PlaceholderText();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.dgvInputParams = new System.Windows.Forms.DataGridView();
             this.dISPECIFIC_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -174,8 +174,8 @@
             // dTableDescription
             // 
             this.dTableDescription.DataPropertyName = "TableDescription";
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dTableDescription.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dTableDescription.DefaultCellStyle = dataGridViewCellStyle3;
             this.dTableDescription.HeaderText = "TableDescription";
             this.dTableDescription.MinimumWidth = 100;
             this.dTableDescription.Name = "dTableDescription";
@@ -193,6 +193,7 @@
             this.txtTableFilter.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtTableFilter.Location = new System.Drawing.Point(3, 27);
             this.txtTableFilter.Name = "txtTableFilter";
+            this.txtTableFilter.PlaceHolder = "Write something here to filter Table";
             this.txtTableFilter.Size = new System.Drawing.Size(382, 31);
             this.txtTableFilter.TabIndex = 1;
             this.txtTableFilter.TextChanged += new System.EventHandler(this.Filter);
@@ -447,8 +448,8 @@
             // 
             this.dColDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dColDescription.DataPropertyName = "ColDescription";
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dColDescription.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dColDescription.DefaultCellStyle = dataGridViewCellStyle4;
             this.dColDescription.HeaderText = "ColDescription";
             this.dColDescription.Name = "dColDescription";
             this.dColDescription.Width = 150;
@@ -634,16 +635,6 @@
             this.splitContainer3.SplitterDistance = 696;
             this.splitContainer3.TabIndex = 0;
             // 
-            // txtSpFilter
-            // 
-            this.txtSpFilter.BackColor = System.Drawing.SystemColors.Info;
-            this.txtSpFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtSpFilter.Location = new System.Drawing.Point(0, 0);
-            this.txtSpFilter.Name = "txtSpFilter";
-            this.txtSpFilter.Size = new System.Drawing.Size(696, 31);
-            this.txtSpFilter.TabIndex = 4;
-            this.txtSpFilter.TextChanged += new System.EventHandler(this.Filter);
-            // 
             // dgvSpsAndFuncs
             // 
             this.dgvSpsAndFuncs.AllowUserToAddRows = false;
@@ -696,6 +687,17 @@
             this.dROUTINE_DEFINITION.MinimumWidth = 100;
             this.dROUTINE_DEFINITION.Name = "dROUTINE_DEFINITION";
             this.dROUTINE_DEFINITION.ReadOnly = true;
+            // 
+            // txtSpFilter
+            // 
+            this.txtSpFilter.BackColor = System.Drawing.SystemColors.Info;
+            this.txtSpFilter.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtSpFilter.Location = new System.Drawing.Point(0, 0);
+            this.txtSpFilter.Name = "txtSpFilter";
+            this.txtSpFilter.PlaceHolder = "Write something here to filter SP && Func";
+            this.txtSpFilter.Size = new System.Drawing.Size(696, 31);
+            this.txtSpFilter.TabIndex = 4;
+            this.txtSpFilter.TextChanged += new System.EventHandler(this.Filter);
             // 
             // splitContainer4
             // 
