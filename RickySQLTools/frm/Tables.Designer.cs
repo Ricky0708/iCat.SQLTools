@@ -35,7 +35,7 @@
             this.dTableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dTableDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dTableType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtTableFilter = new RickySQLTools.CustomControll.PlaceholderText();
+            this.txtTableFilter = new RickySQLTools.CustomControll.PlaceholderTextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCommand = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -80,7 +80,7 @@
             this.dROUTINE_TYPE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dDATA_TYPE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dROUTINE_DEFINITION = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtSpFilter = new RickySQLTools.CustomControll.PlaceholderText();
+            this.txtSpFilter = new RickySQLTools.CustomControll.PlaceholderTextBox();
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.dgvInputParams = new System.Windows.Forms.DataGridView();
             this.dISPECIFIC_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -947,7 +947,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dIndexName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dIxColName;
         private System.Windows.Forms.Button btnCompare;
-        private CustomControll.PlaceholderText txtTableFilter;
-        private CustomControll.PlaceholderText txtSpFilter;
+        private CustomControll.PlaceholderTextBox txtTableFilter;
+        private CustomControll.PlaceholderTextBox txtSpFilter;
     }
 }

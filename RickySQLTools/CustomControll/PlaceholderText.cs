@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace RickySQLTools.CustomControll
 {
-    public class PlaceholderText : TextBox
+    public class PlaceholderTextBox : TextBox
     {
 
         public string PlaceHolder
@@ -17,7 +17,7 @@ namespace RickySQLTools.CustomControll
         }
 
         Label lblHolder;
-        public PlaceholderText()
+        public PlaceholderTextBox()
         {
             lblHolder = new Label();
             lblHolder.Name = "Holder";
