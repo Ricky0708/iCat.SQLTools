@@ -73,7 +73,7 @@
     <Compile Include="CustomControll\AssemblyButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomControll\PlaceholderText.cs">
+    <Compile Include="CustomControll\PlaceholderTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DAL\DALBase.cs" />
