@@ -27,19 +27,15 @@ namespace RickySQLTools.DAL
             AddDirectionColumn(dsFirst.Tables[dtSpsAndFuncs], "Xml_A");
             AddDirectionColumn(dsSecond.Tables[dtSpsAndFuncs], "Xml_B");
 
-            var comparer = new CustomComparer();
-            DataTable dtUnionTable = dsFirst.Tables[dtTables].AsEnumerable()
-                  .Union(dsSecond.Tables[dtTables].AsEnumerable(), comparer).OrderBy(p => p[0]).CopyToDataTable<DataRow>();
+            DataTable dtUnionTable = UnionAndCompare(dsFirst.Tables[dtTables], dsSecond.Tables[dtTables]);
             dtUnionTable.TableName = dtTables;
             CompareCallBack("Comparing Columns..", 33);
 
-            DataTable dtUnionColumns = dsFirst.Tables[dtColumns].AsEnumerable()
-                  .Union(dsSecond.Tables[dtColumns].AsEnumerable(), comparer).OrderBy(p => p[0]).CopyToDataTable<DataRow>();
+            DataTable dtUnionColumns = UnionAndCompare(dsFirst.Tables[dtColumns], dsSecond.Tables[dtColumns]);
             dtUnionColumns.TableName = dtColumns;
             CompareCallBack("Comparing SPs and Funcs..", 66);
 
-            DataTable dtUntionSpsAndFuncs = dsFirst.Tables[dtSpsAndFuncs].AsEnumerable()
-                  .Union(dsSecond.Tables[dtSpsAndFuncs].AsEnumerable(), comparer).OrderBy(p => p[0]).CopyToDataTable<DataRow>();
+            DataTable dtUntionSpsAndFuncs = UnionAndCompare(dsFirst.Tables[dtSpsAndFuncs], dsSecond.Tables[dtSpsAndFuncs]);
             dtUntionSpsAndFuncs.TableName = dtSpsAndFuncs;
             CompareCallBack("Compare finished", 100);
 
@@ -48,6 +44,13 @@ namespace RickySQLTools.DAL
             dsResult.Tables.Add(dtUnionColumns);
             dsResult.Tables.Add(dtUntionSpsAndFuncs);
             CompareFinishCallBack(dsResult);
+        }
+        private DataTable UnionAndCompare(DataTable dtA, DataTable dtB)
+        {
+            var comparer = new CustomComparer();
+            DataTable dtResult =  dtA.AsEnumerable()
+                  .Union(dtB.AsEnumerable(), comparer).OrderBy(p => p[0]).CopyToDataTable<DataRow>();
+            return dtResult;
         }
 
         private DataTable AddDirectionColumn(DataTable dt, string setDefColumn)
