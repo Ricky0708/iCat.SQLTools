@@ -5,9 +5,13 @@
     <li> can open multiple 『Tables』</li>
   </ul>
   
+  <br/>
+  
   <ul><a>v1.0.1</a>
     <li> filter table name and sps name、funcs name</li>
   </ul>
+  
+  <br/>
   
   <ul><a>v1.0.0</a>
     <li> Load Database Schema from SQL Server</li>
@@ -15,8 +19,8 @@
     <li> Can edit Tables sescription、columns description and update to database</li>
     <li> output schema to Excel、Xml file</li>
   </ul>
-  
-  
+
+  <br/>
   
   這一個程式可以讀出 Database的table、column相關資料及註解
   
