@@ -1,7 +1,7 @@
 # RickySQLTools
   
   <ul><a>v1.2</a>
-    <li> Add Xml compare, can compare two xml file schema </li>
+    <li> Add Xml compare, can compare databse schema from two xml files </li>
     <li> can open multiple 『Tables』</li>
   </ul>
   <ul><a>v1.1</a>
