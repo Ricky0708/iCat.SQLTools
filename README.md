@@ -2,7 +2,7 @@
   
   <ul><a>v1.0.2</a>
     <li> Add 『Xml Compare』, can compare databse schema from two xml files 
-         <p>(Table、SP、Func only compare name, and column compare all the information)</li>
+         </br>(Table、SP、Func only compare name, and column compare all the information)</li>
     <li> Can open multiple 『Tables』</li>
   </ul>
   
