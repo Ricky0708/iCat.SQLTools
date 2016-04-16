@@ -1,5 +1,11 @@
 # RickySQLTools
   
+  <ul><a>V1.0</a>
+    <li>
+      Test
+    </li>
+  </ul>
+  
   這一個程式可以讀出 Database的table、column相關資料及註解
   
   並能夠編輯註解並更新回 Database
