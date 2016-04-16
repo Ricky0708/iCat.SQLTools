@@ -13,13 +13,7 @@ namespace RickySQLTools.DAL
 	class DALTables : DALBase
 	{
 		#region const  var & propery
-		private const string dtTables = "Tables";
-		private const string dtColumns = "Columns";
-		private const string dtFKs = "FKs";
-		private const string dtIndexes = "Indexes";
-		private const string dtSpsAndFuncs = "SpsAndFuncs";
-		private const string dtInputParams = "InputParams";
-		private const string dtOutputParams = "OutputParams";
+
 		private DALUtility objUti = new DALUtility();
 
 		internal DataSet ds { get; set; }

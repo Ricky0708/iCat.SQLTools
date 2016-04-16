@@ -1,7 +1,32 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="RickySQLTools.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ConnectionString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Server=192.168.1.254\SQLExpress; DataBase=TSSO; uid=sa;pwd=P@ssw0rd</Value>
+    </Setting>
+    <Setting Name="Progs" Type="System.String" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" standalone="yes"?&gt;
+&lt;Programs&gt;
+  &lt;Progs&gt;
+    &lt;ProgID&gt;SetParameter&lt;/ProgID&gt;
+    &lt;ProgName&gt;Config&lt;/ProgName&gt;
+    &lt;ModuleName&gt;RickySQLTools&lt;/ModuleName&gt;
+    &lt;SEQ&gt;99&lt;/SEQ&gt;
+  &lt;/Progs&gt;
+  &lt;Progs&gt;
+    &lt;ProgID&gt;Tables&lt;/ProgID&gt;
+    &lt;ProgName&gt;Tables&lt;/ProgName&gt;
+    &lt;ModuleName&gt;RickySQLTools&lt;/ModuleName&gt;
+    &lt;SEQ&gt;2&lt;/SEQ&gt;
+  &lt;/Progs&gt;
+  &lt;Progs&gt;
+    &lt;ProgID&gt;XmlCompare&lt;/ProgID&gt;
+    &lt;ProgName&gt;Xml Compare&lt;/ProgName&gt;
+    &lt;ModuleName&gt;RickySQLTools&lt;/ModuleName&gt;
+    &lt;SEQ&gt;3&lt;/SEQ&gt;
+  &lt;/Progs&gt;
+&lt;/Programs&gt;</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

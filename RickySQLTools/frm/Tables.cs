@@ -77,6 +77,7 @@ namespace RickySQLTools
                 ds = objDAL.ds;
                 BindFrm();
                 tabControl1.SelectedTab = tabTablesAndCols;
+                this.Parent.Text = "Tables-『SQL』";
             }
             else
             {
@@ -127,6 +128,7 @@ namespace RickySQLTools
                     ds = objDAL.ds;
                     tabControl1.SelectedTab = tabTablesAndCols;
                     BindFrm();
+                    this.Parent.Text = "Tables-『" + fileName.Substring(fileName.LastIndexOf("\\") + 1)+"』";
                 }
                 else
                 {
@@ -153,18 +155,13 @@ namespace RickySQLTools
         #endregion
 
 
-        private void txtSpFilter_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void Filter(object sender, EventArgs e)
         {
-            if (bmTables!=null)
+            if (bmTables != null)
             {
                 ((DataView)bmTables.List).RowFilter = "TableName LIKE '%" + txtTableFilter.Text + "%'";
             }
-            if (bmSps!=null)
+            if (bmSps != null)
             {
                 ((DataView)bmSps.List).RowFilter = "SPECIFIC_NAME LIKE '%" + txtSpFilter.Text + "%'";
             }

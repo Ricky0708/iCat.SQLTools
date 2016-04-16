@@ -61,6 +61,7 @@ namespace RickySQLTools.DAL
             dlg.InitialDirectory = Application.StartupPath + "\\database\\";
             if (dlg.ShowDialog() == DialogResult.OK)
             {
+
                 fileName = dlg.FileName;
             }
             return fileName;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RickySQLTools.Properties;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -16,9 +17,11 @@ namespace RickySQLTools.DAL
 
         internal bool SaveConnectionString(string strConn)
         {
-            config.AppSettings.Settings["ConnectSQLString"].Value = strConn;
-            config.Save(ConfigurationSaveMode.Full);
-            ConfigurationManager.RefreshSection("appSettings");
+            Settings.Default.ConnectionString = strConn;
+            Settings.Default.Save();
+            //config.AppSettings.Settings["ConnectSQLString"].Value = strConn;
+            //config.Save(ConfigurationSaveMode.Full);
+            //ConfigurationManager.RefreshSection("appSettings");
             return true;
         }
     }

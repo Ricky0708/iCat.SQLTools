@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgvTables = new System.Windows.Forms.DataGridView();
             this.dTableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,7 +41,6 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.btnExportExcel = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.btnCompare = new System.Windows.Forms.Button();
             this.btnLoadDataFromXML = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnSaveToXml = new System.Windows.Forms.Button();
@@ -174,8 +173,8 @@
             // dTableDescription
             // 
             this.dTableDescription.DataPropertyName = "TableDescription";
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dTableDescription.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dTableDescription.DefaultCellStyle = dataGridViewCellStyle1;
             this.dTableDescription.HeaderText = "TableDescription";
             this.dTableDescription.MinimumWidth = 100;
             this.dTableDescription.Name = "dTableDescription";
@@ -244,7 +243,6 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.btnCompare);
             this.groupBox5.Controls.Add(this.btnLoadDataFromXML);
             this.groupBox5.Location = new System.Drawing.Point(308, 44);
             this.groupBox5.Name = "groupBox5";
@@ -252,15 +250,6 @@
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "XML";
-            // 
-            // btnCompare
-            // 
-            this.btnCompare.Location = new System.Drawing.Point(6, 76);
-            this.btnCompare.Name = "btnCompare";
-            this.btnCompare.Size = new System.Drawing.Size(172, 40);
-            this.btnCompare.TabIndex = 6;
-            this.btnCompare.Text = "Compare Schema";
-            this.btnCompare.UseVisualStyleBackColor = true;
             // 
             // btnLoadDataFromXML
             // 
@@ -448,8 +437,8 @@
             // 
             this.dColDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dColDescription.DataPropertyName = "ColDescription";
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dColDescription.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dColDescription.DefaultCellStyle = dataGridViewCellStyle2;
             this.dColDescription.HeaderText = "ColDescription";
             this.dColDescription.Name = "dColDescription";
             this.dColDescription.Width = 150;
@@ -946,7 +935,6 @@
         private System.Windows.Forms.DataGridView dgvIndexes;
         private System.Windows.Forms.DataGridViewTextBoxColumn dIndexName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dIxColName;
-        private System.Windows.Forms.Button btnCompare;
         private CustomControll.PlaceholderTextBox txtTableFilter;
         private CustomControll.PlaceholderTextBox txtSpFilter;
     }

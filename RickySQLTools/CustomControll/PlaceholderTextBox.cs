@@ -16,6 +16,27 @@ namespace RickySQLTools.CustomControll
             set { lblHolder.Text = value; }
         }
 
+        public override string Text
+        {
+            get
+            {
+                return base.Text;   
+            }
+
+            set
+            {
+                if (value != "")
+                {
+                    lblHolder.Hide();
+                }
+                else
+                {
+                    lblHolder.Show();
+                }
+                base.Text = value;
+            }
+        }
+
         Label lblHolder;
         public PlaceholderTextBox()
         {
@@ -55,6 +76,13 @@ namespace RickySQLTools.CustomControll
         private void PlaceholderText_GotFocus(object sender, EventArgs e)
         {
             lblHolder.Hide();
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            this.ResumeLayout(false);
+
         }
     }
 }

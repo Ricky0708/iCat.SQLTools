@@ -1,8 +1,10 @@
-﻿using System;
+﻿using RickySQLTools.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -21,7 +23,8 @@ namespace RickySQLTools
         private void MainForm_Load(object sender, EventArgs e)
         {
             DataSet ds = new DataSet();
-            ds.ReadXml(Application.StartupPath + "\\Progs.xml");
+            StringReader reader = new StringReader(Settings.Default.Progs);
+            ds.ReadXml(reader);
             DataView dv;
             dv = ds.Tables["Progs"].DefaultView;
             dv.Sort = "SEQ DESC";
@@ -53,9 +56,11 @@ namespace RickySQLTools
             {
                 if (this.TabControl1.TabPages[n].Name == objectName)
                 {
-                    this.TabControl1.SelectTab(n);
-                    isChildExist = true;
-
+                    if (objectName!="Tables")
+                    {
+                        this.TabControl1.SelectTab(n);
+                        isChildExist = true;
+                    }
                 }
             }
             if (!isChildExist)
