@@ -2,18 +2,18 @@
   
   <ul><a>v1.0.2</a>
     <li> Add 『Xml Compare』, can compare databse schema from two xml files </li>
-    <li> can open multiple 『Tables』</li>
+    <li> Can open multiple 『Tables』</li>
   </ul>
   
   <ul><a>v1.0.1</a>
-    <li> filter table name and sp's 、func's name</li>
+    <li> Filter table name and sp's 、func's name</li>
   </ul>
   
   <ul><a>v1.0.0</a>
     <li> Load database schema from SQL Server</li>
     <li> Load xml file from xml file</li>
     <li> Can maintain table's 、column's description and update to database</li>
-    <li> output schema to Excel、Xml file</li>
+    <li> Output schema to Excel、Xml file</li>
   </ul>
 
   <br/>
