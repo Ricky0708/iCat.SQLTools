@@ -12,7 +12,7 @@
   <ul><a>v1.0.0</a>
     <li> Load database schema from SQL Server</li>
     <li> Load xml file from xml file</li>
-    <li> Can edit Table's 、column's description and update to database</li>
+    <li> Can maintain Table's 、column's description and update to database</li>
     <li> output schema to Excel、Xml file</li>
   </ul>
 
