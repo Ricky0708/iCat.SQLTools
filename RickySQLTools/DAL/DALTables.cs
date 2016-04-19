@@ -132,30 +132,37 @@ namespace RickySQLTools.DAL
 				}
 			}
 
-
-			SqlTransaction tran;
-			using (SqlConnection conn = new SqlConnection(base.connString))
+			if (sbSQL.Length > 0)
 			{
-				conn.Open();
-				tran = conn.BeginTransaction();
-				try
+				SqlTransaction tran;
+				using (SqlConnection conn = new SqlConnection(base.connString))
 				{
-					SqlCommand cmd = new SqlCommand(sbSQL.ToString(), conn);
-					cmd.Transaction = tran;
+					conn.Open();
+					tran = conn.BeginTransaction();
+					try
+					{
+						SqlCommand cmd = new SqlCommand(sbSQL.ToString(), conn);
+						cmd.Transaction = tran;
 
-					cmd.ExecuteNonQuery();
-					tran.Commit();
-					ds.AcceptChanges();
-					return true;
+						cmd.ExecuteNonQuery();
+						tran.Commit();
+						ds.AcceptChanges();
+						return true;
+					}
+					catch (Exception ex)
+					{
+						ErrMsg = ex.Message;
+						tran.Rollback();
+						return false;
+					}
 				}
-				catch (Exception ex)
-				{
-					ErrMsg = ex.Message;
-					tran.Rollback();
+			}
+			else
+			{
+					ErrMsg = "Nothing could be update !";
 					return false;
 				}
 
-			}
 		}
 		#endregion
 

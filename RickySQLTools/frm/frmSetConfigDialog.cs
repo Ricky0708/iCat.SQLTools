@@ -12,15 +12,15 @@ using RickySQLTools.DAL;
 
 namespace RickySQLTools
 {
-    public partial class SetParameter : frmBase
+    public partial class frmSetConfigDialog : frmBase
     {
-        DALSetParameter utiObj = new DALSetParameter();
-        public SetParameter()
+        DALSetConfig utiObj = new DALSetConfig();
+        public frmSetConfigDialog()
         {
             InitializeComponent();
         }
 
-        private void SetParameter_Load(object sender, EventArgs e)
+        private void SetConfigDialog_Load(object sender, EventArgs e)
         {
 
             txtConn.Text = utiObj.GetConnectionString();

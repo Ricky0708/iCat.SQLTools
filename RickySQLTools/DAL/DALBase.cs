@@ -19,15 +19,14 @@ namespace RickySQLTools.DAL
         protected const string dtOutputParams = "OutputParams";
 
         private string _connString;
-        protected Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        //protected Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
         public DALBase()
         {
-            connString = Settings.Default.ConnectionString;
         }
         protected string connString
         {
-            get { return _connString; }
+            get { return Settings.Default.ConnectionString; }
             set { _connString = value; }
         }
         

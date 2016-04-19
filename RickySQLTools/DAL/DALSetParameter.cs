@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RickySQLTools.DAL
 {
-    internal class DALSetParameter : DALBase
+    internal class DALSetConfig : DALBase
     {
         internal string GetConnectionString()
         {

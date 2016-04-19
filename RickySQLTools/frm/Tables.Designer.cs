@@ -42,8 +42,9 @@
             this.btnExportExcel = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnLoadDataFromXML = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnSaveToXml = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnConnString = new System.Windows.Forms.Button();
             this.btnLoadDataFromSQL = new System.Windows.Forms.Button();
             this.btnUpdateDescription = new System.Windows.Forms.Button();
             this.tabTablesAndCols = new System.Windows.Forms.TabPage();
@@ -240,10 +241,12 @@
             this.btnExportExcel.TabIndex = 4;
             this.btnExportExcel.Text = "Export to Excel";
             this.btnExportExcel.UseVisualStyleBackColor = true;
+            this.btnExportExcel.Click += new System.EventHandler(this.btnExportExcel_Click);
             // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.btnLoadDataFromXML);
+            this.groupBox5.Controls.Add(this.btnSaveToXml);
             this.groupBox5.Location = new System.Drawing.Point(308, 44);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(313, 275);
@@ -253,7 +256,7 @@
             // 
             // btnLoadDataFromXML
             // 
-            this.btnLoadDataFromXML.Location = new System.Drawing.Point(6, 30);
+            this.btnLoadDataFromXML.Location = new System.Drawing.Point(6, 73);
             this.btnLoadDataFromXML.Name = "btnLoadDataFromXML";
             this.btnLoadDataFromXML.Size = new System.Drawing.Size(172, 40);
             this.btnLoadDataFromXML.TabIndex = 5;
@@ -261,9 +264,19 @@
             this.btnLoadDataFromXML.UseVisualStyleBackColor = true;
             this.btnLoadDataFromXML.Click += new System.EventHandler(this.btnLoadDataFromXML_Click);
             // 
+            // btnSaveToXml
+            // 
+            this.btnSaveToXml.Location = new System.Drawing.Point(6, 27);
+            this.btnSaveToXml.Name = "btnSaveToXml";
+            this.btnSaveToXml.Size = new System.Drawing.Size(172, 40);
+            this.btnSaveToXml.TabIndex = 5;
+            this.btnSaveToXml.Text = "Save To Xml";
+            this.btnSaveToXml.UseVisualStyleBackColor = true;
+            this.btnSaveToXml.Click += new System.EventHandler(this.btnSaveToXml_Click);
+            // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.btnSaveToXml);
+            this.groupBox4.Controls.Add(this.btnConnString);
             this.groupBox4.Controls.Add(this.btnLoadDataFromSQL);
             this.groupBox4.Controls.Add(this.btnUpdateDescription);
             this.groupBox4.Location = new System.Drawing.Point(41, 44);
@@ -273,19 +286,19 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "SQL Server";
             // 
-            // btnSaveToXml
+            // btnConnString
             // 
-            this.btnSaveToXml.Location = new System.Drawing.Point(6, 76);
-            this.btnSaveToXml.Name = "btnSaveToXml";
-            this.btnSaveToXml.Size = new System.Drawing.Size(172, 40);
-            this.btnSaveToXml.TabIndex = 5;
-            this.btnSaveToXml.Text = "Save To Xml";
-            this.btnSaveToXml.UseVisualStyleBackColor = true;
-            this.btnSaveToXml.Click += new System.EventHandler(this.btnSaveToXml_Click);
+            this.btnConnString.Location = new System.Drawing.Point(6, 30);
+            this.btnConnString.Name = "btnConnString";
+            this.btnConnString.Size = new System.Drawing.Size(172, 40);
+            this.btnConnString.TabIndex = 6;
+            this.btnConnString.Text = "Set Connection";
+            this.btnConnString.UseVisualStyleBackColor = true;
+            this.btnConnString.Click += new System.EventHandler(this.btnConnString_Click);
             // 
             // btnLoadDataFromSQL
             // 
-            this.btnLoadDataFromSQL.Location = new System.Drawing.Point(6, 30);
+            this.btnLoadDataFromSQL.Location = new System.Drawing.Point(6, 73);
             this.btnLoadDataFromSQL.Name = "btnLoadDataFromSQL";
             this.btnLoadDataFromSQL.Size = new System.Drawing.Size(172, 40);
             this.btnLoadDataFromSQL.TabIndex = 4;
@@ -295,7 +308,7 @@
             // 
             // btnUpdateDescription
             // 
-            this.btnUpdateDescription.Location = new System.Drawing.Point(6, 122);
+            this.btnUpdateDescription.Location = new System.Drawing.Point(6, 119);
             this.btnUpdateDescription.Name = "btnUpdateDescription";
             this.btnUpdateDescription.Size = new System.Drawing.Size(249, 40);
             this.btnUpdateDescription.TabIndex = 3;
@@ -937,5 +950,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dIxColName;
         private CustomControll.PlaceholderTextBox txtTableFilter;
         private CustomControll.PlaceholderTextBox txtSpFilter;
+        private System.Windows.Forms.Button btnConnString;
     }
 }

@@ -1,5 +1,10 @@
 # RickySQLTools
   
+  <ul><a>v1.0.2.1</a>
+    <li> Fix bug『Xml Compare』-doesn't load file path from second xml file when start compare
+    <li> move config setting to 『Tables』→『SQL Server』 block
+  </ul>      
+  
   <ul><a>v1.0.2</a>
     <li> Add 『Xml Compare』, can compare databse schema from two xml files 
          </br>(Table、SP、Func only compare name, and column compare all the information)</li>
@@ -9,7 +14,6 @@
   <ul><a>v1.0.1</a>
     <li> Filter table name and sp's 、func's name</li>
   </ul>
-  
   <ul><a>v1.0.0</a>
     <li> Load database schema from SQL Server</li>
     <li> Load xml file from xml file</li>

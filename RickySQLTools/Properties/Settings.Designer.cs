@@ -40,12 +40,6 @@ namespace RickySQLTools.Properties {
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" standalone=""yes""?>
 <Programs>
   <Progs>
-    <ProgID>SetParameter</ProgID>
-    <ProgName>Config</ProgName>
-    <ModuleName>RickySQLTools</ModuleName>
-    <SEQ>99</SEQ>
-  </Progs>
-  <Progs>
     <ProgID>Tables</ProgID>
     <ProgName>Tables</ProgName>
     <ModuleName>RickySQLTools</ModuleName>

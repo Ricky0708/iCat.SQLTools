@@ -1,6 +1,6 @@
 ﻿namespace RickySQLTools
 {
-    partial class SetParameter
+    partial class frmSetConfigDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -60,18 +60,21 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Conn";
             // 
-            // SetParameter
+            // frmSetConfigDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(852, 578);
+            this.ClientSize = new System.Drawing.Size(782, 244);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtConn);
             this.Margin = new System.Windows.Forms.Padding(8);
-            this.Name = "SetParameter";
-            this.Text = "SetParameter";
-            this.Load += new System.EventHandler(this.SetParameter_Load);
+            this.Name = "frmSetConfigDialog";
+            this.Text = "Set Config";
+            this.Load += new System.EventHandler(this.SetConfigDialog_Load);
+            this.Controls.SetChildIndex(this.txtConn, 0);
+            this.Controls.SetChildIndex(this.btnSave, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 

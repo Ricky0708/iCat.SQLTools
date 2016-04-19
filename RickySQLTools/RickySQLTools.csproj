@@ -92,11 +92,11 @@
     <Compile Include="frm\frmBase.Designer.cs">
       <DependentUpon>frmBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm\SetParameter.cs">
+    <Compile Include="frm\frmSetConfigDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm\SetParameter.Designer.cs">
-      <DependentUpon>SetParameter.cs</DependentUpon>
+    <Compile Include="frm\frmSetConfigDialog.Designer.cs">
+      <DependentUpon>frmSetConfigDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="frm\Tables.cs">
       <SubType>Form</SubType>
@@ -124,8 +124,8 @@
     <EmbeddedResource Include="frm\frmBase.resx">
       <DependentUpon>frmBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm\SetParameter.resx">
-      <DependentUpon>SetParameter.cs</DependentUpon>
+    <EmbeddedResource Include="frm\frmSetConfigDialog.resx">
+      <DependentUpon>frmSetConfigDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm\Tables.resx">
       <DependentUpon>Tables.cs</DependentUpon>

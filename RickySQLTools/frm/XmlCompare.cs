@@ -59,7 +59,7 @@ namespace RickySQLTools
             if (txtFirstXml.Text != "" && txtSecondXml.Text != "")
             {
                 FileInfo fiA = new FileInfo(txtFirstXml.Text);
-                FileInfo fiB = new FileInfo(txtFirstXml.Text);
+                FileInfo fiB = new FileInfo(txtSecondXml.Text);
                 if (fiA.Exists && fiB.Exists)
                 {
                     dsFirst = new DataSet();

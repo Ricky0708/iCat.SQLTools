@@ -168,5 +168,10 @@ namespace RickySQLTools
 
         }
 
+        private void btnConnString_Click(object sender, EventArgs e)
+        {
+            frmSetConfigDialog frm = new frmSetConfigDialog();
+            frm.ShowDialog();
+        }
     }
 }
