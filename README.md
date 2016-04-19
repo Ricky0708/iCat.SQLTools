@@ -1,5 +1,10 @@
 # RickySQLTools
   
+  <ul><a>v1.0.2.2</a>
+    <li> When every 『Tables』 tabPage load data from SQL, they own self sql connection, make user can maintain different db at the same time
+    <li> Load data from sql, tables sort by TableName
+  </ul>   
+  
   <ul><a>v1.0.2.1</a>
     <li> Fix bug『Xml Compare』-doesn't load file path from second xml file when start compare
     <li> move config setting to 『Tables』→『SQL Server』 block

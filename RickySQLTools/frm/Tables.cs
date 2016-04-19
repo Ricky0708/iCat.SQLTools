@@ -26,6 +26,24 @@ namespace RickySQLTools
             dgvTables.AutoGenerateColumns = false;
             dgvFK.AutoGenerateColumns = true;
             dgvIndexes.AutoGenerateColumns = false;
+
+            txtTableFilter.KeyDown += (sender, e) =>
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    e.SuppressKeyPress = true;
+                    dgvTables.Focus();
+                }
+            };
+
+            txtSpFilter.KeyDown += (sender, e) =>
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    e.SuppressKeyPress = true;
+                    dgvSpsAndFuncs.Focus();
+                }
+            };
         }
 
         #region method
@@ -128,7 +146,7 @@ namespace RickySQLTools
                     ds = objDAL.ds;
                     tabControl1.SelectedTab = tabTablesAndCols;
                     BindFrm();
-                    this.Parent.Text = "Tables-『" + fileName.Substring(fileName.LastIndexOf("\\") + 1)+"』";
+                    this.Parent.Text = "Tables-『" + fileName.Substring(fileName.LastIndexOf("\\") + 1) + "』";
                 }
                 else
                 {

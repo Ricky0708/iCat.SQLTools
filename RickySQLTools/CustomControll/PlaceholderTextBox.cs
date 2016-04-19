@@ -46,7 +46,7 @@ namespace RickySQLTools.CustomControll
             lblHolder.AutoSize = true;
             lblHolder.Location = new System.Drawing.Point(0, 0);
             lblHolder.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-
+            
             this.BackColor = System.Drawing.SystemColors.Info;
             Controls.Add(lblHolder);
             SetEvent();

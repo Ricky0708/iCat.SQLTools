@@ -16,6 +16,8 @@ namespace RickySQLTools.DAL
 
 		private DALUtility objUti = new DALUtility();
 
+		private string _strConn = "";
+
 		internal DataSet ds { get; set; }
 
 		internal string ErrMsg { get; set; }
@@ -24,10 +26,11 @@ namespace RickySQLTools.DAL
 		#region method
 		internal bool GetDatasetFromSQL()
 		{
+			_strConn = base.connString;
 			ds = new DataSet();
 			try
 			{
-				using (SqlConnection conn = new SqlConnection(base.connString))
+				using (SqlConnection conn = new SqlConnection(_strConn))
 				{
 					SqlDataAdapter da = new SqlDataAdapter(GeneratScriptGetCol(), conn);
 					da.Fill(ds, dtColumns);
@@ -135,7 +138,7 @@ namespace RickySQLTools.DAL
 			if (sbSQL.Length > 0)
 			{
 				SqlTransaction tran;
-				using (SqlConnection conn = new SqlConnection(base.connString))
+				using (SqlConnection conn = new SqlConnection(_strConn))
 				{
 					conn.Open();
 					tran = conn.BeginTransaction();
@@ -159,9 +162,9 @@ namespace RickySQLTools.DAL
 			}
 			else
 			{
-					ErrMsg = "Nothing could be update !";
-					return false;
-				}
+				ErrMsg = "Nothing could be update !";
+				return false;
+			}
 
 		}
 		#endregion
@@ -170,7 +173,7 @@ namespace RickySQLTools.DAL
 
 		private StringBuilder GeneratScriptUpdate(StringBuilder sbSQL, DataView dv, string target)
 		{
-			using (SqlConnection conn = new SqlConnection(base.connString))
+			using (SqlConnection conn = new SqlConnection(_strConn))
 			{
 				SqlCommand cmd = new SqlCommand();
 				SqlDataReader sdr;
@@ -251,7 +254,8 @@ namespace RickySQLTools.DAL
 								ON prop.major_id = object_id(tbl.table_schema + '.' + tbl.table_name) 
 								AND prop.minor_id = 0
 								AND prop.name = 'MS_Description' 
-							  WHERE tbl.table_type = 'base table' OR tbl.table_type = 'VIEW' ";
+							  WHERE tbl.table_type = 'base table' OR tbl.table_type = 'VIEW' 
+							  ORDER BY TableName";
 			return script;
 		}
 

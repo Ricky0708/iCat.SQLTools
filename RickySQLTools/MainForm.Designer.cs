@@ -51,11 +51,13 @@
             // TabControl1
             // 
             this.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TabControl1.HotTrack = true;
             this.TabControl1.Location = new System.Drawing.Point(0, 0);
             this.TabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.TabControl1.Name = "TabControl1";
             this.TabControl1.SelectedIndex = 0;
             this.TabControl1.Size = new System.Drawing.Size(1590, 1037);
+            this.TabControl1.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.TabControl1.TabIndex = 4;
             // 
             // splitContainer1

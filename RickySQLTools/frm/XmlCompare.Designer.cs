@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtSecondXml = new RickySQLTools.CustomControll.PlaceholderTextBox();
             this.txtFirstXml = new RickySQLTools.CustomControll.PlaceholderTextBox();
             this.btnFirst = new System.Windows.Forms.Button();
@@ -48,13 +48,13 @@
             this.dType_Equal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dgvSpsAndFuncs = new System.Windows.Forms.DataGridView();
+            this.dSPECIFIC_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.d3XmlA = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.d3XmlB = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblState = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.btnCompare = new System.Windows.Forms.Button();
-            this.dSPECIFIC_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.d3XmlA = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.d3XmlB = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTables)).BeginInit();
@@ -111,14 +111,17 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.HotTrack = true;
             this.tabControl1.Location = new System.Drawing.Point(0, 220);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(783, 397);
+            this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControl1.TabIndex = 5;
             // 
             // tabPage2
             // 
+            this.tabPage2.BackColor = System.Drawing.Color.Transparent;
             this.tabPage2.Controls.Add(this.dgvTables);
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
@@ -126,7 +129,6 @@
             this.tabPage2.Size = new System.Drawing.Size(775, 363);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Tables";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // dgvTables
             // 
@@ -179,6 +181,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.BackColor = System.Drawing.Color.Transparent;
             this.tabPage1.Controls.Add(this.dgvColumns);
             this.tabPage1.Location = new System.Drawing.Point(4, 30);
             this.tabPage1.Name = "tabPage1";
@@ -186,7 +189,6 @@
             this.tabPage1.Size = new System.Drawing.Size(775, 363);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Columns";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // dgvColumns
             // 
@@ -251,8 +253,8 @@
             // 
             this.dType_Equal.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dType_Equal.DataPropertyName = "Type_Equal";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dType_Equal.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dType_Equal.DefaultCellStyle = dataGridViewCellStyle1;
             this.dType_Equal.HeaderText = "Type Equal";
             this.dType_Equal.Name = "dType_Equal";
             this.dType_Equal.ReadOnly = true;
@@ -260,6 +262,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.BackColor = System.Drawing.Color.Transparent;
             this.tabPage3.Controls.Add(this.dgvSpsAndFuncs);
             this.tabPage3.Location = new System.Drawing.Point(4, 30);
             this.tabPage3.Name = "tabPage3";
@@ -267,7 +270,6 @@
             this.tabPage3.Size = new System.Drawing.Size(775, 363);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "SPs & Funcs";
-            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // dgvSpsAndFuncs
             // 
@@ -286,6 +288,35 @@
             this.dgvSpsAndFuncs.RowTemplate.Height = 24;
             this.dgvSpsAndFuncs.Size = new System.Drawing.Size(769, 357);
             this.dgvSpsAndFuncs.TabIndex = 4;
+            // 
+            // dSPECIFIC_NAME
+            // 
+            this.dSPECIFIC_NAME.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dSPECIFIC_NAME.DataPropertyName = "SPECIFIC_NAME";
+            this.dSPECIFIC_NAME.HeaderText = "SPECIFIC_NAME";
+            this.dSPECIFIC_NAME.Name = "dSPECIFIC_NAME";
+            this.dSPECIFIC_NAME.ReadOnly = true;
+            this.dSPECIFIC_NAME.Width = 182;
+            // 
+            // d3XmlA
+            // 
+            this.d3XmlA.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.d3XmlA.DataPropertyName = "Xml_A";
+            this.d3XmlA.HeaderText = "Xml A";
+            this.d3XmlA.Name = "d3XmlA";
+            this.d3XmlA.ReadOnly = true;
+            this.d3XmlA.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.d3XmlA.Width = 91;
+            // 
+            // d3XmlB
+            // 
+            this.d3XmlB.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.d3XmlB.DataPropertyName = "Xml_B";
+            this.d3XmlB.HeaderText = "Xml B";
+            this.d3XmlB.Name = "d3XmlB";
+            this.d3XmlB.ReadOnly = true;
+            this.d3XmlB.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.d3XmlB.Width = 90;
             // 
             // panel2
             // 
@@ -329,35 +360,6 @@
             this.btnCompare.Text = "Start Compare";
             this.btnCompare.UseVisualStyleBackColor = true;
             this.btnCompare.Click += new System.EventHandler(this.btnCompare_Click);
-            // 
-            // dSPECIFIC_NAME
-            // 
-            this.dSPECIFIC_NAME.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dSPECIFIC_NAME.DataPropertyName = "SPECIFIC_NAME";
-            this.dSPECIFIC_NAME.HeaderText = "SPECIFIC_NAME";
-            this.dSPECIFIC_NAME.Name = "dSPECIFIC_NAME";
-            this.dSPECIFIC_NAME.ReadOnly = true;
-            this.dSPECIFIC_NAME.Width = 182;
-            // 
-            // d3XmlA
-            // 
-            this.d3XmlA.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.d3XmlA.DataPropertyName = "Xml_A";
-            this.d3XmlA.HeaderText = "Xml A";
-            this.d3XmlA.Name = "d3XmlA";
-            this.d3XmlA.ReadOnly = true;
-            this.d3XmlA.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.d3XmlA.Width = 91;
-            // 
-            // d3XmlB
-            // 
-            this.d3XmlB.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.d3XmlB.DataPropertyName = "Xml_B";
-            this.d3XmlB.HeaderText = "Xml B";
-            this.d3XmlB.Name = "d3XmlB";
-            this.d3XmlB.ReadOnly = true;
-            this.d3XmlB.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.d3XmlB.Width = 90;
             // 
             // XmlCompare
             // 

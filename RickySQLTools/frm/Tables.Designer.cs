@@ -209,6 +209,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1195, 698);
             this.tabControl1.TabIndex = 2;
+            this.tabControl1.TabStop = false;
             // 
             // tabCommand
             // 
@@ -256,7 +257,7 @@
             // 
             // btnLoadDataFromXML
             // 
-            this.btnLoadDataFromXML.Location = new System.Drawing.Point(6, 73);
+            this.btnLoadDataFromXML.Location = new System.Drawing.Point(6, 30);
             this.btnLoadDataFromXML.Name = "btnLoadDataFromXML";
             this.btnLoadDataFromXML.Size = new System.Drawing.Size(172, 40);
             this.btnLoadDataFromXML.TabIndex = 5;
@@ -266,7 +267,7 @@
             // 
             // btnSaveToXml
             // 
-            this.btnSaveToXml.Location = new System.Drawing.Point(6, 27);
+            this.btnSaveToXml.Location = new System.Drawing.Point(6, 229);
             this.btnSaveToXml.Name = "btnSaveToXml";
             this.btnSaveToXml.Size = new System.Drawing.Size(172, 40);
             this.btnSaveToXml.TabIndex = 5;
@@ -288,7 +289,7 @@
             // 
             // btnConnString
             // 
-            this.btnConnString.Location = new System.Drawing.Point(6, 30);
+            this.btnConnString.Location = new System.Drawing.Point(6, 229);
             this.btnConnString.Name = "btnConnString";
             this.btnConnString.Size = new System.Drawing.Size(172, 40);
             this.btnConnString.TabIndex = 6;
@@ -298,7 +299,7 @@
             // 
             // btnLoadDataFromSQL
             // 
-            this.btnLoadDataFromSQL.Location = new System.Drawing.Point(6, 73);
+            this.btnLoadDataFromSQL.Location = new System.Drawing.Point(6, 30);
             this.btnLoadDataFromSQL.Name = "btnLoadDataFromSQL";
             this.btnLoadDataFromSQL.Size = new System.Drawing.Size(172, 40);
             this.btnLoadDataFromSQL.TabIndex = 4;
@@ -308,7 +309,7 @@
             // 
             // btnUpdateDescription
             // 
-            this.btnUpdateDescription.Location = new System.Drawing.Point(6, 119);
+            this.btnUpdateDescription.Location = new System.Drawing.Point(6, 76);
             this.btnUpdateDescription.Name = "btnUpdateDescription";
             this.btnUpdateDescription.Size = new System.Drawing.Size(249, 40);
             this.btnUpdateDescription.TabIndex = 3;
@@ -345,6 +346,7 @@
             this.splitContainer1.Size = new System.Drawing.Size(1181, 658);
             this.splitContainer1.SplitterDistance = 392;
             this.splitContainer1.TabIndex = 2;
+            this.splitContainer1.TabStop = false;
             // 
             // splitContainer5
             // 
@@ -364,6 +366,7 @@
             this.splitContainer5.Size = new System.Drawing.Size(785, 658);
             this.splitContainer5.SplitterDistance = 187;
             this.splitContainer5.TabIndex = 2;
+            this.splitContainer5.TabStop = false;
             // 
             // groupBox2
             // 
@@ -398,6 +401,7 @@
             this.dgvColumns.RowTemplate.Height = 24;
             this.dgvColumns.Size = new System.Drawing.Size(775, 153);
             this.dgvColumns.TabIndex = 1;
+            this.dgvColumns.TabStop = false;
             // 
             // dColName
             // 
@@ -497,6 +501,7 @@
             this.splitContainer2.Size = new System.Drawing.Size(785, 467);
             this.splitContainer2.SplitterDistance = 94;
             this.splitContainer2.TabIndex = 1;
+            this.splitContainer2.TabStop = false;
             // 
             // groupBox7
             // 
@@ -524,6 +529,7 @@
             this.dgvIndexes.RowTemplate.Height = 24;
             this.dgvIndexes.Size = new System.Drawing.Size(775, 60);
             this.dgvIndexes.TabIndex = 2;
+            this.dgvIndexes.TabStop = false;
             // 
             // dIndexName
             // 
@@ -572,6 +578,7 @@
             this.dgvFK.RowTemplate.Height = 24;
             this.dgvFK.Size = new System.Drawing.Size(775, 335);
             this.dgvFK.TabIndex = 2;
+            this.dgvFK.TabStop = false;
             // 
             // dName
             // 
@@ -636,6 +643,7 @@
             this.splitContainer3.Size = new System.Drawing.Size(1181, 658);
             this.splitContainer3.SplitterDistance = 696;
             this.splitContainer3.TabIndex = 0;
+            this.splitContainer3.TabStop = false;
             // 
             // dgvSpsAndFuncs
             // 
@@ -718,6 +726,7 @@
             this.splitContainer4.Size = new System.Drawing.Size(481, 658);
             this.splitContainer4.SplitterDistance = 299;
             this.splitContainer4.TabIndex = 0;
+            this.splitContainer4.TabStop = false;
             // 
             // dgvInputParams
             // 
@@ -737,6 +746,7 @@
             this.dgvInputParams.RowTemplate.Height = 24;
             this.dgvInputParams.Size = new System.Drawing.Size(481, 299);
             this.dgvInputParams.TabIndex = 1;
+            this.dgvInputParams.TabStop = false;
             // 
             // dISPECIFIC_NAME
             // 
@@ -798,6 +808,7 @@
             this.dgvOutPutParams.RowTemplate.Height = 24;
             this.dgvOutPutParams.Size = new System.Drawing.Size(481, 355);
             this.dgvOutPutParams.TabIndex = 1;
+            this.dgvOutPutParams.TabStop = false;
             // 
             // dOSPECIFIC_NAME
             // 
