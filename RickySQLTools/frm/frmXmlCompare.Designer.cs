@@ -1,6 +1,6 @@
 ﻿namespace RickySQLTools
 {
-    partial class XmlCompare
+    partial class frmXmlCompare
     {
         /// <summary>
         /// Required designer variable.

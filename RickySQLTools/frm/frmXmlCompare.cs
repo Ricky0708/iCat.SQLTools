@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace RickySQLTools
 {
-    public partial class XmlCompare : frmBase
+    public partial class frmXmlCompare : frmBase
     {
         private DAL.DALUtility objUti = new DAL.DALUtility();
         DAL.DALXmlCompare objDal = new DAL.DALXmlCompare();
@@ -20,7 +20,7 @@ namespace RickySQLTools
         private DataSet dsFirst;
         private DataSet dsSecond;
 
-        public XmlCompare()
+        public frmXmlCompare()
         {
             InitializeComponent();
             objDal.CompareCallBack += Comparing;

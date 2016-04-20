@@ -18,55 +18,52 @@ namespace RickySQLTools.DAL
 
 		private string _strConn = "";
 
-		internal DataSet ds { get; set; }
-
-		internal string ErrMsg { get; set; }
 		#endregion
 
 		#region method
 		internal bool GetDatasetFromSQL()
 		{
 			_strConn = base.connString;
-			ds = new DataSet();
+			dalDataset = new DataSet();
 			try
 			{
 				using (SqlConnection conn = new SqlConnection(_strConn))
 				{
 					SqlDataAdapter da = new SqlDataAdapter(GeneratScriptGetCol(), conn);
-					da.Fill(ds, dtColumns);
+					da.Fill(dalDataset, dtColumns);
 					da = new SqlDataAdapter(GeneratScriptGetTable(), conn);
-					da.Fill(ds, dtTables);
+					da.Fill(dalDataset, dtTables);
 					da = new SqlDataAdapter(GeneratScriptGetFK(), conn);
-					da.Fill(ds, dtFKs);
+					da.Fill(dalDataset, dtFKs);
 					da = new SqlDataAdapter(GeneratScriptGetIndex(), conn);
-					da.Fill(ds, dtIndexes);
+					da.Fill(dalDataset, dtIndexes);
 					da = new SqlDataAdapter(GeneratScriptGetSpAndFunc(), conn);
-					da.Fill(ds, dtSpsAndFuncs);
+					da.Fill(dalDataset, dtSpsAndFuncs);
 					da = new SqlDataAdapter(GeneratScriptGetInputParam(), conn);
-					da.Fill(ds, dtInputParams);
+					da.Fill(dalDataset, dtInputParams);
 
 					string script = "";
-					foreach (DataRow dr in ds.Tables[dtSpsAndFuncs].Rows)
+					foreach (DataRow dr in dalDataset.Tables[dtSpsAndFuncs].Rows)
 					{
 						script += GeneratScriptGetOutPutParam(dr["SPECIFIC_NAME"].ToString()) + " UNION ALL ";
 					}
 					script = script.Substring(0, script.Length - 11);
 					da = new SqlDataAdapter(script, conn);
-					da.Fill(ds, dtOutputParams);
+					da.Fill(dalDataset, dtOutputParams);
 				}
-				DataRelation relCol = new DataRelation("MasterDetailCols", ds.Tables[dtTables].Columns["TableName"], ds.Tables[dtColumns].Columns["TableName"]);
-				ds.Relations.Add(relCol);
+				DataRelation relCol = new DataRelation("MasterDetailCols", dalDataset.Tables[dtTables].Columns["TableName"], dalDataset.Tables[dtColumns].Columns["TableName"]);
+				dalDataset.Relations.Add(relCol);
 				//DataRelation relFK = new DataRelation("MasterDetailFKs", ds.Tables[dtTables].Columns["TableName"], ds.Tables[dtFKs].Columns["ParentTable"]);
 				//ds.Relations.Add(relFK);
 
-				DataRelation resIndex = new DataRelation("MasterDetailIndexes", ds.Tables[dtTables].Columns["TableName"], ds.Tables[dtIndexes].Columns["TableName"]);
-				ds.Relations.Add(resIndex);
+				DataRelation resIndex = new DataRelation("MasterDetailIndexes", dalDataset.Tables[dtTables].Columns["TableName"], dalDataset.Tables[dtIndexes].Columns["TableName"]);
+				dalDataset.Relations.Add(resIndex);
 
-				DataRelation relInputParam = new DataRelation("MasterDetailInputParams", ds.Tables[dtSpsAndFuncs].Columns["SPECIFIC_NAME"], ds.Tables[dtInputParams].Columns["SPECIFIC_NAME"]);
-				ds.Relations.Add(relInputParam);
+				DataRelation relInputParam = new DataRelation("MasterDetailInputParams", dalDataset.Tables[dtSpsAndFuncs].Columns["SPECIFIC_NAME"], dalDataset.Tables[dtInputParams].Columns["SPECIFIC_NAME"]);
+				dalDataset.Relations.Add(relInputParam);
 
-				DataRelation resOutputParam = new DataRelation("MasterDetailOutputParams", ds.Tables[dtSpsAndFuncs].Columns["SPECIFIC_NAME"], ds.Tables[dtOutputParams].Columns["SPECIFIC_NAME"]);
-				ds.Relations.Add(resOutputParam);
+				DataRelation resOutputParam = new DataRelation("MasterDetailOutputParams", dalDataset.Tables[dtSpsAndFuncs].Columns["SPECIFIC_NAME"], dalDataset.Tables[dtOutputParams].Columns["SPECIFIC_NAME"]);
+				dalDataset.Relations.Add(resOutputParam);
 
 
 				return true;
@@ -81,13 +78,13 @@ namespace RickySQLTools.DAL
 
 		internal bool GetDatasetFromXml(string fileName)
 		{
-			ds = new DataSet();
+			dalDataset = new DataSet();
 
 			FileInfo fi = new FileInfo(fileName);
 			if (fi.Exists)
 			{
-				ds.ReadXml(fileName);
-				ds.AcceptChanges();
+				dalDataset.ReadXml(fileName);
+				dalDataset.AcceptChanges();
 				return true;
 			}
 			else
@@ -108,8 +105,6 @@ namespace RickySQLTools.DAL
 			ds.WriteXml(saveToPath, XmlWriteMode.WriteSchema);
 			return true;
 		}
-
-
 
 		internal bool UpdateDescription(ref DataSet ds)
 		{
