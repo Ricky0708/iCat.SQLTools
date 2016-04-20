@@ -81,6 +81,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DAL\DALBase.cs" />
+    <Compile Include="DAL\DALFakeData.cs" />
     <Compile Include="DAL\DALNpoiOperator.cs" />
     <Compile Include="DAL\DALSetParameter.cs" />
     <Compile Include="DAL\DALTables.cs" />
@@ -92,23 +93,29 @@
     <Compile Include="frm\frmBase.Designer.cs">
       <DependentUpon>frmBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="frm\frmFakeData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm\frmFakeData.Designer.cs">
+      <DependentUpon>frmFakeData.cs</DependentUpon>
+    </Compile>
     <Compile Include="frm\frmSetConfigDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frm\frmSetConfigDialog.Designer.cs">
       <DependentUpon>frmSetConfigDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm\Tables.cs">
+    <Compile Include="frm\frmTables.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm\Tables.Designer.cs">
-      <DependentUpon>Tables.cs</DependentUpon>
+    <Compile Include="frm\frmTables.Designer.cs">
+      <DependentUpon>frmTables.cs</DependentUpon>
     </Compile>
-    <Compile Include="frm\XmlCompare.cs">
+    <Compile Include="frm\frmXmlCompare.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm\XmlCompare.Designer.cs">
-      <DependentUpon>XmlCompare.cs</DependentUpon>
+    <Compile Include="frm\frmXmlCompare.Designer.cs">
+      <DependentUpon>frmXmlCompare.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -124,14 +131,17 @@
     <EmbeddedResource Include="frm\frmBase.resx">
       <DependentUpon>frmBase.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frm\frmFakeData.resx">
+      <DependentUpon>frmFakeData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frm\frmSetConfigDialog.resx">
       <DependentUpon>frmSetConfigDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm\Tables.resx">
-      <DependentUpon>Tables.cs</DependentUpon>
+    <EmbeddedResource Include="frm\frmTables.resx">
+      <DependentUpon>frmTables.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm\XmlCompare.resx">
-      <DependentUpon>XmlCompare.cs</DependentUpon>
+    <EmbeddedResource Include="frm\frmXmlCompare.resx">
+      <DependentUpon>frmXmlCompare.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

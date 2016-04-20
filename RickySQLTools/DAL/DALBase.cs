@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,8 @@ namespace RickySQLTools.DAL
         protected const string dtSpsAndFuncs = "SpsAndFuncs";
         protected const string dtInputParams = "InputParams";
         protected const string dtOutputParams = "OutputParams";
+        internal DataSet dalDataset;
+        internal string ErrMsg { get; set; }
 
         private string _connString;
         //protected Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);

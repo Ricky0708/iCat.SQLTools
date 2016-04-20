@@ -40,16 +40,22 @@ namespace RickySQLTools.Properties {
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" standalone=""yes""?>
 <Programs>
   <Progs>
-    <ProgID>Tables</ProgID>
+    <ProgID>frmTables</ProgID>
     <ProgName>Tables</ProgName>
     <ModuleName>RickySQLTools</ModuleName>
     <SEQ>2</SEQ>
   </Progs>
   <Progs>
-    <ProgID>XmlCompare</ProgID>
+    <ProgID>frmXmlCompare</ProgID>
     <ProgName>Xml Compare</ProgName>
     <ModuleName>RickySQLTools</ModuleName>
     <SEQ>3</SEQ>
+  <Progs>
+    <ProgID>frmFakeData</ProgID>
+    <ProgName>Fake Data</ProgName>
+    <ModuleName>RickySQLTools</ModuleName>
+    <SEQ>3</SEQ>
+  </Progs>
   </Progs>
 </Programs>")]
         public string Progs {

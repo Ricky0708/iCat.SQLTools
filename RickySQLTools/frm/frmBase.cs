@@ -12,6 +12,7 @@ namespace RickySQLTools
 {
     public partial class frmBase : Form
     {
+        public bool closeFlag = false;
         public frmBase()
         {
             InitializeComponent();
