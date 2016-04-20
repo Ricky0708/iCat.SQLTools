@@ -9,22 +9,16 @@
       <Value Profile="(Default)">&lt;?xml version="1.0" standalone="yes"?&gt;
 &lt;Programs&gt;
   &lt;Progs&gt;
-    &lt;ProgID&gt;frmTables&lt;/ProgID&gt;
+    &lt;ProgID&gt;Tables&lt;/ProgID&gt;
     &lt;ProgName&gt;Tables&lt;/ProgName&gt;
     &lt;ModuleName&gt;RickySQLTools&lt;/ModuleName&gt;
     &lt;SEQ&gt;2&lt;/SEQ&gt;
   &lt;/Progs&gt;
   &lt;Progs&gt;
-    &lt;ProgID&gt;frmXmlCompare&lt;/ProgID&gt;
+    &lt;ProgID&gt;XmlCompare&lt;/ProgID&gt;
     &lt;ProgName&gt;Xml Compare&lt;/ProgName&gt;
     &lt;ModuleName&gt;RickySQLTools&lt;/ModuleName&gt;
     &lt;SEQ&gt;3&lt;/SEQ&gt;
-  &lt;Progs&gt;
-    &lt;ProgID&gt;frmFakeData&lt;/ProgID&gt;
-    &lt;ProgName&gt;Fake Data&lt;/ProgName&gt;
-    &lt;ModuleName&gt;RickySQLTools&lt;/ModuleName&gt;
-    &lt;SEQ&gt;3&lt;/SEQ&gt;
-  &lt;/Progs&gt;
   &lt;/Progs&gt;
 &lt;/Programs&gt;</Value>
     </Setting>

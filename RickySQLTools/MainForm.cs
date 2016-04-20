@@ -65,10 +65,10 @@ namespace RickySQLTools
             }
             if (!isChildExist)
             {
-                frmBase item;
+                Form item;
                 Assembly asm = Assembly.Load(assName);
                 TabPage childTab = new TabPage();
-                item = asm.CreateInstance(assName + "." + objectName,false) as frmBase;
+                item = asm.CreateInstance(assName + "." + objectName,false) as Form;
                 if (objectName.EndsWith("Dlg"))
                 {
                     item.ShowDialog(TabControl1);
@@ -85,10 +85,6 @@ namespace RickySQLTools
                 TabControl1.SelectTab(childTab);
                 item.Show();
                 item.FormClosing += new FormClosingEventHandler(ChildFormClose);
-                if (item.closeFlag)
-                {
-                    item.Close();
-                }
             }
         }
 

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace RickySQLTools
 {
-    public partial class frmTables : frmBase
+    public partial class Tables : frmBase
     {
         DAL.DALTables objDAL = new DAL.DALTables();
         DAL.DALUtility objUti = new DAL.DALUtility();
@@ -19,7 +19,7 @@ namespace RickySQLTools
 
         DataSet ds;
         DataView dvFks;
-        public frmTables()
+        public Tables()
         {
             InitializeComponent();
             dgvColumns.AutoGenerateColumns = false;
@@ -85,19 +85,6 @@ namespace RickySQLTools
             };
             dvFks.RowFilter = "ParentTable = '" + ((DataRowView)bmTables.Current)["TableName"].ToString() + "' OR ReferencedTable = '" + ((DataRowView)bmTables.Current)["TableName"].ToString() + "'";
         }
-
-        private void Filter(object sender, EventArgs e)
-        {
-            if (bmTables != null)
-            {
-                ((DataView)bmTables.List).RowFilter = "TableName LIKE '%" + txtTableFilter.Text + "%'";
-            }
-            if (bmSps != null)
-            {
-                ((DataView)bmSps.List).RowFilter = "SPECIFIC_NAME LIKE '%" + txtSpFilter.Text + "%'";
-            }
-
-        }
         #endregion
 
         #region Event Button SQL
@@ -105,7 +92,7 @@ namespace RickySQLTools
         {
             if (objDAL.GetDatasetFromSQL())
             {
-                ds = objDAL.dalDataset;
+                ds = objDAL.ds;
                 BindFrm();
                 tabControl1.SelectedTab = tabTablesAndCols;
                 this.Parent.Text = "Tables-『SQL』";
@@ -129,35 +116,6 @@ namespace RickySQLTools
             }
         }
 
-        private void btnConnString_Click(object sender, EventArgs e)
-        {
-            frmSetConfigDialog frm = new frmSetConfigDialog();
-            frm.ShowDialog();
-        }
-
-        #endregion
-
-        #region Event Button XML
-        private void btnLoadDataFromXML_Click(object sender, EventArgs e)
-        {
-
-            string fileName = objUti.GetFileName();
-            if (fileName != "")
-            {
-                if (objDAL.GetDatasetFromXml(fileName))
-                {
-                    ds = objDAL.dalDataset;
-                    tabControl1.SelectedTab = tabTablesAndCols;
-                    BindFrm();
-                    this.Parent.Text = "Tables-『" + fileName.Substring(fileName.LastIndexOf("\\") + 1) + "』";
-                }
-                else
-                {
-                    MessageBox.Show(objDAL.ErrMsg);
-                }
-            }
-        }
-
         private void btnSaveToXml_Click(object sender, EventArgs e)
         {
             string fileName = objUti.SetFileName();
@@ -176,7 +134,31 @@ namespace RickySQLTools
 
         #endregion
 
-        #region Event Button Generator
+        #region Event Button XML
+        private void btnLoadDataFromXML_Click(object sender, EventArgs e)
+        {
+
+            string fileName = objUti.GetFileName();
+            if (fileName != "")
+            {
+                if (objDAL.GetDatasetFromXml(fileName))
+                {
+                    ds = objDAL.ds;
+                    tabControl1.SelectedTab = tabTablesAndCols;
+                    BindFrm();
+                    this.Parent.Text = "Tables-『" + fileName.Substring(fileName.LastIndexOf("\\") + 1) + "』";
+                }
+                else
+                {
+                    MessageBox.Show(objDAL.ErrMsg);
+                }
+            }
+        }
+
+
+        #endregion
+
+        #region event Generator
         private void btnExportExcel_Click(object sender, EventArgs e)
         {
             if (ds != null)
@@ -185,7 +167,29 @@ namespace RickySQLTools
                 objNpoi.WriteToExcel();
                 MessageBox.Show("Success Export To Excel File !!");
             }
+
         }
+
         #endregion
+
+
+        private void Filter(object sender, EventArgs e)
+        {
+            if (bmTables != null)
+            {
+                ((DataView)bmTables.List).RowFilter = "TableName LIKE '%" + txtTableFilter.Text + "%'";
+            }
+            if (bmSps != null)
+            {
+                ((DataView)bmSps.List).RowFilter = "SPECIFIC_NAME LIKE '%" + txtSpFilter.Text + "%'";
+            }
+
+        }
+
+        private void btnConnString_Click(object sender, EventArgs e)
+        {
+            frmSetConfigDialog frm = new frmSetConfigDialog();
+            frm.ShowDialog();
+        }
     }
 }

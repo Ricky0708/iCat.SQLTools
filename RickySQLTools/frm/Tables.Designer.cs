@@ -1,6 +1,6 @@
 ﻿namespace RickySQLTools
 {
-    partial class frmTables
+    partial class Tables
     {
         /// <summary>
         /// Required designer variable.
@@ -844,13 +844,13 @@
             this.dError_Message.Name = "dError_Message";
             this.dError_Message.ReadOnly = true;
             // 
-            // frmTables
+            // Tables
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1195, 737);
             this.Controls.Add(this.tabControl1);
-            this.Name = "frmTables";
+            this.Name = "Tables";
             this.Text = "Tables";
             this.Controls.SetChildIndex(this.tabControl1, 0);
             this.groupBox1.ResumeLayout(false);
