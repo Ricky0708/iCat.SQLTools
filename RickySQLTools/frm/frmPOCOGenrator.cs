@@ -36,7 +36,7 @@ namespace RickySQLTools
 
             if (objDAL.CreateDataSet())
             {
-                txtClassName.Focus();
+                dgvTables.Focus();
                 ds = objDAL.dalDataset;
                 dgvTables.DataSource = ds;
                 dgvTables.DataMember = "Tables";
@@ -45,6 +45,7 @@ namespace RickySQLTools
             }
 
         }
+
         private void btn_Click(object sender, EventArgs e)
         {
             switch (((Button)sender).Name)
@@ -92,7 +93,7 @@ namespace RickySQLTools
             {
                 string tableName = ((DataRowView)bmTables.Current)["TableName"].ToString();
                 txtClassName.Text = tableName;
-                txtScript.Text = "SELECT * FROM " + tableName;
+                txtScript.Text = "SELECT TOP 1 * FROM " + tableName;
             }
         }
     }

@@ -63,11 +63,11 @@ namespace RickySQLTools.DAL
                 {
                     attr = GetAttrib(item) + "\r\n";
                 }
-                body += attr + string.Format("        public {0} {1} {{ get; set; }}\r\n", item.DataType.Name, item.ColumnName);
+                body += attr + string.Format("        public {0} {1} {{ get; set; }}\r\n", RenameType(item.DataType.Name), item.ColumnName);
             }
-            body = body.Substring(0, body.Length - 4);
+            body = body.Substring(0, body.Length - 2);
             result = defUsing + "\r\n" + defNamespace + "{\r\n    public class " + tableName + "\r\n    {\r\n" + body + "\r\n    }    \r\n}";
-
+            
             return result;
         }
 
@@ -90,6 +90,34 @@ namespace RickySQLTools.DAL
                 {
                     result += "\r\n        [required]";
                 }
+            }
+            return result;
+        }
+
+        private string RenameType(string intName)
+        {
+            string result = "";
+            switch (intName.ToUpper())
+            {
+                case "BOOLEAN":
+                    result = "bool";
+                    break;
+                case "STRING":
+                    result = "string";
+                    break;
+                case "DATETIME":
+                    result = "DateTime";
+                    break;
+                case "INT32":
+                    result = "int";
+                    break;
+                case "INT64":
+                    result = "long";
+                    break;
+                default:
+                    //the others not implement yet !
+                    result = intName;
+                    break;
             }
             return result;
         }
