@@ -28,22 +28,11 @@ namespace RickySQLTools
             if (objDAL.CreateDataSet())
             {
                 ds = objDAL.dalDataset;
-                ds.Tables["Tables"].Columns.Add(new DataColumn("IsMakeFakeData", typeof(bool)));
 
                 //dvTables = ds.Tables["Tables"].DefaultView;
                 //dvColumns = ds.Tables["Columns"].DefaultView;
                 //dvIndexes = ds.Tables["Indexes"].DefaultView;
                 //dvFks = ds.Tables["Fks"].DefaultView;
-
-                foreach (DataRow dr in ds.Tables["Tables"].Rows)
-                {
-                    dr["IsMakeFakeData"] = false;
-                    if (dr["TableType"].ToString() == "VIEW")
-                    {
-                        dr.Delete();
-                    }
-                }
-                ds.AcceptChanges();
                 dgvTables.DataSource = ds;
                 dgvTables.DataMember = "Tables";
             }
@@ -57,6 +46,14 @@ namespace RickySQLTools
         private void btnInsert_Click(object sender, EventArgs e)
         {
             objDAL.MakeFakeData(ds);
+        }
+
+        protected override void AfterSetConfig(object sender, object e)
+        {
+            if (objDAL._strConn != Utilitys.ShareUtility.GetSettings(SettingEnum.GetConnectionString).ToString())
+            {
+                frmFakeData_Load(null, null);
+            }
         }
     }
 }

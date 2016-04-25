@@ -1,4 +1,5 @@
 ﻿using RickySQLTools.Properties;
+using RickySQLTools.Utilitys;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RickySQLTools.DAL
 {
-    internal class DALBase
+    public class DALBase : ErrorClasss
     {
         protected const string dtTables = "Tables";
         protected const string dtColumns = "Columns";
@@ -18,10 +19,13 @@ namespace RickySQLTools.DAL
         protected const string dtSpsAndFuncs = "SpsAndFuncs";
         protected const string dtInputParams = "InputParams";
         protected const string dtOutputParams = "OutputParams";
-        internal DataSet dalDataset;
-        internal string ErrMsg { get; set; }
+        public DataSet dalDataset;
 
         private string _connString;
+
+        //for remember each form connection
+        public string _strConn = "";
+
         //protected Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
         public DALBase()
@@ -29,9 +33,9 @@ namespace RickySQLTools.DAL
         }
         protected string connString
         {
-            get { return Settings.Default.ConnectionString; }
+            get { return ShareUtility.GetSettings(SettingEnum.GetConnectionString).ToString(); }
             set { _connString = value; }
         }
-        
+
     }
 }

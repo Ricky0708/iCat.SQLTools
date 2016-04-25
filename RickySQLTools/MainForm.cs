@@ -56,7 +56,7 @@ namespace RickySQLTools
             {
                 if (this.TabControl1.TabPages[n].Name == objectName)
                 {
-                    if (objectName!="Tables")
+                    if (objectName!="frmTables")
                     {
                         this.TabControl1.SelectTab(n);
                         isChildExist = true;

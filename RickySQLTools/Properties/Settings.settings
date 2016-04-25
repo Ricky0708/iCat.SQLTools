@@ -2,8 +2,8 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="RickySQLTools.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="ConnectionString" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Server=192.168.1.254\SQLExpress; DataBase=TSSO; uid=sa;pwd=P@ssw0rd</Value>
+    <Setting Name="DefConnectionString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Server=192.168.137.1\SQLExpress; DataBase=TSSO; uid=sa;pwd=P@ssw0rd</Value>
     </Setting>
     <Setting Name="Progs" Type="System.String" Scope="User">
       <Value Profile="(Default)">&lt;?xml version="1.0" standalone="yes"?&gt;
@@ -19,14 +19,34 @@
     &lt;ProgName&gt;Xml Compare&lt;/ProgName&gt;
     &lt;ModuleName&gt;RickySQLTools&lt;/ModuleName&gt;
     &lt;SEQ&gt;3&lt;/SEQ&gt;
+  &lt;/Progs&gt;
   &lt;Progs&gt;
     &lt;ProgID&gt;frmFakeData&lt;/ProgID&gt;
     &lt;ProgName&gt;Fake Data&lt;/ProgName&gt;
     &lt;ModuleName&gt;RickySQLTools&lt;/ModuleName&gt;
-    &lt;SEQ&gt;3&lt;/SEQ&gt;
+    &lt;SEQ&gt;4&lt;/SEQ&gt;
   &lt;/Progs&gt;
+  &lt;Progs&gt;
+    &lt;ProgID&gt;frmPOCOGenrator&lt;/ProgID&gt;
+    &lt;ProgName&gt;POCO Gen&lt;/ProgName&gt;
+    &lt;ModuleName&gt;RickySQLTools&lt;/ModuleName&gt;
+    &lt;SEQ&gt;5&lt;/SEQ&gt;
   &lt;/Progs&gt;
 &lt;/Programs&gt;</Value>
+    </Setting>
+    <Setting Name="DefNamespace" Type="System.String" Scope="User">
+      <Value Profile="(Default)">RickySQLTools.Models</Value>
+    </Setting>
+    <Setting Name="DefUsing" Type="System.String" Scope="User">
+      <Value Profile="(Default)">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;</Value>
+    </Setting>
+    <Setting Name="DefIncludeAttr" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

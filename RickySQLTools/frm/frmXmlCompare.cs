@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RickySQLTools.Utilitys;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,7 +15,7 @@ namespace RickySQLTools
 {
     public partial class frmXmlCompare : frmBase
     {
-        private DAL.DALUtility objUti = new DAL.DALUtility();
+        private ShareUtility objUti = new ShareUtility();
         DAL.DALXmlCompare objDal = new DAL.DALXmlCompare();
 
         private DataSet dsFirst;

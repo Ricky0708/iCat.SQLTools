@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RickySQLTools.Utilitys;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -14,16 +15,16 @@ namespace RickySQLTools.DAL
 	{
 		#region const  var & propery
 
-		private DALUtility objUti = new DALUtility();
-
-		private string _strConn = "";
+		private ShareUtility objUti = new ShareUtility();
+		private DAO dao;
 
 		#endregion
 
 		#region method
-		internal bool GetDatasetFromSQL()
+		public bool GetDatasetFromSQL()
 		{
 			_strConn = base.connString;
+			dao = new DAO(_strConn);
 			dalDataset = new DataSet();
 			try
 			{
@@ -42,11 +43,12 @@ namespace RickySQLTools.DAL
 					da = new SqlDataAdapter(GeneratScriptGetInputParam(), conn);
 					da.Fill(dalDataset, dtInputParams);
 
-					string script = "";
+					string script = GeneratScriptGetOutPutParam("") + " UNION ALL ";
 					foreach (DataRow dr in dalDataset.Tables[dtSpsAndFuncs].Rows)
 					{
 						script += GeneratScriptGetOutPutParam(dr["SPECIFIC_NAME"].ToString()) + " UNION ALL ";
 					}
+
 					script = script.Substring(0, script.Length - 11);
 					da = new SqlDataAdapter(script, conn);
 					da.Fill(dalDataset, dtOutputParams);
@@ -70,13 +72,14 @@ namespace RickySQLTools.DAL
 			}
 			catch (Exception ex)
 			{
+				//resultCode = ResultCode.FromCatch;
 				ErrMsg = ex.Message;
 				return false;
 			}
 
 		}
 
-		internal bool GetDatasetFromXml(string fileName)
+		public bool GetDatasetFromXml(string fileName)
 		{
 			dalDataset = new DataSet();
 
@@ -89,12 +92,13 @@ namespace RickySQLTools.DAL
 			}
 			else
 			{
-				ErrMsg = "Can't find xml in \r\n " + fileName;
+				resultCode = ResultCode.XmlFileNotFound;
+				//ErrMsg = "Can't find xml in \r\n " + fileName;
 				return false;
 			}
 		}
 
-		internal bool SaveToXml(ref DataSet ds, string fileName)
+		public bool SaveToXml(ref DataSet ds, string fileName)
 		{
 			//DirectoryInfo di = new DirectoryInfo(fillePath);
 			//if (!di.Exists)
@@ -106,135 +110,132 @@ namespace RickySQLTools.DAL
 			return true;
 		}
 
-		internal bool UpdateDescription(ref DataSet ds)
+		public bool UpdateDescription(ref DataSet ds)
 		{
-			DataView dv = null;
-			StringBuilder sbSQL = new StringBuilder();
-			if (ds.Tables[dtTables].GetChanges(DataRowState.Modified) != null)
-			{
-				dv = ds.Tables[dtTables].GetChanges(DataRowState.Modified).DefaultView;
-				if (dv != null && dv.Count > 0)
-				{
-					dv.RowFilter = "TableType = '" + "VIEW" + "'";
-					sbSQL = GeneratScriptUpdate(sbSQL, dv, "VIEW");
-					dv.RowFilter = "TableType = '" + "BASE TABLE" + "'";
-					sbSQL = GeneratScriptUpdate(sbSQL, dv, "TABLE");
-				}
-			}
-			if (ds.Tables[dtColumns].GetChanges(DataRowState.Modified) != null)
-			{
-				dv = ds.Tables[dtColumns].GetChanges(DataRowState.Modified).DefaultView;
-				if (dv != null && dv.Count > 0)
-				{
-					sbSQL = GeneratScriptUpdate(sbSQL, dv, "COLUMN");
-				}
-			}
+			bool result = false;
 
-			if (sbSQL.Length > 0)
+			if (dao != null)
 			{
-				SqlTransaction tran;
-				using (SqlConnection conn = new SqlConnection(_strConn))
+
+				DataView dv = null;
+				StringBuilder sbSQL = new StringBuilder();
+				if (ds.Tables[dtTables].GetChanges(DataRowState.Modified) != null)
 				{
-					conn.Open();
-					tran = conn.BeginTransaction();
-					try
+					dv = ds.Tables[dtTables].GetChanges(DataRowState.Modified).DefaultView;
+					if (dv != null && dv.Count > 0)
 					{
-						SqlCommand cmd = new SqlCommand(sbSQL.ToString(), conn);
-						cmd.Transaction = tran;
+						dv.RowFilter = "TableType = '" + "VIEW" + "'";
+						sbSQL.Append(GeneratScriptUpdate(dv, "VIEW"));
+						dv.RowFilter = "TableType = '" + "BASE TABLE" + "'";
+						sbSQL.Append(GeneratScriptUpdate(dv, "TABLE"));
+					}
+				}
+				if (ds.Tables[dtColumns].GetChanges(DataRowState.Modified) != null)
+				{
+					dv = ds.Tables[dtColumns].GetChanges(DataRowState.Modified).DefaultView;
+					if (dv != null && dv.Count > 0)
+					{
+						sbSQL.Append(GeneratScriptUpdate(dv, "COLUMN"));
+					}
+				}
 
-						cmd.ExecuteNonQuery();
-						tran.Commit();
+				if (sbSQL.Length > 0)
+				{
+					if (dao.ExecSQLTransation(sbSQL))
+					{
 						ds.AcceptChanges();
-						return true;
+						result = true;
 					}
-					catch (Exception ex)
+					else
 					{
-						ErrMsg = ex.Message;
-						tran.Rollback();
-						return false;
+						ErrMsg = dao.ErrMsg;
+						result = false;
 					}
+				}
+				else
+				{
+					resultCode = ResultCode.NothinToUpdate;
+					//ErrMsg = "Nothing could be update !";
+					result = false;
 				}
 			}
 			else
 			{
-				ErrMsg = "Nothing could be update !";
-				return false;
+				resultCode = ResultCode.RefrenceNullDAO;
+				//ErrMsg = "Data access object is empty, please load data from SQL !";
+				result = false;
 			}
+			return result;
 
 		}
 		#endregion
 
 		#region script generator
 
-		private StringBuilder GeneratScriptUpdate(StringBuilder sbSQL, DataView dv, string target)
+		private string GeneratScriptUpdate(DataView dv, string target)
 		{
-			using (SqlConnection conn = new SqlConnection(_strConn))
+
+			SqlCommand cmd = new SqlCommand();
+			string script = "";
+			switch (target)
 			{
-				SqlCommand cmd = new SqlCommand();
-				SqlDataReader sdr;
-				switch (target)
-				{
-					case "VIEW":
-						cmd = new SqlCommand(@"SELECT * 
+				case "VIEW":
+					cmd = new SqlCommand(@"SELECT * 
 												  FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'VIEW',@TableName, default, default)
 												  WHERE
 													name='MS_Description' AND 
 													objtype = 'VIEW' AND
-													objname = @objName", conn);
-						break;
-					case "TABLE":
-						cmd = new SqlCommand(@"SELECT * 
+													objname = @objName");
+					break;
+				case "TABLE":
+					cmd = new SqlCommand(@"SELECT * 
 												  FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'TABLE',@TableName, default, default)
 												  WHERE
 													name='MS_Description' AND 
 													objtype = 'TABLE' AND
-													objname = @objName", conn);
-						break;
-					case "COLUMN":
-						cmd = new SqlCommand(@"SELECT * 
+													objname = @objName");
+					break;
+				case "COLUMN":
+					cmd = new SqlCommand(@"SELECT * 
 												  FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'TABLE',@TableName, 'COLUMN', default)
 												  WHERE
 													name='MS_Description' AND 
 													objtype = 'COLUMN' AND
-													objname = @objName", conn);
+													objname = @objName");
+					break;
+				default:
+					break;
+			}
+
+
+			for (int i = 0; i < dv.Count; i++)
+			{
+				cmd.Parameters.Clear();
+				cmd.Parameters.AddWithValue("@TableName", dv[i]["TableName"].ToString());
+				string execFunName = "";
+				string description = "";
+				string tableName = "";
+
+				cmd.Parameters.AddWithValue("@objName", target == "COLUMN" ? dv[i]["ColName"].ToString() : dv[i]["TableName"].ToString());
+				execFunName = dao.ReadSQL(cmd) != "" ? "EXECUTE sp_updateextendedproperty N'MS_Description', N'" : "EXECUTE sp_addextendedproperty N'MS_Description', N'";
+				description = target == "COLUMN" ? dv[i]["ColDescription"].ToString().Replace("'", "") : dv[i]["TableDescription"].ToString().Replace("'", "");
+				tableName = dv[i]["TableName"].ToString().Replace("'", "");
+
+				switch (target)
+				{
+					case "VIEW":
+					case "TABLE":
+						script += execFunName + description + "', N'SCHEMA', N'dbo', N'" + target + "', N'" + tableName + "', NULL, NULL ;";
+						break;
+					case "COLUMN":
+						script += execFunName + description + "', N'SCHEMA', N'dbo', N'TABLE', N'" + tableName + "', N'COLUMN', N'" + dv[i]["ColName"].ToString().Replace("'", "") + "' ;";
 						break;
 					default:
 						break;
 				}
-
-
-				for (int i = 0; i < dv.Count; i++)
-				{
-					cmd.Parameters.Clear();
-					cmd.Parameters.AddWithValue("@TableName", dv[i]["TableName"].ToString());
-					string execFunName = "";
-					string description = "";
-					string tableName = "";
-
-					cmd.Parameters.AddWithValue("@objName", target == "COLUMN" ? dv[i]["ColName"].ToString() : dv[i]["TableName"].ToString());
-					conn.Open();
-					sdr = cmd.ExecuteReader();
-					execFunName = sdr.Read() ? "EXECUTE sp_updateextendedproperty N'MS_Description', N'" : "EXECUTE sp_addextendedproperty N'MS_Description', N'";
-					description = target == "COLUMN" ? dv[i]["ColDescription"].ToString().Replace("'", "") : dv[i]["TableDescription"].ToString().Replace("'", "");
-					tableName = dv[i]["TableName"].ToString().Replace("'", "");
-
-					switch (target)
-					{
-						case "VIEW":
-						case "TABLE":
-							sbSQL.Append(execFunName + description + "', N'SCHEMA', N'dbo', N'" + target + "', N'" + tableName + "', NULL, NULL ;");
-							break;
-						case "COLUMN":
-							sbSQL.Append(execFunName + description + "', N'SCHEMA', N'dbo', N'TABLE', N'" + tableName + "', N'COLUMN', N'" + dv[i]["ColName"].ToString().Replace("'", "") + "' ;");
-							break;
-						default:
-							break;
-					}
-					conn.Close();
-				}
-
 			}
-			return sbSQL;
+
+			return script;
 		}
 
 		private string GeneratScriptGetTable()

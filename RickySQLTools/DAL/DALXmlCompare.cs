@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace RickySQLTools.DAL
 {
-    internal class DALXmlCompare : DALBase
+    public class DALXmlCompare : DALBase
     {
-        internal event CompareCallBackHandler CompareCallBack;
-        internal delegate void CompareCallBackHandler(string workState, int progress);
-        internal event CompareFinishCallBackHandler CompareFinishCallBack;
-        internal delegate void CompareFinishCallBackHandler(DataSet ds);
+        public event CompareCallBackHandler CompareCallBack;
+        public delegate void CompareCallBackHandler(string workState, int progress);
+        public event CompareFinishCallBackHandler CompareFinishCallBack;
+        public delegate void CompareFinishCallBackHandler(DataSet ds);
 
-        internal void Compare(DataSet dsFirst, DataSet dsSecond)
+        public void Compare(DataSet dsFirst, DataSet dsSecond)
         {
             CompareCallBack("Comparing Tables..", 0);
             AddDirectionColumn(dsFirst.Tables[dtTables], "Xml_A");
@@ -47,7 +47,7 @@ namespace RickySQLTools.DAL
         }
         private DataTable UnionAndCompare(DataTable dtA, DataTable dtB)
         {
-            var comparer = new CustomComparer();
+            var comparer = new CompareUtility.XmlUnionComparer();
             DataTable dtResult =  dtA.AsEnumerable()
                   .Union(dtB.AsEnumerable(), comparer).OrderBy(p => p[0]).CopyToDataTable<DataRow>();
             return dtResult;
@@ -66,41 +66,5 @@ namespace RickySQLTools.DAL
         }
     }
 
-    class CustomComparer : IEqualityComparer<DataRow>
-    {
-
-        public bool Equals(DataRow x, DataRow y)
-        {
-            x["Xml_A"] = true;
-            x["Xml_B"] = true;
-            if (x.Table.Columns.Contains("ColType"))
-            {
-                for (int i = 0; i < x.ItemArray.Length - 3; i++)
-                {
-                    if (!x[i].Equals(y[i]))
-                    {
-                        x["Type_Equal"] = "X";
-                    }
-                }
-            }
-            else
-            {
-            }
-
-            return true;
-        }
-
-        public int GetHashCode(DataRow obj)
-        {
-            if (obj.Table.Columns.Contains("ColType"))
-            {
-                return ((string)obj[0]).GetHashCode() + ((string)obj[2]).GetHashCode();
-            }
-            else
-            {
-                return ((string)obj[0]).GetHashCode();
-            }
-        }
-
-    }
+ 
 }

@@ -25,13 +25,13 @@ namespace RickySQLTools.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Server=192.168.1.254\\SQLExpress; DataBase=TSSO; uid=sa;pwd=P@ssw0rd")]
-        public string ConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("Server=192.168.137.1\\SQLExpress; DataBase=TSSO; uid=sa;pwd=P@ssw0rd")]
+        public string DefConnectionString {
             get {
-                return ((string)(this["ConnectionString"]));
+                return ((string)(this["DefConnectionString"]));
             }
             set {
-                this["ConnectionString"] = value;
+                this["DefConnectionString"] = value;
             }
         }
         
@@ -50,12 +50,18 @@ namespace RickySQLTools.Properties {
     <ProgName>Xml Compare</ProgName>
     <ModuleName>RickySQLTools</ModuleName>
     <SEQ>3</SEQ>
+  </Progs>
   <Progs>
     <ProgID>frmFakeData</ProgID>
     <ProgName>Fake Data</ProgName>
     <ModuleName>RickySQLTools</ModuleName>
-    <SEQ>3</SEQ>
+    <SEQ>4</SEQ>
   </Progs>
+  <Progs>
+    <ProgID>frmPOCOGenrator</ProgID>
+    <ProgName>POCO Gen</ProgName>
+    <ModuleName>RickySQLTools</ModuleName>
+    <SEQ>5</SEQ>
   </Progs>
 </Programs>")]
         public string Progs {
@@ -64,6 +70,44 @@ namespace RickySQLTools.Properties {
             }
             set {
                 this["Progs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("RickySQLTools.Models")]
+        public string DefNamespace {
+            get {
+                return ((string)(this["DefNamespace"]));
+            }
+            set {
+                this["DefNamespace"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("using System;\r\nusing System.Collections.Generic;\r\nusing System.Linq;\r\nusing Syste" +
+            "m.Text;\r\nusing System.Threading.Tasks;\r\nusing System.ComponentModel.DataAnnotati" +
+            "ons;")]
+        public string DefUsing {
+            get {
+                return ((string)(this["DefUsing"]));
+            }
+            set {
+                this["DefUsing"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DefIncludeAttr {
+            get {
+                return ((bool)(this["DefIncludeAttr"]));
+            }
+            set {
+                this["DefIncludeAttr"] = value;
             }
         }
     }

@@ -80,12 +80,23 @@
     <Compile Include="CustomControll\PlaceholderTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DAL\DALPOCOGenerator.cs" />
+    <Compile Include="DAL\ErrorClass.cs" />
+    <Compile Include="frm\frmPOCOGenrator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm\frmPOCOGenrator.Designer.cs">
+      <DependentUpon>frmPOCOGenrator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilitys\CompareUtility.cs" />
     <Compile Include="DAL\DALBase.cs" />
     <Compile Include="DAL\DALFakeData.cs" />
-    <Compile Include="DAL\DALNpoiOperator.cs" />
+    <Compile Include="Utilitys\DAO.cs" />
+    <Compile Include="Utilitys\Enums.cs" />
+    <Compile Include="Utilitys\NpoiOperator.cs" />
     <Compile Include="DAL\DALSetParameter.cs" />
     <Compile Include="DAL\DALTables.cs" />
-    <Compile Include="DAL\DALUtility.cs" />
+    <Compile Include="Utilitys\ShareUtility.cs" />
     <Compile Include="DAL\DALXmlCompare.cs" />
     <Compile Include="frm\frmBase.cs">
       <SubType>Form</SubType>
@@ -123,6 +134,9 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Column.cs" />
+    <Compile Include="Models\DBFKs.cs" />
+    <Compile Include="Models\DBColumns.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CustomControll\PlaceholderTextBox.resx">
@@ -133,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frm\frmFakeData.resx">
       <DependentUpon>frmFakeData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm\frmPOCOGenrator.resx">
+      <DependentUpon>frmPOCOGenrator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm\frmSetConfigDialog.resx">
       <DependentUpon>frmSetConfigDialog.cs</DependentUpon>

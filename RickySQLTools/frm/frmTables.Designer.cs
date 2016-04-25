@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgvTables = new System.Windows.Forms.DataGridView();
             this.dTableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,7 +44,6 @@
             this.btnLoadDataFromXML = new System.Windows.Forms.Button();
             this.btnSaveToXml = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.btnConnString = new System.Windows.Forms.Button();
             this.btnLoadDataFromSQL = new System.Windows.Forms.Button();
             this.btnUpdateDescription = new System.Windows.Forms.Button();
             this.tabTablesAndCols = new System.Windows.Forms.TabPage();
@@ -174,8 +173,8 @@
             // dTableDescription
             // 
             this.dTableDescription.DataPropertyName = "TableDescription";
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dTableDescription.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dTableDescription.DefaultCellStyle = dataGridViewCellStyle3;
             this.dTableDescription.HeaderText = "TableDescription";
             this.dTableDescription.MinimumWidth = 100;
             this.dTableDescription.Name = "dTableDescription";
@@ -277,7 +276,6 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.btnConnString);
             this.groupBox4.Controls.Add(this.btnLoadDataFromSQL);
             this.groupBox4.Controls.Add(this.btnUpdateDescription);
             this.groupBox4.Location = new System.Drawing.Point(41, 44);
@@ -286,16 +284,6 @@
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "SQL Server";
-            // 
-            // btnConnString
-            // 
-            this.btnConnString.Location = new System.Drawing.Point(6, 229);
-            this.btnConnString.Name = "btnConnString";
-            this.btnConnString.Size = new System.Drawing.Size(172, 40);
-            this.btnConnString.TabIndex = 6;
-            this.btnConnString.Text = "Set Connection";
-            this.btnConnString.UseVisualStyleBackColor = true;
-            this.btnConnString.Click += new System.EventHandler(this.btnConnString_Click);
             // 
             // btnLoadDataFromSQL
             // 
@@ -454,8 +442,8 @@
             // 
             this.dColDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dColDescription.DataPropertyName = "ColDescription";
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dColDescription.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dColDescription.DefaultCellStyle = dataGridViewCellStyle4;
             this.dColDescription.HeaderText = "ColDescription";
             this.dColDescription.Name = "dColDescription";
             this.dColDescription.Width = 150;
@@ -961,6 +949,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dIxColName;
         private CustomControll.PlaceholderTextBox txtTableFilter;
         private CustomControll.PlaceholderTextBox txtSpFilter;
-        private System.Windows.Forms.Button btnConnString;
     }
 }

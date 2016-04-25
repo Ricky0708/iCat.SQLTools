@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RickySQLTools.Utilitys;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,10 +13,17 @@ namespace RickySQLTools
 {
     public partial class frmTables : frmBase
     {
+        private enum DataFrom
+        {
+            SQL,
+            Xml
+        }
+
         DAL.DALTables objDAL = new DAL.DALTables();
-        DAL.DALUtility objUti = new DAL.DALUtility();
+        ShareUtility objUti = new ShareUtility();
         CurrencyManager bmTables;
         CurrencyManager bmSps;
+        DataFrom flag;
 
         DataSet ds;
         DataView dvFks;
@@ -109,6 +117,7 @@ namespace RickySQLTools
                 BindFrm();
                 tabControl1.SelectedTab = tabTablesAndCols;
                 this.Parent.Text = "Tables-『SQL』";
+                flag = DataFrom.SQL;
             }
             else
             {
@@ -118,22 +127,31 @@ namespace RickySQLTools
 
         private void Update_Description_Click(object sender, EventArgs e)
         {
-
-            if (!objDAL.UpdateDescription(ref ds))
+            if (flag == DataFrom.Xml)
             {
-                MessageBox.Show(objDAL.ErrMsg);
+                MessageBox.Show("Can not update sql from xml data !");
+                return;
+            }
+            if (ds != null)
+            {
+                if (!objDAL.UpdateDescription(ref ds))
+                {
+                    MessageBox.Show(objDAL.ErrMsg);
+                }
+                else
+                {
+                    MessageBox.Show("Success！");
+                }
             }
             else
             {
-                MessageBox.Show("Success！");
+                MessageBox.Show("Please load data from SQL and modify it, befor you update to SQL !");
             }
+
+
         }
 
-        private void btnConnString_Click(object sender, EventArgs e)
-        {
-            frmSetConfigDialog frm = new frmSetConfigDialog();
-            frm.ShowDialog();
-        }
+ 
 
         #endregion
 
@@ -150,6 +168,7 @@ namespace RickySQLTools
                     tabControl1.SelectedTab = tabTablesAndCols;
                     BindFrm();
                     this.Parent.Text = "Tables-『" + fileName.Substring(fileName.LastIndexOf("\\") + 1) + "』";
+                    flag = DataFrom.Xml;
                 }
                 else
                 {
@@ -160,18 +179,27 @@ namespace RickySQLTools
 
         private void btnSaveToXml_Click(object sender, EventArgs e)
         {
-            string fileName = objUti.SetFileName();
-            if (fileName != "")
+            if (ds != null)
             {
-                if (objDAL.SaveToXml(ref ds, fileName))
+                string dbName = objUti.GetDbName(objDAL._strConn);
+                string fileName = objUti.SetFileName(dbName, "Xml");
+                if (fileName != "")
                 {
-                    MessageBox.Show("Success save to  xml file!!");
-                }
-                else
-                {
-                    MessageBox.Show("fail save to  xml file!!");
+                    if (objDAL.SaveToXml(ref ds, fileName))
+                    {
+                        MessageBox.Show("Success save to  xml file!!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("fail save to  xml file!!");
+                    }
                 }
             }
+            else
+            {
+                MessageBox.Show("No data could be save !!");
+            }
+
         }
 
         #endregion
@@ -181,11 +209,21 @@ namespace RickySQLTools
         {
             if (ds != null)
             {
-                DAL.DALNpoiOperator objNpoi = new DAL.DALNpoiOperator(ds);
-                objNpoi.WriteToExcel();
-                MessageBox.Show("Success Export To Excel File !!");
+                DAL.NpoiOperator objNpoi = new DAL.NpoiOperator(ds);
+                string fileName = objUti.SetFileName(objUti.GetDbName(objDAL._strConn) + "_Schema", "xlsx");
+                if (fileName != "")
+                {
+                    objNpoi.WriteToExcel(fileName);
+                    MessageBox.Show("Success Export To Excel File !!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("No data could be export !!");
             }
         }
         #endregion
+
+   
     }
 }

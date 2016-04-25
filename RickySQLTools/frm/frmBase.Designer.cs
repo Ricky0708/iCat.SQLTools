@@ -29,18 +29,32 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnSetConfig = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnSetConfig);
             this.panel1.Controls.Add(this.btnExit);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(783, 39);
             this.panel1.TabIndex = 0;
+            // 
+            // btnSetConfig
+            // 
+            this.btnSetConfig.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnSetConfig.Location = new System.Drawing.Point(551, 0);
+            this.btnSetConfig.Name = "btnSetConfig";
+            this.btnSetConfig.Size = new System.Drawing.Size(118, 39);
+            this.btnSetConfig.TabIndex = 7;
+            this.btnSetConfig.TabStop = false;
+            this.btnSetConfig.Text = "Set Config";
+            this.btnSetConfig.UseVisualStyleBackColor = true;
+            this.btnSetConfig.Click += new System.EventHandler(this.btnSetConfig_Click);
             // 
             // btnExit
             // 
@@ -75,5 +89,6 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnSetConfig;
     }
 }

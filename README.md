@@ -1,5 +1,14 @@
 # RickySQLTools
   
+   
+  <ul><a>v1.1.0.0</a>
+    <li> POCO Generator is available ( use script to generate model calss )
+          <br/>
+          It can also auto generate script when double click row in datagrid 『Tables』..
+          <br/>
+          Next version will add batch generate model class from db || xml...
+  </ul>   
+  
   <ul><a>v1.0.2.2</a>
     <li> When every 『Tables』 tabPage load data from SQL, they own self sql connection, make user can maintain different db at the same time
     <li> Load data from sql, tables sort by TableName
@@ -10,16 +19,16 @@
     <li> move config setting to 『Tables』→『SQL Server』 block
   </ul>      
   
-  <ul><a>v1.0.2</a>
+  <ul><a>v1.0.2.0</a>
     <li> Add 『Xml Compare』, can compare databse schema from two xml files 
          </br>(Table、SP、Func only compare name, and column compare all the information)</li>
     <li> Can open multiple 『Tables』</li>
   </ul>
   
-  <ul><a>v1.0.1</a>
+  <ul><a>v1.0.1.0</a>
     <li> Filter table name and sp's 、func's name</li>
   </ul>
-  <ul><a>v1.0.0</a>
+  <ul><a>v1.0.0.0</a>
     <li> Load database schema from SQL Server</li>
     <li> Load xml file from xml file</li>
     <li> Can maintain table's 、column's description and update to database</li>
