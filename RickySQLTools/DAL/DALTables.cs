@@ -31,40 +31,40 @@ namespace RickySQLTools.DAL
 				using (SqlConnection conn = new SqlConnection(_strConn))
 				{
 					SqlDataAdapter da = new SqlDataAdapter(GeneratScriptGetCol(), conn);
-					da.Fill(dalDataset, dtColumns);
+					da.Fill(dalDataset, strColumns);
 					da = new SqlDataAdapter(GeneratScriptGetTable(), conn);
-					da.Fill(dalDataset, dtTables);
+					da.Fill(dalDataset, strTables);
 					da = new SqlDataAdapter(GeneratScriptGetFK(), conn);
-					da.Fill(dalDataset, dtFKs);
+					da.Fill(dalDataset, strFKs);
 					da = new SqlDataAdapter(GeneratScriptGetIndex(), conn);
-					da.Fill(dalDataset, dtIndexes);
+					da.Fill(dalDataset, strIndexes);
 					da = new SqlDataAdapter(GeneratScriptGetSpAndFunc(), conn);
-					da.Fill(dalDataset, dtSpsAndFuncs);
+					da.Fill(dalDataset, strSpsAndFuncs);
 					da = new SqlDataAdapter(GeneratScriptGetInputParam(), conn);
-					da.Fill(dalDataset, dtInputParams);
+					da.Fill(dalDataset, strInputParams);
 
 					string script = GeneratScriptGetOutPutParam("") + " UNION ALL ";
-					foreach (DataRow dr in dalDataset.Tables[dtSpsAndFuncs].Rows)
+					foreach (DataRow dr in dalDataset.Tables[strSpsAndFuncs].Rows)
 					{
 						script += GeneratScriptGetOutPutParam(dr["SPECIFIC_NAME"].ToString()) + " UNION ALL ";
 					}
 
 					script = script.Substring(0, script.Length - 11);
 					da = new SqlDataAdapter(script, conn);
-					da.Fill(dalDataset, dtOutputParams);
+					da.Fill(dalDataset, strOutputParams);
 				}
-				DataRelation relCol = new DataRelation("MasterDetailCols", dalDataset.Tables[dtTables].Columns["TableName"], dalDataset.Tables[dtColumns].Columns["TableName"]);
+				DataRelation relCol = new DataRelation("MasterDetailCols", dalDataset.Tables[strTables].Columns["TableName"], dalDataset.Tables[strColumns].Columns["TableName"]);
 				dalDataset.Relations.Add(relCol);
 				//DataRelation relFK = new DataRelation("MasterDetailFKs", ds.Tables[dtTables].Columns["TableName"], ds.Tables[dtFKs].Columns["ParentTable"]);
 				//ds.Relations.Add(relFK);
 
-				DataRelation resIndex = new DataRelation("MasterDetailIndexes", dalDataset.Tables[dtTables].Columns["TableName"], dalDataset.Tables[dtIndexes].Columns["TableName"]);
+				DataRelation resIndex = new DataRelation("MasterDetailIndexes", dalDataset.Tables[strTables].Columns["TableName"], dalDataset.Tables[strIndexes].Columns["TableName"]);
 				dalDataset.Relations.Add(resIndex);
 
-				DataRelation relInputParam = new DataRelation("MasterDetailInputParams", dalDataset.Tables[dtSpsAndFuncs].Columns["SPECIFIC_NAME"], dalDataset.Tables[dtInputParams].Columns["SPECIFIC_NAME"]);
+				DataRelation relInputParam = new DataRelation("MasterDetailInputParams", dalDataset.Tables[strSpsAndFuncs].Columns["SPECIFIC_NAME"], dalDataset.Tables[strInputParams].Columns["SPECIFIC_NAME"]);
 				dalDataset.Relations.Add(relInputParam);
 
-				DataRelation resOutputParam = new DataRelation("MasterDetailOutputParams", dalDataset.Tables[dtSpsAndFuncs].Columns["SPECIFIC_NAME"], dalDataset.Tables[dtOutputParams].Columns["SPECIFIC_NAME"]);
+				DataRelation resOutputParam = new DataRelation("MasterDetailOutputParams", dalDataset.Tables[strSpsAndFuncs].Columns["SPECIFIC_NAME"], dalDataset.Tables[strOutputParams].Columns["SPECIFIC_NAME"]);
 				dalDataset.Relations.Add(resOutputParam);
 
 
@@ -119,9 +119,9 @@ namespace RickySQLTools.DAL
 
 				DataView dv = null;
 				StringBuilder sbSQL = new StringBuilder();
-				if (ds.Tables[dtTables].GetChanges(DataRowState.Modified) != null)
+				if (ds.Tables[strTables].GetChanges(DataRowState.Modified) != null)
 				{
-					dv = ds.Tables[dtTables].GetChanges(DataRowState.Modified).DefaultView;
+					dv = ds.Tables[strTables].GetChanges(DataRowState.Modified).DefaultView;
 					if (dv != null && dv.Count > 0)
 					{
 						dv.RowFilter = "TableType = '" + "VIEW" + "'";
@@ -130,9 +130,9 @@ namespace RickySQLTools.DAL
 						sbSQL.Append(GeneratScriptUpdate(dv, "TABLE"));
 					}
 				}
-				if (ds.Tables[dtColumns].GetChanges(DataRowState.Modified) != null)
+				if (ds.Tables[strColumns].GetChanges(DataRowState.Modified) != null)
 				{
-					dv = ds.Tables[dtColumns].GetChanges(DataRowState.Modified).DefaultView;
+					dv = ds.Tables[strColumns].GetChanges(DataRowState.Modified).DefaultView;
 					if (dv != null && dv.Count > 0)
 					{
 						sbSQL.Append(GeneratScriptUpdate(dv, "COLUMN"));

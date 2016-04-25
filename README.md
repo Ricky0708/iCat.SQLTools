@@ -1,12 +1,13 @@
 # RickySQLTools
-  
+   
+  <ul><a>v1.1.1.0</a>
+    <li> Batch generator model from database to .cs file
+  </ul>   
    
   <ul><a>v1.1.0.0</a>
-    <li> POCO Generator is available ( use script to generate model calss )
+    <li> 『POCO Generator』 is available ( use script to generate model calss )
           <br/>
           It can also auto generate script when double click row in datagrid 『Tables』..
-          <br/>
-          Next version will add batch generate model class from db || xml...
   </ul>   
   
   <ul><a>v1.0.2.2</a>

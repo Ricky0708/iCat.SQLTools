@@ -67,6 +67,22 @@ namespace RickySQLTools.Utilitys
             }
         }
 
+        public bool WriteToFile(string fileName, string doc)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(fileName, false, Encoding.UTF8))
+                {
+                    writer.Write(doc);
+                }
+                return true;
+            }catch(Exception ex)
+            {
+                ErrMsg = ex.Message;
+                return false;
+            }
+        }
+
         #region Dialog
         public string SetFileName(string defName, string extensionName)
         {
@@ -102,9 +118,25 @@ namespace RickySQLTools.Utilitys
             }
             return fileName;
         }
+
+        public string OpenFolder()
+        {
+            string result = "";
+            string filePath = Application.StartupPath + "\\ModelFiles\\";
+            FolderBrowserDialog dlg = new FolderBrowserDialog();
+            SetFolderExists(filePath);
+            dlg.Reset();
+            dlg.RootFolder = Environment.SpecialFolder.MyComputer;
+            dlg.SelectedPath = filePath;
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                result = dlg.SelectedPath;
+            }
+            return result;
+        }
         #endregion
 
- 
+
     }
 
 }

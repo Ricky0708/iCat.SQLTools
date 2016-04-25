@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RickySQLTools.Utilitys;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +14,7 @@ namespace RickySQLTools
     public partial class frmPOCOGenrator : frmBase
     {
         DAL.DALPOCOGenerator objDAL = new DAL.DALPOCOGenerator();
+        ShareUtility objUti = new ShareUtility();
         DataSet ds;
         CurrencyManager bmTables;
         public frmPOCOGenrator()
@@ -20,15 +22,6 @@ namespace RickySQLTools
             InitializeComponent();
             dgvTables.AutoGenerateColumns = false;
 
-        }
-
-        private void txt_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Control && e.KeyCode == Keys.A)
-            {
-                if (sender != null)
-                    ((TextBox)sender).SelectAll();
-            }
         }
 
         private void frmPOCOGenrator_Load(object sender, EventArgs e)
@@ -45,6 +38,17 @@ namespace RickySQLTools
             }
 
         }
+
+
+        private void txt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.A)
+            {
+                if (sender != null)
+                    ((TextBox)sender).SelectAll();
+            }
+        }
+
 
         private void btn_Click(object sender, EventArgs e)
         {
@@ -63,9 +67,20 @@ namespace RickySQLTools
                     }
                     break;
                 case "btnFromDB":
+                    string folder = objUti.OpenFolder();
+                    if (folder != "")
+                    {
+                        if (!objDAL.GenerateFromDB(ds, folder))
+                        {
+                            MessageBox.Show(objDAL.ErrMsg);
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Files has write to \r\n\r\n {folder}\\");
+                        }
+                    }
                     break;
-                case "btnFromXml":
-                    break;
+
                 default:
                     break;
             }
@@ -93,7 +108,7 @@ namespace RickySQLTools
             {
                 string tableName = ((DataRowView)bmTables.Current)["TableName"].ToString();
                 txtClassName.Text = tableName;
-                txtScript.Text = "SELECT TOP 1 * FROM " + tableName;
+                txtScript.Text = objDAL.GenerateScript(tableName);
             }
         }
     }

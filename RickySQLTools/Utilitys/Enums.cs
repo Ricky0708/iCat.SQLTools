@@ -36,7 +36,7 @@ namespace RickySQLTools.DAL
             CheckParentTableError, //Not each parent table all be checked !
             ConnectoinEmpty,//Connection string is not set yet !
             NothinToUpdate,//Nothing could be update !
-            RefrenceNullDAO,//Data access object is empty, please load data from SQL !
+            RefrenceNullDAO//Data access object is empty, please load data from SQL !
         }
     }
 }

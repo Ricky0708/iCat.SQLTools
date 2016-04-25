@@ -12,13 +12,13 @@ namespace RickySQLTools.DAL
 {
     public class DALBase : ErrorClasss
     {
-        protected const string dtTables = "Tables";
-        protected const string dtColumns = "Columns";
-        protected const string dtFKs = "FKs";
-        protected const string dtIndexes = "Indexes";
-        protected const string dtSpsAndFuncs = "SpsAndFuncs";
-        protected const string dtInputParams = "InputParams";
-        protected const string dtOutputParams = "OutputParams";
+        protected const string strTables = "Tables";
+        protected const string strColumns = "Columns";
+        protected const string strFKs = "FKs";
+        protected const string strIndexes = "Indexes";
+        protected const string strSpsAndFuncs = "SpsAndFuncs";
+        protected const string strInputParams = "InputParams";
+        protected const string strOutputParams = "OutputParams";
         public DataSet dalDataset;
 
         private string _connString;

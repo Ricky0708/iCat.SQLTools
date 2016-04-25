@@ -33,7 +33,6 @@
             this.dTableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtTableFilter = new RickySQLTools.CustomControll.PlaceholderTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnFromXml = new System.Windows.Forms.Button();
             this.btnFromDB = new System.Windows.Forms.Button();
             this.btnFromScript = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -77,6 +76,7 @@
             this.dgvTables.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTables.Location = new System.Drawing.Point(3, 58);
             this.dgvTables.Name = "dgvTables";
+            this.dgvTables.ReadOnly = true;
             this.dgvTables.RowTemplate.Height = 24;
             this.dgvTables.Size = new System.Drawing.Size(327, 351);
             this.dgvTables.TabIndex = 0;
@@ -90,6 +90,7 @@
             this.dTableName.HeaderText = "TableName";
             this.dTableName.Name = "dTableName";
             this.dTableName.ReadOnly = true;
+            this.dTableName.ToolTipText = "Double click row to auto generate script";
             // 
             // txtTableFilter
             // 
@@ -105,7 +106,6 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.btnFromXml);
             this.groupBox2.Controls.Add(this.btnFromDB);
             this.groupBox2.Controls.Add(this.btnFromScript);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -115,18 +115,6 @@
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Generate Command";
-            // 
-            // btnFromXml
-            // 
-            this.btnFromXml.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnFromXml.Location = new System.Drawing.Point(3, 99);
-            this.btnFromXml.Name = "btnFromXml";
-            this.btnFromXml.Size = new System.Drawing.Size(327, 36);
-            this.btnFromXml.TabIndex = 2;
-            this.btnFromXml.TabStop = false;
-            this.btnFromXml.Text = "From xml schema file";
-            this.btnFromXml.UseVisualStyleBackColor = true;
-            this.btnFromXml.Visible = false;
             // 
             // btnFromDB
             // 
@@ -138,7 +126,7 @@
             this.btnFromDB.TabStop = false;
             this.btnFromDB.Text = "From DB all tables";
             this.btnFromDB.UseVisualStyleBackColor = true;
-            this.btnFromDB.Visible = false;
+            this.btnFromDB.Click += new System.EventHandler(this.btn_Click);
             // 
             // btnFromScript
             // 
@@ -261,16 +249,15 @@
         #endregion
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView dgvTables;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dTableName;
         private CustomControll.PlaceholderTextBox txtTableFilter;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private CustomControll.PlaceholderTextBox txtScript;
         private CustomControll.PlaceholderTextBox txtResult;
-        private System.Windows.Forms.Button btnFromXml;
         private System.Windows.Forms.Button btnFromDB;
         private System.Windows.Forms.Button btnFromScript;
         private CustomControll.PlaceholderTextBox txtClassName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dTableName;
     }
 }

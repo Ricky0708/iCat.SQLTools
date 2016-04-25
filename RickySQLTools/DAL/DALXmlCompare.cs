@@ -18,25 +18,25 @@ namespace RickySQLTools.DAL
         public void Compare(DataSet dsFirst, DataSet dsSecond)
         {
             CompareCallBack("Comparing Tables..", 0);
-            AddDirectionColumn(dsFirst.Tables[dtTables], "Xml_A");
-            AddDirectionColumn(dsSecond.Tables[dtTables], "Xml_B");
+            AddDirectionColumn(dsFirst.Tables[strTables], "Xml_A");
+            AddDirectionColumn(dsSecond.Tables[strTables], "Xml_B");
 
-            AddDirectionColumn(dsFirst.Tables[dtColumns], "Xml_A");
-            AddDirectionColumn(dsSecond.Tables[dtColumns], "Xml_B");
+            AddDirectionColumn(dsFirst.Tables[strColumns], "Xml_A");
+            AddDirectionColumn(dsSecond.Tables[strColumns], "Xml_B");
 
-            AddDirectionColumn(dsFirst.Tables[dtSpsAndFuncs], "Xml_A");
-            AddDirectionColumn(dsSecond.Tables[dtSpsAndFuncs], "Xml_B");
+            AddDirectionColumn(dsFirst.Tables[strSpsAndFuncs], "Xml_A");
+            AddDirectionColumn(dsSecond.Tables[strSpsAndFuncs], "Xml_B");
 
-            DataTable dtUnionTable = UnionAndCompare(dsFirst.Tables[dtTables], dsSecond.Tables[dtTables]);
-            dtUnionTable.TableName = dtTables;
+            DataTable dtUnionTable = UnionAndCompare(dsFirst.Tables[strTables], dsSecond.Tables[strTables]);
+            dtUnionTable.TableName = strTables;
             CompareCallBack("Comparing Columns..", 33);
 
-            DataTable dtUnionColumns = UnionAndCompare(dsFirst.Tables[dtColumns], dsSecond.Tables[dtColumns]);
-            dtUnionColumns.TableName = dtColumns;
+            DataTable dtUnionColumns = UnionAndCompare(dsFirst.Tables[strColumns], dsSecond.Tables[strColumns]);
+            dtUnionColumns.TableName = strColumns;
             CompareCallBack("Comparing SPs and Funcs..", 66);
 
-            DataTable dtUntionSpsAndFuncs = UnionAndCompare(dsFirst.Tables[dtSpsAndFuncs], dsSecond.Tables[dtSpsAndFuncs]);
-            dtUntionSpsAndFuncs.TableName = dtSpsAndFuncs;
+            DataTable dtUntionSpsAndFuncs = UnionAndCompare(dsFirst.Tables[strSpsAndFuncs], dsSecond.Tables[strSpsAndFuncs]);
+            dtUntionSpsAndFuncs.TableName = strSpsAndFuncs;
             CompareCallBack("Compare finished", 100);
 
             DataSet dsResult = new DataSet();

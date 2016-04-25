@@ -22,10 +22,10 @@ namespace RickySQLTools.DAL
             if (objDAL.GetDatasetFromSQL())
             {
                 dalDataset = objDAL.dalDataset;
-                dalDataset.Tables[dtTables].Columns.Add(
+                dalDataset.Tables[strTables].Columns.Add(
                     new DataColumn("IsMakeFakeData", typeof(bool)));
 
-                foreach (DataRow dr in dalDataset.Tables[dtTables].Rows)
+                foreach (DataRow dr in dalDataset.Tables[strTables].Rows)
                 {
                     dr["IsMakeFakeData"] = false;
                     if (dr["TableType"].ToString() == "VIEW")
@@ -46,9 +46,9 @@ namespace RickySQLTools.DAL
         public bool MakeFakeData(DataSet ds)
         {
             bool result = true;
-            IEnumerable<string> tables = GetAllCheckedTables(ds.Tables[dtTables]);
-            IEnumerable<string[]> fkTables = GetFkTables(ds.Tables[dtFKs], tables);
-            IEnumerable<DataRow> coltables = GetColTables(ds.Tables[dtColumns], tables);
+            IEnumerable<string> tables = GetAllCheckedTables(ds.Tables[strTables]);
+            IEnumerable<string[]> fkTables = GetFkTables(ds.Tables[strFKs], tables);
+            IEnumerable<DataRow> coltables = GetColTables(ds.Tables[strColumns], tables);
             Stack<string> stackTables;
             foreach (var item in coltables)
             {

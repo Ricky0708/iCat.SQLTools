@@ -11,6 +11,7 @@ namespace RickySQLTools.DAL
     public class DALPOCOGenerator : DALBase
     {
         DAO dao;
+        ShareUtility objUti = new ShareUtility();
         public bool CreateDataSet()
         {
             DAL.DALTables objDAL = new DAL.DALTables();
@@ -46,6 +47,27 @@ namespace RickySQLTools.DAL
         
         }
 
+        public bool GenerateFromDB(DataSet ds, string path)
+        {
+            bool result = true;
+            DataTable dtTables = ds.Tables[strTables];
+            foreach (DataRow item in dtTables.Rows)
+            {
+                string script = GenerateScript(item["TableName"].ToString());
+                string modelClass = GeneratorModel(dao.ReadSQLUseAdapter(script), item["TableName"].ToString());
+                if (!objUti.WriteToFile(path + "\\" + item["TableName"].ToString() + ".cs", modelClass))
+                {
+                    ErrMsg = objUti.ErrMsg;
+                    return false;
+                }
+            }
+            return result;
+        }
+
+        public string GenerateScript(string tableName)
+        {
+            return "SELECT TOP 1 * FROM " +tableName;
+        }
 
         private string GeneratorModel(DataTable dt, string tableName)
         {
@@ -74,7 +96,7 @@ namespace RickySQLTools.DAL
         private string GetAttrib(DataColumn col)
         {
             string result = "";
-            DataTable dtColumnsTable = dalDataset.Tables[dtColumns];
+            DataTable dtColumnsTable = dalDataset.Tables[strColumns];
             var colInfo = (from p in dtColumnsTable.AsEnumerable()
                            where p.Field<string>("TableName") == col.Table.TableName &&
                                p.Field<string>("ColName") == col.ColumnName
@@ -121,5 +143,7 @@ namespace RickySQLTools.DAL
             }
             return result;
         }
+
+
     }
 }

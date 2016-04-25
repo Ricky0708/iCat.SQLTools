@@ -197,7 +197,6 @@ namespace RickySQLTools.DAL
 
         private void DoWriteToExcel(string fileName)
         {
-
             using (FileStream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
                 wb.Write(stream);
