@@ -74,8 +74,8 @@ namespace RickySQLTools.DAL
         private string GetAttrib(DataColumn col)
         {
             string result = "";
-            DataTable dtColumns = dalDataset.Tables["Columns"];
-            var colInfo = (from p in dtColumns.AsEnumerable()
+            DataTable dtColumnsTable = dalDataset.Tables[dtColumns];
+            var colInfo = (from p in dtColumnsTable.AsEnumerable()
                            where p.Field<string>("TableName") == col.Table.TableName &&
                                p.Field<string>("ColName") == col.ColumnName
                            select p).FirstOrDefault();

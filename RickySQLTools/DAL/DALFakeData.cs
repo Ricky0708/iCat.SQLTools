@@ -22,10 +22,10 @@ namespace RickySQLTools.DAL
             if (objDAL.GetDatasetFromSQL())
             {
                 dalDataset = objDAL.dalDataset;
-                dalDataset.Tables["Tables"].Columns.Add(
+                dalDataset.Tables[dtTables].Columns.Add(
                     new DataColumn("IsMakeFakeData", typeof(bool)));
 
-                foreach (DataRow dr in dalDataset.Tables["Tables"].Rows)
+                foreach (DataRow dr in dalDataset.Tables[dtTables].Rows)
                 {
                     dr["IsMakeFakeData"] = false;
                     if (dr["TableType"].ToString() == "VIEW")
@@ -46,9 +46,9 @@ namespace RickySQLTools.DAL
         public bool MakeFakeData(DataSet ds)
         {
             bool result = true;
-            IEnumerable<string> tables = GetAllCheckedTables(ds.Tables["Tables"]);
-            IEnumerable<string[]> fkTables = GetFkTables(ds.Tables["Fks"], tables);
-            IEnumerable<DataRow> coltables = GetColTables(ds.Tables["Columns"], tables);
+            IEnumerable<string> tables = GetAllCheckedTables(ds.Tables[dtTables]);
+            IEnumerable<string[]> fkTables = GetFkTables(ds.Tables[dtFKs], tables);
+            IEnumerable<DataRow> coltables = GetColTables(ds.Tables[dtColumns], tables);
             Stack<string> stackTables;
             foreach (var item in coltables)
             {
@@ -109,7 +109,7 @@ namespace RickySQLTools.DAL
         /// Get all releation tables
         /// </summary>
         /// <param name="dt"></param>
-        /// <param name="tables"></param>
+        /// <param name=dtTables></param>
         /// <returns></returns>
         private IEnumerable<string[]> GetFkTables(DataTable dt, IEnumerable<string> tables)
         {
@@ -148,7 +148,7 @@ namespace RickySQLTools.DAL
         /// <summary>
         /// Make sure all master table checked
         /// </summary>
-        /// <param name="tables"></param>
+        /// <param name=dtTables></param>
         /// <param name="fkTables"></param>
         /// <returns></returns>
         private bool CheckMasterTableChecked(IEnumerable<string> tables, IEnumerable<string[]> fkTables)
@@ -161,7 +161,7 @@ namespace RickySQLTools.DAL
         /// <summary>
         /// Stack tables make detail always before master
         /// </summary>
-        /// <param name="tables"></param>
+        /// <param name=dtTables></param>
         /// <param name="fkTables"></param>
         /// <returns></returns>
         private Stack<string> OrderTables(IEnumerable<string> tables, IEnumerable<string[]> fkTables)

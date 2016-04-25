@@ -148,9 +148,10 @@
             this.label1.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label1.Location = new System.Drawing.Point(3, 153);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(362, 120);
+            this.label1.Size = new System.Drawing.Size(449, 210);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Coming soon.....\r\n\r\nPlease do not click the button \r\nabove this message!!";
+            this.label1.Text = "Coming soon.....\r\n\r\nPlease do not click the button \r\nabove this message!!\r\n\r\nIf y" +
+    "ou click it.\r\nIt will.......................nothing happen~~\r\n";
             // 
             // btnInsert
             // 

@@ -19,7 +19,11 @@ namespace RickySQLTools
         SetConfig
     }
 
-
+    public enum DataFrom
+    {
+        SQL,
+        Xml
+    }
 }
 namespace RickySQLTools.DAL
 {

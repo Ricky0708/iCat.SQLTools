@@ -13,11 +13,7 @@ namespace RickySQLTools
 {
     public partial class frmTables : frmBase
     {
-        private enum DataFrom
-        {
-            SQL,
-            Xml
-        }
+
 
         DAL.DALTables objDAL = new DAL.DALTables();
         ShareUtility objUti = new ShareUtility();
