@@ -88,7 +88,6 @@
     <Compile Include="frm\frmPOCOGenrator.Designer.cs">
       <DependentUpon>frmPOCOGenrator.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\Class1.cs" />
     <Compile Include="Utilitys\CompareUtility.cs" />
     <Compile Include="DAL\DALBase.cs" />
     <Compile Include="DAL\DALFakeData.cs" />
