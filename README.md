@@ -1,7 +1,7 @@
 # RickySQLTools
    
   <ul><a>v1.1.1.0</a>
-    <li> Batch generator model from database to .cs file
+    <li> Batch generate model from database to .cs file
   </ul>   
    
   <ul><a>v1.1.0.0</a>
