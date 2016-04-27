@@ -84,10 +84,10 @@ namespace RickySQLTools.Utilitys
         }
 
         #region Dialog
-        public string SetFileName(string defName, string extensionName)
+        public string SetFileName(string defRoot, string defName, string extensionName)
         {
             string fileName = "";
-            string filePath = Application.StartupPath + "\\database\\";
+            string filePath = defRoot;
             SetFolderExists(filePath);
             SaveFileDialog saveDlg = new SaveFileDialog();
             saveDlg.DefaultExt = extensionName;

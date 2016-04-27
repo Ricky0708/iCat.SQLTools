@@ -33,7 +33,7 @@ namespace RickySQLTools.DAL
         public string GenerateFromScript(string className, string script)
         {
             DataTable dt = new DataTable();
-            dt = dao.ReadSQLUseAdapter(script);
+            dt = dao.ReadSQLUseAdapter(script, "");
             if (dt == null)
             {
                 ErrMsg = dao.ErrMsg;
@@ -44,7 +44,7 @@ namespace RickySQLTools.DAL
                 dt.TableName = className;
                 return GeneratorModel(dt, className);
             }
-        
+
         }
 
         public bool GenerateFromDB(DataSet ds, string path)
@@ -54,7 +54,7 @@ namespace RickySQLTools.DAL
             foreach (DataRow item in dtTables.Rows)
             {
                 string script = GenerateScript(item["TableName"].ToString());
-                string modelClass = GeneratorModel(dao.ReadSQLUseAdapter(script), item["TableName"].ToString());
+                string modelClass = GeneratorModel(dao.ReadSQLUseAdapter(script, ""), item["TableName"].ToString());
                 if (!objUti.WriteToFile(path + "\\" + item["TableName"].ToString() + ".cs", modelClass))
                 {
                     ErrMsg = objUti.ErrMsg;
@@ -66,9 +66,44 @@ namespace RickySQLTools.DAL
 
         public string GenerateScript(string tableName)
         {
-            return "SELECT TOP 1 * FROM " +tableName;
+            return "SELECT TOP 1 * FROM " + tableName;
         }
 
+        public bool CheckScriptNotError(string script)
+        {
+            DataTable dt = dao.ReadSQLSchemaUseAdapter(script, "test");
+            if (dt != null)
+            {
+                return true;
+            }
+            else
+            {
+                ErrMsg = dao.ErrMsg;
+                return false;
+            }
+        }
+
+        public bool GenerateCRptXsd(DataTable dtScripts, string fileName)
+        {
+            DataSet ds = new DataSet();
+            foreach (DataRow row in dtScripts.Rows)
+            {
+                DataTable dt = dao.ReadSQLSchemaUseAdapter(row["Script"].ToString(), row["ScriptName"].ToString());
+                if (dt == null)
+                {
+                    ErrMsg = dao.ErrMsg;
+                    return false;
+                }
+                else
+                {
+                    ds.Tables.Add(dt);
+                }
+            }
+            ds.WriteXml(fileName, XmlWriteMode.WriteSchema);
+            return true;
+        }
+
+        #region private method
         private string GeneratorModel(DataTable dt, string tableName)
         {
             string result = "";
@@ -89,7 +124,7 @@ namespace RickySQLTools.DAL
             }
             body = body.Substring(0, body.Length - 2);
             result = defUsing + "\r\n" + defNamespace + "{\r\n    public class " + tableName + "\r\n    {\r\n" + body + "\r\n    }    \r\n}";
-            
+
             return result;
         }
 
@@ -143,7 +178,7 @@ namespace RickySQLTools.DAL
             }
             return result;
         }
-
+        #endregion
 
     }
 }

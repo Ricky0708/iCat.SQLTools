@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvTables = new System.Windows.Forms.DataGridView();
             this.dTableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtTableFilter = new RickySQLTools.CustomControll.PlaceholderTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnExportCRptXml = new System.Windows.Forms.Button();
             this.btnFromDB = new System.Windows.Forms.Button();
             this.btnFromScript = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -40,7 +42,13 @@
             this.txtScript = new RickySQLTools.CustomControll.PlaceholderTextBox();
             this.txtClassName = new RickySQLTools.CustomControll.PlaceholderTextBox();
             this.txtResult = new RickySQLTools.CustomControll.PlaceholderTextBox();
-            this.groupBox1.SuspendLayout();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dgvScripts = new System.Windows.Forms.DataGridView();
+            this.dCmd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dScriptName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dScript = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTables)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -51,19 +59,11 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvScripts)).BeginInit();
             this.SuspendLayout();
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.dgvTables);
-            this.groupBox1.Controls.Add(this.txtTableFilter);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 168);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(333, 412);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Tables";
             // 
             // dgvTables
             // 
@@ -74,14 +74,15 @@
             this.dgvTables.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dTableName});
             this.dgvTables.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvTables.Location = new System.Drawing.Point(3, 58);
+            this.dgvTables.Location = new System.Drawing.Point(3, 34);
             this.dgvTables.Name = "dgvTables";
             this.dgvTables.ReadOnly = true;
             this.dgvTables.RowTemplate.Height = 24;
-            this.dgvTables.Size = new System.Drawing.Size(327, 351);
+            this.dgvTables.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgvTables.Size = new System.Drawing.Size(319, 341);
             this.dgvTables.TabIndex = 0;
             this.dgvTables.TabStop = false;
-            this.dgvTables.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTables_CellDoubleClick);
+            this.dgvTables.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
             // 
             // dTableName
             // 
@@ -96,16 +97,17 @@
             // 
             this.txtTableFilter.BackColor = System.Drawing.SystemColors.Info;
             this.txtTableFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtTableFilter.Location = new System.Drawing.Point(3, 27);
+            this.txtTableFilter.Location = new System.Drawing.Point(3, 3);
             this.txtTableFilter.Name = "txtTableFilter";
             this.txtTableFilter.PlaceHolder = "Write something here to filter Table";
-            this.txtTableFilter.Size = new System.Drawing.Size(327, 31);
+            this.txtTableFilter.Size = new System.Drawing.Size(319, 31);
             this.txtTableFilter.TabIndex = 1;
             this.txtTableFilter.TabStop = false;
             this.txtTableFilter.TextChanged += new System.EventHandler(this.txtTableFilter_TextChanged);
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnExportCRptXml);
             this.groupBox2.Controls.Add(this.btnFromDB);
             this.groupBox2.Controls.Add(this.btnFromScript);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -115,6 +117,18 @@
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Generate Command";
+            // 
+            // btnExportCRptXml
+            // 
+            this.btnExportCRptXml.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnExportCRptXml.Location = new System.Drawing.Point(3, 99);
+            this.btnExportCRptXml.Name = "btnExportCRptXml";
+            this.btnExportCRptXml.Size = new System.Drawing.Size(327, 36);
+            this.btnExportCRptXml.TabIndex = 2;
+            this.btnExportCRptXml.TabStop = false;
+            this.btnExportCRptXml.Text = "Save to xsd file for Crystal Report use";
+            this.btnExportCRptXml.UseVisualStyleBackColor = true;
+            this.btnExportCRptXml.Click += new System.EventHandler(this.btn_Click);
             // 
             // btnFromDB
             // 
@@ -153,7 +167,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
             this.splitContainer1.Size = new System.Drawing.Size(858, 584);
             this.splitContainer1.SplitterDistance = 517;
@@ -217,6 +231,97 @@
             this.txtResult.TabStop = false;
             this.txtResult.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_KeyDown);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 168);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(333, 412);
+            this.tabControl1.TabIndex = 3;
+            this.tabControl1.TabStop = false;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.dgvTables);
+            this.tabPage1.Controls.Add(this.txtTableFilter);
+            this.tabPage1.Location = new System.Drawing.Point(4, 30);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(325, 378);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Tables";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.dgvScripts);
+            this.tabPage2.Location = new System.Drawing.Point(4, 30);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(325, 378);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Scripts";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // dgvScripts
+            // 
+            this.dgvScripts.AllowUserToAddRows = false;
+            this.dgvScripts.AllowUserToDeleteRows = false;
+            this.dgvScripts.AllowUserToResizeRows = false;
+            this.dgvScripts.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvScripts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvScripts.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dCmd,
+            this.dScriptName,
+            this.dScript});
+            this.dgvScripts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvScripts.Location = new System.Drawing.Point(3, 3);
+            this.dgvScripts.Name = "dgvScripts";
+            this.dgvScripts.ReadOnly = true;
+            this.dgvScripts.RowHeadersVisible = false;
+            this.dgvScripts.RowTemplate.Height = 24;
+            this.dgvScripts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvScripts.Size = new System.Drawing.Size(319, 372);
+            this.dgvScripts.TabIndex = 1;
+            this.dgvScripts.TabStop = false;
+            this.dgvScripts.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
+            // 
+            // dCmd
+            // 
+            this.dCmd.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dCmd.DataPropertyName = "Cmd";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Lavender;
+            this.dCmd.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dCmd.HeaderText = "";
+            this.dCmd.Name = "dCmd";
+            this.dCmd.ReadOnly = true;
+            this.dCmd.Width = 23;
+            // 
+            // dScriptName
+            // 
+            this.dScriptName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dScriptName.DataPropertyName = "ScriptName";
+            this.dScriptName.HeaderText = "Script Name";
+            this.dScriptName.Name = "dScriptName";
+            this.dScriptName.ReadOnly = true;
+            this.dScriptName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dScriptName.ToolTipText = "Double click row to auto generate script";
+            // 
+            // dScript
+            // 
+            this.dScript.DataPropertyName = "Script";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dScript.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dScript.HeaderText = "Script";
+            this.dScript.Name = "dScript";
+            this.dScript.ReadOnly = true;
+            this.dScript.Visible = false;
+            this.dScript.Width = 20;
+            // 
             // frmPOCOGenrator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
@@ -228,8 +333,6 @@
             this.Text = "POCO_Genrator";
             this.Load += new System.EventHandler(this.frmPOCOGenrator_Load);
             this.Controls.SetChildIndex(this.splitContainer1, 0);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTables)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -242,12 +345,16 @@
             this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvScripts)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView dgvTables;
         private CustomControll.PlaceholderTextBox txtTableFilter;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -259,5 +366,13 @@
         private System.Windows.Forms.Button btnFromScript;
         private CustomControll.PlaceholderTextBox txtClassName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dTableName;
+        private System.Windows.Forms.Button btnExportCRptXml;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.DataGridView dgvScripts;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dCmd;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dScriptName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dScript;
     }
 }

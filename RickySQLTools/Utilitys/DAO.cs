@@ -63,7 +63,7 @@ namespace RickySQLTools.Utilitys
             }
         }
 
-        public DataTable ReadSQLUseAdapter(string script)
+        public DataTable ReadSQLSchemaUseAdapter(string script, string tableName)
         {
             if (_connectionString == "")
             {
@@ -75,7 +75,32 @@ namespace RickySQLTools.Utilitys
                 using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
                     SqlDataAdapter da = new SqlDataAdapter(script, conn);
-                    DataTable dt = new DataTable();
+                    DataTable dt = new DataTable(tableName);
+                    da.FillSchema(dt, SchemaType.Source);
+                    return dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrMsg = ex.Message;
+                return null;
+            }
+
+        }
+
+        public DataTable ReadSQLUseAdapter(string script, string tableName)
+        {
+            if (_connectionString == "")
+            {
+                resultCode = ResultCode.ConnectoinEmpty;
+                return null;
+            }
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_connectionString))
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(script, conn);
+                    DataTable dt = new DataTable(tableName);
                     da.Fill(dt);
                     return dt;
                 }

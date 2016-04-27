@@ -59,7 +59,7 @@ namespace RickySQLTools.Properties {
   </Progs>
   <Progs>
     <ProgID>frmPOCOGenrator</ProgID>
-    <ProgName>POCO Gen</ProgName>
+    <ProgName><![CDATA[POCO && Xsd]]></ProgName>
     <ModuleName>RickySQLTools</ModuleName>
     <SEQ>5</SEQ>
   </Progs>

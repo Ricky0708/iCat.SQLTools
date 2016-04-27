@@ -147,7 +147,7 @@ namespace RickySQLTools
 
         }
 
- 
+
 
         #endregion
 
@@ -178,7 +178,7 @@ namespace RickySQLTools
             if (ds != null)
             {
                 string dbName = objUti.GetDbName(objDAL._strConn);
-                string fileName = objUti.SetFileName(dbName, "Xml");
+                string fileName = objUti.SetFileName(Application.StartupPath + "\\database\\", dbName, "Xml");
                 if (fileName != "")
                 {
                     if (objDAL.SaveToXml(ref ds, fileName))
@@ -206,7 +206,7 @@ namespace RickySQLTools
             if (ds != null)
             {
                 DAL.NpoiOperator objNpoi = new DAL.NpoiOperator(ds);
-                string fileName = objUti.SetFileName(objUti.GetDbName(objDAL._strConn) + "_Schema", "xlsx");
+                string fileName = objUti.SetFileName(Application.StartupPath + "\\database\\", objUti.GetDbName(objDAL._strConn) + "_Schema", "xlsx");
                 if (fileName != "")
                 {
                     objNpoi.WriteToExcel(fileName);
@@ -220,6 +220,6 @@ namespace RickySQLTools
         }
         #endregion
 
-   
+
     }
 }

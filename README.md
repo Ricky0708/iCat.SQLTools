@@ -1,6 +1,10 @@
 # RickySQLTools
    
   <ul><a>v1.1.1.0</a>
+    <li> use TSQL to generate and export xsd schema file for Crystal Report use
+  </ul>   
+   
+  <ul><a>v1.1.1.0</a>
     <li> Batch generate model from database to .cs(utf-8) file
   </ul>   
    
