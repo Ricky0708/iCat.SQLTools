@@ -133,7 +133,7 @@ namespace RickySQLTools
                 case "btnExportCRptXml":
                     if (dtScript.Rows.Count == 0)
                     {
-                        MessageBox.Show("There is not any script could be export !");
+                        MessageBox.Show("There is not any scripts could be generate xsd for export !\r\n\r\n 1. Please type in TSQL in [script] and click 『+』 to add !");
                     }
                     else
                     {
