@@ -86,6 +86,10 @@ namespace RickySQLTools
                 cmTables = (CurrencyManager)this.BindingContext[ds, "Tables"];
                 ((DataView)cmTables.List).RowFilter = "TableName LIKE '%" + txtTableFilter.Text + "%'";
             }
+            else
+            {
+                MessageBox.Show(objDAL.ErrMsg);
+            }
 
         }
 
@@ -163,6 +167,10 @@ namespace RickySQLTools
             if (objDAL._strConn != Utilitys.ShareUtility.GetSettings(SettingEnum.GetConnectionString).ToString())
             {
                 frmPOCOGenrator_Load(null, null);
+            }
+            else
+            {
+                MessageBox.Show(objDAL.ErrMsg);
             }
         }
 

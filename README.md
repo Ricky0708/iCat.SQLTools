@@ -1,7 +1,14 @@
 # RickySQLTools
    
+   <ul><a>v1.1.3.0</a>
+    <li> Update all description
+    <br/>
+         Now can load from xml file and cover all description to SQL
+    </li>
+  </ul>   
+   
   <ul><a>v1.1.2.0</a>
-    <li> use TSQL to generate and export xsd schema file for Crystal Report use
+    <li> Use TSQL to generate and export xsd schema file for Crystal Report use</li>
   </ul>   
    
   <ul><a>v1.1.1.0</a>
@@ -11,12 +18,12 @@
   <ul><a>v1.1.0.0</a>
     <li> 『POCO Generator』 is available ( use script to generate model calss )
           <br/>
-          It can also auto generate script when double click row in datagrid 『Tables』..
+          It can also auto generate script when double click row in datagrid 『Tables』..</li>
   </ul>   
   
   <ul><a>v1.0.2.2</a>
-    <li> When every 『Tables』 tabPage load data from SQL, they own self sql connection, make user can maintain different db at the same time
-    <li> Load data from sql, tables sort by TableName
+    <li> When every 『Tables』 tabPage load data from SQL, they own self sql connection, make user can maintain different db at the same time</li>
+    <li> Load data from sql, tables sort by TableName</li>
   </ul>   
   
   <ul><a>v1.0.2.1</a>

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgvTables = new System.Windows.Forms.DataGridView();
             this.dTableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,6 +44,7 @@
             this.btnLoadDataFromXML = new System.Windows.Forms.Button();
             this.btnSaveToXml = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnUpdateAllDescription = new System.Windows.Forms.Button();
             this.btnLoadDataFromSQL = new System.Windows.Forms.Button();
             this.btnUpdateDescription = new System.Windows.Forms.Button();
             this.tabTablesAndCols = new System.Windows.Forms.TabPage();
@@ -173,8 +174,8 @@
             // dTableDescription
             // 
             this.dTableDescription.DataPropertyName = "TableDescription";
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dTableDescription.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dTableDescription.DefaultCellStyle = dataGridViewCellStyle1;
             this.dTableDescription.HeaderText = "TableDescription";
             this.dTableDescription.MinimumWidth = 100;
             this.dTableDescription.Name = "dTableDescription";
@@ -276,6 +277,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnUpdateAllDescription);
             this.groupBox4.Controls.Add(this.btnLoadDataFromSQL);
             this.groupBox4.Controls.Add(this.btnUpdateDescription);
             this.groupBox4.Location = new System.Drawing.Point(41, 44);
@@ -284,6 +286,16 @@
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "SQL Server";
+            // 
+            // btnUpdateAllDescription
+            // 
+            this.btnUpdateAllDescription.Location = new System.Drawing.Point(6, 122);
+            this.btnUpdateAllDescription.Name = "btnUpdateAllDescription";
+            this.btnUpdateAllDescription.Size = new System.Drawing.Size(249, 40);
+            this.btnUpdateAllDescription.TabIndex = 6;
+            this.btnUpdateAllDescription.Text = "Update All Description";
+            this.btnUpdateAllDescription.UseVisualStyleBackColor = true;
+            this.btnUpdateAllDescription.Click += new System.EventHandler(this.btnUpdateAllDescription_Click);
             // 
             // btnLoadDataFromSQL
             // 
@@ -301,7 +313,7 @@
             this.btnUpdateDescription.Name = "btnUpdateDescription";
             this.btnUpdateDescription.Size = new System.Drawing.Size(249, 40);
             this.btnUpdateDescription.TabIndex = 3;
-            this.btnUpdateDescription.Text = "Update Description to SQL";
+            this.btnUpdateDescription.Text = "Update Modified Description";
             this.btnUpdateDescription.UseVisualStyleBackColor = true;
             this.btnUpdateDescription.Click += new System.EventHandler(this.Update_Description_Click);
             // 
@@ -442,8 +454,8 @@
             // 
             this.dColDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dColDescription.DataPropertyName = "ColDescription";
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dColDescription.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dColDescription.DefaultCellStyle = dataGridViewCellStyle2;
             this.dColDescription.HeaderText = "ColDescription";
             this.dColDescription.Name = "dColDescription";
             this.dColDescription.Width = 150;
@@ -949,5 +961,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dIxColName;
         private CustomControll.PlaceholderTextBox txtTableFilter;
         private CustomControll.PlaceholderTextBox txtSpFilter;
+        private System.Windows.Forms.Button btnUpdateAllDescription;
     }
 }

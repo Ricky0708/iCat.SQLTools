@@ -125,7 +125,7 @@ namespace RickySQLTools
         {
             if (flag == DataFrom.Xml)
             {
-                MessageBox.Show("Can not update sql from xml data !");
+                MessageBox.Show("This command only for load data from SQL !");
                 return;
             }
             if (ds != null)
@@ -147,7 +147,51 @@ namespace RickySQLTools
 
         }
 
+        private void btnUpdateAllDescription_Click(object sender, EventArgs e)
+        {
+            if (ds != null)
+            {
+                if (MessageBox.Show(this, "It will update and cover all current description to SQL ! \r\r Are you sure to do it ?", "Info", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    foreach (DataTable dt in ds.Tables)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            if (dt.TableName != "Columns" || (dt.TableName == "Columns" && row["ColDescription"].ToString() != "not support"))
+                            {
+                                if (row.RowState == DataRowState.Unchanged)
+                                {
+                                    row.SetModified();
+                                }
+                                else
+                                {
+                                }
+                            }
+                        }
+                    }
+                    if (!objDAL.UpdateDescription(ref ds))
+                    {
+                        string msg = objDAL.ErrMsg + "\r\n\r\n";
+                        msg += "If data access obj is empty,  try to follow these step :\r\n\r\n";
+                        msg += "1. Save to xml file\r\n\r\n";
+                        msg += "2. Make sure connection string is correct in [Set Config]\r\n\r\n";
+                        msg += "3. Load data from SQL\r\n\r\n";
+                        msg += "4. Load data from xml file\r\n\r\n";
+                        msg += "5. update it again";
+                        MessageBox.Show(msg);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Success！");
+                    }
+                }
 
+            }
+            else
+            {
+                MessageBox.Show("Please load data and modify befor you update !");
+            }
+        }
 
         #endregion
 
@@ -218,6 +262,8 @@ namespace RickySQLTools
                 MessageBox.Show("No data could be export !!");
             }
         }
+
+
         #endregion
 
 
