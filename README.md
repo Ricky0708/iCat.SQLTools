@@ -7,19 +7,19 @@
     <li><ul><a>Tables</a>
           <li>Maintain db description</li>
           <li>Export dbschema to xlsx file or xml file</li>
-        <ul/>
+        </ul>
     <li>
     <li><ul><a>Xml Compare</a>
           <li>Compare two schema xml files</li>
-        <ul/>
+        </ul>
     <li>
     <li><ul><a>POCO & Xsd</a>
           <li>Generate poco .cs file from db</li>
           <li>Generate poco class use TSQL</li>
           <li>Generate xsd for Crystal Report use TSQL</li>
-        <ul/>
+        </ul>
     <li>
-  <ul/>
+  </ul>
 
 # History   
    <ul><a>v1.1.3.0</a>
