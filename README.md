@@ -4,6 +4,7 @@
     <li> Update all description
     <br/>
          Now can load from xml file and cover all description to SQL
+         this function usually use in after create a database and copy description from old to new one
     </li>
   </ul>   
    
