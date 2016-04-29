@@ -1,5 +1,27 @@
 # RickySQLTools
    
+  <p>This is a sql tools collection, it support developer to maintain schema description, and can be export to db schema document or xml file also.<br/>
+  (if table,sp,func name over then 31 char, it will display [TempNameX] in xlsx column, cause excel sheet name only support 31 char)</p>
+  <p>And it support many features..</p>
+  <ul>Current features:
+    <li><ul><a>Tables</a>
+          <li>Maintain db description</li>
+          <li>Export dbschema to xlsx file or xml file</li>
+        <ul/>
+    <li>
+    <li><ul><a>Xml Compare</a>
+          <li>Compare two schema xml files</li>
+        <ul/>
+    <li>
+    <li><ul><a>POCO & Xsd</a>
+          <li>Generate poco .cs file from db</li>
+          <li>Generate poco class use TSQL</li>
+          <li>Generate xsd for Crystal Report use TSQL</li>
+        <ul/>
+    <li>
+  <ul/>
+
+# History   
    <ul><a>v1.1.3.0</a>
     <li> Update all description
     <br/>
@@ -47,19 +69,4 @@
     <li> Can maintain table's 、column's description and update to database</li>
     <li> Output schema to Excel、Xml file</li>
   </ul>
-
-  <br/>
-  
-  這一個程式可以讀出 Database的table、column相關資料及註解
-  
-  並能夠編輯註解並更新回 Database
-  
-  程式提供匯出文件的功能，將table的schema、描述、sp、func利用npoi匯出至Excel
-  
-  sp及func的註解必需寫在sql script中，以/** xxx **/包夾起來，才能正確的匯出sp及func的註解
-  
-  ※如果table、sp、func的名稱長度超過31個字元，匯出至excel後會出現『TempName』加流水號的字樣
-   這是因為Excel的sheet name只限制31個字元
-  
-  ※說明書為CHM檔，如果下載後需要解除封鎖，『右鍵』→『內容』→在右下角會看見『解除封鎖』，勾選即可
   
