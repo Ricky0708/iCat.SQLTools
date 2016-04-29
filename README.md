@@ -3,7 +3,7 @@
    <ul><a>v1.1.3.0</a>
     <li> Update all description
     <br/>
-         Now can load from xml file and cover all description to SQL
+         Now can load from xml file and cover all description to SQL <br/>
          this function usually use in after create a database and copy description from old to new one
     </li>
   </ul>   
