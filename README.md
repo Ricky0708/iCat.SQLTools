@@ -3,18 +3,18 @@
   <p>This is a sql tools collection, it support developer to maintain schema description, and can be export to db schema document or xml file also.<br/>
   (if table,sp,func name over then 31 char, it will display [TempNameX] in xlsx column, cause excel sheet name only support 31 char)</p>
   
-  <p>Current features:</p>
+#Current features
   <ul>
-    <li><ul><a>Tables</a>
+    <li><ul style="font-weight:bold">Tables
           <li>Maintain db description</li>
           <li>Export dbschema to xlsx file or xml file</li>
         </ul>
     </li>
-    <li><ul><a>Xml Compare</a>
+    <li><ul>Xml Compare
           <li>Compare two schema xml files</li>
         </ul>
     </li>
-    <li><ul><a>POCO & Xsd</a>
+    <li><ul>POCO & Xsd
           <li>Generate poco .cs file from db</li>
           <li>Generate poco class use TSQL</li>
           <li>Generate xsd for Crystal Report use TSQL</li>
