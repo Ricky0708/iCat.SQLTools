@@ -36,7 +36,7 @@
           It can also auto generate script when double click row in datagrid 『Tables』..
 
 <br/>
-* **v1.0.2.2
+* **v1.0.2.2**
    * When every 『Tables』 tabPage load data from SQL, they own self sql connection, make user can maintain different db at the same time
    * Load data from sql, tables sort by TableName
 
@@ -56,7 +56,7 @@
    * Filter table name and sp's 、func's name
 
 <br/>
-* **v1.0.0.0
+* **v1.0.0.0**
    * Load database schema from SQL Server
    * Load xml file from xml file
    * Can maintain table's 、column's description and update to database
