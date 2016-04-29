@@ -39,6 +39,8 @@
 * **v1.0.2.2
    * When every 『Tables』 tabPage load data from SQL, they own self sql connection, make user can maintain different db at the same time
    * Load data from sql, tables sort by TableName
+
+<br/>
 * **v1.0.2.1**
    * Fix bug『Xml Compare』-doesn't load file path from second xml file when start compare
    * move config setting to 『Tables』→『SQL Server』 block
