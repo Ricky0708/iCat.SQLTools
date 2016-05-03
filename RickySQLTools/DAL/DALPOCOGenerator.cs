@@ -145,7 +145,7 @@ namespace RickySQLTools.DAL
                 }
                 if ((int)colInfo["IsNullable"] == 0)
                 {
-                    result += "\r\n        [required]";
+                    result += "\r\n        [Required]";
                 }
             }
             return result;

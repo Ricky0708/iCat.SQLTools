@@ -30,49 +30,14 @@ namespace RickySQLTools
             dgvScripts.DataSource = dtScript;
             cmScripts = (CurrencyManager)this.BindingContext[dtScript];
 
-            Button btnAddScript = new Button();
-            btnAddScript.Name = "btnAddScript";
-            btnAddScript.Text = "＋";
-            btnAddScript.Dock = DockStyle.Right;
-            btnAddScript.Size = new Size(30, 30);
-            btnAddScript.Cursor = Cursors.Default;
-            btnAddScript.Click += (sender, e) =>
-            {
-                bool isExist = false;
-                foreach (DataRow row in dtScript.Rows)
-                {
-                    if (row["ScriptName"].ToString() == txtClassName.Text)
-                    {
-                        isExist = true;
-                    }
-                }
-                if (!isExist && !(txtClassName.Text == string.Empty))
-                {
-                    if (objDAL.CheckScriptNotError(txtScript.Text))
-                    {
-                        DataRow dr = dtScript.NewRow();
-                        dr["ScriptName"] = txtClassName.Text;
-                        dr["Script"] = txtScript.Text;
-                        dr["cmd"] = "X";
-                        dtScript.Rows.Add(dr);
-                        dtScript.AcceptChanges();
-                        MessageBox.Show("Added to scripts !");
-                    }
-                    else
-                    {
-                        MessageBox.Show(objDAL.ErrMsg);
-                    }
-
-                }
-                else
-                {
-                    MessageBox.Show("Please check these rules : \r\n\r\n 1. Can't use a empty name for a table.\r\n\r\n 2. this name in scripts already exist.");
-                }
-
-            };
-            txtClassName.Controls.Add(btnAddScript);
-
+            //Button btnAddScript = new Button();
+            //btnAddScript.Name = "btnAddScript";
+            //btnAddScript.Text = "＋";
+            //btnAddScript.Dock = DockStyle.Right;
+            //btnAddScript.Size = new Size(30, 30);
+            //btnAddScript.Cursor = Cursors.Default;
         }
+
 
         private void frmPOCOGenrator_Load(object sender, EventArgs e)
         {
@@ -131,6 +96,8 @@ namespace RickySQLTools
                         else
                         {
                             MessageBox.Show($"Files has write to \r\n\r\n {folder}\\");
+                            string file = folder;
+                            System.Diagnostics.Process.Start(file);
                         }
                     }
                     break;
@@ -149,12 +116,46 @@ namespace RickySQLTools
                                 MessageBox.Show("Success !");
                                 dtScript.Clear();
                                 dtScript.AcceptChanges();
+                                string file = @"C:\Windows\explorer.exe";
+                                string argument = @"/select, " + fileName;
+                                System.Diagnostics.Process.Start(file, argument);
                             }
                             else
                             {
                                 MessageBox.Show(objDAL.ErrMsg);
                             }
                         }
+                    }
+                    break;
+                case "btnAddScript":
+                    bool isExist = false;
+                    foreach (DataRow row in dtScript.Rows)
+                    {
+                        if (row["ScriptName"].ToString() == txtClassName.Text)
+                        {
+                            isExist = true;
+                        }
+                    }
+                    if (!isExist && !(txtClassName.Text == string.Empty))
+                    {
+                        if (objDAL.CheckScriptNotError(txtScript.Text))
+                        {
+                            DataRow dr = dtScript.NewRow();
+                            dr["ScriptName"] = txtClassName.Text;
+                            dr["Script"] = txtScript.Text;
+                            dr["cmd"] = "X";
+                            dtScript.Rows.Add(dr);
+                            dtScript.AcceptChanges();
+                        }
+                        else
+                        {
+                            MessageBox.Show(objDAL.ErrMsg);
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please check these rules : \r\n\r\n 1. Can't use a empty name for a table.\r\n\r\n 2. this name in scripts already exist.");
                     }
                     break;
                 default:
@@ -170,7 +171,11 @@ namespace RickySQLTools
             }
             else
             {
-                MessageBox.Show(objDAL.ErrMsg);
+                string ErrMsg = objDAL.ErrMsg;
+                if (ErrMsg != "")
+                {
+                    MessageBox.Show(objDAL.ErrMsg);
+                }
             }
         }
 
@@ -217,7 +222,5 @@ namespace RickySQLTools
             }
 
         }
-
-
     }
 }

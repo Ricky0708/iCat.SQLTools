@@ -15,6 +15,10 @@
    * Generate xsd for Crystal Report use TSQL
 
 # History   
+
+* **v1.1.3.1**
+   * Adjust UI in 『POCO & Xsd』, and auto open folder after generate files..
+
 * **v1.1.3.0**
    * Update all description
     <br/>
