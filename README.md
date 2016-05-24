@@ -17,7 +17,7 @@
 # History   
 
 * **v1.2.0.0**
-   *『SP Generator』 is available, this feature can generate basic CRUD stored procedures
+   * 『SP Generator』 is available, this feature can generate basic CRUD stored procedures
    * fix export excel file with wrong script description
 <p>
 * **v1.1.3.1**
