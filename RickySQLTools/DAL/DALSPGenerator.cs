@@ -76,7 +76,7 @@ namespace RickySQLTools.DAL
             string whereParams = "";
 
             sb.Append(GenerateSPHeader(author, description));
-            sb.Append("CREATE PROCEDURE [dbo].[usp_sel_" + tableName + "]\r\n");
+            sb.Append("CREATE PROCEDURE [dbo].[usp_" + tableName + "_sel]\r\n");
             for (int i = 0; i < dvCol.Count; i++)
             {
                 if (i == dvCol.Count - 1)
@@ -110,7 +110,7 @@ namespace RickySQLTools.DAL
             string insertParams = "";
 
             sb.Append(GenerateSPHeader(author, description));
-            sb.Append("CREATE PROCEDURE [dbo].[usp_ins_" + tableName + "]\r\n");
+            sb.Append("CREATE PROCEDURE [dbo].[usp_" + tableName + "_ins]\r\n");
             for (int i = 0; i < dvCol.Count; i++)
             {
                 if (dvCol[i]["IsIdentity"].ToString() != "true")
@@ -148,7 +148,7 @@ namespace RickySQLTools.DAL
             string topWhereParams = "";
             string topUpdateParams = "";
             sb.Append(GenerateSPHeader(author, description));
-            sb.Append("CREATE PROCEDURE [dbo].[usp_upd_" + tableName + "]\r\n");
+            sb.Append("CREATE PROCEDURE [dbo].[usp_" + tableName + "_upd]\r\n");
             for (int i = 0; i < dvCol.Count; i++)
             {
                 if (dvCol[i]["IsIdentity"].ToString() != "true")
@@ -190,7 +190,7 @@ namespace RickySQLTools.DAL
             string whereParams = "";
 
             sb.Append(GenerateSPHeader(author, description));
-            sb.Append("CREATE PROCEDURE [dbo].[usp_del_" + tableName + "]\r\n");
+            sb.Append("CREATE PROCEDURE [dbo].[usp_" + tableName + "_del]\r\n");
             for (int i = 0; i < dvCol.Count; i++)
             {
                 if (i == dvCol.Count - 1)

@@ -65,7 +65,7 @@ namespace RickySQLTools.Properties {
   </Progs>
   <Progs>
     <ProgID>frmSPGenerator</ProgID>
-    <ProgName>SPGenerator</ProgName>
+    <ProgName>SP Generator</ProgName>
     <ModuleName>RickySQLTools</ModuleName>
     <SEQ>6</SEQ>
   </Progs>
