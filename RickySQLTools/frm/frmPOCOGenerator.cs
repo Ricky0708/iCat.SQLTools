@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace RickySQLTools
 {
-    public partial class frmPOCOGenrator : frmBase
+    public partial class frmPOCOGenerator : frmBase
     {
         DAL.DALPOCOGenerator objDAL = new DAL.DALPOCOGenerator();
         ShareUtility objUti = new ShareUtility();
@@ -19,7 +19,7 @@ namespace RickySQLTools
         DataTable dtScript;
         CurrencyManager cmTables;
         CurrencyManager cmScripts;
-        public frmPOCOGenrator()
+        public frmPOCOGenerator()
         {
             InitializeComponent();
             dgvTables.AutoGenerateColumns = false;

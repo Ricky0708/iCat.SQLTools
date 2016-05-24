@@ -1,6 +1,6 @@
 ﻿namespace RickySQLTools
 {
-    partial class frmPOCOGenrator
+    partial class frmPOCOGenerator
     {
         /// <summary>
         /// Required designer variable.

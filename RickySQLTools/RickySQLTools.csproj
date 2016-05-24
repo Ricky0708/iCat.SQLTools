@@ -81,12 +81,19 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DAL\DALPOCOGenerator.cs" />
+    <Compile Include="DAL\DALSPGenerator.cs" />
     <Compile Include="DAL\ErrorClass.cs" />
-    <Compile Include="frm\frmPOCOGenrator.cs">
+    <Compile Include="frm\frmPOCOGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm\frmPOCOGenrator.Designer.cs">
-      <DependentUpon>frmPOCOGenrator.cs</DependentUpon>
+    <Compile Include="frm\frmPOCOGenerator.Designer.cs">
+      <DependentUpon>frmPOCOGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm\frmSPGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm\frmSPGenerator.Designer.cs">
+      <DependentUpon>frmSPGenerator.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilitys\CompareUtility.cs" />
     <Compile Include="DAL\DALBase.cs" />
@@ -148,11 +155,14 @@
     <EmbeddedResource Include="frm\frmFakeData.resx">
       <DependentUpon>frmFakeData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm\frmPOCOGenrator.resx">
-      <DependentUpon>frmPOCOGenrator.cs</DependentUpon>
+    <EmbeddedResource Include="frm\frmPOCOGenerator.resx">
+      <DependentUpon>frmPOCOGenerator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm\frmSetConfigDialog.resx">
       <DependentUpon>frmSetConfigDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm\frmSPGenerator.resx">
+      <DependentUpon>frmSPGenerator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm\frmTables.resx">
       <DependentUpon>frmTables.cs</DependentUpon>

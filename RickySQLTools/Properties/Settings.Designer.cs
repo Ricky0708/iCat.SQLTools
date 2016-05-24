@@ -58,10 +58,16 @@ namespace RickySQLTools.Properties {
     <SEQ>4</SEQ>
   </Progs>
   <Progs>
-    <ProgID>frmPOCOGenrator</ProgID>
+    <ProgID>frmPOCOGenerator</ProgID>
     <ProgName><![CDATA[POCO && Xsd]]></ProgName>
     <ModuleName>RickySQLTools</ModuleName>
     <SEQ>5</SEQ>
+  </Progs>
+  <Progs>
+    <ProgID>frmSPGenerator</ProgID>
+    <ProgName>SPGenerator</ProgName>
+    <ModuleName>RickySQLTools</ModuleName>
+    <SEQ>6</SEQ>
   </Progs>
 </Programs>")]
         public string Progs {

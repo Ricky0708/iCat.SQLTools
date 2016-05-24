@@ -24,6 +24,15 @@ namespace RickySQLTools
         SQL,
         Xml
     }
+
+    public enum SPType
+    {
+        def,
+        Select,
+        Insert,
+        Update,
+        Delete
+    }
 }
 namespace RickySQLTools.DAL
 {

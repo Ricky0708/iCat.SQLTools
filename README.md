@@ -16,6 +16,10 @@
 
 # History   
 
+* **v1.2.0.0**
+   *『SP Generator』 is available, this feature can generate basic CRUD stored procedures
+   * fix export excel file with wrong script description
+<p>
 * **v1.1.3.1**
    * Adjust UI in 『POCO & Xsd』, and auto open folder after generate files..
 

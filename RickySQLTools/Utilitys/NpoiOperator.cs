@@ -185,7 +185,7 @@ namespace RickySQLTools.DAL
             int endIndex = ROUTINE_DEFINITION.IndexOf("**/");
             if (startIndex > -1)
             {
-                ROUTINE_DEFINITION = ROUTINE_DEFINITION.Substring(startIndex + 3, endIndex - 3);
+                ROUTINE_DEFINITION = ROUTINE_DEFINITION.Substring(startIndex + 3, endIndex - startIndex - 3);
             }
             else
             {
@@ -246,7 +246,7 @@ namespace RickySQLTools.DAL
                 colBody.CreateCell(1).SetCellValue(dvColumns[n]["ColName"].ToString()); colBody.GetCell(1).CellStyle = cellStyle;
                 colBody.CreateCell(2).SetCellValue(dvColumns[n]["ColType"].ToString()); colBody.GetCell(2).CellStyle = cellStyle;
                 colBody.CreateCell(3).SetCellValue(dvColumns[n]["ColLength"].ToString()); colBody.GetCell(3).CellStyle = cellStyle;
-                colBody.CreateCell(4).SetCellValue((dvColumns[n]["IsNullable"].ToString() == "1").ToString().Replace("False","")); colBody.GetCell(4).CellStyle = cellStyle;
+                colBody.CreateCell(4).SetCellValue((dvColumns[n]["IsNullable"].ToString() == "1").ToString().Replace("False", "")); colBody.GetCell(4).CellStyle = cellStyle;
                 colBody.CreateCell(5).SetCellValue(dvColumns[n]["ColDescription"].ToString()); colBody.GetCell(5).CellStyle = cellStyle;
 
             }
