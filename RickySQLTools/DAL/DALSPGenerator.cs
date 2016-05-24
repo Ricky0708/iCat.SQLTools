@@ -157,16 +157,22 @@ namespace RickySQLTools.DAL
                     {
                         updateParams += dvCol[i]["ColName"] + " = " + "@p_" + dvCol[i]["ColName"] + " ";
                         topUpdateParams += "@p_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + ",\r\n";
-                        whereParams += "         " + dvCol[i]["ColName"] + " = " + "@w_" + dvCol[i]["ColName"] + "\r\n";
-                        topWhereParams += "@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + "\r\n\r\n";
                     }
                     else
                     {
                         updateParams += dvCol[i]["ColName"] + " = " + "@p_" + dvCol[i]["ColName"] + ", ";
                         topUpdateParams += "@p_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + ",\r\n";
-                        whereParams += "         " + dvCol[i]["ColName"] + " = " + "@w_" + dvCol[i]["ColName"] + " AND \r\n";
-                        topWhereParams += "@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + ",\r\n";
                     }
+                }
+                if (i == dvCol.Count - 1)
+                {
+                    whereParams += "         " + dvCol[i]["ColName"] + " = " + "@w_" + dvCol[i]["ColName"] + "\r\n";
+                    topWhereParams += "@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + "\r\n\r\n";
+                }
+                else
+                {
+                    whereParams += "         " + dvCol[i]["ColName"] + " = " + "@w_" + dvCol[i]["ColName"] + " AND \r\n";
+                    topWhereParams += "@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + ",\r\n";
                 }
 
             }
@@ -180,7 +186,6 @@ namespace RickySQLTools.DAL
             result = sb.ToString();
             return result;
         }
-
         private string GenerateDelete(DataSet ds, string tableName, string author, string description)
         {
             string result = "";
