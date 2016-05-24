@@ -61,7 +61,7 @@ namespace RickySQLTools.DAL
             sb.Append("-- Author      : " + author + "\r\n");
             sb.Append("-- Create date : " + DateTime.Today.ToShortDateString() + "\r\n");
             sb.Append("-- Revised date: \r\n");
-            sb.Append("-- Description : /**Insert " + description + "**/\r\n");
+            sb.Append("-- Description : /**" + description + "**/\r\n");
             sb.Append("-- ===================================================================\r\n");
             result = sb.ToString();
             return result;
