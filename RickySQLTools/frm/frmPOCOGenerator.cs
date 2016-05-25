@@ -19,10 +19,12 @@ namespace RickySQLTools
         DataTable dtScript;
         CurrencyManager cmTables;
         CurrencyManager cmScripts;
+        CurrencyManager cmSPAndFuncs;
         public frmPOCOGenerator()
         {
             InitializeComponent();
             dgvTables.AutoGenerateColumns = false;
+            dgvSpsAndFuncs.AutoGenerateColumns = false;
             dtScript = new DataTable("Scripts");
             dtScript.Columns.Add("ScriptName");
             dtScript.Columns.Add("Script");
@@ -48,8 +50,12 @@ namespace RickySQLTools
                 ds = objDAL.dalDataset;
                 dgvTables.DataSource = ds;
                 dgvTables.DataMember = "Tables";
+                dgvSpsAndFuncs.DataSource = ds;
+                dgvSpsAndFuncs.DataMember = "SpsAndFuncs";
                 cmTables = (CurrencyManager)this.BindingContext[ds, "Tables"];
+                cmSPAndFuncs = (CurrencyManager)this.BindingContext[ds, "SpsAndFuncs"];
                 ((DataView)cmTables.List).RowFilter = "TableName LIKE '%" + txtTableFilter.Text + "%'";
+                ((DataView)cmSPAndFuncs.List).RowFilter = "SPECIFIC_NAME LIKE '%" + txtSpFilter.Text + "%'";
             }
             else
             {
@@ -186,6 +192,14 @@ namespace RickySQLTools
                 ((DataView)cmTables.List).RowFilter = "TableName LIKE '%" + txtTableFilter.Text + "%'";
             }
         }
+        private void txtSpFilter_TextChanged(object sender, EventArgs e)
+        {
+            if (cmSPAndFuncs != null)
+            {
+                ((DataView)cmSPAndFuncs.List).RowFilter = "SPECIFIC_NAME LIKE '%" + txtSpFilter.Text + "%'";
+            }
+        }
+
 
         private void dgv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -199,7 +213,14 @@ namespace RickySQLTools
                         txtScript.Text = objDAL.GenerateScript(tableName);
                     }
                     break;
-
+                case "dgvSpsAndFuncs":
+                    if (cmTables.Position != -1)
+                    {
+                        string spName = ((DataRowView)cmSPAndFuncs.Current)["SPECIFIC_NAME"].ToString();
+                        txtClassName.Text = spName;
+                        txtResult.Text = objDAL.GeneratePOCOFromSP(spName);
+                    }
+                    break;
                 case "dgvScripts":
                     if (cmScripts.Position != -1)
                     {
@@ -222,5 +243,7 @@ namespace RickySQLTools
             }
 
         }
+
+
     }
 }

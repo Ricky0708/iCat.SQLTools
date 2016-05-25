@@ -43,6 +43,12 @@
             this.txtResult = new RickySQLTools.CustomControll.PlaceholderTextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.dgvSpsAndFuncs = new System.Windows.Forms.DataGridView();
+            this.dSPECIFIC_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dROUTINE_TYPE = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dDATA_TYPE = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtSpFilter = new RickySQLTools.CustomControll.PlaceholderTextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgvScripts = new System.Windows.Forms.DataGridView();
             this.dCmd = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,6 +69,8 @@
             this.splitContainer2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSpsAndFuncs)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvScripts)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -77,12 +85,12 @@
             this.dgvTables.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dTableName});
             this.dgvTables.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvTables.Location = new System.Drawing.Point(3, 119);
+            this.dgvTables.Location = new System.Drawing.Point(3, 150);
             this.dgvTables.Name = "dgvTables";
             this.dgvTables.ReadOnly = true;
             this.dgvTables.RowTemplate.Height = 24;
             this.dgvTables.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvTables.Size = new System.Drawing.Size(319, 424);
+            this.dgvTables.Size = new System.Drawing.Size(319, 393);
             this.dgvTables.TabIndex = 0;
             this.dgvTables.TabStop = false;
             this.dgvTables.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
@@ -223,6 +231,7 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -234,8 +243,8 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.txtTableFilter);
             this.tabPage1.Controls.Add(this.dgvTables);
+            this.tabPage1.Controls.Add(this.txtTableFilter);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Location = new System.Drawing.Point(4, 30);
             this.tabPage1.Name = "tabPage1";
@@ -244,6 +253,74 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Tables";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.dgvSpsAndFuncs);
+            this.tabPage3.Controls.Add(this.txtSpFilter);
+            this.tabPage3.Location = new System.Drawing.Point(4, 30);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(325, 546);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Stored Procedures";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // dgvSpsAndFuncs
+            // 
+            this.dgvSpsAndFuncs.AllowUserToAddRows = false;
+            this.dgvSpsAndFuncs.AllowUserToDeleteRows = false;
+            this.dgvSpsAndFuncs.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvSpsAndFuncs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSpsAndFuncs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dSPECIFIC_NAME,
+            this.dROUTINE_TYPE,
+            this.dDATA_TYPE});
+            this.dgvSpsAndFuncs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvSpsAndFuncs.Location = new System.Drawing.Point(3, 34);
+            this.dgvSpsAndFuncs.Name = "dgvSpsAndFuncs";
+            this.dgvSpsAndFuncs.ReadOnly = true;
+            this.dgvSpsAndFuncs.RowTemplate.Height = 24;
+            this.dgvSpsAndFuncs.Size = new System.Drawing.Size(319, 509);
+            this.dgvSpsAndFuncs.TabIndex = 5;
+            this.dgvSpsAndFuncs.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_CellDoubleClick);
+            // 
+            // dSPECIFIC_NAME
+            // 
+            this.dSPECIFIC_NAME.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dSPECIFIC_NAME.DataPropertyName = "SPECIFIC_NAME";
+            this.dSPECIFIC_NAME.HeaderText = "SPECIFIC_NAME";
+            this.dSPECIFIC_NAME.Name = "dSPECIFIC_NAME";
+            this.dSPECIFIC_NAME.ReadOnly = true;
+            this.dSPECIFIC_NAME.Width = 182;
+            // 
+            // dROUTINE_TYPE
+            // 
+            this.dROUTINE_TYPE.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dROUTINE_TYPE.DataPropertyName = "ROUTINE_TYPE";
+            this.dROUTINE_TYPE.HeaderText = "ROUTINE_TYPE";
+            this.dROUTINE_TYPE.Name = "dROUTINE_TYPE";
+            this.dROUTINE_TYPE.ReadOnly = true;
+            this.dROUTINE_TYPE.Width = 176;
+            // 
+            // dDATA_TYPE
+            // 
+            this.dDATA_TYPE.DataPropertyName = "DATA_TYPE";
+            this.dDATA_TYPE.HeaderText = "TYPE";
+            this.dDATA_TYPE.MinimumWidth = 100;
+            this.dDATA_TYPE.Name = "dDATA_TYPE";
+            this.dDATA_TYPE.ReadOnly = true;
+            // 
+            // txtSpFilter
+            // 
+            this.txtSpFilter.BackColor = System.Drawing.SystemColors.Info;
+            this.txtSpFilter.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtSpFilter.Location = new System.Drawing.Point(3, 3);
+            this.txtSpFilter.Name = "txtSpFilter";
+            this.txtSpFilter.PlaceHolder = "Write something here to filter SP && Func";
+            this.txtSpFilter.Size = new System.Drawing.Size(319, 31);
+            this.txtSpFilter.TabIndex = 6;
+            this.txtSpFilter.TextChanged += new System.EventHandler(this.txtSpFilter_TextChanged);
             // 
             // tabPage2
             // 
@@ -349,14 +426,14 @@
             this.btnAddScript.UseVisualStyleBackColor = true;
             this.btnAddScript.Click += new System.EventHandler(this.btn_Click);
             // 
-            // frmPOCOGenrator
+            // frmPOCOGenerator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(858, 623);
             this.Controls.Add(this.splitContainer1);
             this.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
-            this.Name = "frmPOCOGenrator";
+            this.Name = "frmPOCOGenerator";
             this.Text = "POCO_Genrator";
             this.Load += new System.EventHandler(this.frmPOCOGenrator_Load);
             this.Controls.SetChildIndex(this.splitContainer1, 0);
@@ -375,6 +452,9 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSpsAndFuncs)).EndInit();
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvScripts)).EndInit();
             this.groupBox1.ResumeLayout(false);
@@ -404,5 +484,11 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnExportCRptXml;
         private System.Windows.Forms.Button btnAddScript;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.DataGridView dgvSpsAndFuncs;
+        private CustomControll.PlaceholderTextBox txtSpFilter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dSPECIFIC_NAME;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dROUTINE_TYPE;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dDATA_TYPE;
     }
 }

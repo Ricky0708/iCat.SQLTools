@@ -15,6 +15,8 @@
    * Generate xsd for Crystal Report use TSQL
 
 # History   
+* **v1.2.1.0**
+   * Generate sp input parameters to model
 
 * **v1.2.0.0**
    * 『SP Generator』 is available, this feature can generate basic CRUD stored procedures
