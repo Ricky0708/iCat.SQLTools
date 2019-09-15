@@ -80,7 +80,7 @@ namespace RickySQLTools.DAL
                     //sb.Append("@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + ",\r\n");
                 }
             }
-            sb.Append($"    sbSQL.Append(\"SELECT {selectCols} FROM {tableName}\");\r\n");
+            sb.Append($"    sbSQL.Append(\"SELECT {selectCols} FROM {tableName} \");\r\n");
             sb.Append($"    sbSQL.Append(\"WHERE \");\r\n");
             sb.Append($"    {whereParams}\r\n");
 
