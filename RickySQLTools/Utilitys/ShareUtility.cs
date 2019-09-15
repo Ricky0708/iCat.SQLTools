@@ -16,6 +16,93 @@ namespace RickySQLTools.Utilitys
 
     public class ShareUtility : ErrorClasss
     {
+        public static string RenameDbType(string name)
+        {
+            string result = "";
+            switch (name.ToUpper())
+            {
+                case "CHAR":
+                case "NVARCHAR":
+                case "VARCHAR":
+                    result = "string";
+                    break;
+                case "DATETIME":
+                    result = "DateTime";
+                    break;
+                case "BIT":
+                    result = "bool";
+                    break;
+                case "INT":
+                    result = "int";
+                    break;
+                case "BIGINIT":
+                    result = "long";
+                    break;
+                default:
+                    //the others not implement yet !
+                    result = name;
+                    break;
+            }
+            return result;
+        }
+
+        public static string RenameType(string name)
+        {
+            string result = "";
+            switch (name.ToUpper())
+            {
+                case "BOOLEAN":
+                    result = "bool";
+                    break;
+                case "STRING":
+                    result = "string";
+                    break;
+                case "DATETIME":
+                    result = "DateTime";
+                    break;
+                case "INT32":
+                    result = "int";
+                    break;
+                case "INT64":
+                    result = "long";
+                    break;
+                default:
+                    //the others not implement yet !
+                    result = name;
+                    break;
+            }
+            return result;
+        }
+
+        public static string ConvertToCSharpDbType(string name)
+        {
+            string result = "";
+            switch (name.ToUpper())
+            {
+                case "CHAR":
+                case "NVARCHAR":
+                case "VARCHAR":
+                    result = "DbType.String";
+                    break;
+                case "DATETIME":
+                    result = "DbType.DateTime";
+                    break;
+                case "BIT":
+                    result = "DbType.Boolean";
+                    break;
+                case "INT":
+                    result = "DbType.Int32";
+                    break;
+                case "BIGINT":
+                    result = "DbType.Int64";
+                    break;
+                default:
+                    //the others not implement yet !
+                    result = name;
+                    break;
+            }
+            return result;
+        }
 
         public string GetDbName(string connectionString)
         {

@@ -132,7 +132,7 @@ namespace RickySQLTools.DAL
 				//{
 				//    attr = GetAttrib(item) + "\r\n";
 				//}
-				body += attr + string.Format("        public {0} {1} {{ get; set; }}\r\n", RenameDbType(item["Data_Type"].ToString()), item["Parameter_Name"].ToString().Replace("@", ""));
+				body += attr + string.Format("        public {0} {1} {{ get; set; }}\r\n", ShareUtility.RenameDbType(item["Data_Type"].ToString()), item["Parameter_Name"].ToString().Replace("@", ""));
 			}
 			body = body.Substring(0, body.Length - 2);
 			result = defUsing + "\r\n" + defNamespace + "{\r\n    public class " + tableName + "\r\n    {\r\n" + body + "\r\n    }    \r\n}";
@@ -155,7 +155,7 @@ namespace RickySQLTools.DAL
 				{
 					attr = GetAttrib(item) + "\r\n";
 				}
-				body += attr + string.Format("        public {0} {1} {{ get; set; }}\r\n", RenameType(item.DataType.Name), item.ColumnName);
+				body += attr + string.Format("        public {0} {1} {{ get; set; }}\r\n", ShareUtility.RenameType(item.DataType.Name), item.ColumnName);
 			}
 			body = body.Substring(0, body.Length - 2);
 			result = defUsing + "\r\n" + defNamespace + "{\r\n    public class " + tableName + "\r\n    {\r\n" + body + "\r\n    }    \r\n}";
@@ -185,63 +185,7 @@ namespace RickySQLTools.DAL
 			}
 			return result;
 		}
-		private string RenameDbType(string name)
-		{
-			string result = "";
-			switch (name.ToUpper())
-			{
-				case "CHAR":
-				case "NVARCHR":
-				case "VARCHAR":
-					result = "string";
-					break;
-				case "DATETIME":
-					result = "DateTime";
-					break;
-				case "BIT":
-					result = "bool";
-					break;
-				case "INT":
-					result = "int";
-					break;
-				case "BIGINIT":
-					result = "long";
-					break;
-				default:
-					//the others not implement yet !
-					result = name;
-					break;
-			}
-			return result;
-		}
-
-		private string RenameType(string name)
-		{
-			string result = "";
-			switch (name.ToUpper())
-			{
-				case "BOOLEAN":
-					result = "bool";
-					break;
-				case "STRING":
-					result = "string";
-					break;
-				case "DATETIME":
-					result = "DateTime";
-					break;
-				case "INT32":
-					result = "int";
-					break;
-				case "INT64":
-					result = "long";
-					break;
-				default:
-					//the others not implement yet !
-					result = name;
-					break;
-			}
-			return result;
-		}
+	
 		#endregion
 
 	}

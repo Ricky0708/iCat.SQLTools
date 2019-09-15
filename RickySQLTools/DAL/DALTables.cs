@@ -25,11 +25,14 @@ namespace RickySQLTools.DAL
 		{
 			_strConn = base.connString;
 			dao = new DAO(_strConn);
-			dalDataset = new DataSet();
+
+
+            dalDataset = new DataSet();
 			try
 			{
 				using (SqlConnection conn = new SqlConnection(_strConn))
 				{
+                    //conn.Open();
 					SqlDataAdapter da = new SqlDataAdapter(GeneratScriptGetCol(), conn);
 					da.Fill(dalDataset, strColumns);
 					da = new SqlDataAdapter(GeneratScriptGetTable(), conn);

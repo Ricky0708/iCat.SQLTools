@@ -80,9 +80,16 @@
     <Compile Include="CustomControll\PlaceholderTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DAL\DALDapperGenerator.cs" />
     <Compile Include="DAL\DALPOCOGenerator.cs" />
     <Compile Include="DAL\DALSPGenerator.cs" />
     <Compile Include="DAL\ErrorClass.cs" />
+    <Compile Include="frm\frmDapperGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm\frmDapperGenerator.Designer.cs">
+      <DependentUpon>frmDapperGenerator.cs</DependentUpon>
+    </Compile>
     <Compile Include="frm\frmPOCOGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frm\frmBase.resx">
       <DependentUpon>frmBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm\frmDapperGenerator.resx">
+      <DependentUpon>frmDapperGenerator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm\frmFakeData.resx">
       <DependentUpon>frmFakeData.cs</DependentUpon>
