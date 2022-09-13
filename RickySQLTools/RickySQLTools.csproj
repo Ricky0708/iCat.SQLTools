@@ -79,10 +79,17 @@
     <Compile Include="CustomControll\PlaceholderTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DAL\DALADONetGenerator.cs" />
     <Compile Include="DAL\DALDapperGenerator.cs" />
     <Compile Include="DAL\DALPOCOGenerator.cs" />
     <Compile Include="DAL\DALSPGenerator.cs" />
     <Compile Include="DAL\ErrorClass.cs" />
+    <Compile Include="frm\frmADONetGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm\frmADONetGenerator.Designer.cs">
+      <DependentUpon>frmADONetGenerator.cs</DependentUpon>
+    </Compile>
     <Compile Include="frm\frmDapperGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frm\frmBase.resx">
       <DependentUpon>frmBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm\frmADONetGenerator.resx">
+      <DependentUpon>frmADONetGenerator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm\frmDapperGenerator.resx">
       <DependentUpon>frmDapperGenerator.cs</DependentUpon>

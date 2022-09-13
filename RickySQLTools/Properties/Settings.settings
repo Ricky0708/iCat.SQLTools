@@ -56,6 +56,12 @@ using System.ComponentModel.DataAnnotations;</Value>
     &lt;ProgID&gt;frmDapperGenerator&lt;/ProgID&gt;
     &lt;ProgName&gt;Dapper Generator&lt;/ProgName&gt;
     &lt;ModuleName&gt;RickySQLTools&lt;/ModuleName&gt;
+    &lt;SEQ&gt;8&lt;/SEQ&gt;
+  &lt;/Progs&gt;
+  &lt;Progs&gt;
+    &lt;ProgID&gt;frmADONetGenerator&lt;/ProgID&gt;
+    &lt;ProgName&gt;ADO.NET Generator&lt;/ProgName&gt;
+    &lt;ModuleName&gt;RickySQLTools&lt;/ModuleName&gt;
     &lt;SEQ&gt;7&lt;/SEQ&gt;
   &lt;/Progs&gt;
 &lt;/Programs&gt;</Value>

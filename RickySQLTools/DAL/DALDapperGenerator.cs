@@ -67,20 +67,21 @@ namespace RickySQLTools.DAL
             {
                 if (i == dvCol.Count - 1)
                 {
-                    selectCols += dvCol[i]["ColName"];
-                    whereParams += $"sbSQL.Append(\"    {dvCol[i]["ColName"]} = @{dvCol[i]["ColName"]}\"); \r\n";
+                    selectCols += "A." + dvCol[i]["ColName"];
+                    whereParams += $"sbSQL.Append(\"    A.{dvCol[i]["ColName"]} = @{dvCol[i]["ColName"]}\"); \r\n";
                     parameters += $"parameters.Add(\"@{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {ShareUtility.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
                     //sb.Append("@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + "\r\n\r\n");
                 }
                 else
                 {
-                    selectCols += dvCol[i]["ColName"] + ", ";
-                    whereParams += $"sbSQL.Append(\"    {dvCol[i]["ColName"]} = @{dvCol[i]["ColName"]} AND \"); \r\n";
+                    selectCols += "A." + dvCol[i]["ColName"] + ", ";
+                    whereParams += $"sbSQL.Append(\"    A.{dvCol[i]["ColName"]} = @{dvCol[i]["ColName"]} AND \"); \r\n";
                     parameters += $"parameters.Add(\"@{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {ShareUtility.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
                     //sb.Append("@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + ",\r\n");
                 }
             }
-            sb.Append($"    sbSQL.Append(\"SELECT {selectCols} FROM {tableName} \");\r\n");
+            sb.Append($"    sbSQL.Append(\"SELECT {selectCols} \");\r\n");
+            sb.Append($"    sbSQL.Append(\"FROM {tableName} \");\r\n");
             sb.Append($"    sbSQL.Append(\"WHERE \");\r\n");
             sb.Append($"    {whereParams}\r\n");
 
