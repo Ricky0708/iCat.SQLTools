@@ -33,7 +33,8 @@ namespace RickySQLTools.DAL
 				using (SqlConnection conn = new SqlConnection(_strConn))
 				{
                     //conn.Open();
-					SqlDataAdapter da = new SqlDataAdapter(GeneratScriptGetCol(), conn);
+                    SqlDataAdapter da = new SqlDataAdapter(GeneratScriptGetCol(), conn);
+                    da.SelectCommand.CommandTimeout = 999;
 					da.Fill(dalDataset, strColumns);
 					da = new SqlDataAdapter(GeneratScriptGetTable(), conn);
 					da.Fill(dalDataset, strTables);
