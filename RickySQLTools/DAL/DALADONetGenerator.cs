@@ -72,14 +72,14 @@ namespace RickySQLTools.DAL
                     whereParams += $"sbSQL.Append(\"    A.{dvCol[i]["ColName"]} = @{dvCol[i]["ColName"]}\"); \r\n";
                     parameters += $"parameters.Add(new SqlParameter(\"@{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}));\r\n";
                     //dataAssigen += $" {dvCol[i]["ColName"]} = Convert.{ConvertType(dvCol[i]["ColType"].ToString())}(dr[nameof({tableName}Model.{dvCol[i]["ColName"]})]) \r\n";
-                    dataAssigen += $"{dvCol[i]["ColName"]} = {ConvertType(dvCol[i], $"{tableName}Model")} \r\n";
+                    dataAssigen += $"{dvCol[i]["ColName"]} = {ConvertType(dvCol[i], $"{tableName}")} \r\n";
                 }
                 else
                 {
                     selectCols += "A." + dvCol[i]["ColName"] + ", ";
                     whereParams += $"sbSQL.Append(\"    A.{dvCol[i]["ColName"]} = @{dvCol[i]["ColName"]} AND \"); \r\n";
                     parameters += $"parameters.Add(new SqlParameter(\"@{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}));\r\n";
-                    dataAssigen += $"{dvCol[i]["ColName"]} = {ConvertType(dvCol[i], $"{tableName}Model")}, \r\n";
+                    dataAssigen += $"{dvCol[i]["ColName"]} = {ConvertType(dvCol[i], $"{tableName}")}, \r\n";
                 }
             }
             sb.Append($"    sbSQL.Append(\"SELECT {selectCols} \");\r\n");
