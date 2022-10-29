@@ -153,13 +153,13 @@ namespace RickySQLTools.DAL
             foreach (DataColumn item in dt.Columns)
             {
                 string attr = "";
-                var summary = GetSummary(item);
+                var summary = GetSummary(item) + "\r\n";
                 if (defIncludeAttr)
                 {
                     attr = GetAttrib(item) + "\r\n";
                 }
                 var isNullable = (int)GetColumnInfo(item)["IsNullable"] == 1;
-                body += attr + string.Format("        public {0} {1} {{ get; set; }} {2}\r\n",
+                body += summary + attr + string.Format("        public {0} {1} {{ get; set; }} {2}\r\n",
                     ShareUtility.RenameType(item.DataType.Name) + (isNullable ? "?" : ""),
                     item.ColumnName,
                     item.DataType.Name.ToLower() == "string"
