@@ -153,7 +153,7 @@ namespace RickySQLTools.DAL
             foreach (DataColumn item in dt.Columns)
             {
                 string attr = "";
-                var summary = GetSummery(item);
+                var summary = GetSummary(item);
                 if (defIncludeAttr)
                 {
                     attr = GetAttrib(item) + "\r\n";
@@ -163,7 +163,7 @@ namespace RickySQLTools.DAL
                     ShareUtility.RenameType(item.DataType.Name) + (isNullable ? "?" : ""),
                     item.ColumnName,
                     item.DataType.Name.ToLower() == "string"
-                    ? isNullable 
+                    ? isNullable
                         ? ""
                         : " = \"\";"
                     : ""
