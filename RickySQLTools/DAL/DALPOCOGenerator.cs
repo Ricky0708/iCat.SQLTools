@@ -153,6 +153,7 @@ namespace RickySQLTools.DAL
             foreach (DataColumn item in dt.Columns)
             {
                 string attr = "";
+                var summary = GetSummery(item);
                 if (defIncludeAttr)
                 {
                     attr = GetAttrib(item) + "\r\n";
@@ -182,10 +183,6 @@ namespace RickySQLTools.DAL
 
             if (colInfo != null)
             {
-                result += $"\r\n        /// <summary>";
-                result += $"\r\n        /// {colInfo["ColDescription"].ToString()}";
-                result += $"\r\n        /// </summary>";
-
                 if (col.DataType == typeof(string))
                 {
                     result += "\r\n        [MaxLength(" + colInfo["ColLength"] + ")]";
@@ -194,6 +191,21 @@ namespace RickySQLTools.DAL
                 {
                     result += "\r\n        [Required]";
                 }
+            }
+            return result;
+        }
+
+        private string GetSummary(DataColumn col)
+        {
+            string result = "";
+            DataTable dtColumnsTable = dalDataset.Tables[strColumns];
+            var colInfo = GetColumnInfo(col);
+
+            if (colInfo != null)
+            {
+                result += $"\r\n        /// <summary>";
+                result += $"\r\n        /// {colInfo["ColDescription"].ToString()}";
+                result += $"\r\n        /// </summary>";
             }
             return result;
         }
