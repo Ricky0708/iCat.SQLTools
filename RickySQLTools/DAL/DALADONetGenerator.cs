@@ -108,6 +108,7 @@ namespace RickySQLTools.DAL
                     return $"Convert.ToBoolean(dr[nameof({modelName}.{drv["ColName"]})])";
                 case "int":
                     return $"Convert.ToInt32(dr[nameof({modelName}.{drv["ColName"]})])";
+                case "varbinary":
                 case "char":
                 case "varchar":
                 case "nvarchar":
