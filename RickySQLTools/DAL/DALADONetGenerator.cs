@@ -122,6 +122,8 @@ namespace RickySQLTools.DAL
                         result = $"Convert.ToString(dr[nameof({modelName}.{drv["ColName"]})])";
                     }
                     return result;
+                case "datetime":
+                    return $"Convert.ToInt32(dr[nameof({modelName}.{drv["ColName"]})])"; ;
                 default:
                     throw new Exception($"unknow col type {drv["ColType"].ToString().ToLower()}");
             }
