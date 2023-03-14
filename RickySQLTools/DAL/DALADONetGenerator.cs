@@ -93,12 +93,93 @@ namespace RickySQLTools.DAL
         }
         private string GenerateInsert(DataSet ds, string tableName)
         {
-            throw new Exception();
+            string result = "";
+            StringBuilder sb = new StringBuilder();
+            DataView dvCol = ds.Tables[strColumns].DefaultView;
+            dvCol.RowFilter = "TableName='" + tableName + "'";
+            string selectCols = "";
+            string valueParams = "";
+            string parameters = "var parameters = new List<SqlParameter>();\r\n";
+            sb.Append("var sbSQL = new StringBuilder();\r\n");
+            for (int i = 0; i < dvCol.Count; i++)
+            {
+                var isNotNullable = (int)dvCol[i]["IsNullable"] == 0;
+                if (i == dvCol.Count - 1)
+                {
+                    selectCols += dvCol[i]["ColName"];
+                    valueParams += $"@{dvCol[i]["ColName"]}";
+                    parameters += $"parameters.Add(new SqlParameter(\"@{dvCol[i]["ColName"]}\", data.{dvCol[i]["ColName"].ToString()} {(!isNotNullable ? "?? (object)DBNull.Value" : "")}));\r\n";
+                    //sb.Append("@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + "\r\n\r\n");
+                }
+                else
+                {
+                    selectCols += dvCol[i]["ColName"] + ", ";
+                    valueParams += $"@{dvCol[i]["ColName"]}, ";
+                    parameters += $"parameters.Add(new SqlParameter(\"@{dvCol[i]["ColName"]}\", data.{dvCol[i]["ColName"].ToString()} {(!isNotNullable ? "?? (object)DBNull.Value" : "")}));\r\n";
+                    //sb.Append("@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + ",\r\n");
+                }
+            }
+            sb.Append($"    sbSQL.Append(\"INSERT INTO {tableName}({selectCols}) \");\r\n");
+            sb.Append($"    sbSQL.Append(\"VALUES({valueParams}) \");\r\n");
+
+            sb.Append(parameters);
+            result = sb.ToString();
+            return result;
         }
         private string GenerateUpdate(DataSet ds, string tableName)
         {
-            throw new Exception();
+            string result = "";
+            StringBuilder sb = new StringBuilder();
+            DataView dvCol = ds.Tables[strColumns].DefaultView;
+            dvCol.RowFilter = "TableName='" + tableName + "'";
+            string updateParams = "";
+            string whereParams = "";
+            string topWhereParams = "";
+            string topUpdateParams = "";
+            string p_parameters = "var parameters = new List<SqlParameter>();\r\n";
+            string w_parameters = "";
+            sb.Append("var sbSQL = new StringBuilder();\r\n");
+            for (int i = 0; i < dvCol.Count; i++)
+            {
+                var isNotNullable = (int)dvCol[i]["IsNullable"] == 0;
+                if (dvCol[i]["IsIdentity"].ToString() != "true")
+                {
+                    if (i == dvCol.Count - 1)
+                    {
+                        updateParams += dvCol[i]["ColName"] + " = " + "@p_" + dvCol[i]["ColName"] + " ";
+                        p_parameters += $"parameters.Add(new SqlParameter(\"@p_{dvCol[i]["ColName"]}\", data.{dvCol[i]["ColName"].ToString()} {(!isNotNullable ? "?? (object)DBNull.Value" : "")}));\r\n";
+                        //w_parameters += $"parameters.Add(\"@w_{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {ShareUtility.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                    }
+                    else
+                    {
+                        updateParams += dvCol[i]["ColName"] + " = " + "@p_" + dvCol[i]["ColName"] + ", ";
+                        p_parameters += $"parameters.Add(new SqlParameter(\"@p_{dvCol[i]["ColName"]}\", data.{dvCol[i]["ColName"].ToString()} {(!isNotNullable ? "?? (object)DBNull.Value" : "")}));\r\n";
+                        //w_parameters += $"parameters.Add(\"@w_{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {ShareUtility.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                    }
+                }
+                if (i == dvCol.Count - 1)
+                {
+                    whereParams += "         sbSQL.Append(\"    " + dvCol[i]["ColName"] + " = " + "@w_" + dvCol[i]["ColName"] + "\");\r\n";
+                    //p_parameters += $"parameters.Add(\"@p_{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {ShareUtility.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                    w_parameters += $"parameters.Add(new SqlParameter(\"@w_{dvCol[i]["ColName"]}\", data.{dvCol[i]["ColName"].ToString()} {(!isNotNullable ? "?? (object)DBNull.Value" : "")}));\r\n";
+                }
+                else
+                {
+                    whereParams += "         sbSQL.Append(\"    " + dvCol[i]["ColName"] + " = " + "@w_" + dvCol[i]["ColName"] + " AND \");\r\n";
+                    //p_parameters += $"parameters.Add(\"@p_{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {ShareUtility.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                    w_parameters += $"parameters.Add(new SqlParameter(\"@w_{dvCol[i]["ColName"]}\", data.{dvCol[i]["ColName"].ToString()} {(!isNotNullable ? "?? (object)DBNull.Value" : "")}));\r\n";
+                }
+
+            }
+            sb.Append(topUpdateParams);
+            sb.Append($"    sbSQL.Append(\"UPDATE {tableName} SET {updateParams} \");\r\n");
+            sb.Append($"    sbSQL.Append(\"WHERE \");\r\n" + whereParams + "");
+            sb.Append(p_parameters);
+            sb.Append(w_parameters);
+            result = sb.ToString();
+            return result;
         }
+
         private string ConvertType(DataRowView drv, string modelName)
         {
             //
@@ -108,6 +189,8 @@ namespace RickySQLTools.DAL
                     return $"Convert.ToBoolean(dr[nameof({modelName}.{drv["ColName"]})])";
                 case "int":
                     return $"Convert.ToInt32(dr[nameof({modelName}.{drv["ColName"]})])";
+                case "decimal":
+                    return $"Convert.ToDecimal(dr[nameof({modelName}.{drv["ColName"]})])";
                 case "varbinary":
                 case "char":
                 case "varchar":
@@ -115,15 +198,15 @@ namespace RickySQLTools.DAL
                     var result = "";
                     if ((int)drv["IsNullable"] == 0)
                     {
-                        result = $"dr.IsDBNull(nameof({modelName}.{drv["ColName"]})) ? \"\" : (string)dr[nameof({modelName}.{drv["ColName"]})]";
+                        result = $"Convert.ToString(dr[nameof({modelName}.{drv["ColName"]})])";
                     }
                     else
                     {
-                        result = $"Convert.ToString(dr[nameof({modelName}.{drv["ColName"]})])";
+                        result = $"dr.IsDBNull(nameof({modelName}.{drv["ColName"]})) ? \"\" : (string)dr[nameof({modelName}.{drv["ColName"]})]";
                     }
                     return result;
                 case "datetime":
-                    return $"Convert.ToInt32(dr[nameof({modelName}.{drv["ColName"]})])"; ;
+                    return $"Convert.ToDateTime(dr[nameof({modelName}.{drv["ColName"]})])"; ;
                 default:
                     throw new Exception($"unknow col type {drv["ColType"].ToString().ToLower()}");
             }
