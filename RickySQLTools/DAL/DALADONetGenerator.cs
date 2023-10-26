@@ -182,36 +182,38 @@ namespace RickySQLTools.DAL
 
         private string ConvertType(DataRowView drv, string modelName)
         {
-            //
+            var typeName = "";
+            var isShowNull = false;
             switch (drv["ColType"].ToString().ToLower())
             {
                 case "bit":
-                    return $"Convert.ToBoolean(dr[nameof({modelName}.{drv["ColName"]})])";
+                    typeName = "ToBoolean"; isShowNull = true; break;
                 case "int":
-                    return $"Convert.ToInt32(dr[nameof({modelName}.{drv["ColName"]})])";
+                    typeName = "ToInt32"; isShowNull = true; break;
                 case "bigint":
-                    return $"Convert.ToInt64(dr[nameof({modelName}.{drv["ColName"]})])";
+                    typeName = "ToInt64"; isShowNull = true; break;
                 case "decimal":
-                    return $"Convert.ToDecimal(dr[nameof({modelName}.{drv["ColName"]})])";
+                    typeName = "ToDecimal"; isShowNull = true; break;
                 case "varbinary":
                 case "char":
                 case "varchar":
                 case "nvarchar":
-                    var result = "";
-                    if ((int)drv["IsNullable"] == 0)
-                    {
-                        result = $"Convert.ToString(dr[nameof({modelName}.{drv["ColName"]})])";
-                    }
-                    else
-                    {
-                        result = $"dr.IsDBNull(nameof({modelName}.{drv["ColName"]})) ? \"\" : (string)dr[nameof({modelName}.{drv["ColName"]})]";
-                    }
-                    return result;
+                    typeName = "ToString"; break;
                 case "datetime":
-                    return $"Convert.ToDateTime(dr[nameof({modelName}.{drv["ColName"]})])"; ;
+                    typeName = "ToDateTime"; isShowNull = true; break;
                 default:
                     throw new Exception($"unknow col type {drv["ColType"].ToString().ToLower()}");
             }
+            var result = "";
+            if ((int)drv["IsNullable"] == 0)
+            {
+                result = $"Convert.{typeName}(dr[nameof({modelName}DBModel.{drv["ColName"]})])";
+            }
+            else
+            {
+                result = $"dr.IsDBNull(dr.GetOrdinal(nameof({modelName}DBModel.{drv["ColName"]}))) ? {(isShowNull ? "null" : "null")} : Convert.{typeName}(dr[nameof({modelName}DBModel.{drv["ColName"]})])";
+            }
+            return result;
         }
     }
 }
