@@ -81,7 +81,7 @@ namespace RickySQLTools.DAL
                 }
             }
             sb.Append($"    sbSQL.Append(\"SELECT {selectCols} \");\r\n");
-            sb.Append($"    sbSQL.Append(\"FROM {tableName} \");\r\n");
+            sb.Append($"    sbSQL.Append(\"FROM {tableName} A \");\r\n");
             sb.Append($"    sbSQL.Append(\"WHERE \");\r\n");
             sb.Append($"    {whereParams}\r\n");
 
