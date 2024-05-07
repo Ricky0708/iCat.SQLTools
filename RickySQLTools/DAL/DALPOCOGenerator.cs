@@ -22,7 +22,7 @@ namespace RickySQLTools.DAL
 
             if (objDAL.GetDatasetFromSQL())
             {
-                dalDataset = objDAL.dalDataset;
+                _dalDataset = objDAL._dalDataset;
                 return true;
             }
             else
@@ -178,7 +178,7 @@ namespace RickySQLTools.DAL
         private string GetAttrib(DataColumn col)
         {
             string result = "";
-            DataTable dtColumnsTable = dalDataset.Tables[strColumns];
+            DataTable dtColumnsTable = _dalDataset.Tables[strColumns];
             var colInfo = GetColumnInfo(col);
 
             if (colInfo != null)
@@ -198,7 +198,7 @@ namespace RickySQLTools.DAL
         private string GetSummary(DataColumn col)
         {
             string result = "";
-            DataTable dtColumnsTable = dalDataset.Tables[strColumns];
+            DataTable dtColumnsTable = _dalDataset.Tables[strColumns];
             var colInfo = GetColumnInfo(col);
 
             if (colInfo != null)
@@ -212,7 +212,7 @@ namespace RickySQLTools.DAL
 
         private DataRow GetColumnInfo(DataColumn col)
         {
-            DataTable dtColumnsTable = dalDataset.Tables[strColumns];
+            DataTable dtColumnsTable = _dalDataset.Tables[strColumns];
             var colInfo = (from p in dtColumnsTable.AsEnumerable()
                            where p.Field<string>("TableName") == col.Table.TableName &&
                                p.Field<string>("ColName") == col.ColumnName

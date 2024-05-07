@@ -21,11 +21,11 @@ namespace RickySQLTools.DAL
 
             if (objDAL.GetDatasetFromSQL())
             {
-                dalDataset = objDAL.dalDataset;
-                dalDataset.Tables[strTables].Columns.Add(
+                _dalDataset = objDAL._dalDataset;
+                _dalDataset.Tables[strTables].Columns.Add(
                     new DataColumn("IsMakeFakeData", typeof(bool)));
 
-                foreach (DataRow dr in dalDataset.Tables[strTables].Rows)
+                foreach (DataRow dr in _dalDataset.Tables[strTables].Rows)
                 {
                     dr["IsMakeFakeData"] = false;
                     if (dr["TableType"].ToString() == "VIEW")
@@ -33,7 +33,7 @@ namespace RickySQLTools.DAL
                         dr.Delete();
                     }
                 }
-                dalDataset.AcceptChanges();
+                _dalDataset.AcceptChanges();
                 return true;
             }
             else

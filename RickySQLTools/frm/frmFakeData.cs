@@ -27,7 +27,7 @@ namespace RickySQLTools
         {
             if (objDAL.CreateDataSet())
             {
-                ds = objDAL.dalDataset;
+                ds = objDAL._dalDataset;
 
                 //dvTables = ds.Tables["Tables"].DefaultView;
                 //dvColumns = ds.Tables["Columns"].DefaultView;

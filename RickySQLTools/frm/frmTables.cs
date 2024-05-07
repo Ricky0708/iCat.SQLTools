@@ -109,7 +109,7 @@ namespace RickySQLTools
         {
             if (objDAL.GetDatasetFromSQL())
             {
-                ds = objDAL.dalDataset;
+                ds = objDAL._dalDataset;
                 BindFrm();
                 tabControl1.SelectedTab = tabTablesAndCols;
                 this.Parent.Text = "Tables-『SQL』";
@@ -204,7 +204,7 @@ namespace RickySQLTools
             {
                 if (objDAL.GetDatasetFromXml(fileName))
                 {
-                    ds = objDAL.dalDataset;
+                    ds = objDAL._dalDataset;
                     tabControl1.SelectedTab = tabTablesAndCols;
                     BindFrm();
                     this.Parent.Text = "Tables-『" + fileName.Substring(fileName.LastIndexOf("\\") + 1) + "』";

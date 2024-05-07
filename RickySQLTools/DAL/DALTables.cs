@@ -27,7 +27,7 @@ namespace RickySQLTools.DAL
 			dao = new DAO(_strConn);
 
 
-            dalDataset = new DataSet();
+            _dalDataset = new DataSet();
 			try
 			{
 				using (SqlConnection conn = new SqlConnection(_strConn))
@@ -35,41 +35,41 @@ namespace RickySQLTools.DAL
                     //conn.Open();
                     SqlDataAdapter da = new SqlDataAdapter(GeneratScriptGetCol(), conn);
                     da.SelectCommand.CommandTimeout = 999;
-					da.Fill(dalDataset, strColumns);
+					da.Fill(_dalDataset, strColumns);
 					da = new SqlDataAdapter(GeneratScriptGetTable(), conn);
-					da.Fill(dalDataset, strTables);
+					da.Fill(_dalDataset, strTables);
 					da = new SqlDataAdapter(GeneratScriptGetFK(), conn);
-					da.Fill(dalDataset, strFKs);
+					da.Fill(_dalDataset, strFKs);
 					da = new SqlDataAdapter(GeneratScriptGetIndex(), conn);
-					da.Fill(dalDataset, strIndexes);
+					da.Fill(_dalDataset, strIndexes);
 					da = new SqlDataAdapter(GeneratScriptGetSpAndFunc(), conn);
-					da.Fill(dalDataset, strSpsAndFuncs);
+					da.Fill(_dalDataset, strSpsAndFuncs);
 					da = new SqlDataAdapter(GeneratScriptGetInputParam(), conn);
-					da.Fill(dalDataset, strInputParams);
+					da.Fill(_dalDataset, strInputParams);
 
 					string script = GeneratScriptGetOutPutParam("") + " UNION ALL ";
-					foreach (DataRow dr in dalDataset.Tables[strSpsAndFuncs].Rows)
+					foreach (DataRow dr in _dalDataset.Tables[strSpsAndFuncs].Rows)
 					{
 						script += GeneratScriptGetOutPutParam(dr["SPECIFIC_NAME"].ToString()) + " UNION ALL ";
 					}
 
 					script = script.Substring(0, script.Length - 11);
 					da = new SqlDataAdapter(script, conn);
-					da.Fill(dalDataset, strOutputParams);
+					da.Fill(_dalDataset, strOutputParams);
 				}
-				DataRelation relCol = new DataRelation("MasterDetailCols", dalDataset.Tables[strTables].Columns["TableName"], dalDataset.Tables[strColumns].Columns["TableName"]);
-				dalDataset.Relations.Add(relCol);
+				DataRelation relCol = new DataRelation("MasterDetailCols", _dalDataset.Tables[strTables].Columns["TableName"], _dalDataset.Tables[strColumns].Columns["TableName"]);
+				_dalDataset.Relations.Add(relCol);
 				//DataRelation relFK = new DataRelation("MasterDetailFKs", ds.Tables[dtTables].Columns["TableName"], ds.Tables[dtFKs].Columns["ParentTable"]);
 				//ds.Relations.Add(relFK);
 
-				DataRelation resIndex = new DataRelation("MasterDetailIndexes", dalDataset.Tables[strTables].Columns["TableName"], dalDataset.Tables[strIndexes].Columns["TableName"]);
-				dalDataset.Relations.Add(resIndex);
+				DataRelation resIndex = new DataRelation("MasterDetailIndexes", _dalDataset.Tables[strTables].Columns["TableName"], _dalDataset.Tables[strIndexes].Columns["TableName"]);
+				_dalDataset.Relations.Add(resIndex);
 
-				DataRelation relInputParam = new DataRelation("MasterDetailInputParams", dalDataset.Tables[strSpsAndFuncs].Columns["SPECIFIC_NAME"], dalDataset.Tables[strInputParams].Columns["SPECIFIC_NAME"]);
-				dalDataset.Relations.Add(relInputParam);
+				DataRelation relInputParam = new DataRelation("MasterDetailInputParams", _dalDataset.Tables[strSpsAndFuncs].Columns["SPECIFIC_NAME"], _dalDataset.Tables[strInputParams].Columns["SPECIFIC_NAME"]);
+				_dalDataset.Relations.Add(relInputParam);
 
-				DataRelation resOutputParam = new DataRelation("MasterDetailOutputParams", dalDataset.Tables[strSpsAndFuncs].Columns["SPECIFIC_NAME"], dalDataset.Tables[strOutputParams].Columns["SPECIFIC_NAME"]);
-				dalDataset.Relations.Add(resOutputParam);
+				DataRelation resOutputParam = new DataRelation("MasterDetailOutputParams", _dalDataset.Tables[strSpsAndFuncs].Columns["SPECIFIC_NAME"], _dalDataset.Tables[strOutputParams].Columns["SPECIFIC_NAME"]);
+				_dalDataset.Relations.Add(resOutputParam);
 
 
 				return true;
@@ -85,13 +85,13 @@ namespace RickySQLTools.DAL
 
 		public bool GetDatasetFromXml(string fileName)
 		{
-			dalDataset = new DataSet();
+			_dalDataset = new DataSet();
 
 			FileInfo fi = new FileInfo(fileName);
 			if (fi.Exists)
 			{
-				dalDataset.ReadXml(fileName);
-				dalDataset.AcceptChanges();
+				_dalDataset.ReadXml(fileName);
+				_dalDataset.AcceptChanges();
 				return true;
 			}
 			else

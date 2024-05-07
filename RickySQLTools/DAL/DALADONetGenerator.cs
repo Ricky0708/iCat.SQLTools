@@ -20,7 +20,7 @@ namespace RickySQLTools.DAL
 
             if (objDAL.GetDatasetFromSQL())
             {
-                dalDataset = objDAL.dalDataset;
+                _dalDataset = objDAL._dalDataset;
                 return true;
             }
             else

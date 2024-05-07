@@ -29,7 +29,7 @@ namespace RickySQLTools
             if (objDAL.CreateDataSet())
             {
                 dgvTables.Focus();
-                ds = objDAL.dalDataset;
+                ds = objDAL._dalDataset;
                 dgvTables.DataSource = ds;
                 dgvTables.DataMember = "Tables";
                 cmTables = (CurrencyManager)this.BindingContext[ds, "Tables"];
