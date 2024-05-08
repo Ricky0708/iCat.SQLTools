@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.SqlServer.Management.SqlParser.Parser;
+using Newtonsoft.Json;
+using NPOI.OpenXmlFormats.Dml.Diagram;
 using RickySQLTools.Models;
 using RickySQLTools.Utilitys;
 using System;
@@ -8,6 +10,7 @@ using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace RickySQLTools.DAL
@@ -51,40 +54,31 @@ namespace RickySQLTools.DAL
         private string GeneratorModel(SQLStatementModel sqlModel, string className)
         {
             string result = "";
-            string defUsing = ShareUtility.GetSettings(SettingEnum.GetUsing).ToString() + "\r\n";
-            string defNamespace = "namespace " + ShareUtility.GetSettings(SettingEnum.GetNamespace).ToString() + "\r\n";
-            string body = "";
-            bool defIncludeAttr = (bool)ShareUtility.GetSettings(SettingEnum.GetIncludeAttr);
-
-            // 將 SqlTableRefExpression 拉平到join裡
-            var selectClauses = sqlModel.SqlScript.SqlBatch.SqlSelectStatement.SqlSelectSpecification.SqlQuerySpecification.SqlSelectClause;
-            var fromClauses = sqlModel.SqlScript.SqlBatch.SqlSelectStatement.SqlSelectSpecification.SqlQuerySpecification.SqlFromClause;
-            if (fromClauses.SqlQualifiedJoinTableExpression?.SqlTableRefExpression == null)
-                fromClauses.SqlQualifiedJoinTableExpression = new Sqlqualifiedjointableexpression { SqlTableRefExpression = new List<Sqltablerefexpression>() };
-            if (fromClauses.SqlTableRefExpression != null) fromClauses.SqlQualifiedJoinTableExpression.SqlTableRefExpression.Add(fromClauses.SqlTableRefExpression);
-
-            foreach (var selectCol in selectClauses.SqlSelectScalarExpression)
+            try
             {
-                var srcColName = selectCol.SqlScalarRefExpression?.ColumnOrPropertyName ?? "";
-                var colName = selectCol.Alias ?? selectCol.SqlScalarRefExpression.ColumnOrPropertyName;
-                var colSchemaName = selectCol.SqlScalarRefExpression?.SqlObjectIdentifier?.SchemaName ?? "";
-            }
 
-            // TODO: 開發中
 
-            foreach (var from in fromClauses.SqlQualifiedJoinTableExpression.SqlTableRefExpression)
-            {
-                var tableName = from.ObjectIdentifier;
-                var aliasName = from.Alias;
-                var selectColumns = selectClauses.SqlSelectScalarExpression.Where(p => p.SqlScalarRefExpression?.SqlObjectIdentifier.SchemaName == aliasName);
-                foreach (var selectCol in selectColumns)
+                string defUsing = ShareUtility.GetSettings(SettingEnum.GetUsing).ToString() + "\r\n";
+                string defNamespace = "namespace " + ShareUtility.GetSettings(SettingEnum.GetNamespace).ToString() + "\r\n";
+                string body = "";
+                bool defIncludeAttr = (bool)ShareUtility.GetSettings(SettingEnum.GetIncludeAttr);
+
+                // 將 SqlTableRefExpression 拉平到join裡
+                var selectClauses = sqlModel.SqlScript.SqlBatch.SqlSelectStatement.SqlSelectSpecification.SqlQuerySpecification.SqlSelectClause;
+                var fromClauses = sqlModel.SqlScript.SqlBatch.SqlSelectStatement.SqlSelectSpecification.SqlQuerySpecification.SqlFromClause;
+
+                var columns = GetColumns(selectClauses);
+                var tables = GetTables(fromClauses);
+
+                foreach (var col in columns)
                 {
                     var summary = "";
                     var attr = "";
                     var isNullable = false;
-                    var srcColName = selectCol.SqlScalarRefExpression.ColumnOrPropertyName;
-                    var colName = selectCol.Alias ?? selectCol.SqlScalarRefExpression.ColumnOrPropertyName;
-                    var colInfo = GetColumnInfo(tableName, srcColName);
+                    var table = tables.FirstOrDefault(p => p.AliasName == col.SchemaName);
+                    var colInfo = table == null ?
+                        GetColumnInfo(tables.ToArray(), col.SrcColumnName) :
+                        GetColumnInfo(table.TableName, col.SrcColumnName);
                     if (colInfo != null)
                     {
                         summary = GetSummary(colInfo) + "\r\n";
@@ -95,41 +89,85 @@ namespace RickySQLTools.DAL
                         isNullable = (int)colInfo["IsNullable"] == 1;
                     }
                     body += summary + attr + string.Format("        public {0} {1} {{ get; set; }} {2}\r\n",
-                        ShareUtility.RenameDbType(ShareUtility.RenameType(colInfo.ItemArray[3].ToString())) + (isNullable ? "?" : ""),
-                        colName,
-                        colInfo.ItemArray[3].ToString().ToLower() == "string" //item.DataType.Name.ToLower() == "string"
+                        ShareUtility.RenameDbType(ShareUtility.RenameType(colInfo?.ItemArray[3]?.ToString() ?? col.ColumnType)) + (isNullable ? "?" : ""),
+                        col.ColumnName,
+                        (colInfo?.ItemArray[3]?.ToString() ?? col.ColumnType).ToLower() == "string" //item.DataType.Name.ToLower() == "string"
                         ? isNullable
                             ? ""
                             : " = \"\";"
                         : ""
                         );
+                }
 
+                body = body.Substring(0, body.Length - 2);
+                result = defUsing + "\r\n" + defNamespace + "{\r\n    public class " + className + "\r\n    {\r\n" + body + "\r\n    }    \r\n}";
+            }
+            catch (Exception ex)
+            {
+                ErrMsg = ex.Message;
+            }
+            return result;
+        }
 
+        private List<StatementColumnModel> GetColumns(Sqlselectclause selectClauses)
+        {
+            var result = new List<StatementColumnModel>();
+            foreach (var column in selectClauses.SqlSelectScalarExpression)
+            {
+                if (column.Sqlcolumnrefexpression != null)
+                {
+                    var col = new StatementColumnModel
+                    {
+                        ColumnName = string.IsNullOrEmpty(column.Alias) ? column.Sqlcolumnrefexpression.SqlObjectIdentifier.ObjectName : column.Alias,
+                        SrcColumnName = column.Sqlcolumnrefexpression.SqlObjectIdentifier.ObjectName,
+                    };
+                    result.Add(col);
+                }
+                else if (column.SqlScalarRefExpression != null)
+                {
+                    var col = new StatementColumnModel
+                    {
+                        ColumnName = string.IsNullOrEmpty(column.Alias) ? column.SqlScalarRefExpression.SqlObjectIdentifier.ObjectName : column.Alias,
+                        SchemaName = column.SqlScalarRefExpression.SqlObjectIdentifier.SchemaName,
+                        SrcColumnName = column.SqlScalarRefExpression.SqlObjectIdentifier.ObjectName,
+                    };
+                    result.Add(col);
+                }
+                else if (column.SqlAggregateFunctionCallExpression != null)
+                {
+                    var col = new StatementColumnModel
+                    {
+                        ColumnName = string.IsNullOrEmpty(column.Alias) ? column.SqlAggregateFunctionCallExpression.SqlScalarRefExpression.SqlObjectIdentifier.ObjectName : column.Alias,
+                        SchemaName = column.SqlAggregateFunctionCallExpression.SqlScalarRefExpression.SqlObjectIdentifier.SchemaName,
+                        SrcColumnName = column.SqlAggregateFunctionCallExpression.SqlScalarRefExpression.SqlObjectIdentifier.ObjectName,
+                    };
+                    result.Add(col);
+                }
+                else if (column.SqlLiteralExpression != null)
+                {
+                    var col = new StatementColumnModel
+                    {
+                        ColumnName = string.IsNullOrEmpty(column.Alias) ? column.SqlIdentifier.Value : column.Alias,
+                        ColumnType = column.SqlLiteralExpression.Type
+                    };
+                    result.Add(col);
                 }
             }
+            return result;
+        }
 
-
-            //foreach (DataColumn item in dt.Columns)
-            //{
-            //    string attr = "";
-            //    if (defIncludeAttr)
-            //    {
-            //        attr = GetAttrib(item) + "\r\n";
-            //    }
-            //    var isNullable = (int)GetColumnInfo(item)["IsNullable"] == 1;
-            //    body += summary + attr + string.Format("        public {0} {1} {{ get; set; }} {2}\r\n",
-            //        ShareUtility.RenameType(item.DataType.Name) + (isNullable ? "?" : ""),
-            //        item.ColumnName,
-            //        item.DataType.Name.ToLower() == "string"
-            //        ? isNullable
-            //            ? ""
-            //            : " = \"\";"
-            //        : ""
-            //        );
-            //}
-            body = body.Substring(0, body.Length - 2);
-            result = defUsing + "\r\n" + defNamespace + "{\r\n    public class " + className + "\r\n    {\r\n" + body + "\r\n    }    \r\n}";
-
+        private List<StatementTableModel> GetTables(Sqlfromclause fromClauses)
+        {
+            var result = fromClauses.SqlQualifiedJoinTableExpression?.SqlTableRefExpression?.Select(p => new StatementTableModel
+            {
+                AliasName = p.Alias,
+                TableName = p.ObjectIdentifier
+            })?.ToList() ?? new List<StatementTableModel>();
+            if (fromClauses.SqlTableRefExpression != null) result.Add(new StatementTableModel
+            {
+                AliasName = fromClauses.SqlTableRefExpression.Alias,
+                TableName = fromClauses.SqlTableRefExpression.ObjectIdentifier
+            });
             return result;
         }
 
@@ -153,6 +191,15 @@ namespace RickySQLTools.DAL
                            where p.Field<string>("TableName") == tableName &&
                                p.Field<string>("ColName") == colName
                            select p).FirstOrDefault();
+            return colInfo;
+        }
+
+        private DataRow GetColumnInfo(StatementTableModel[] tableNames, string colName)
+        {
+            DataTable dtColumnsTable = _dalDataset.Tables[strColumns];
+            var colInfo = (from p in dtColumnsTable.AsEnumerable().Where(x => tableNames.Any(y => y.TableName == x.Field<string>("TableName")))
+                           where p.Field<string>("ColName") == colName
+                           select p).SingleOrDefault();
             return colInfo;
         }
 

@@ -83,7 +83,8 @@ namespace RickySQLTools.DAL
 
 		}
 
-		public bool GetDatasetFromXml(string fileName)
+
+        public bool GetDatasetFromXml(string fileName)
 		{
 			_dalDataset = new DataSet();
 

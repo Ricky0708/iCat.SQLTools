@@ -90,7 +90,7 @@ namespace RickySQLTools
                     txtResult.Text = b;// objDAL.GenerateFromScript(txtClassName.Text, txtScript.Text);
                     if (txtResult.Text == "")
                     {
-                        MessageBox.Show(objDAL.ErrMsg);
+                        MessageBox.Show(objDAL2.ErrMsg);
                     }
                     break;
                 case "btnFromDB":

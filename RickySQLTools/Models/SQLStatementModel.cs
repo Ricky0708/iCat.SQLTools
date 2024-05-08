@@ -60,6 +60,15 @@ namespace RickySQLTools.Models
         public Sqlidentifier1 SqlIdentifier { get; set; }
         public Sqlaggregatefunctioncallexpression SqlAggregateFunctionCallExpression { get; set; }
         public Sqlliteralexpression SqlLiteralExpression { get; set; }
+        public Sqlcolumnrefexpression Sqlcolumnrefexpression { get; set; }
+    }
+
+    public class Sqlcolumnrefexpression
+    {
+        public string Location { get; set; }
+        public string ColumnName { get; set; }
+        public string MultipartIdentifier { get; set; }
+        public Sqlobjectidentifier3 SqlObjectIdentifier { get; set; }
     }
 
     public class Sqlscalarrefexpression
