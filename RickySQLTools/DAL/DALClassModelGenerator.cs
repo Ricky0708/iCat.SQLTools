@@ -63,7 +63,6 @@ namespace RickySQLTools.DAL
                 string body = "";
                 bool defIncludeAttr = (bool)ShareUtility.GetSettings(SettingEnum.GetIncludeAttr);
 
-                // 將 SqlTableRefExpression 拉平到join裡
                 var selectClauses = sqlModel.SqlScript.SqlBatch.SqlSelectStatement.SqlSelectSpecification.SqlQuerySpecification.SqlSelectClause;
                 var fromClauses = sqlModel.SqlScript.SqlBatch.SqlSelectStatement.SqlSelectSpecification.SqlQuerySpecification.SqlFromClause;
 

@@ -26,7 +26,6 @@ namespace RickySQLTools.DAL
 			_strConn = base.connString;
 			dao = new DAO(_strConn);
 
-
             _dalDataset = new DataSet();
 			try
 			{
