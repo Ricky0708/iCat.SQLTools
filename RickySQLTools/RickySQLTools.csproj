@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="Models\SQLStatementModel.cs" />
     <Compile Include="Models\StatementColumnModel.cs" />
+    <Compile Include="Models\StatementColumnWithTableModel.cs" />
     <Compile Include="Models\StatementTableModel.cs" />
     <Compile Include="Utilitys\CompareUtility.cs" />
     <Compile Include="DAL\DALBase.cs" />
