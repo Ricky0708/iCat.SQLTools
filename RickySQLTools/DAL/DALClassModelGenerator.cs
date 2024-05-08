@@ -245,7 +245,7 @@ namespace RickySQLTools.DAL
                     Tables = new[] { col.Field<string>("TableName") }
                 });
             }
-            return result;
+            return result.ToArray();
         }
 
 
