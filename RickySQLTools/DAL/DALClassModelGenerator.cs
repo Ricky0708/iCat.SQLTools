@@ -12,6 +12,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlTypes;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -128,43 +129,13 @@ namespace RickySQLTools.DAL
                 var expressions = selectClauses["SqlSelectStarExpression"];
                 if (expressions.Type == JTokenType.Object)
                 {
-                    var schemaName = expressions["Qualifier"]?.ToString();
-                    var columnTables = schemaName == null ? tables.Select(p => p.TableName).ToArray() : tables.Where(p => p.AliasName == schemaName).Select(p => p.TableName).ToArray();
-
-                    DataTable dtColumnsTable = _dalDataset.Tables[strColumns];
-                    var colInfos = (from p in dtColumnsTable.AsEnumerable()
-                                    where columnTables.Any(x => x == p.Field<string>("TableName"))
-                                    select p);
-                    foreach (var col in colInfos)
-                    {
-                        result.Add(new StatementColumnWithTableModel
-                        {
-                            ColumnName = col.Field<string>("ColName"),
-                            SrcColumnName = col.Field<string>("ColName"),
-                            Tables = new[] { col.Field<string>("TableName") }
-                        });
-                    }
+                    result.AddRange(ProcessSqlSelectStarExpression(expressions, tables.ToArray()));
                 }
                 else
                 {
                     foreach (var expression in expressions)
                     {
-                        var schemaName = expression["Qualifier"]?.ToString();
-                        var columnTables = schemaName == null ? tables.Select(p => p.TableName).ToArray() : tables.Where(p => p.AliasName == schemaName).Select(p => p.TableName).ToArray();
-
-                        DataTable dtColumnsTable = _dalDataset.Tables[strColumns];
-                        var colInfos = (from p in dtColumnsTable.AsEnumerable()
-                                        where columnTables.Any(x => x == p.Field<string>("TableName"))
-                                        select p);
-                        foreach (var col in colInfos)
-                        {
-                            result.Add(new StatementColumnWithTableModel
-                            {
-                                ColumnName = col.Field<string>("ColName"),
-                                SrcColumnName = col.Field<string>("ColName"),
-                                Tables = new[] { col.Field<string>("TableName") }
-                            });
-                        }
+                        result.AddRange(ProcessSqlSelectStarExpression(expression, tables.ToArray()));
                     }
                 }
             }
@@ -254,6 +225,29 @@ namespace RickySQLTools.DAL
             }
             return result;
         }
+
+        private StatementColumnWithTableModel[] ProcessSqlSelectStarExpression(JToken SqlSelectStarExpression, StatementTableModel[] tables)
+        {
+            var result = new List<StatementColumnWithTableModel>();
+            var schemaName = SqlSelectStarExpression["Qualifier"]?.ToString();
+            var columnTables = schemaName == null ? tables.Select(p => p.TableName).ToArray() : tables.Where(p => p.AliasName == schemaName).Select(p => p.TableName).ToArray();
+
+            DataTable dtColumnsTable = _dalDataset.Tables[strColumns];
+            var colInfos = (from p in dtColumnsTable.AsEnumerable()
+                            where columnTables.Any(x => x == p.Field<string>("TableName"))
+                            select p);
+            foreach (var col in colInfos)
+            {
+                result.Add(new StatementColumnWithTableModel
+                {
+                    ColumnName = col.Field<string>("ColName"),
+                    SrcColumnName = col.Field<string>("ColName"),
+                    Tables = new[] { col.Field<string>("TableName") }
+                });
+            }
+            return result;
+        }
+
 
         private DataRow GetColumnInfo(string[] tableNames, string colName)
         {
