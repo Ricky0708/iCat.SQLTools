@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RickySQLTools.DAL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -27,7 +28,7 @@ namespace RickySQLTools
         {
             if (objDAL.CreateDataSet())
             {
-                ds = objDAL._dalDataset;
+                ds = DALBase._dalDataset;
 
                 //dvTables = ds.Tables["Tables"].DefaultView;
                 //dvColumns = ds.Tables["Columns"].DefaultView;

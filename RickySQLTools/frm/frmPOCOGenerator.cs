@@ -1,4 +1,5 @@
-﻿using RickySQLTools.Utilitys;
+﻿using RickySQLTools.DAL;
+using RickySQLTools.Utilitys;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,7 +49,7 @@ namespace RickySQLTools
             if (objDAL.CreateDataSet())
             {
                 dgvTables.Focus();
-                ds = objDAL._dalDataset;
+                ds = DALBase._dalDataset;
                 dgvTables.DataSource = ds;
                 dgvTables.DataMember = "Tables";
                 dgvSpsAndFuncs.DataSource = ds;
