@@ -112,16 +112,7 @@ namespace RickySQLTools.DAL
         private List<StatementColumnWithTableModel> GetColumnsWithTable(JToken selectClauses, JToken fromClauses)
         {
 
-            var tables = fromClauses["SqlQualifiedJoinTableExpression"]?["SqlTableRefExpression"]?.Select(p => new StatementTableModel
-            {
-                AliasName = p["Alias"].ToString(),
-                TableName = p["ObjectIdentifier"].ToString()
-            })?.ToList() ?? new List<StatementTableModel>();
-            if (fromClauses["SqlTableRefExpression"] != null) tables.Add(new StatementTableModel
-            {
-                AliasName = fromClauses["SqlTableRefExpression"]["Alias"]?.ToString(),
-                TableName = fromClauses["SqlTableRefExpression"]["ObjectIdentifier"]?.ToString()
-            });
+            var tables = GetTables(fromClauses);
 
             var result = new List<StatementColumnWithTableModel>();
             if (selectClauses["SqlSelectStarExpression"] != null)
@@ -155,6 +146,48 @@ namespace RickySQLTools.DAL
                 }
             }
             return result;
+        }
+
+        private List<StatementTableModel> GetTables(JToken fromClauses)
+        {
+            var tables = new List<StatementTableModel>();
+            var token = fromClauses;
+
+            foreach (JProperty element in token.Children())
+            {
+                if (element.Name == "SqlQualifiedJoinTableExpression")
+                {
+                    tables.AddRange(GetTables(element.Value));
+                }
+                else if (element.Name == "SqlTableRefExpression")
+                {
+                    var tableRefExpressions = element.Value;
+                    if (tableRefExpressions.Type == JTokenType.Object)
+                    {
+                        tables.Add(new StatementTableModel
+                        {
+                            AliasName = tableRefExpressions["Alias"]?.ToString(),
+                            TableName = tableRefExpressions["ObjectIdentifier"]?.ToString()
+                        });
+                    }
+                    else
+                    {
+                        tables.AddRange(tableRefExpressions.Select(p => new StatementTableModel
+                        {
+                            AliasName = p["Alias"]?.ToString(),
+                            TableName = p["ObjectIdentifier"]?.ToString()
+                        }));
+                    }
+                }
+                else if (element.Name == "SqlDerivedTableExpression")
+                {
+                    var aliasName = element.Value["Alias"]?.ToString();
+                    var ts = GetTables(element.Value["SqlQuerySpecification"]["SqlFromClause"]);
+                    ts.ForEach(p => p.AliasName = aliasName);
+                    tables.AddRange(ts);
+                }
+            }
+            return tables;
         }
 
         private string GetSummary(DataRow colInfo)
