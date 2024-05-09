@@ -153,7 +153,7 @@ namespace RickySQLTools.DAL
             var tables = new List<StatementTableModel>();
             var token = fromClauses;
 
-            foreach (JProperty element in token.Children())
+            foreach (JProperty element in token.Children().Cast<JProperty>())
             {
                 if (element.Name == "SqlQualifiedJoinTableExpression")
                 {
