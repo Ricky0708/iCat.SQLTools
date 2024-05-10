@@ -21,6 +21,7 @@ namespace RickySQLTools.DAL
 		#endregion
 
 		#region method
+
 		public bool GetDatasetFromSQL()
 		{
 			_strConn = base.connString;
@@ -81,7 +82,6 @@ namespace RickySQLTools.DAL
 			}
 
 		}
-
 
         public bool GetDatasetFromXml(string fileName)
 		{
