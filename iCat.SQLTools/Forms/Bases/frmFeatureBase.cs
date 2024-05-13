@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace iCat.SQLTools.Forms
 {
-    public partial class frmBase : Form
+    public partial class frmFeatureBase : frmBase
     {
-        public frmBase()
+        public frmFeatureBase()
         {
             InitializeComponent();
         }

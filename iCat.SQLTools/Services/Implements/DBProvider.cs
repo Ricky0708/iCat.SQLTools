@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace iCat.SQLTools.Services.Implements
 {
-    public class DBClientProvider : IDBClientProvider
+    public class DBProvider : IDBProvider
     {
         private Dictionary<string, Func<DBClient>> _dbClients = new Dictionary<string, Func<DBClient>>();
 

@@ -1,0 +1,8 @@
+{
+  "connectionSetting": {
+    "connectionType": 2,
+    "connectionString": "1"
+  },
+  "namespace": "namespace",
+  "using": "using"
+}

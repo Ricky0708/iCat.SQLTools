@@ -1,6 +1,6 @@
 ﻿namespace iCat.SQLTools.Forms
 {
-    partial class frmBase
+    partial class frmFeatureBase
     {
         /// <summary>
         /// Required designer variable.
@@ -28,47 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
-            panel1 = new Panel();
-            btnExit = new Button();
+            btnLoadData = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
-            panel1.Controls.Add(btnExit);
-            panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1029, 40);
-            panel1.TabIndex = 0;
+            panel1.Controls.Add(btnLoadData);
+            panel1.Size = new Size(800, 40);
+            panel1.Controls.SetChildIndex(btnLoadData, 0);
             // 
-            // btnExit
+            // btnLoadData
             // 
-            btnExit.Dock = DockStyle.Right;
-            btnExit.Location = new Point(929, 0);
-            btnExit.Name = "btnExit";
-            btnExit.Size = new Size(100, 40);
-            btnExit.TabIndex = 1;
-            btnExit.Text = "Exit";
-            btnExit.UseVisualStyleBackColor = true;
+            btnLoadData.Dock = DockStyle.Right;
+            btnLoadData.Location = new Point(600, 0);
+            btnLoadData.Name = "btnLoadData";
+            btnLoadData.Size = new Size(100, 40);
+            btnLoadData.TabIndex = 2;
+            btnLoadData.Text = "LoadData";
+            btnLoadData.UseVisualStyleBackColor = true;
             // 
-            // frmBase
+            // frmFeatureBase
             // 
             AutoScaleDimensions = new SizeF(9F, 16F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Lavender;
-            ClientSize = new Size(1029, 480);
-            Controls.Add(panel1);
-            Font = new Font("PMingLiU", 12F);
-            Margin = new Padding(4, 3, 4, 3);
-            Name = "frmBase";
-            Text = "frmBase";
+            ClientSize = new Size(800, 450);
+            Name = "frmFeatureBase";
+            Text = "frmFeatureBase";
             panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
-        private Button btnExit;
-        protected Panel panel1;
+
+        private Button btnLoadData;
     }
 }

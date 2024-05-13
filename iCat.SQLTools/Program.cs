@@ -1,7 +1,14 @@
 using iCat.DB.Client.Extension.Web;
 using iCat.DB.Client.Factory.Implements;
 using iCat.DB.Client.Factory.Interfaces;
+using iCat.SQLTools.enums;
+using iCat.SQLTools.Forms;
+using iCat.SQLTools.Models;
+using iCat.SQLTools.Repositories.Implements;
+using iCat.SQLTools.Repositories.Interfaces;
 using iCat.SQLTools.Services.Implements;
+using iCat.SQLTools.Services.Interfaces;
+using iCat.SQLTools.Shareds;
 using iCat.Worker.Implements;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +32,7 @@ namespace iCat.SQLTools
             var host = CreateHostBuilder().Build();
             provider = host.Services;
 
-            var dbClientProvider = provider.GetRequiredService<iCat.SQLTools.Services.Interfaces.IDBClientProvider>();
+            var dbClientProvider = provider.GetRequiredService<iCat.SQLTools.Services.Interfaces.IDBProvider>();
 
             var task = new IntervalTask(dbClientProvider, 5000, new Worker.Models.IntervalTaskOption
             {
@@ -46,10 +53,30 @@ namespace iCat.SQLTools
             return Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
-                    services.AddSingleton<IDBClientProvider>(s => s.GetRequiredService<iCat.SQLTools.Services.Interfaces.IDBClientProvider>());
-                    services.AddSingleton<iCat.SQLTools.Services.Interfaces.IDBClientProvider, DBClientProvider>();
-                    services.AddScoped<IDBClientFactory, DBClientFactory>();
+                    services.AddSingleton<IDBClientProvider>(s => s.GetRequiredService<IDBProvider>());
+                    services.AddSingleton<IDBProvider, DBProvider>();
+                    services.AddSingleton<ISettingConfigService, SettingConfigService>();
+                    services.AddSingleton<SettingConfig>(s =>
+                    {
+                        var data = Task.Run(async () => await s.GetRequiredService<IFileService>().ReadStringFileAsync("settingConfig.json")).Result;
+                        return JsonUtil.Deserialize<SettingConfig>(data)!;
+                    });
+                    services.AddSingleton<IFileService>(s => new FileService("Config", Path.Combine(Application.StartupPath, "Configs")));
                     services.AddSingleton<MainForm>();
+                    services.AddKeyedScoped<Form, frmConfigSettingDlg>(nameof(frmConfigSettingDlg));
+                    services.AddKeyedScoped<Form, frmTables>(nameof(frmTables));
+
+
+                    services.AddScoped<ISchemaService, SchemaService>(s =>
+                    {
+                        var connType = s.GetRequiredService<SettingConfig>();
+                        return new SchemaService(connType.ConnectionSetting.ConnectionType, s);
+                    });
+                    services.AddScoped<ISchemaRepository, MSSQLSchemaRepository>();
+                    services.AddScoped<ISchemaRepository, MySQLSchemaRepository>();
+
+                    services.AddScoped<IDBClientFactory, DBClientFactory>();
+
                 });
         }
     }

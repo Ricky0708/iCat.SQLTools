@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace iCat.SQLTools.Services.Interfaces
 {
-    public interface IDBClientProvider : iCat.DB.Client.Factory.Interfaces.IDBClientProvider, IJob
+    public interface IDBProvider : iCat.DB.Client.Factory.Interfaces.IDBClientProvider, IJob
     {
         void SetNewDbClient(ConnectionType connectionType, string connectionString);
     }
