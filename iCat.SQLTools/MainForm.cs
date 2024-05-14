@@ -58,11 +58,8 @@ namespace iCat.SQLTools
             {
                 if (this.tabControl1.TabPages[n].Name == objectName)
                 {
-                    if (objectName != "frmTables")
-                    {
-                        this.tabControl1.SelectTab(n);
-                        isChildExist = true;
-                    }
+                    this.tabControl1.SelectTab(n);
+                    isChildExist = true;
                 }
             }
             if (!isChildExist)

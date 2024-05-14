@@ -53,8 +53,7 @@ namespace iCat.SQLTools
             return Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
-                    services.AddSingleton<IDBClientProvider>(s => s.GetRequiredService<IDBProvider>());
-                    services.AddSingleton<IDBProvider, DBProvider>();
+
                     services.AddSingleton<ISettingConfigService, SettingConfigService>();
                     services.AddSingleton<SettingConfig>(s =>
                     {
@@ -70,13 +69,22 @@ namespace iCat.SQLTools
                     services.AddScoped<ISchemaService, SchemaService>(s =>
                     {
                         var connType = s.GetRequiredService<SettingConfig>();
-                        return new SchemaService(connType.ConnectionSetting.ConnectionType, s);
+                        var manager = s.GetRequiredService<DatasetManager>();
+                        return new SchemaService(connType.ConnectionSetting.ConnectionType, manager, s);
                     });
                     services.AddScoped<ISchemaRepository, MSSQLSchemaRepository>();
                     services.AddScoped<ISchemaRepository, MySQLSchemaRepository>();
 
+                    services.AddSingleton<DatasetManager>();
                     services.AddScoped<IDBClientFactory, DBClientFactory>();
-
+                    services.AddSingleton<IDBClientProvider>(s => s.GetRequiredService<IDBProvider>());
+                    services.AddSingleton<IDBProvider>(s =>
+                    {
+                        var config = s.GetRequiredService<SettingConfig>();
+                        var result = new DBProvider();
+                        result.SetNewDbClient(config.ConnectionSetting.ConnectionType, config.ConnectionSetting.ConnectionString);
+                        return result;
+                    });
                 });
         }
     }

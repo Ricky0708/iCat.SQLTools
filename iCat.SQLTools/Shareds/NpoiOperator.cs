@@ -5,7 +5,8 @@ using System.Data;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 
-namespace RickySQLTools.DAL
+
+namespace iCat.SQLTools.Shareds
 {
     public class NpoiOperator
     {
@@ -45,50 +46,50 @@ namespace RickySQLTools.DAL
             wb = new XSSFWorkbook();
 
             cellStyleHead = (XSSFCellStyle)wb.CreateCellStyle();
-            cellStyleHead.BorderLeft = BorderStyle.Medium;
-            cellStyleHead.BorderRight = BorderStyle.Medium;
-            cellStyleHead.BorderTop = BorderStyle.Medium;
-            cellStyleHead.BorderBottom = BorderStyle.Medium;
+            cellStyleHead.BorderLeft = NPOI.SS.UserModel.BorderStyle.Medium;
+            cellStyleHead.BorderRight = NPOI.SS.UserModel.BorderStyle.Medium;
+            cellStyleHead.BorderTop = NPOI.SS.UserModel.BorderStyle.Medium;
+            cellStyleHead.BorderBottom = NPOI.SS.UserModel.BorderStyle.Medium;
             XSSFFont headFont = (XSSFFont)wb.CreateFont();
-            headFont.SetColor(new XSSFColor(System.Drawing.Color.Black));
+            headFont.SetColor(new XSSFColor(IndexedColors.Black));
             headFont.IsBold = true;
             cellStyleHead.SetFont(headFont);
 
             cellStyleHeadWithBackColor = (XSSFCellStyle)wb.CreateCellStyle();
-            cellStyleHeadWithBackColor.BorderLeft = BorderStyle.Medium;
-            cellStyleHeadWithBackColor.BorderRight = BorderStyle.Medium;
-            cellStyleHeadWithBackColor.BorderTop = BorderStyle.Medium;
-            cellStyleHeadWithBackColor.BorderBottom = BorderStyle.Medium;
+            cellStyleHeadWithBackColor.BorderLeft = NPOI.SS.UserModel.BorderStyle.Medium;
+            cellStyleHeadWithBackColor.BorderRight = NPOI.SS.UserModel.BorderStyle.Medium;
+            cellStyleHeadWithBackColor.BorderTop = NPOI.SS.UserModel.BorderStyle.Medium;
+            cellStyleHeadWithBackColor.BorderBottom = NPOI.SS.UserModel.BorderStyle.Medium;
             cellStyleHeadWithBackColor.SetFont(headFont);
             cellStyleHeadWithBackColor.FillPattern = FillPattern.ThinBackwardDiagonals;
             cellStyle = (XSSFCellStyle)wb.CreateCellStyle();
-            cellStyle.BorderLeft = BorderStyle.Medium;
-            cellStyle.BorderRight = BorderStyle.Medium;
-            cellStyle.BorderTop = BorderStyle.Medium;
-            cellStyle.BorderBottom = BorderStyle.Medium;
+            cellStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Medium;
+            cellStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Medium;
+            cellStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Medium;
+            cellStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Medium;
 
 
             cellStyleAligCenter = (XSSFCellStyle)wb.CreateCellStyle();
-            cellStyleAligCenter.BorderLeft = BorderStyle.Medium;
-            cellStyleAligCenter.BorderRight = BorderStyle.Medium;
-            cellStyleAligCenter.BorderTop = BorderStyle.Medium;
-            cellStyleAligCenter.BorderBottom = BorderStyle.Medium;
+            cellStyleAligCenter.BorderLeft = NPOI.SS.UserModel.BorderStyle.Medium;
+            cellStyleAligCenter.BorderRight = NPOI.SS.UserModel.BorderStyle.Medium;
+            cellStyleAligCenter.BorderTop = NPOI.SS.UserModel.BorderStyle.Medium;
+            cellStyleAligCenter.BorderBottom = NPOI.SS.UserModel.BorderStyle.Medium;
             cellStyleAligCenter.VerticalAlignment = VerticalAlignment.Center;
-            cellStyleAligCenter.Alignment = HorizontalAlignment.Center;
+            cellStyleAligCenter.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
 
             linkCellStyle = (XSSFCellStyle)wb.CreateCellStyle();
             XSSFFont linkFont = (XSSFFont)wb.CreateFont();
-            linkFont.SetColor(new XSSFColor(System.Drawing.Color.Blue));
+            linkFont.SetColor(new XSSFColor(IndexedColors.Blue));
             linkCellStyle.SetFont(linkFont);
-            linkCellStyle.BorderLeft = BorderStyle.Medium;
-            linkCellStyle.BorderRight = BorderStyle.Medium;
-            linkCellStyle.BorderTop = BorderStyle.Medium;
-            linkCellStyle.BorderBottom = BorderStyle.Medium;
+            linkCellStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Medium;
+            linkCellStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Medium;
+            linkCellStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Medium;
+            linkCellStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Medium;
             linkCellStyle.VerticalAlignment = VerticalAlignment.Center;
 
             linkCellStyleWithoutBorder = (XSSFCellStyle)wb.CreateCellStyle();
             linkCellStyleWithoutBorder.SetFont(linkFont);
-            linkCellStyleWithoutBorder.Alignment = HorizontalAlignment.Center;
+            linkCellStyleWithoutBorder.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
             linkCellStyleWithoutBorder.VerticalAlignment = VerticalAlignment.Center;
             //when sheet name's length is more than 31 char, redefine the sheet name
             for (int i = 0; i < 100; i++)
@@ -378,7 +379,6 @@ namespace RickySQLTools.DAL
         }
 
         #endregion
-
 
     }
 }
