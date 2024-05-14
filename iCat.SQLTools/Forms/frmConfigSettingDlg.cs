@@ -1,5 +1,6 @@
 ﻿using iCat.SQLTools.enums;
 using iCat.SQLTools.Models;
+using iCat.SQLTools.Services.Implements;
 using iCat.SQLTools.Services.Interfaces;
 using iCat.SQLTools.Shareds;
 using Mysqlx.Crud;
@@ -19,12 +20,14 @@ namespace iCat.SQLTools.Forms
 {
     public partial class frmConfigSettingDlg : Form
     {
+        private readonly IDBProvider _provider;
         private readonly IFileService _fileService;
         private readonly SettingConfig _config;
 
-        public frmConfigSettingDlg(IFileService fileService, SettingConfig config)
+        public frmConfigSettingDlg(IDBProvider provider, IFileService fileService, SettingConfig config)
         {
             InitializeComponent();
+            _provider = provider ?? throw new ArgumentNullException(nameof(provider));
             _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
             _config = config ?? throw new ArgumentNullException(nameof(config));
 
@@ -57,6 +60,7 @@ namespace iCat.SQLTools.Forms
                 _config.Namespace = txtNamespace.Text;
                 var data = JsonUtil.Serialize(_config);
                 _fileService.SaveStringFileAsync("settingConfig.json", data);
+                _provider.SetNewDbClient(_config.ConnectionSetting.ConnectionType, _config.ConnectionSetting.ConnectionString);
                 MessageBox.Show("Success!");
                 this.Close();
             }

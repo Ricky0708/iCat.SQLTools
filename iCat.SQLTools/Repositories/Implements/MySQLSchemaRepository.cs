@@ -156,10 +156,6 @@ namespace iCat.SQLTools.Repositories.Implements
             return result;
         }
 
-       
-
-
-
         #region private method
 
         private DataTable ExecuteGetDataTable(string script, string dtName)
