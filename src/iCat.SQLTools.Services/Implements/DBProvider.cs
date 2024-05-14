@@ -1,7 +1,6 @@
 ﻿using iCat.DB.Client.Implements;
-using iCat.SQLTools.enums;
 using iCat.SQLTools.Services.Interfaces;
-using iCat.Worker.Interfaces;
+using iCat.SQLTools.Shareds.Enums;
 using Microsoft.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using System;

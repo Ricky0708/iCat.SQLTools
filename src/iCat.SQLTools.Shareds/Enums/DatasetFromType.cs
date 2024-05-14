@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace iCat.SQLTools.enums
+namespace iCat.SQLTools.Shareds.Enums
 {
-    public enum ConnectionType
+    public enum DatasetFromType
     {
-        MSSQL = 1,
-        MySQL = 2
+        None,
+        DB,
+        XML
     }
 }

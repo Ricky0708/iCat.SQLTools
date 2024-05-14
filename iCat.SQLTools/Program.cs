@@ -1,7 +1,6 @@
 using iCat.DB.Client.Extension.Web;
 using iCat.DB.Client.Factory.Implements;
 using iCat.DB.Client.Factory.Interfaces;
-using iCat.SQLTools.enums;
 using iCat.SQLTools.Forms;
 using iCat.SQLTools.Models;
 using iCat.SQLTools.Repositories.Implements;
@@ -9,6 +8,7 @@ using iCat.SQLTools.Repositories.Interfaces;
 using iCat.SQLTools.Services.Implements;
 using iCat.SQLTools.Services.Interfaces;
 using iCat.SQLTools.Shareds;
+using iCat.SQLTools.Shareds.Shareds;
 using iCat.Worker.Implements;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,16 +31,6 @@ namespace iCat.SQLTools
             ApplicationConfiguration.Initialize();
             var host = CreateHostBuilder().Build();
             provider = host.Services;
-
-            var dbClientProvider = provider.GetRequiredService<iCat.SQLTools.Services.Interfaces.IDBProvider>();
-
-            var task = new IntervalTask(dbClientProvider, 5000, new Worker.Models.IntervalTaskOption
-            {
-                IsExecuteWhenStart = true,
-                RetryInterval = 1000,
-                RetryTimes = 5
-            });
-            task.Start();
             Application.Run(provider.GetRequiredService<MainForm>());
         }
 

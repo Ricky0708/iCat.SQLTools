@@ -1,8 +1,9 @@
-﻿using iCat.SQLTools.enums;
-using iCat.SQLTools.Models;
+﻿using iCat.SQLTools.Models;
 using iCat.SQLTools.Services.Implements;
 using iCat.SQLTools.Services.Interfaces;
 using iCat.SQLTools.Shareds;
+using iCat.SQLTools.Shareds.Enums;
+using iCat.SQLTools.Shareds.Shareds;
 using Mysqlx.Crud;
 using System;
 using System.Collections.Generic;

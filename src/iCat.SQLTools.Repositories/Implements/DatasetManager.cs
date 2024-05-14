@@ -1,4 +1,4 @@
-﻿using iCat.SQLTools.Enums;
+﻿using iCat.SQLTools.Shareds.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data;

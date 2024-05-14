@@ -1,19 +1,15 @@
-﻿using iCat.SQLTools.enums;
-using iCat.SQLTools.Repositories.Interfaces;
+﻿using iCat.SQLTools.Repositories.Interfaces;
 using iCat.SQLTools.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
-using NPOI.OpenXmlFormats.Wordprocessing;
-using NPOI.OpenXmlFormats;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NPOI.HPSF;
-using iCat.SQLTools.Enums;
 using iCat.SQLTools.Repositories.Implements;
+using iCat.SQLTools.Shareds.Enums;
 
 namespace iCat.SQLTools.Services.Implements
 {

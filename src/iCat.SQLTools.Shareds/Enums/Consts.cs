@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace iCat.SQLTools.enums
+namespace iCat.SQLTools.Shareds.Enums
 {
     public class Consts
     {

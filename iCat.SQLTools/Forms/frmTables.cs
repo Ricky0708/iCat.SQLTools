@@ -3,6 +3,7 @@ using iCat.SQLTools.Repositories.Implements;
 using iCat.SQLTools.Services.Implements;
 using iCat.SQLTools.Services.Interfaces;
 using iCat.SQLTools.Shareds;
+using iCat.SQLTools.Shareds.Shareds;
 using Microsoft.Extensions.DependencyInjection;
 using Org.BouncyCastle.Utilities.Zlib;
 using System;

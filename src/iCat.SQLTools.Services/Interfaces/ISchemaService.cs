@@ -1,5 +1,4 @@
-﻿using iCat.SQLTools.enums;
-using iCat.SQLTools.Repositories.Implements;
+﻿using iCat.SQLTools.Repositories.Implements;
 using System;
 using System.Collections.Generic;
 using System.Data;

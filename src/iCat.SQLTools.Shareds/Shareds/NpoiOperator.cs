@@ -6,7 +6,7 @@ using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 
 
-namespace iCat.SQLTools.Shareds
+namespace iCat.SQLTools.Shareds.Shareds
 {
     public class NpoiOperator
     {

@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Text.Unicode;
 using System.Threading.Tasks;
 
-namespace iCat.SQLTools.Shareds
+namespace iCat.SQLTools.Shareds.Shareds
 {
 
     public static class JsonUtil

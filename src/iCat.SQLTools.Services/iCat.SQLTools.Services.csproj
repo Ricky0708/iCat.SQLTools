@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iCat.SQLTools.Repositories\iCat.SQLTools.Repositories.csproj" />
+    <ProjectReference Include="..\iCat.SQLTools.Shareds\iCat.SQLTools.Shareds.csproj" />
+  </ItemGroup>
+
+</Project>

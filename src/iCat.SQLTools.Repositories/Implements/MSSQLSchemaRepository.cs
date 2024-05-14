@@ -1,18 +1,14 @@
 ﻿using iCat.DB.Client.Factory.Interfaces;
 using iCat.SQLTools.Repositories.Interfaces;
 using Microsoft.Data.SqlClient;
-using NPOI.OpenXmlFormats.Wordprocessing;
-using NPOI.OpenXmlFormats;
-using NPOI.SS.Formula.PTG;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using iCat.SQLTools.enums;
 using Microsoft.Extensions.DependencyInjection;
-using NPOI.XSSF.Model;
+using iCat.SQLTools.Shareds.Enums;
 
 namespace iCat.SQLTools.Repositories.Implements
 {

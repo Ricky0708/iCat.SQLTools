@@ -21,6 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\src\iCat.SQLTools.Repositories\iCat.SQLTools.Repositories.csproj" />
+    <ProjectReference Include="..\src\iCat.SQLTools.Services\iCat.SQLTools.Services.csproj" />
+    <ProjectReference Include="..\src\iCat.SQLTools.Shareds\iCat.SQLTools.Shareds.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Configs\programsConfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
