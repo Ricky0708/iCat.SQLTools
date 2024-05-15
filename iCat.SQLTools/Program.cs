@@ -54,6 +54,7 @@ namespace iCat.SQLTools
                     services.AddSingleton<MainForm>();
                     services.AddKeyedScoped<Form, frmConfigSettingDlg>(nameof(frmConfigSettingDlg));
                     services.AddKeyedScoped<Form, frmTables>(nameof(frmTables));
+                    services.AddKeyedScoped<Form, frmPOCO>(nameof(frmPOCO));
 
 
                     services.AddScoped<ISchemaService, SchemaService>(s =>

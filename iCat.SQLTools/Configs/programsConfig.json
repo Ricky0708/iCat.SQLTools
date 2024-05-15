@@ -11,6 +11,12 @@
 			"progName": "Tables",
 			"moduleName": "iCat.SQLTools",
 			"seq": 2
+		},
+		{
+			"progId": "frmPOCO",
+			"progName": "POCO Generator",
+			"moduleName": "iCat.SQLTools",
+			"seq": 3
 		}
 	]
 }
