@@ -1,95 +1,60 @@
-﻿using Microsoft.SqlServer.Management.SqlParser.Metadata;
-using Microsoft.SqlServer.Management.SqlParser.Parser;
+﻿using iCat.SQLTools.Services.Models;
+using iCat.SQLTools.Shareds.Enums;
+using iCat.SQLTools.Shareds.Shareds;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NPOI.OpenXmlFormats.Dml.Diagram;
-using NPOI.SS.Formula.Functions;
-using RickySQLTools.Models;
-using RickySQLTools.Utilitys;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Data.SqlTypes;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Xml;
 
-namespace RickySQLTools.DAL
+namespace iCat.SQLTools.Services.Managers
 {
-    public class DALClassModelGenerator : DALBase
+    public class DatasetManager
     {
-        DAO dao;
-        ShareUtility objUti = new ShareUtility();
-        public bool CreateDataSet()
-        {
-            //DAL.DALTables objDAL = new DAL.DALTables();
-            //_strConn = base.connString; //save the current db connection
-            //dao = new DAO(_strConn);
+        public DataSet? Dataset { get; set; }
+        public DatasetFromType DatasetFromType { get; set; }
 
-            //if (objDAL.GetDatasetFromSQL())
-            //{
-            //    _dalDataset = objDAL._dalDataset;
-            //    return true;
-            //}
-            //else
-            //{
-            //    ErrMsg = objDAL.ErrMsg;
-            //    return false;
-            //}
-            if (DALBase._dalDataset == null) return false;
-            return true;
-        }
-
-        public string GenerateFromScript(string className, string script)
+        public string GenerateClassWithSummary(string classNamespace, string classUsing, string className, string sqlScript)
         {
-            var parserResult = Microsoft.SqlServer.Management.SqlParser.Parser.Parser.Parse(script);
+            var parserResult = Microsoft.SqlServer.Management.SqlParser.Parser.Parser.Parse(sqlScript);
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(parserResult.Script.Xml);
             string json = JsonConvert.SerializeXmlNode(doc);
-            //var sqlModel = JsonConvert.DeserializeObject<SQLStatementModel>(json.Replace("@", ""));
-
             var obj = JObject.Parse(json.Replace("@", ""));
-            //var n = obj["SqlScript"]["SqlBatch"]["SqlSelectStatement"]["SqlSelectSpecification"]["SqlQuerySpecification"]["SqlSelectClause"];
-
-            return GeneratorModelFromJObject(obj, className);
+            return GeneratorModelFromJObject(Dataset!, obj, classNamespace, classUsing, className);
         }
 
-        private string GeneratorModelFromJObject(JObject jObj, string className)
+        private string GeneratorModelFromJObject(DataSet ds, JObject jObj, string classNamespace, string classUsing, string className)
         {
             string result = "";
             try
             {
-                string defUsing = ShareUtility.GetSettings(SettingEnum.GetUsing).ToString() + "\r\n";
-                string defNamespace = "namespace " + ShareUtility.GetSettings(SettingEnum.GetNamespace).ToString() + "\r\n";
+                string defUsing = classUsing + "\r\n";
+                string defNamespace = "namespace " + classNamespace + "\r\n";
                 string body = "";
-                bool defIncludeAttr = (bool)ShareUtility.GetSettings(SettingEnum.GetIncludeAttr);
 
-                var selectClauses = jObj["SqlScript"]["SqlBatch"]["SqlSelectStatement"]["SqlSelectSpecification"]["SqlQuerySpecification"]["SqlSelectClause"];
-                var fromClauses = jObj["SqlScript"]["SqlBatch"]["SqlSelectStatement"]["SqlSelectSpecification"]["SqlQuerySpecification"]["SqlFromClause"];
+                var selectClauses = jObj["SqlScript"]!["SqlBatch"]!["SqlSelectStatement"]!["SqlSelectSpecification"]!["SqlQuerySpecification"]!["SqlSelectClause"]!;
+                var fromClauses = jObj["SqlScript"]!["SqlBatch"]!["SqlSelectStatement"]!["SqlSelectSpecification"]!["SqlQuerySpecification"]!["SqlFromClause"]!;
 
-                var columnWithTables = GetColumnsWithTable(selectClauses, fromClauses);
+                var columnWithTables = GetColumnsWithTable(ds, selectClauses, fromClauses);
 
                 foreach (var col in columnWithTables)
                 {
                     var summary = "";
                     var attr = "";
                     var isNullable = false;
-                    var colInfo = col.Tables == null ? null : GetColumnInfo(col.Tables, col.SrcColumnName);
+                    var colInfo = col.Tables == null ? null : GetColumnInfo(ds, col.Tables, col.SrcColumnName);
                     if (colInfo != null)
                     {
                         summary = GetSummary(colInfo) + "\r\n";
-                        if (defIncludeAttr)
-                        {
-                            //attr = GetAttrib(item) + "\r\n";
-                        }
                         isNullable = (int)colInfo["IsNullable"] == 1;
                     }
                     body += summary + attr + string.Format("        public {0} {1} {{ get; set; }} {2}\r\n",
-                        ShareUtility.RenameDbType(ShareUtility.RenameType(colInfo?.ItemArray[3]?.ToString() ?? col.ColumnType)) + (isNullable ? "?" : ""),
+                        (Convertor.ConvertToCSharpType(colInfo?.ItemArray[3]?.ToString()) ?? Convertor.ConvertToCSharpType(col.ColumnType)) + (isNullable ? "?" : ""),
                         col.ColumnName,
                         (colInfo?.ItemArray[3]?.ToString() ?? col.ColumnType).ToLower() == "string" //item.DataType.Name.ToLower() == "string"
                         ? isNullable
@@ -104,12 +69,12 @@ namespace RickySQLTools.DAL
             }
             catch (Exception ex)
             {
-                ErrMsg = ex.Message;
+                throw;
             }
             return result;
         }
 
-        private List<StatementColumnWithTableModel> GetColumnsWithTable(JToken selectClauses, JToken fromClauses)
+        private List<StatementColumnWithTableModel> GetColumnsWithTable(DataSet ds, JToken selectClauses, JToken fromClauses)
         {
 
             var tables = GetTables(fromClauses);
@@ -117,22 +82,22 @@ namespace RickySQLTools.DAL
             var result = new List<StatementColumnWithTableModel>();
             if (selectClauses["SqlSelectStarExpression"] != null)
             {
-                var expressions = selectClauses["SqlSelectStarExpression"];
+                var expressions = selectClauses["SqlSelectStarExpression"]!;
                 if (expressions.Type == JTokenType.Object)
                 {
-                    result.AddRange(ProcessSqlSelectStarExpression(expressions, tables.ToArray()));
+                    result.AddRange(ProcessSqlSelectStarExpression(expressions, ds, tables.ToArray()));
                 }
                 else
                 {
                     foreach (var expression in expressions)
                     {
-                        result.AddRange(ProcessSqlSelectStarExpression(expression, tables.ToArray()));
+                        result.AddRange(ProcessSqlSelectStarExpression(expression, ds, tables.ToArray()));
                     }
                 }
             }
             if (selectClauses["SqlSelectScalarExpression"] != null)
             {
-                var expressions = selectClauses["SqlSelectScalarExpression"];
+                var expressions = selectClauses["SqlSelectScalarExpression"]!;
                 if (expressions.Type == JTokenType.Object)
                 {
                     result.Add(ProcessSqlSelectScalarExpression(expressions, tables.ToArray()));
@@ -223,7 +188,7 @@ namespace RickySQLTools.DAL
                 var columnName = SqlSelectScalarExpression["Alias"] == null ? SqlSelectScalarExpression["SqlScalarRefExpression"]["SqlObjectIdentifier"]["ObjectName"].ToString() : SqlSelectScalarExpression["Alias"].ToString();
                 var schemaName = SqlSelectScalarExpression["SqlScalarRefExpression"]["SqlObjectIdentifier"]["SchemaName"].ToString();
                 var srcColumnName = SqlSelectScalarExpression["SqlScalarRefExpression"]["SqlObjectIdentifier"]["ObjectName"].ToString();
-                var columnTables = tables.Where(p => p.AliasName == schemaName).Select(p => p.TableName).ToArray();
+                var columnTables = tables.Where(p => p.AliasName.ToLower() == schemaName.ToLower()).Select(p => p.TableName).ToArray();
 
                 result = new StatementColumnWithTableModel
                 {
@@ -237,7 +202,7 @@ namespace RickySQLTools.DAL
                 var columnName = SqlSelectScalarExpression["Alias"] == null ? SqlSelectScalarExpression["SqlAggregateFunctionCallExpression"]["SqlScalarRefExpression"]["SqlObjectIdentifier"]["ObjectName"].ToString() : SqlSelectScalarExpression["Alias"].ToString();
                 var schemaName = SqlSelectScalarExpression["SqlAggregateFunctionCallExpression"]["SqlScalarRefExpression"]["SqlObjectIdentifier"]["SchemaName"].ToString();
                 var srcColumnName = SqlSelectScalarExpression["SqlAggregateFunctionCallExpression"]["SqlScalarRefExpression"]["SqlObjectIdentifier"]["ObjectName"].ToString();
-                var columnTables = tables.Where(p => p.AliasName == schemaName).Select(p => p.TableName).ToArray();
+                var columnTables = tables.Where(p => p.AliasName.ToLower() == schemaName.ToLower()).Select(p => p.TableName).ToArray();
 
                 result = new StatementColumnWithTableModel
                 {
@@ -259,37 +224,35 @@ namespace RickySQLTools.DAL
             return result;
         }
 
-        private StatementColumnWithTableModel[] ProcessSqlSelectStarExpression(JToken SqlSelectStarExpression, StatementTableModel[] tables)
+        private StatementColumnWithTableModel[] ProcessSqlSelectStarExpression(JToken SqlSelectStarExpression, DataSet ds, StatementTableModel[] tables)
         {
             var result = new List<StatementColumnWithTableModel>();
             var schemaName = SqlSelectStarExpression["Qualifier"]?.ToString();
-            var columnTables = schemaName == null ? tables.Select(p => p.TableName).ToArray() : tables.Where(p => p.AliasName == schemaName).Select(p => p.TableName).ToArray();
+            var columnTables = schemaName == null ? tables.Select(p => p.TableName).ToArray() : tables.Where(p => p.AliasName.ToLower() == schemaName.ToLower()).Select(p => p.TableName).ToArray();
 
-            DataTable dtColumnsTable = _dalDataset.Tables[strColumns];
+            DataTable dtColumnsTable = ds.Tables[Consts.strColumns]!;
             var colInfos = (from p in dtColumnsTable.AsEnumerable()
-                            where columnTables.Any(x => x == p.Field<string>("TableName"))
+                            where columnTables.Any(x => x.ToLower() == p.Field<string>("TableName").ToLower())
                             select p);
             foreach (var col in colInfos)
             {
                 result.Add(new StatementColumnWithTableModel
                 {
-                    ColumnName = col.Field<string>("ColName"),
-                    SrcColumnName = col.Field<string>("ColName"),
-                    Tables = new[] { col.Field<string>("TableName") }
+                    ColumnName = col.Field<string>("ColName")!,
+                    SrcColumnName = col.Field<string>("ColName")!,
+                    Tables = new[] { col.Field<string>("TableName")! }
                 });
             }
             return result.ToArray();
         }
 
-        private DataRow GetColumnInfo(string[] tableNames, string colName)
+        private DataRow GetColumnInfo(DataSet ds, string[] tableNames, string colName)
         {
-            DataTable dtColumnsTable = _dalDataset.Tables[strColumns];
+            DataTable dtColumnsTable = ds.Tables[Consts.strColumns]!;
             var colInfo = (from p in dtColumnsTable.AsEnumerable()
-                           where p.Field<string>("ColName") == colName && tableNames.Any(x => x == p.Field<string>("TableName"))
-                           select p).SingleOrDefault();
+                           where p.Field<string>("ColName").ToLower() == colName.ToLower() && tableNames.Any(x => x.ToLower() == p.Field<string>("TableName").ToLower())
+                           select p).Single();
             return colInfo;
         }
-
-
     }
 }

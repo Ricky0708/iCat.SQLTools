@@ -7,6 +7,7 @@ using iCat.SQLTools.Repositories.Implements;
 using iCat.SQLTools.Repositories.Interfaces;
 using iCat.SQLTools.Services.Implements;
 using iCat.SQLTools.Services.Interfaces;
+using iCat.SQLTools.Services.Managers;
 using iCat.SQLTools.Shareds;
 using iCat.SQLTools.Shareds.Shareds;
 using iCat.Worker.Implements;
@@ -60,8 +61,7 @@ namespace iCat.SQLTools
                     services.AddScoped<ISchemaService, SchemaService>(s =>
                     {
                         var connType = s.GetRequiredService<SettingConfig>();
-                        var manager = s.GetRequiredService<DatasetManager>();
-                        return new SchemaService(connType.ConnectionSetting.ConnectionType, manager, s);
+                        return new SchemaService(connType.ConnectionSetting.ConnectionType, s);
                     });
                     services.AddScoped<ISchemaRepository, MSSQLSchemaRepository>();
                     services.AddScoped<ISchemaRepository, MySQLSchemaRepository>();

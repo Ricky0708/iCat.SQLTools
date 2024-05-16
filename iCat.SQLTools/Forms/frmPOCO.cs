@@ -1,4 +1,5 @@
 ﻿using iCat.SQLTools.Repositories.Implements;
+using iCat.SQLTools.Services.Managers;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,6 @@ namespace iCat.SQLTools.Forms
         //DAL.DALPOCOGenerator objDAL = new DAL.DALPOCOGenerator();
         //DAL.DALClassModelGenerator objDAL2 = new DAL.DALClassModelGenerator();
         //ShareUtility objUti = new ShareUtility();
-        DataSet ds;
         DataTable dtScript;
         CurrencyManager cmTables;
         CurrencyManager cmScripts;
@@ -48,16 +48,15 @@ namespace iCat.SQLTools.Forms
         private void frmPOCOGenrator_Load(object sender, EventArgs e)
         {
 
-            if (_datasetManager.DatasetFromType != Shareds.Enums.DatasetFromType.None)
+            if (_datasetManager.DatasetFromType != Shareds.Enums.DatasetFromType.None && _datasetManager.Dataset != null)
             {
                 dgvTables.Focus();
-                ds = _datasetManager.Dataset;
-                dgvTables.DataSource = ds;
+                dgvTables.DataSource = _datasetManager.Dataset;
                 dgvTables.DataMember = "Tables";
-                dgvSpsAndFuncs.DataSource = ds;
+                dgvSpsAndFuncs.DataSource = _datasetManager.Dataset;
                 dgvSpsAndFuncs.DataMember = "SpsAndFuncs";
-                cmTables = (CurrencyManager)this.BindingContext![ds, "Tables"];
-                cmSPAndFuncs = (CurrencyManager)this.BindingContext[ds, "SpsAndFuncs"];
+                cmTables = (CurrencyManager)this.BindingContext![_datasetManager.Dataset, "Tables"];
+                cmSPAndFuncs = (CurrencyManager)this.BindingContext[_datasetManager.Dataset, "SpsAndFuncs"];
                 ((DataView)cmTables.List).RowFilter = "TableName LIKE '%" + txtTableFilter.Text + "%'";
                 ((DataView)cmSPAndFuncs.List).RowFilter = "SPECIFIC_NAME LIKE '%" + txtSpFilter.Text + "%'";
             }
@@ -70,6 +69,29 @@ namespace iCat.SQLTools.Forms
 
         private void btn_Click(object sender, EventArgs e)
         {
+            try
+            {
+
+          
+            switch (((Button)sender).Name)
+            {
+                case nameof(btnWithComment):
+                    if (txtClassName.Text == "")
+                    {
+                        txtClassName.Focus();
+                        MessageBox.Show("Please type in a class name..");
+                    }
+                    var b = _datasetManager.GenerateClassWithSummary("namespace", "using system.io", txtClassName.Text, txtScript.Text);
+                    txtResult.Text = b;// objDAL.GenerateFromScript(txtClassName.Text, txtScript.Text);
+                    break;
+                default:
+                    break;
+            }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             //switch (((Button)sender).Name)
             //{
             //    case "btnFromScript":

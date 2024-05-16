@@ -10,6 +10,13 @@ using System.Text;
 using System.Threading.Tasks;
 using iCat.SQLTools.Repositories.Implements;
 using iCat.SQLTools.Shareds.Enums;
+using iCat.SQLTools.Services.Managers;
+using System.Xml;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using NPOI.SS.Formula.PTG;
+using NPOI.OpenXmlFormats.Wordprocessing;
+using iCat.SQLTools.Services.Models;
 
 namespace iCat.SQLTools.Services.Implements
 {
@@ -18,11 +25,8 @@ namespace iCat.SQLTools.Services.Implements
         public string Category => _category;
         private string _category;
         private readonly ISchemaRepository _repository;
-        private readonly DatasetManager _datasetManager;
-
         public SchemaService(
             ConnectionType connectionType,
-            DatasetManager datasetManager,
             IServiceProvider provider
             )
         {
@@ -30,50 +34,46 @@ namespace iCat.SQLTools.Services.Implements
             _repository = provider
                 .GetRequiredService<IEnumerable<ISchemaRepository>>()
                 .First(p => p.Category == connectionType.ToString()) ?? throw new ArgumentNullException(nameof(ISchemaRepository));
-            _datasetManager = datasetManager ?? throw new ArgumentNullException(nameof(datasetManager));
         }
 
-        public DatasetManager GetDatasetFromDB()
+        public DataSet GetDatasetFromDB()
         {
-            _datasetManager.Dataset = new DataSet();
-            _datasetManager.Dataset = _repository.GetDatasetFromSQL();
+            var ds = new DataSet();
+            ds = _repository.GetDatasetFromSQL();
 
-            DataRelation relCol = new DataRelation("MasterDetailCols", _datasetManager.Dataset.Tables[Consts.strTables]!.Columns["TableName"]!, _datasetManager.Dataset.Tables[Consts.strColumns]!.Columns["TableName"]!);
-            _datasetManager.Dataset.Relations.Add(relCol);
+            DataRelation relCol = new DataRelation("MasterDetailCols", ds.Tables[Consts.strTables]!.Columns["TableName"]!, ds.Tables[Consts.strColumns]!.Columns["TableName"]!);
+            ds.Relations.Add(relCol);
             //DataRelation relFK = new DataRelation("MasterDetailFKs", ds.Tables[dtTables].Columns["TableName"], ds.Tables[dtFKs].Columns["ParentTable"]);
             //ds.Relations.Add(relFK);
 
-            DataRelation resIndex = new DataRelation("MasterDetailIndexes", _datasetManager.Dataset.Tables[Consts.strTables]!.Columns["TableName"]!, _datasetManager.Dataset.Tables[Consts.strIndexes]!.Columns["TableName"]!);
-            _datasetManager.Dataset.Relations.Add(resIndex);
+            DataRelation resIndex = new DataRelation("MasterDetailIndexes", ds.Tables[Consts.strTables]!.Columns["TableName"]!, ds.Tables[Consts.strIndexes]!.Columns["TableName"]!);
+            ds.Relations.Add(resIndex);
 
-            DataRelation relInputParam = new DataRelation("MasterDetailInputParams", _datasetManager.Dataset.Tables[Consts.strSpsAndFuncs]!.Columns["SPECIFIC_NAME"]!, _datasetManager.Dataset.Tables[Consts.strInputParams]!.Columns["SPECIFIC_NAME"]!);
-            _datasetManager.Dataset.Relations.Add(relInputParam);
+            DataRelation relInputParam = new DataRelation("MasterDetailInputParams", ds.Tables[Consts.strSpsAndFuncs]!.Columns["SPECIFIC_NAME"]!, ds.Tables[Consts.strInputParams]!.Columns["SPECIFIC_NAME"]!);
+            ds.Relations.Add(relInputParam);
 
-            DataRelation resOutputParam = new DataRelation("MasterDetailOutputParams", _datasetManager.Dataset.Tables[Consts.strSpsAndFuncs]!.Columns["SPECIFIC_NAME"]!, _datasetManager.Dataset.Tables[Consts.strOutputParams]!.Columns["SPECIFIC_NAME"]!);
-            _datasetManager.Dataset.Relations.Add(resOutputParam);
-            _datasetManager.DatasetFromType = DatasetFromType.DB;
-            return _datasetManager;
+            DataRelation resOutputParam = new DataRelation("MasterDetailOutputParams", ds.Tables[Consts.strSpsAndFuncs]!.Columns["SPECIFIC_NAME"]!, ds.Tables[Consts.strOutputParams]!.Columns["SPECIFIC_NAME"]!);
+            ds.Relations.Add(resOutputParam);
+            return ds;
 
         }
 
-        public DatasetManager GetDatasetFromXml(string xmlString)
+        public DataSet GetDatasetFromXml(string xmlString)
         {
-            _datasetManager.Dataset = new DataSet();
+            var ds = new DataSet();
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
             writer.Write(xmlString);
             writer.Flush();
             stream.Position = 0;
 
-            _datasetManager.Dataset.ReadXml(stream);
-            _datasetManager.Dataset.AcceptChanges();
-
-            _datasetManager.DatasetFromType = DatasetFromType.XML;
-            return _datasetManager;
+            ds.ReadXml(stream);
+            ds.AcceptChanges();
+            return ds;
 
         }
 
-        public bool SaveToXml(DatasetManager manager, string fileName)
+        public bool SaveToXml(DataSet ds, string fileName)
         {
             //DirectoryInfo di = new DirectoryInfo(fillePath);
             //if (!di.Exists)
@@ -81,8 +81,10 @@ namespace iCat.SQLTools.Services.Implements
             //	di.Create();
             //}
             string saveToPath = fileName;
-            manager.Dataset.WriteXml(saveToPath, XmlWriteMode.WriteSchema);
+            ds.WriteXml(saveToPath, XmlWriteMode.WriteSchema);
             return true;
         }
+
+   
     }
 }

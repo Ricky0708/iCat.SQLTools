@@ -1,7 +1,7 @@
 ﻿using iCat.SQLTools.Models;
 using iCat.SQLTools.Repositories.Implements;
-using iCat.SQLTools.Services.Implements;
 using iCat.SQLTools.Services.Interfaces;
+using iCat.SQLTools.Services.Managers;
 using iCat.SQLTools.Shareds;
 using iCat.SQLTools.Shareds.Shareds;
 using Microsoft.Extensions.DependencyInjection;
@@ -127,7 +127,8 @@ namespace iCat.SQLTools.Forms
             try
             {
                 var service = _provider.GetRequiredService<ISchemaService>();
-                _datasetManager = service.GetDatasetFromDB();
+                _datasetManager.Dataset = service.GetDatasetFromDB();
+                _datasetManager.DatasetFromType = Shareds.Enums.DatasetFromType.DB;
                 BindFrm();
                 tabControl1.SelectedTab = tabTablesAndCols;
                 this.Parent!.Text = "Tables-『SQL』";
@@ -163,7 +164,8 @@ namespace iCat.SQLTools.Forms
                 {
                     var xml = sr.ReadToEnd();
                     var service = _provider.GetRequiredService<ISchemaService>();
-                    _datasetManager = service.GetDatasetFromXml(xml);
+                    _datasetManager.Dataset = service.GetDatasetFromXml(xml);
+                    _datasetManager.DatasetFromType = Shareds.Enums.DatasetFromType.XML;
                     BindFrm();
                     tabControl1.SelectedTab = tabTablesAndCols;
                     this.Parent!.Text = "Tables-『" + fileName.Substring(fileName.LastIndexOf("\\") + 1) + "』";
@@ -182,7 +184,7 @@ namespace iCat.SQLTools.Forms
                 if (fileName != "")
                 {
                     var service = _provider.GetRequiredService<ISchemaService>();
-                    if (service.SaveToXml(_datasetManager, fileName))
+                    if (service.SaveToXml(_datasetManager.Dataset, fileName))
                     {
                         MessageBox.Show("Success save to  xml file!!");
                     }

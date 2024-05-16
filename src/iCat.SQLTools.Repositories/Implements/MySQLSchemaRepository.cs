@@ -65,12 +65,12 @@ namespace iCat.SQLTools.Repositories.Implements
             sbSQL.Append("SELECT ");
             sbSQL.Append("	A.TABLE_NAME AS TableName, ");
             sbSQL.Append("	IF(A.EXTRA = 'auto_increment', TRUE, FALSE) AS IsIdentity, ");
-            sbSQL.Append("  IF(A.IS_NULLABLE = 'YES', TRUE, FALSE) AS IsNullable, ");
             sbSQL.Append("	A.COLUMN_NAME AS ColName, ");
-            sbSQL.Append("	A.COLUMN_TYPE AS ColType, ");
+            sbSQL.Append("	A.DATA_TYPE AS ColType, ");
             sbSQL.Append("	A.CHARACTER_MAXIMUM_LENGTH AS ColLength, ");
             sbSQL.Append("	A.COLUMN_DEFAULT AS DefaultValue, ");
             sbSQL.Append("	A.COLLATION_NAME AS CollationName, ");
+            sbSQL.Append("  IF(A.IS_NULLABLE = 'YES', TRUE, FALSE) AS IsNullable, ");
             sbSQL.Append("	IF(A.COLUMN_KEY = 'PRI', TRUE, NULL) AS IsPK, ");
             sbSQL.Append("	A.COLUMN_COMMENT AS ColDescription, ");
             sbSQL.Append("	A.ORDINAL_POSITION AS ordinal_position ");
