@@ -36,7 +36,7 @@ namespace iCat.SQLTools.Forms
             dgvScripts.DataSource = dtScript;
             cmScripts = (CurrencyManager)this.BindingContext[dtScript];
             _datasetManager = datasetManager ?? throw new ArgumentNullException(nameof(datasetManager));
-
+            tableLayoutPanel1.SetColumnSpan(btnAllTables, 2);
             //Button btnAddScript = new Button();
             //btnAddScript.Name = "btnAddScript";
             //btnAddScript.Text = "＋";
@@ -56,7 +56,7 @@ namespace iCat.SQLTools.Forms
                 dgvTables.DataMember = "Tables";
                 dgvSpsAndFuncs.DataSource = ds;
                 dgvSpsAndFuncs.DataMember = "SpsAndFuncs";
-                cmTables = (CurrencyManager)this.BindingContext[ds, "Tables"];
+                cmTables = (CurrencyManager)this.BindingContext![ds, "Tables"];
                 cmSPAndFuncs = (CurrencyManager)this.BindingContext[ds, "SpsAndFuncs"];
                 ((DataView)cmTables.List).RowFilter = "TableName LIKE '%" + txtTableFilter.Text + "%'";
                 ((DataView)cmSPAndFuncs.List).RowFilter = "SPECIFIC_NAME LIKE '%" + txtSpFilter.Text + "%'";
@@ -66,15 +66,6 @@ namespace iCat.SQLTools.Forms
                 MessageBox.Show("Please load data first.");
             }
 
-        }
-
-        private void txt_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Control && e.KeyCode == Keys.A)
-            {
-                if (sender != null)
-                    ((TextBox)sender).SelectAll();
-            }
         }
 
         private void btn_Click(object sender, EventArgs e)
@@ -170,6 +161,15 @@ namespace iCat.SQLTools.Forms
             //    default:
             //        break;
             //}
+        }
+
+        private void txt_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.A)
+            {
+                if (sender != null)
+                    ((TextBox)sender).SelectAll();
+            }
         }
 
         private void txtTableFilter_TextChanged(object sender, EventArgs e)
