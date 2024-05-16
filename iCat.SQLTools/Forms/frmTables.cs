@@ -26,6 +26,7 @@ namespace iCat.SQLTools.Forms
         CurrencyManager bmSps;
 
         DataView _dvFks;
+        private readonly SettingConfig _config;
         private readonly IServiceProvider _provider;
         private readonly IFileService _fileService;
         private DatasetManager _datasetManager;
@@ -60,6 +61,7 @@ namespace iCat.SQLTools.Forms
                     dgvSpsAndFuncs.Focus();
                 }
             };
+            _config = config ?? throw new ArgumentNullException(nameof(config));
             _provider = provider ?? throw new ArgumentNullException(nameof(provider));
             _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
             _datasetManager = datasetManager ?? throw new ArgumentNullException(nameof(datasetManager));
@@ -127,8 +129,13 @@ namespace iCat.SQLTools.Forms
             try
             {
                 var service = _provider.GetRequiredService<ISchemaService>();
+                switch (_config.ConnectionSetting.ConnectionType)
+                {
+                    case Shareds.Enums.ConnectionType.MSSQL: _datasetManager.DatasetFromType = Shareds.Enums.DatasetFromType.MSSQL; break;
+                    case Shareds.Enums.ConnectionType.MySQL: _datasetManager.DatasetFromType = Shareds.Enums.DatasetFromType.MySQL; break;
+                    default: throw new Exception("Unknow dbType");
+                }
                 _datasetManager.Dataset = service.GetDatasetFromDB();
-                _datasetManager.DatasetFromType = Shareds.Enums.DatasetFromType.DB;
                 BindFrm();
                 tabControl1.SelectedTab = tabTablesAndCols;
                 this.Parent!.Text = "Tables-『SQL』";

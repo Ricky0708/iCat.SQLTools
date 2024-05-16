@@ -72,21 +72,28 @@ namespace iCat.SQLTools.Forms
             try
             {
 
-          
-            switch (((Button)sender).Name)
-            {
-                case nameof(btnWithComment):
-                    if (txtClassName.Text == "")
-                    {
-                        txtClassName.Focus();
-                        MessageBox.Show("Please type in a class name..");
-                    }
-                    var b = _datasetManager.GenerateClassWithSummary("namespace", "using system.io", txtClassName.Text, txtScript.Text);
-                    txtResult.Text = b;// objDAL.GenerateFromScript(txtClassName.Text, txtScript.Text);
-                    break;
-                default:
-                    break;
-            }
+
+                switch (((Button)sender).Name)
+                {
+                    case nameof(btnWithComment):
+                        if (txtClassName.Text == "")
+                        {
+                            txtClassName.Focus();
+                            MessageBox.Show("Please type in a class name..");
+                        }
+                        txtResult.Text = _datasetManager.GenerateClassWithSummary("namespace", "using system.io", txtClassName.Text, txtScript.Text);
+                        break;
+                    case nameof(btnWithoutComment):
+                        if (txtClassName.Text == "")
+                        {
+                            txtClassName.Focus();
+                            MessageBox.Show("Please type in a class name..");
+                        }
+                        txtResult.Text = _datasetManager.GenerateClassWithoutSummary("namespace", "using system.io", txtClassName.Text, txtScript.Text);
+                        break;
+                    default:
+                        break;
+                }
             }
             catch (Exception ex)
             {

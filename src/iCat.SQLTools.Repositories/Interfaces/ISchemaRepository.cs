@@ -18,5 +18,6 @@ namespace iCat.SQLTools.Repositories.Interfaces
         DataTable GetSpsAndFuncs();
         DataTable GetInputParams();
         DataTable GetOutputParams(DataTable spAndFuncTable);
+        DataTable ExecuteGetDataTable(string script, string dtName);
     }
 }

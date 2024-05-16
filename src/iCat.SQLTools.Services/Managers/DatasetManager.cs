@@ -1,6 +1,8 @@
-﻿using iCat.SQLTools.Services.Models;
+﻿using iCat.SQLTools.Repositories.Interfaces;
+using iCat.SQLTools.Services.Models;
 using iCat.SQLTools.Shareds.Enums;
 using iCat.SQLTools.Shareds.Shareds;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -10,25 +12,49 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using ZstdSharp.Unsafe;
 
 namespace iCat.SQLTools.Services.Managers
 {
     public class DatasetManager
     {
+        private readonly IServiceProvider _provider;
+
         public DataSet? Dataset { get; set; }
         public DatasetFromType DatasetFromType { get; set; }
 
-        public string GenerateClassWithSummary(string classNamespace, string classUsing, string className, string sqlScript)
+        public DatasetManager(IServiceProvider provider)
+        {
+            _provider = provider ?? throw new ArgumentNullException(nameof(provider));
+        }
+
+        public string GenerateClassWithSummary(
+            string classNamespace,
+            string classUsing,
+            string className,
+            string sqlScript)
         {
             var parserResult = Microsoft.SqlServer.Management.SqlParser.Parser.Parser.Parse(sqlScript);
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(parserResult.Script.Xml);
             string json = JsonConvert.SerializeXmlNode(doc);
             var obj = JObject.Parse(json.Replace("@", ""));
-            return GeneratorModelFromJObject(Dataset!, obj, classNamespace, classUsing, className);
+            return GeneratorModelFromJObject(Dataset!.Tables[Consts.strColumns]!, obj, classNamespace, classUsing, className);
         }
 
-        private string GeneratorModelFromJObject(DataSet ds, JObject jObj, string classNamespace, string classUsing, string className)
+        public string GenerateClassWithoutSummary(string classNamespace, string classUsing, string className, string sqlScript)
+        {
+            var _repository = _provider
+                .GetRequiredService<IEnumerable<ISchemaRepository>>()
+                .First(p => p.Category == DatasetFromType.ToString()) ?? throw new ArgumentNullException(nameof(ISchemaRepository));
+            var dt = _repository.ExecuteGetDataTable(sqlScript, "dasf");
+
+            return "";
+        }
+
+        #region from dataset
+
+        private string GeneratorModelFromJObject(DataTable dtColumn, JObject jObj, string classNamespace, string classUsing, string className)
         {
             string result = "";
             try
@@ -40,14 +66,14 @@ namespace iCat.SQLTools.Services.Managers
                 var selectClauses = jObj["SqlScript"]!["SqlBatch"]!["SqlSelectStatement"]!["SqlSelectSpecification"]!["SqlQuerySpecification"]!["SqlSelectClause"]!;
                 var fromClauses = jObj["SqlScript"]!["SqlBatch"]!["SqlSelectStatement"]!["SqlSelectSpecification"]!["SqlQuerySpecification"]!["SqlFromClause"]!;
 
-                var columnWithTables = GetColumnsWithTable(ds, selectClauses, fromClauses);
+                var columnWithTables = GetColumnsWithTable(dtColumn, selectClauses, fromClauses);
 
                 foreach (var col in columnWithTables)
                 {
                     var summary = "";
                     var attr = "";
                     var isNullable = false;
-                    var colInfo = col.Tables == null ? null : GetColumnInfo(ds, col.Tables, col.SrcColumnName);
+                    var colInfo = col.Tables == null ? null : GetColumnInfo(dtColumn, col.Tables, col.SrcColumnName);
                     if (colInfo != null)
                     {
                         summary = GetSummary(colInfo) + "\r\n";
@@ -74,7 +100,7 @@ namespace iCat.SQLTools.Services.Managers
             return result;
         }
 
-        private List<StatementColumnWithTableModel> GetColumnsWithTable(DataSet ds, JToken selectClauses, JToken fromClauses)
+        private List<StatementColumnWithTableModel> GetColumnsWithTable(DataTable dtColumn, JToken selectClauses, JToken fromClauses)
         {
 
             var tables = GetTables(fromClauses);
@@ -85,13 +111,13 @@ namespace iCat.SQLTools.Services.Managers
                 var expressions = selectClauses["SqlSelectStarExpression"]!;
                 if (expressions.Type == JTokenType.Object)
                 {
-                    result.AddRange(ProcessSqlSelectStarExpression(expressions, ds, tables.ToArray()));
+                    result.AddRange(ProcessSqlSelectStarExpression(expressions, dtColumn, tables.ToArray()));
                 }
                 else
                 {
                     foreach (var expression in expressions)
                     {
-                        result.AddRange(ProcessSqlSelectStarExpression(expression, ds, tables.ToArray()));
+                        result.AddRange(ProcessSqlSelectStarExpression(expression, dtColumn, tables.ToArray()));
                     }
                 }
             }
@@ -224,13 +250,13 @@ namespace iCat.SQLTools.Services.Managers
             return result;
         }
 
-        private StatementColumnWithTableModel[] ProcessSqlSelectStarExpression(JToken SqlSelectStarExpression, DataSet ds, StatementTableModel[] tables)
+        private StatementColumnWithTableModel[] ProcessSqlSelectStarExpression(JToken SqlSelectStarExpression, DataTable dtColumn, StatementTableModel[] tables)
         {
             var result = new List<StatementColumnWithTableModel>();
             var schemaName = SqlSelectStarExpression["Qualifier"]?.ToString();
             var columnTables = schemaName == null ? tables.Select(p => p.TableName).ToArray() : tables.Where(p => p.AliasName.ToLower() == schemaName.ToLower()).Select(p => p.TableName).ToArray();
 
-            DataTable dtColumnsTable = ds.Tables[Consts.strColumns]!;
+            DataTable dtColumnsTable = dtColumn;
             var colInfos = (from p in dtColumnsTable.AsEnumerable()
                             where columnTables.Any(x => x.ToLower() == p.Field<string>("TableName").ToLower())
                             select p);
@@ -246,13 +272,15 @@ namespace iCat.SQLTools.Services.Managers
             return result.ToArray();
         }
 
-        private DataRow GetColumnInfo(DataSet ds, string[] tableNames, string colName)
+        private DataRow GetColumnInfo(DataTable dt, string[] tableNames, string colName)
         {
-            DataTable dtColumnsTable = ds.Tables[Consts.strColumns]!;
+            DataTable dtColumnsTable = dt;
             var colInfo = (from p in dtColumnsTable.AsEnumerable()
                            where p.Field<string>("ColName").ToLower() == colName.ToLower() && tableNames.Any(x => x.ToLower() == p.Field<string>("TableName").ToLower())
                            select p).Single();
             return colInfo;
         }
+
+        #endregion
     }
 }

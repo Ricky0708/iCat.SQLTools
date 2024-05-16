@@ -252,9 +252,7 @@ namespace iCat.SQLTools.Repositories.Implements
 
         #endregion
 
-        #region private method
-
-        private DataTable ExecuteGetDataTable(string script, string dtName)
+        public DataTable ExecuteGetDataTable(string script, string dtName)
         {
             var dt = new DataTable(dtName);
             var conn = (SqlConnection)_factory.GetConnection(Category).Connection;
@@ -263,7 +261,5 @@ namespace iCat.SQLTools.Repositories.Implements
             da.Fill(dt);
             return dt;
         }
-
-        #endregion
     }
 }

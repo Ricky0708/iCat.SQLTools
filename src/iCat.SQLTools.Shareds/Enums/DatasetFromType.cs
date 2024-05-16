@@ -9,7 +9,8 @@ namespace iCat.SQLTools.Shareds.Enums
     public enum DatasetFromType
     {
         None,
-        DB,
+        MSSQL,
+        MySQL,
         XML
     }
 }
