@@ -34,81 +34,95 @@
             txtUsing = new CustomControlleres.PlaceholderTextBox();
             txtNamespace = new CustomControlleres.PlaceholderTextBox();
             btnSave = new Button();
+            txtClassSuffix = new CustomControlleres.PlaceholderTextBox();
             SuspendLayout();
             // 
             // txtConnectionString
             // 
-            txtConnectionString.Location = new Point(100, 60);
+            txtConnectionString.Location = new Point(85, 56);
+            txtConnectionString.Margin = new Padding(2, 3, 2, 3);
+            txtConnectionString.Multiline = true;
             txtConnectionString.Name = "txtConnectionString";
-            txtConnectionString.Size = new Size(530, 27);
+            txtConnectionString.Size = new Size(413, 54);
             txtConnectionString.TabIndex = 1;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(15, 63);
+            label1.Location = new Point(12, 59);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(79, 16);
+            label1.Size = new Size(69, 15);
             label1.TabIndex = 2;
             label1.Text = "Connection";
             // 
             // cboConnectionType
             // 
             cboConnectionType.FormattingEnabled = true;
-            cboConnectionType.Location = new Point(100, 93);
+            cboConnectionType.Location = new Point(85, 116);
+            cboConnectionType.Margin = new Padding(2, 3, 2, 3);
             cboConnectionType.Name = "cboConnectionType";
-            cboConnectionType.Size = new Size(183, 24);
+            cboConnectionType.Size = new Size(143, 23);
             cboConnectionType.TabIndex = 3;
             // 
             // txtUsing
             // 
             txtUsing.BackColor = SystemColors.Info;
-            txtUsing.Location = new Point(100, 156);
+            txtUsing.Location = new Point(85, 175);
+            txtUsing.Margin = new Padding(2, 3, 2, 3);
             txtUsing.Multiline = true;
             txtUsing.Name = "txtUsing";
             txtUsing.PlaceHolder = "Using";
             txtUsing.ScrollBars = ScrollBars.Both;
-            txtUsing.Size = new Size(530, 216);
+            txtUsing.Size = new Size(413, 203);
             txtUsing.TabIndex = 4;
             // 
             // txtNamespace
             // 
             txtNamespace.BackColor = SystemColors.Info;
-            txtNamespace.Location = new Point(100, 123);
+            txtNamespace.Location = new Point(85, 144);
+            txtNamespace.Margin = new Padding(2, 3, 2, 3);
             txtNamespace.Name = "txtNamespace";
             txtNamespace.PlaceHolder = "Namespace";
-            txtNamespace.Size = new Size(530, 27);
+            txtNamespace.Size = new Size(271, 23);
             txtNamespace.TabIndex = 5;
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(555, 378);
+            btnSave.Location = new Point(439, 383);
+            btnSave.Margin = new Padding(2, 3, 2, 3);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(75, 23);
+            btnSave.Size = new Size(58, 22);
             btnSave.TabIndex = 6;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Click += btnSave_Click;
             // 
-            // frmConfigSetting
+            // txtClassSuffix
             // 
-            AutoScaleDimensions = new SizeF(9F, 16F);
+            txtClassSuffix.BackColor = SystemColors.Info;
+            txtClassSuffix.Location = new Point(360, 144);
+            txtClassSuffix.Margin = new Padding(2, 3, 2, 3);
+            txtClassSuffix.Name = "txtClassSuffix";
+            txtClassSuffix.PlaceHolder = "Class Suffix";
+            txtClassSuffix.Size = new Size(137, 23);
+            txtClassSuffix.TabIndex = 7;
+            // 
+            // frmConfigSettingDlg
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(682, 444);
+            ClientSize = new Size(530, 423);
+            Controls.Add(txtClassSuffix);
             Controls.Add(btnSave);
             Controls.Add(txtNamespace);
             Controls.Add(txtUsing);
             Controls.Add(cboConnectionType);
             Controls.Add(label1);
             Controls.Add(txtConnectionString);
-            Name = "frmConfigSetting";
+            Margin = new Padding(2, 3, 2, 3);
+            Name = "frmConfigSettingDlg";
             Text = "Config Setting";
-            Controls.SetChildIndex(txtConnectionString, 0);
-            Controls.SetChildIndex(label1, 0);
-            Controls.SetChildIndex(cboConnectionType, 0);
-            Controls.SetChildIndex(txtUsing, 0);
-            Controls.SetChildIndex(txtNamespace, 0);
-            Controls.SetChildIndex(btnSave, 0);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -123,5 +137,6 @@
         private CustomControlleres.PlaceholderTextBox txtUsing;
         private CustomControlleres.PlaceholderTextBox txtNamespace;
         private Button btnSave;
+        private CustomControlleres.PlaceholderTextBox txtClassSuffix;
     }
 }

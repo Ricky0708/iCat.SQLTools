@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1.X509.Qualified;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,27 @@ namespace iCat.SQLTools.Shareds.Shareds
 {
     public static class Convertor
     {
-        public static string? ConvertToCSharpType(string? name)
+
+        public static string GetAlias(Type type)
+        {
+            if (type == typeof(int)) return "int";
+            if (type == typeof(bool)) return "bool";
+            if (type == typeof(float)) return "float";
+            if (type == typeof(double)) return "double";
+            if (type == typeof(long)) return "long";
+            if (type == typeof(short)) return "short";
+            if (type == typeof(byte)) return "byte";
+            if (type == typeof(char)) return "char";
+            if (type == typeof(string)) return "string";
+            if (type == typeof(object)) return "object";
+            // 添加其他基元類型映射
+            return type.Name;
+        }
+
+        public static string? ConvertDBTypeToCSharpType(string? name)
         {
             string? result;
-            switch (name.ToLower())
+            switch (name?.ToLower())
             {
                 case "bigint": result = "long"; break;
                 case "bit": result = "bool"; break;

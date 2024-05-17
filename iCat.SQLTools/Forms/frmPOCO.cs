@@ -1,5 +1,8 @@
-﻿using iCat.SQLTools.Repositories.Implements;
+﻿using iCat.SQLTools.Models;
+using iCat.SQLTools.Repositories.Implements;
+using iCat.SQLTools.Services.Interfaces;
 using iCat.SQLTools.Services.Managers;
+using iCat.SQLTools.Shareds.Enums;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -23,8 +26,14 @@ namespace iCat.SQLTools.Forms
         CurrencyManager cmScripts;
         CurrencyManager cmSPAndFuncs;
         private readonly DatasetManager _datasetManager;
+        private readonly SettingConfig _settingConfig;
+        private readonly IFileService _fileService;
 
-        public frmPOCO(DatasetManager datasetManager)
+        public frmPOCO(
+            DatasetManager datasetManager,
+            SettingConfig settingConfig,
+            IFileService fileService
+            )
         {
             InitializeComponent();
             dgvTables.AutoGenerateColumns = false;
@@ -36,6 +45,8 @@ namespace iCat.SQLTools.Forms
             dgvScripts.DataSource = dtScript;
             cmScripts = (CurrencyManager)this.BindingContext[dtScript];
             _datasetManager = datasetManager ?? throw new ArgumentNullException(nameof(datasetManager));
+            _settingConfig = settingConfig ?? throw new ArgumentNullException(nameof(settingConfig));
+            _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
             tableLayoutPanel1.SetColumnSpan(btnAllTables, 2);
             //Button btnAddScript = new Button();
             //btnAddScript.Name = "btnAddScript";
@@ -71,28 +82,53 @@ namespace iCat.SQLTools.Forms
         {
             try
             {
-
-
-                switch (((Button)sender).Name)
+                if (_datasetManager?.Dataset?.Tables[Consts.strTables] != null)
                 {
-                    case nameof(btnWithComment):
-                        if (txtClassName.Text == "")
-                        {
-                            txtClassName.Focus();
-                            MessageBox.Show("Please type in a class name..");
-                        }
-                        txtResult.Text = _datasetManager.GenerateClassWithSummary("namespace", "using system.io", txtClassName.Text, txtScript.Text);
-                        break;
-                    case nameof(btnWithoutComment):
-                        if (txtClassName.Text == "")
-                        {
-                            txtClassName.Focus();
-                            MessageBox.Show("Please type in a class name..");
-                        }
-                        txtResult.Text = _datasetManager.GenerateClassWithoutSummary("namespace", "using system.io", txtClassName.Text, txtScript.Text);
-                        break;
-                    default:
-                        break;
+                    switch (((Button)sender).Name)
+                    {
+                        case nameof(btnWithComment):
+                            if (txtClassName.Text == "")
+                            {
+                                txtClassName.Focus();
+                                MessageBox.Show("Please type in a class name..");
+                            }
+                            txtResult.Text = _datasetManager.GenerateClassWithSummary(_settingConfig.Namespace, _settingConfig.Using, $"{txtClassName.Text}{_settingConfig.ClassSuffix}", txtScript.Text);
+                            break;
+                        case nameof(btnWithoutComment):
+                            if (txtClassName.Text == "")
+                            {
+                                txtClassName.Focus();
+                                MessageBox.Show("Please type in a class name..");
+                            }
+                            txtResult.Text = _datasetManager.GenerateClassWithoutSummary(_settingConfig.Namespace, _settingConfig.Using, $"{txtClassName.Text}{_settingConfig.ClassSuffix}", txtScript.Text);
+                            break;
+                        case nameof(btnAllTables):
+
+                            FolderBrowserDialog dlg = new FolderBrowserDialog();
+                            dlg.Reset();
+                            dlg.RootFolder = Environment.SpecialFolder.MyComputer;
+                            dlg.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                            if (dlg.ShowDialog() == DialogResult.OK)
+                            {
+                                var filePath = dlg.SelectedPath;
+
+                                foreach (DataRow item in _datasetManager!.Dataset!.Tables[Consts.strTables]!.Rows)
+                                {
+                                    var tableName = item["TableName"].ToString();
+                                    var script = $"SELECT * FROM {tableName}";
+                                    var classBody = _datasetManager.GenerateClassWithSummary(_settingConfig.Namespace, _settingConfig.Using, $"{tableName}{_settingConfig.ClassSuffix}", script);
+                                    _fileService.SaveStringFileAsync($"{Path.Combine(filePath, tableName + _settingConfig.ClassSuffix + ".cs")}", classBody);
+                                }
+                                MessageBox.Show("Files saved.");
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please load data first.");
                 }
             }
             catch (Exception ex)
@@ -224,37 +260,38 @@ namespace iCat.SQLTools.Forms
                 case "dgvTables":
                     if (cmTables.Position != -1)
                     {
-                        string tableName = ((DataRowView)cmTables.Current)["TableName"].ToString();
-                        txtClassName.Text = tableName;
-                        //txtScript.Text = objDAL.GenerateScript(tableName);
+                        string tableName = ((DataRowView)cmTables.Current)["TableName"].ToString()!;
+                        txtClassName.Text = tableName!;
+                        txtScript.Text = $"SELECT * FROM {tableName}";
                     }
                     break;
                 case "dgvSpsAndFuncs":
-                    if (cmTables.Position != -1)
-                    {
-                        string spName = ((DataRowView)cmSPAndFuncs.Current)["SPECIFIC_NAME"].ToString();
-                        txtClassName.Text = spName;
-                        //txtResult.Text = objDAL.GeneratePOCOFromSP(spName);
-                    }
-                    break;
+                //if (cmTables.Position != -1)
+                //{
+                //    string spName = ((DataRowView)cmSPAndFuncs.Current)["SPECIFIC_NAME"].ToString();
+                //    txtClassName.Text = spName;
+                //    //txtResult.Text = objDAL.GeneratePOCOFromSP(spName);
+                //}
+                //break;
                 case "dgvScripts":
-                    if (cmScripts.Position != -1)
-                    {
-                        if (dgvScripts.Columns[e.ColumnIndex].Name == "dScriptName")
-                        {
-                            txtClassName.Text = ((DataRowView)cmScripts.Current)["ScriptName"].ToString();
-                            txtScript.Text = ((DataRowView)cmScripts.Current)["Script"].ToString();
-                        }
-                        else if (dgvScripts.Columns[e.ColumnIndex].Name == "dCmd")
-                        {
-                            ((DataRowView)cmScripts.Current).Delete();
-                            cmScripts.EndCurrentEdit();
-                            dtScript.AcceptChanges();
-                        }
+                //if (cmScripts.Position != -1)
+                //{
+                //    if (dgvScripts.Columns[e.ColumnIndex].Name == "dScriptName")
+                //    {
+                //        txtClassName.Text = ((DataRowView)cmScripts.Current)["ScriptName"].ToString();
+                //        txtScript.Text = ((DataRowView)cmScripts.Current)["Script"].ToString();
+                //    }
+                //    else if (dgvScripts.Columns[e.ColumnIndex].Name == "dCmd")
+                //    {
+                //        ((DataRowView)cmScripts.Current).Delete();
+                //        cmScripts.EndCurrentEdit();
+                //        dtScript.AcceptChanges();
+                //    }
 
-                    }
-                    break;
+                //}
+                //break;
                 default:
+                    MessageBox.Show("Not implement yet.");
                     break;
             }
 

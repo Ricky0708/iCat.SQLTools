@@ -13,6 +13,7 @@ namespace iCat.SQLTools.Models
         public required ConnectionSetting ConnectionSetting { get; set; }
         public required string Namespace { get; set; }
         public required string Using { get; set; }
+        public required string ClassSuffix { get; set; }
     }
 
     public class ConnectionSetting

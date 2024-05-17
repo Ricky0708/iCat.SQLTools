@@ -36,6 +36,7 @@ namespace iCat.SQLTools.Forms
             txtConnectionString.Text = config.ConnectionSetting.ConnectionString;
             txtUsing.Text = config.Using;
             txtNamespace.Text = config.Namespace;
+            txtClassSuffix.Text = config.ClassSuffix;
 
             var connectionTypes = ((ConnectionType[])Enum.GetValues(typeof(ConnectionType)))
                 .Select(p => new
@@ -59,6 +60,7 @@ namespace iCat.SQLTools.Forms
                 _config.ConnectionSetting.ConnectionType = (ConnectionType)cboConnectionType.SelectedValue!;
                 _config.Using = txtUsing.Text;
                 _config.Namespace = txtNamespace.Text;
+                _config.ClassSuffix = txtClassSuffix.Text;
                 var data = JsonUtil.Serialize(_config);
                 _fileService.SaveStringFileAsync("settingConfig.json", data);
                 _provider.SetNewDbClient(_config.ConnectionSetting.ConnectionType, _config.ConnectionSetting.ConnectionString);

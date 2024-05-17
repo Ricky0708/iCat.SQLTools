@@ -42,25 +42,44 @@ namespace iCat.SQLTools.Services.Managers
             return GeneratorModelFromJObject(Dataset!.Tables[Consts.strColumns]!, obj, classNamespace, classUsing, className);
         }
 
-        public string GenerateClassWithoutSummary(string classNamespace, string classUsing, string className, string sqlScript)
+        public string GenerateClassWithoutSummary(string @namespace, string @using, string className, string sqlScript)
         {
             var _repository = _provider
                 .GetRequiredService<IEnumerable<ISchemaRepository>>()
                 .First(p => p.Category == DatasetFromType.ToString()) ?? throw new ArgumentNullException(nameof(ISchemaRepository));
-            var dt = _repository.ExecuteGetDataTable(sqlScript, "dasf");
+            var dt = _repository.GetTableSchema(sqlScript, "schema");
 
-            return "";
+            var sb = new StringBuilder();
+            sb.AppendLine(@using);
+            sb.AppendLine("");
+            sb.AppendLine(@namespace);
+            sb.AppendLine($"{{");
+            sb.AppendLine($"     public class {className}");
+            sb.AppendLine($"     {{");
+            foreach (DataColumn col in dt.Columns)
+            {
+                var a = typeof(int);
+                sb.AppendLine($"        /// <summary>");
+                sb.AppendLine($"        /// ");
+                sb.AppendLine($"        /// </summary>");
+                sb.AppendLine($"        public {Convertor.GetAlias(col.DataType)}{(col.AllowDBNull ? "?" : "")} {col.ColumnName} {{ get; set; }}");
+                sb.AppendLine("");
+            }
+            sb.AppendLine($"    }}");
+            sb.AppendLine($"}}");
+            var result = sb.ToString();
+            return result;
         }
 
         #region from dataset
 
-        private string GeneratorModelFromJObject(DataTable dtColumn, JObject jObj, string classNamespace, string classUsing, string className)
+        private string GeneratorModelFromJObject(DataTable dtColumn, JObject jObj, string @namespace, string @using, string className)
         {
             string result = "";
             try
             {
-                string defUsing = classUsing + "\r\n";
-                string defNamespace = "namespace " + classNamespace + "\r\n";
+                string defUsing = @using + "\r\n";
+                string defNamespace = @namespace + "\r\n";
                 string body = "";
 
                 var selectClauses = jObj["SqlScript"]!["SqlBatch"]!["SqlSelectStatement"]!["SqlSelectSpecification"]!["SqlQuerySpecification"]!["SqlSelectClause"]!;
@@ -80,7 +99,7 @@ namespace iCat.SQLTools.Services.Managers
                         isNullable = (int)colInfo["IsNullable"] == 1;
                     }
                     body += summary + attr + string.Format("        public {0} {1} {{ get; set; }} {2}\r\n",
-                        (Convertor.ConvertToCSharpType(colInfo?.ItemArray[3]?.ToString()) ?? Convertor.ConvertToCSharpType(col.ColumnType)) + (isNullable ? "?" : ""),
+                        (Convertor.ConvertDBTypeToCSharpType(colInfo?.ItemArray[3]?.ToString()) ?? Convertor.ConvertDBTypeToCSharpType(col.ColumnType)) + (isNullable ? "?" : ""),
                         col.ColumnName,
                         (colInfo?.ItemArray[3]?.ToString() ?? col.ColumnType).ToLower() == "string" //item.DataType.Name.ToLower() == "string"
                         ? isNullable

@@ -261,5 +261,15 @@ namespace iCat.SQLTools.Repositories.Implements
             da.Fill(dt);
             return dt;
         }
+
+        public DataTable GetTableSchema(string script, string dtName)
+        {
+            var dt = new DataTable(dtName);
+            var conn = (SqlConnection)_factory.GetConnection(Category).Connection;
+            var da = new SqlDataAdapter(script, conn);
+            da.SelectCommand.CommandTimeout = 999;
+            da.FillSchema(dt, SchemaType.Source);
+            return dt;
+        }
     }
 }
