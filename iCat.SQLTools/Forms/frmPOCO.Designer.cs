@@ -88,19 +88,14 @@
             // 
             dgvTables.AllowUserToAddRows = false;
             dgvTables.AllowUserToDeleteRows = false;
-            dgvTables.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvTables.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvTables.Columns.AddRange(new DataGridViewColumn[] { dTableName });
             dgvTables.Dock = DockStyle.Fill;
             dgvTables.Location = new Point(3, 122);
-            dgvTables.Margin = new Padding(3, 2, 3, 2);
             dgvTables.Name = "dgvTables";
             dgvTables.ReadOnly = true;
-            dgvTables.RowTemplate.Height = 24;
             dgvTables.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dgvTables.Size = new Size(398, 493);
-            dgvTables.TabIndex = 0;
-            dgvTables.TabStop = false;
             dgvTables.CellDoubleClick += dgv_CellDoubleClick;
             // 
             // dTableName
@@ -390,7 +385,6 @@
             dgvScripts.AllowUserToAddRows = false;
             dgvScripts.AllowUserToDeleteRows = false;
             dgvScripts.AllowUserToResizeRows = false;
-            dgvScripts.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvScripts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvScripts.Columns.AddRange(new DataGridViewColumn[] { dCmd, dScriptName, dScript });
             dgvScripts.Dock = DockStyle.Fill;

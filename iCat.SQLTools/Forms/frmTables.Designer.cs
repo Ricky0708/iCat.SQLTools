@@ -149,7 +149,6 @@
             // 
             this.dgvTables.AllowUserToAddRows = false;
             this.dgvTables.AllowUserToDeleteRows = false;
-            this.dgvTables.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvTables.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTables.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dTableName,
@@ -383,7 +382,6 @@
             // 
             this.dgvColumns.AllowUserToAddRows = false;
             this.dgvColumns.AllowUserToDeleteRows = false;
-            this.dgvColumns.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvColumns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvColumns.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dColName,
@@ -518,7 +516,6 @@
             // 
             this.dgvIndexes.AllowUserToAddRows = false;
             this.dgvIndexes.AllowUserToDeleteRows = false;
-            this.dgvIndexes.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvIndexes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvIndexes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dIndexName,
