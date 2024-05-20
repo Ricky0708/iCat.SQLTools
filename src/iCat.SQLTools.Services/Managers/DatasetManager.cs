@@ -2,7 +2,6 @@
 using iCat.SQLTools.Services.Models;
 using iCat.SQLTools.Shareds.Enums;
 using iCat.SQLTools.Shareds.Shareds;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -13,6 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using ZstdSharp.Unsafe;
+using Microsoft.Extensions.DependencyInjection;
+using System.Data.Common;
 
 namespace iCat.SQLTools.Services.Managers
 {
@@ -45,7 +46,7 @@ namespace iCat.SQLTools.Services.Managers
         public string GenerateClassWithoutSummary(string @namespace, string @using, string className, string sqlScript)
         {
             var _repository = _provider
-                .GetRequiredService<IEnumerable<ISchemaRepository>>()
+                .GetService<IEnumerable<ISchemaRepository>>()
                 .First(p => p.Category == DatasetFromType.ToString()) ?? throw new ArgumentNullException(nameof(ISchemaRepository));
             var dt = _repository.GetTableSchema(sqlScript, "schema");
 
@@ -293,11 +294,16 @@ namespace iCat.SQLTools.Services.Managers
 
         private DataRow GetColumnInfo(DataTable dt, string[] tableNames, string colName)
         {
+
             DataTable dtColumnsTable = dt;
+            var colInfo2 = (from p in dtColumnsTable.AsEnumerable()
+                            where p.Field<string>("ColName").ToLower() == colName.ToLower() && tableNames.Any(x => x.ToLower() == p.Field<string>("TableName").ToLower())
+                            select p).ToList();
             var colInfo = (from p in dtColumnsTable.AsEnumerable()
                            where p.Field<string>("ColName").ToLower() == colName.ToLower() && tableNames.Any(x => x.ToLower() == p.Field<string>("TableName").ToLower())
                            select p).Single();
             return colInfo;
+
         }
 
         #endregion

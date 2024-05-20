@@ -7,7 +7,6 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using iCat.SQLTools.Shareds.Enums;
 
 namespace iCat.SQLTools.Repositories.Implements
@@ -17,9 +16,9 @@ namespace iCat.SQLTools.Repositories.Implements
 
         public string Category => "MSSQL";
 
-        private readonly IDBClientFactory _factory;
+        private readonly IConnectionFactory _factory;
 
-        public MSSQLSchemaRepository(IDBClientFactory factory)
+        public MSSQLSchemaRepository(IConnectionFactory factory)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
         }

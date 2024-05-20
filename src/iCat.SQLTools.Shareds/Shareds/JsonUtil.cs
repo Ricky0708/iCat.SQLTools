@@ -32,12 +32,12 @@ namespace iCat.SQLTools.Shareds.Shareds
             return JsonSerializer.Serialize(model, options);
         }
 
-        public static T? Deserialize<T>(string value)
+        public static T Deserialize<T>(string value)
         {
             return Deserialize<T>(value, _option);
         }
 
-        public static T? Deserialize<T>(string value, JsonSerializerOptions options)
+        public static T Deserialize<T>(string value, JsonSerializerOptions options)
         {
             return JsonSerializer.Deserialize<T>(value, options);
         }

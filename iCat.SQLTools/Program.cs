@@ -1,4 +1,3 @@
-using iCat.DB.Client.Extension.Web;
 using iCat.DB.Client.Factory.Implements;
 using iCat.DB.Client.Factory.Interfaces;
 using iCat.SQLTools.Forms;
@@ -67,7 +66,8 @@ namespace iCat.SQLTools
                     services.AddScoped<ISchemaRepository, MySQLSchemaRepository>();
 
                     services.AddSingleton<DatasetManager>();
-                    services.AddScoped<IDBClientFactory, DBClientFactory>();
+                    services.AddScoped<IUnitOfWorkFactory, DBClientFactory>();
+                    services.AddScoped<IConnectionFactory, DBClientFactory>(s => (DBClientFactory)s.GetRequiredService<IUnitOfWorkFactory>());
                     services.AddSingleton<IDBClientProvider>(s => s.GetRequiredService<IDBProvider>());
                     services.AddSingleton<IDBProvider>(s =>
                     {

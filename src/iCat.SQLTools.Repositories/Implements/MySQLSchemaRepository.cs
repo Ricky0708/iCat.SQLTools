@@ -17,9 +17,9 @@ namespace iCat.SQLTools.Repositories.Implements
     {
         public string Category => "MySQL";
 
-        private readonly IDBClientFactory _factory;
+        private readonly IConnectionFactory _factory;
 
-        public MySQLSchemaRepository(IDBClientFactory factory)
+        public MySQLSchemaRepository(IConnectionFactory factory)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
         }
@@ -62,7 +62,7 @@ namespace iCat.SQLTools.Repositories.Implements
         public DataTable GetColumns()
         {
             var sbSQL = new StringBuilder();
-            sbSQL.Append("SELECT ");
+            sbSQL.Append("SELECT DISTINCT ");
             sbSQL.Append("	A.TABLE_NAME AS TableName, ");
             sbSQL.Append("	IF(A.EXTRA = 'auto_increment', TRUE, FALSE) AS IsIdentity, ");
             sbSQL.Append("	A.COLUMN_NAME AS ColName, ");

@@ -111,14 +111,14 @@ namespace iCat.SQLTools.Forms
                             if (dlg.ShowDialog() == DialogResult.OK)
                             {
                                 var filePath = dlg.SelectedPath;
-
-                                foreach (DataRow item in _datasetManager!.Dataset!.Tables[Consts.strTables]!.Rows)
-                                {
+                                Parallel.For(0, _datasetManager!.Dataset!.Tables[Consts.strTables]!.Rows.Count, (i) => {
+                                    var item = _datasetManager!.Dataset!.Tables[Consts.strTables]!.Rows[i];
                                     var tableName = item["TableName"].ToString();
                                     var script = $"SELECT * FROM {tableName}";
                                     var classBody = _datasetManager.GenerateClassWithSummary(_settingConfig.Namespace, _settingConfig.Using, $"{tableName}{_settingConfig.ClassSuffix}", script);
                                     _fileService.SaveStringFileAsync($"{Path.Combine(filePath, tableName + _settingConfig.ClassSuffix + ".cs")}", classBody);
-                                }
+                                });
+                           
                                 MessageBox.Show("Files saved.");
                             }
                             break;
