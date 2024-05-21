@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NPOI.HSSF.Record;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace iCat.SQLTools.Shareds.Enums
 {
-    public enum ConnectionType
+    public enum ScriptKind
     {
-        MSSQL = 1,
-        MySQL = 2,
+        Select,
+        Insert,
+        Update,
+        Delete,
     }
 }

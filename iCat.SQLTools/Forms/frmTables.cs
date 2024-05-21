@@ -131,8 +131,8 @@ namespace iCat.SQLTools.Forms
                 var service = _provider.GetRequiredService<ISchemaService>();
                 switch (_config.ConnectionSetting.ConnectionType)
                 {
-                    case Shareds.Enums.ConnectionType.MSSQL: _datasetManager.DatasetFromType = Shareds.Enums.DatasetFromType.MSSQL; break;
-                    case Shareds.Enums.ConnectionType.MySQL: _datasetManager.DatasetFromType = Shareds.Enums.DatasetFromType.MySQL; break;
+                    case Shareds.Enums.ConnectionType.MSSQL: _datasetManager.DataProvider = Shareds.Enums.DataProvider.MSSQL; break;
+                    case Shareds.Enums.ConnectionType.MySQL: _datasetManager.DataProvider = Shareds.Enums.DataProvider.MySQL; break;
                     default: throw new Exception("Unknow dbType");
                 }
                 _datasetManager.Dataset = service.GetDatasetFromDB();
@@ -172,7 +172,7 @@ namespace iCat.SQLTools.Forms
                     var xml = sr.ReadToEnd();
                     var service = _provider.GetRequiredService<ISchemaService>();
                     _datasetManager.Dataset = service.GetDatasetFromXml(xml);
-                    _datasetManager.DatasetFromType = Shareds.Enums.DatasetFromType.XML;
+                    _datasetManager.DataProvider = Shareds.Enums.DataProvider.XML;
                     BindFrm();
                     tabControl1.SelectedTab = tabTablesAndCols;
                     this.Parent!.Text = "Tables-『" + fileName.Substring(fileName.LastIndexOf("\\") + 1) + "』";
@@ -191,7 +191,7 @@ namespace iCat.SQLTools.Forms
                 if (fileName != "")
                 {
                     var service = _provider.GetRequiredService<ISchemaService>();
-                    if (service.SaveToXml(_datasetManager.Dataset, fileName))
+                    if (_datasetManager.SaveToXml(_datasetManager.Dataset, fileName))
                     {
                         MessageBox.Show("Success save to  xml file!!");
                     }

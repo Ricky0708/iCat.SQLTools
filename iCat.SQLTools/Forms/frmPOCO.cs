@@ -4,6 +4,8 @@ using iCat.SQLTools.Services.Interfaces;
 using iCat.SQLTools.Services.Managers;
 using iCat.SQLTools.Shareds.Enums;
 using Microsoft.IdentityModel.Tokens;
+using NPOI.OpenXmlFormats.Spreadsheet;
+using Org.BouncyCastle.Tls.Crypto.Impl.BC;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,11 +30,13 @@ namespace iCat.SQLTools.Forms
         private readonly DatasetManager _datasetManager;
         private readonly SettingConfig _settingConfig;
         private readonly IFileService _fileService;
+        private readonly ISchemaService _schemaService;
 
         public frmPOCO(
             DatasetManager datasetManager,
             SettingConfig settingConfig,
-            IFileService fileService
+            IFileService fileService,
+            ISchemaService schemaService
             )
         {
             InitializeComponent();
@@ -47,7 +51,8 @@ namespace iCat.SQLTools.Forms
             _datasetManager = datasetManager ?? throw new ArgumentNullException(nameof(datasetManager));
             _settingConfig = settingConfig ?? throw new ArgumentNullException(nameof(settingConfig));
             _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
-            tableLayoutPanel1.SetColumnSpan(btnAllTables, 2);
+            _schemaService = schemaService ?? throw new ArgumentNullException(nameof(schemaService));
+            //tableLayoutPanel1.SetColumnSpan(btnAllTables, 2);
             //Button btnAddScript = new Button();
             //btnAddScript.Name = "btnAddScript";
             //btnAddScript.Text = "＋";
@@ -59,7 +64,7 @@ namespace iCat.SQLTools.Forms
         private void frmPOCOGenrator_Load(object sender, EventArgs e)
         {
 
-            if (_datasetManager.DatasetFromType != Shareds.Enums.DatasetFromType.None && _datasetManager.Dataset != null)
+            if (_datasetManager.DataProvider != DataProvider.None && _datasetManager.Dataset != null)
             {
                 dgvTables.Focus();
                 dgvTables.DataSource = _datasetManager.Dataset;
@@ -92,15 +97,23 @@ namespace iCat.SQLTools.Forms
                                 txtClassName.Focus();
                                 MessageBox.Show("Please type in a class name..");
                             }
-                            txtResult.Text = _datasetManager.GenerateClassWithSummary(_settingConfig.Namespace, _settingConfig.Using, $"{txtClassName.Text}{_settingConfig.ClassSuffix}", txtScript.Text);
+                            txtResult.Text = _schemaService.GenerateClassWithSummary(_datasetManager.Dataset.Tables[Consts.strColumns]!, _settingConfig.Namespace, _settingConfig.Using, $"{txtClassName.Text}{_settingConfig.ClassSuffix}", txtScript.Text);
                             break;
                         case nameof(btnWithoutComment):
                             if (txtClassName.Text == "")
                             {
                                 txtClassName.Focus();
                                 MessageBox.Show("Please type in a class name..");
+                                return;
                             }
-                            txtResult.Text = _datasetManager.GenerateClassWithoutSummary(_settingConfig.Namespace, _settingConfig.Using, $"{txtClassName.Text}{_settingConfig.ClassSuffix}", txtScript.Text);
+                            if (_datasetManager.DataProvider != DataProvider.MySQL &&
+                                _datasetManager.DataProvider != DataProvider.MSSQL)
+                            {
+                                MessageBox.Show("Data of the action have to come from database.");
+                                return;
+                            }
+
+                            txtResult.Text = _schemaService.GenerateClassWithoutSummary(_schemaService.GetTableSchema(txtScript.Text, txtClassName.Text), _settingConfig.Namespace, _settingConfig.Using, $"{txtClassName.Text}{_settingConfig.ClassSuffix}");
                             break;
                         case nameof(btnAllTables):
 
@@ -111,16 +124,33 @@ namespace iCat.SQLTools.Forms
                             if (dlg.ShowDialog() == DialogResult.OK)
                             {
                                 var filePath = dlg.SelectedPath;
-                                Parallel.For(0, _datasetManager!.Dataset!.Tables[Consts.strTables]!.Rows.Count, (i) => {
+                                Parallel.For(0, _datasetManager!.Dataset!.Tables[Consts.strTables]!.Rows.Count, (i) =>
+                                {
                                     var item = _datasetManager!.Dataset!.Tables[Consts.strTables]!.Rows[i];
                                     var tableName = item["TableName"].ToString();
                                     var script = $"SELECT * FROM {tableName}";
-                                    var classBody = _datasetManager.GenerateClassWithSummary(_settingConfig.Namespace, _settingConfig.Using, $"{tableName}{_settingConfig.ClassSuffix}", script);
+                                    var classBody = _schemaService.GenerateClassWithSummary(_datasetManager.Dataset.Tables[Consts.strColumns]!, _settingConfig.Namespace, _settingConfig.Using, $"{tableName}{_settingConfig.ClassSuffix}", script);
                                     _fileService.SaveStringFileAsync($"{Path.Combine(filePath, tableName + _settingConfig.ClassSuffix + ".cs")}", classBody);
                                 });
-                           
+
                                 MessageBox.Show("Files saved.");
                             }
+                            break;
+                        case nameof(btnClassAssign):
+                            if (txtClassName.Text == "")
+                            {
+                                txtClassName.Focus();
+                                MessageBox.Show("Please type in a class name..");
+                                return;
+                            }
+                            if (_datasetManager.DataProvider != DataProvider.MySQL &&
+                                _datasetManager.DataProvider != DataProvider.MSSQL)
+                            {
+                                MessageBox.Show("Data of the action have to come from database.");
+                                return;
+                            }
+                            var dtTables = _schemaService.GetTableSchema(txtScript.Text, $"{txtClassName.Text}{_settingConfig.ClassSuffix}");
+                            txtResult.Text = _schemaService.GenerateClassAssign(dtTables);
                             break;
                         default:
                             break;

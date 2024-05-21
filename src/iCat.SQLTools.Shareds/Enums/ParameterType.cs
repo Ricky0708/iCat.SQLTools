@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace iCat.SQLTools.Shareds.Enums
 {
-    public enum ConnectionType
+    public enum ParameterType
     {
-        MSSQL = 1,
-        MySQL = 2,
+        MSSQL,
+        MySQL,
+        ODBC
     }
 }

@@ -17,6 +17,12 @@
 			"progName": "POCO Generator",
 			"moduleName": "iCat.SQLTools",
 			"seq": 3
+		},
+		{
+			"progId": "frmCodeGenerator",
+			"progName": "Code Generator",
+			"moduleName": "iCat.SQLTools",
+			"seq": 4
 		}
 	]
 }

@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             dgvTables = new DataGridView();
             dTableName = new DataGridViewTextBoxColumn();
             txtTableFilter = new CustomControlleres.PlaceholderTextBox();
             groupBox2 = new GroupBox();
             tableLayoutPanel1 = new TableLayoutPanel();
+            btnClassAssign = new Button();
             btnWithComment = new Button();
             btnAllTables = new Button();
             btnWithoutComment = new Button();
@@ -96,6 +97,7 @@
             dgvTables.ReadOnly = true;
             dgvTables.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dgvTables.Size = new Size(398, 493);
+            dgvTables.TabIndex = 0;
             dgvTables.CellDoubleClick += dgv_CellDoubleClick;
             // 
             // dTableName
@@ -138,17 +140,32 @@
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.Controls.Add(btnClassAssign, 1, 0);
             tableLayoutPanel1.Controls.Add(btnWithComment, 0, 0);
-            tableLayoutPanel1.Controls.Add(btnAllTables, 0, 1);
-            tableLayoutPanel1.Controls.Add(btnWithoutComment, 1, 0);
+            tableLayoutPanel1.Controls.Add(btnAllTables, 1, 1);
+            tableLayoutPanel1.Controls.Add(btnWithoutComment, 0, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(3, 22);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Size = new Size(392, 69);
             tableLayoutPanel1.TabIndex = 2;
+            // 
+            // btnClassAssign
+            // 
+            btnClassAssign.Dock = DockStyle.Fill;
+            btnClassAssign.Location = new Point(199, 2);
+            btnClassAssign.Margin = new Padding(3, 2, 3, 2);
+            btnClassAssign.Name = "btnClassAssign";
+            btnClassAssign.Size = new Size(190, 30);
+            btnClassAssign.TabIndex = 3;
+            btnClassAssign.TabStop = false;
+            btnClassAssign.Text = "Class Assign";
+            btnClassAssign.UseVisualStyleBackColor = true;
+            btnClassAssign.Click += btn_Click;
             // 
             // btnWithComment
             // 
@@ -166,7 +183,7 @@
             // btnAllTables
             // 
             btnAllTables.Dock = DockStyle.Fill;
-            btnAllTables.Location = new Point(3, 36);
+            btnAllTables.Location = new Point(199, 36);
             btnAllTables.Margin = new Padding(3, 2, 3, 2);
             btnAllTables.Name = "btnAllTables";
             btnAllTables.Size = new Size(190, 31);
@@ -179,10 +196,10 @@
             // btnWithoutComment
             // 
             btnWithoutComment.Dock = DockStyle.Fill;
-            btnWithoutComment.Location = new Point(199, 2);
+            btnWithoutComment.Location = new Point(3, 36);
             btnWithoutComment.Margin = new Padding(3, 2, 3, 2);
             btnWithoutComment.Name = "btnWithoutComment";
-            btnWithoutComment.Size = new Size(190, 30);
+            btnWithoutComment.Size = new Size(190, 31);
             btnWithoutComment.TabIndex = 2;
             btnWithoutComment.TabStop = false;
             btnWithoutComment.Text = "Without Comment";
@@ -227,7 +244,7 @@
             // 
             splitContainer2.Panel2.Controls.Add(txtResult);
             splitContainer2.Size = new Size(635, 651);
-            splitContainer2.SplitterDistance = 189;
+            splitContainer2.SplitterDistance = 188;
             splitContainer2.SplitterWidth = 3;
             splitContainer2.TabIndex = 0;
             splitContainer2.TabStop = false;
@@ -241,7 +258,7 @@
             txtScript.Multiline = true;
             txtScript.Name = "txtScript";
             txtScript.PlaceHolder = "Script here";
-            txtScript.Size = new Size(631, 158);
+            txtScript.Size = new Size(631, 157);
             txtScript.TabIndex = 2;
             // 
             // txtClassName
@@ -266,7 +283,7 @@
             txtResult.PlaceHolder = "Generate result only for use script";
             txtResult.ReadOnly = true;
             txtResult.ScrollBars = ScrollBars.Both;
-            txtResult.Size = new Size(631, 455);
+            txtResult.Size = new Size(631, 456);
             txtResult.TabIndex = 0;
             txtResult.TabStop = false;
             txtResult.KeyDown += txt_KeyDown;
@@ -307,7 +324,7 @@
             tabPage3.Margin = new Padding(3, 2, 3, 2);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3, 2, 3, 2);
-            tabPage3.Size = new Size(404, 617);
+            tabPage3.Size = new Size(404, 649);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Stored Procedures";
             tabPage3.UseVisualStyleBackColor = true;
@@ -325,7 +342,7 @@
             dgvSpsAndFuncs.Name = "dgvSpsAndFuncs";
             dgvSpsAndFuncs.ReadOnly = true;
             dgvSpsAndFuncs.RowTemplate.Height = 24;
-            dgvSpsAndFuncs.Size = new Size(398, 586);
+            dgvSpsAndFuncs.Size = new Size(398, 618);
             dgvSpsAndFuncs.TabIndex = 5;
             dgvSpsAndFuncs.CellDoubleClick += dgv_CellDoubleClick;
             // 
@@ -375,7 +392,7 @@
             tabPage2.Margin = new Padding(3, 2, 3, 2);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3, 2, 3, 2);
-            tabPage2.Size = new Size(404, 617);
+            tabPage2.Size = new Size(404, 649);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Scripts";
             tabPage2.UseVisualStyleBackColor = true;
@@ -395,7 +412,7 @@
             dgvScripts.RowHeadersVisible = false;
             dgvScripts.RowTemplate.Height = 24;
             dgvScripts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvScripts.Size = new Size(398, 526);
+            dgvScripts.Size = new Size(398, 558);
             dgvScripts.TabIndex = 1;
             dgvScripts.TabStop = false;
             dgvScripts.CellDoubleClick += dgv_CellDoubleClick;
@@ -404,9 +421,9 @@
             // 
             dCmd.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dCmd.DataPropertyName = "Cmd";
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = Color.Lavender;
-            dCmd.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.Lavender;
+            dCmd.DefaultCellStyle = dataGridViewCellStyle1;
             dCmd.HeaderText = "";
             dCmd.Name = "dCmd";
             dCmd.ReadOnly = true;
@@ -425,8 +442,8 @@
             // dScript
             // 
             dScript.DataPropertyName = "Script";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dScript.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dScript.DefaultCellStyle = dataGridViewCellStyle2;
             dScript.HeaderText = "Script";
             dScript.Name = "dScript";
             dScript.ReadOnly = true;
@@ -540,5 +557,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dDATA_TYPE;
         private TableLayoutPanel tableLayoutPanel1;
         private Button btnWithoutComment;
+        private Button btnClassAssign;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using iCat.SQLTools.Repositories.Implements;
 using iCat.SQLTools.Services.Managers;
+using iCat.SQLTools.Shareds.Enums;
 using NPOI.OpenXmlFormats.Spreadsheet;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,11 @@ namespace iCat.SQLTools.Services.Interfaces
     {
         string Category { get; }
         DataSet GetDatasetFromDB();
+        DataTable GetTableSchema(string sqlScript, string tableName);
         DataSet GetDatasetFromXml(string xmlString);
-        bool SaveToXml(DataSet manager, string fileName);
+        string GenerateClassWithSummary(DataTable dtColumns, string @namespace, string @using, string className, string sqlScript);
+        string GenerateClassWithoutSummary(DataTable dtTables, string @namespace, string @using, string className);
+        string GenerateClassAssign(DataTable dtTables);
+        string GenerateDapperScript(DataTable dtColumns, string tableName, ScriptKind scriptKind, ParameterType parameterType);
     }
 }
