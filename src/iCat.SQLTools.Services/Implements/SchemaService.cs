@@ -399,15 +399,15 @@ namespace iCat.SQLTools.Services.Implements
                 if (i == dvCol.Count - 1)
                 {
                     selectCols += "A." + dvCol[i]["ColName"];
-                    whereParams += $"sbSQL.Append(\"    A.{dvCol[i]["ColName"]} = @{dvCol[i]["ColName"]}\"); \r\n";
-                    parameters += $"parameters.Add(\"@{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                    whereParams += $"sbSQL.Append(\"    A.{dvCol[i]["ColName"]} = {ConvertParameterString(dvCol[i]["ColName"].ToString()!, parameterType)}\"); \r\n";
+                    parameters += $"parameters.Add(\"{dvCol[i]["ColName"].ToString()!}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
                     //sb.Append("@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + "\r\n\r\n");
                 }
                 else
                 {
                     selectCols += "A." + dvCol[i]["ColName"] + ", ";
-                    whereParams += $"sbSQL.Append(\"    A.{dvCol[i]["ColName"]} = @{dvCol[i]["ColName"]} AND \"); \r\n";
-                    parameters += $"parameters.Add(\"@{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                    whereParams += $"sbSQL.Append(\"    A.{dvCol[i]["ColName"]} = {ConvertParameterString(dvCol[i]["ColName"].ToString()!, parameterType)} AND \"); \r\n";
+                    parameters += $"parameters.Add(\"{dvCol[i]["ColName"].ToString()}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
                     //sb.Append("@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + ",\r\n");
                 }
             }
@@ -436,15 +436,15 @@ namespace iCat.SQLTools.Services.Implements
                 if (i == dvCol.Count - 1)
                 {
                     selectCols += dvCol[i]["ColName"];
-                    valueParams += $"@{dvCol[i]["ColName"]}";
-                    parameters += $"parameters.Add(\"@{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                    valueParams += $"{ConvertParameterString(dvCol[i]["ColName"].ToString()!, parameterType)}";
+                    parameters += $"parameters.Add(\"{dvCol[i]["ColName"].ToString()!}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
                     //sb.Append("@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + "\r\n\r\n");
                 }
                 else
                 {
                     selectCols += dvCol[i]["ColName"] + ", ";
-                    valueParams += $"@{dvCol[i]["ColName"]}, ";
-                    parameters += $"parameters.Add(\"@{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                    valueParams += $"{ConvertParameterString(dvCol[i]["ColName"].ToString()!, parameterType)}, ";
+                    parameters += $"parameters.Add(\"{dvCol[i]["ColName"].ToString()!}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
                     //sb.Append("@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + ",\r\n");
                 }
             }
@@ -475,28 +475,24 @@ namespace iCat.SQLTools.Services.Implements
                 {
                     if (i == dvCol.Count - 1)
                     {
-                        updateParams += dvCol[i]["ColName"] + " = " + "@p_" + dvCol[i]["ColName"] + " ";
-                        p_parameters += $"parameters.Add(\"@p_{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
-                        //w_parameters += $"parameters.Add(\"@w_{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                        updateParams += dvCol[i]["ColName"] + " = " + $"{ConvertParameterString($"p_{dvCol[i]["ColName"].ToString()}", parameterType)}" + " ";
+                        p_parameters += $"parameters.Add(\"{$"p_{dvCol[i]["ColName"]}"}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
                     }
                     else
                     {
-                        updateParams += dvCol[i]["ColName"] + " = " + "@p_" + dvCol[i]["ColName"] + ", ";
-                        p_parameters += $"parameters.Add(\"@p_{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
-                        //w_parameters += $"parameters.Add(\"@w_{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                        updateParams += dvCol[i]["ColName"] + " = " + $"{ConvertParameterString($"p_{dvCol[i]["ColName"].ToString()}", parameterType)}" + ", ";
+                        p_parameters += $"parameters.Add(\"{$"p_{dvCol[i]["ColName"]}"}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
                     }
                 }
                 if (i == dvCol.Count - 1)
                 {
-                    whereParams += "         sbSQL.Append(\"    " + dvCol[i]["ColName"] + " = " + "@w_" + dvCol[i]["ColName"] + "\");\r\n";
-                    //p_parameters += $"parameters.Add(\"@p_{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
-                    w_parameters += $"parameters.Add(\"@w_{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                    whereParams += "         sbSQL.Append(\"    " + dvCol[i]["ColName"] + " = " + $"{ConvertParameterString($"w_{dvCol[i]["ColName"]}",parameterType)}" + "\");\r\n";
+                    w_parameters += $"parameters.Add(\"{$"w_{dvCol[i]["ColName"]}"}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
                 }
                 else
                 {
-                    whereParams += "         sbSQL.Append(\"    " + dvCol[i]["ColName"] + " = " + "@w_" + dvCol[i]["ColName"] + " AND \");\r\n";
-                    //p_parameters += $"parameters.Add(\"@p_{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
-                    w_parameters += $"parameters.Add(\"@w_{dvCol[i]["ColName"]}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                    whereParams += "         sbSQL.Append(\"    " + dvCol[i]["ColName"] + " = " + $"{ConvertParameterString($"w_{dvCol[i]["ColName"]}",parameterType)}" + " AND \");\r\n";
+                    w_parameters += $"parameters.Add(\"{$"w_{dvCol[i]["ColName"]}"}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
                 }
 
             }
@@ -511,6 +507,17 @@ namespace iCat.SQLTools.Services.Implements
 
         public string GenerateDelete(DataTable dtColumns, string tableName, ParameterType parameterType)
         {
+            return "";
+        }
+
+        private string ConvertParameterString(string parameter, ParameterType parameterType)
+        {
+            switch (parameterType)
+            {
+                case ParameterType.MSSQL: return $"@{parameter}";
+                case ParameterType.MySQL: return $"?{parameter}";
+                case ParameterType.ODBC: return $"?{parameter}?";
+            }
             return "";
         }
 
