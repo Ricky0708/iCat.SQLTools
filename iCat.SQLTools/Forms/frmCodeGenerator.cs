@@ -73,17 +73,17 @@ namespace iCat.SQLTools.Forms
             if (cmTables != null)
             {
                 var filters = txtTableFilter.Text.Split(',');
-                var resultString = "";
+                var filterString = "";
                 var i = 0;
                 foreach (var filter in filters)
                 {
                     if (!string.IsNullOrEmpty(filter))
                     {
-                        resultString += i == 0 ? "TableName LIKE '%" + filter + "%'" : " OR TableName LIKE '%" + filter + "%'";
+                        filterString += i == 0 ? "TableName LIKE '%" + filter + "%'" : " OR TableName LIKE '%" + filter + "%'";
                         i++;
                     }
-                }
-                ((DataView)cmTables.List).RowFilter = resultString;
+                };
+                ((DataView)cmTables.List).RowFilter = filterString;
             }
         }
 

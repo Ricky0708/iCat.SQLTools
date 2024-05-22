@@ -111,13 +111,40 @@ namespace iCat.SQLTools.Forms
 
         private void Filter(object sender, EventArgs e)
         {
+
+
+
             if (bmTables != null)
             {
-                ((DataView)bmTables.List).RowFilter = "TableName LIKE '%" + txtTableFilter.Text + "%'";
+                var filters = txtTableFilter.Text.Split(',');
+                var filterString = "";
+                var i = 0;
+                foreach (var filter in filters)
+                {
+                    if (!string.IsNullOrEmpty(filter))
+                    {
+                        filterString += i == 0 ? "TableName LIKE '%" + filter + "%'" : " OR TableName LIKE '%" + filter + "%'";
+                        i++;
+                    }
+                };
+                ((DataView)bmTables.List).RowFilter = filterString;
             }
+
             if (bmSps != null)
             {
-                ((DataView)bmSps.List).RowFilter = "SPECIFIC_NAME LIKE '%" + txtSpFilter.Text + "%'";
+                var filters = txtTableFilter.Text.Split(',');
+                var filterString = "";
+                var i = 0;
+                foreach (var filter in filters)
+                {
+                    if (!string.IsNullOrEmpty(filter))
+                    {
+                        filterString += i == 0 ? "SPECIFIC_NAME LIKE '%" + filter + "%'" : " OR SPECIFIC_NAME LIKE '%" + filter + "%'";
+                        i++;
+                    }
+                };
+                //((DataView)bmSps.List).RowFilter = "SPECIFIC_NAME LIKE '%" + txtSpFilter.Text + "%'";
+                ((DataView)bmSps.List).RowFilter = filterString;
             }
 
         }
