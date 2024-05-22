@@ -111,9 +111,6 @@ namespace iCat.SQLTools.Forms
 
         private void Filter(object sender, EventArgs e)
         {
-
-
-
             if (bmTables != null)
             {
                 var filters = txtTableFilter.Text.Split(',');
