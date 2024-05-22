@@ -188,7 +188,18 @@ namespace iCat.SQLTools.Forms
         {
             if (cmTables != null)
             {
-                ((DataView)cmTables.List).RowFilter = "TableName LIKE '%" + txtTableFilter.Text + "%'";
+                var filters = txtTableFilter.Text.Split(',');
+                var resultString = "";
+                var i = 0;
+                foreach (var filter in filters)
+                {
+                    if (!string.IsNullOrEmpty(filter))
+                    {
+                        resultString += i == 0 ? "TableName LIKE '%" + filter + "%'" : " OR TableName LIKE '%" + filter + "%'";
+                        i++;
+                    }
+                }
+                ((DataView)cmTables.List).RowFilter = resultString;
             }
         }
 
