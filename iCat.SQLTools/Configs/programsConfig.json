@@ -13,16 +13,10 @@
 			"seq": 2
 		},
 		{
-			"progId": "frmPOCO",
-			"progName": "POCO Generator",
-			"moduleName": "iCat.SQLTools",
-			"seq": 3
-		},
-		{
 			"progId": "frmCodeGenerator",
 			"progName": "Code Generator",
 			"moduleName": "iCat.SQLTools",
-			"seq": 4
+			"seq": 3
 		}
 	]
 }
