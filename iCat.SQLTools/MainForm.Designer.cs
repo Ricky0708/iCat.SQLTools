@@ -82,7 +82,9 @@
             Controls.Add(splitContainer1);
             Margin = new Padding(4, 3, 4, 3);
             Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "MainForm";
+            WindowState = FormWindowState.Maximized;
             Load += MainForm_Load;
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);

@@ -20,5 +20,6 @@ namespace iCat.SQLTools.Repositories.Interfaces
         DataTable GetOutputParams(DataTable spAndFuncTable);
         DataTable ExecuteGetDataTable(string script, string dtName);
         DataTable GetTableSchema(string script, string dtName);
+        bool UpdateDescription(ref DataSet ds);
     }
 }

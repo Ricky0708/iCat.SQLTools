@@ -21,5 +21,6 @@ namespace iCat.SQLTools.Services.Interfaces
         string GenerateClassWithoutSummary(DataTable dtTables, string @namespace, string @using, string className);
         string GenerateClassAssign(DataTable dtTables);
         string GenerateDapperScript(DataTable dtColumns, string tableName, ScriptKind scriptKind, ParameterType parameterType);
+        bool UpdateDescription(DataSet ds);
     }
 }

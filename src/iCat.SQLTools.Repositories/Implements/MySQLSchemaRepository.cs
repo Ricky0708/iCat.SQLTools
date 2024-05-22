@@ -175,5 +175,10 @@ namespace iCat.SQLTools.Repositories.Implements
             da.FillSchema(dt, SchemaType.Source);
             return dt;
         }
+
+        public bool UpdateDescription(ref DataSet ds)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

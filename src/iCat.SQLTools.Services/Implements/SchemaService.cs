@@ -173,6 +173,11 @@ namespace iCat.SQLTools.Services.Implements
             return result;
         }
 
+        public bool UpdateDescription(DataSet ds)
+        {
+            return _repository.UpdateDescription(ref ds);
+        }
+
         #region from dataset
 
         private List<StatementColumnWithTableModel> GeneratorModelFromJObject(DataTable dtColumn, JObject jObj)
@@ -486,12 +491,12 @@ namespace iCat.SQLTools.Services.Implements
                 }
                 if (i == dvCol.Count - 1)
                 {
-                    whereParams += "         sbSQL.Append(\"    " + dvCol[i]["ColName"] + " = " + $"{ConvertParameterString($"w_{dvCol[i]["ColName"]}",parameterType)}" + "\");\r\n";
+                    whereParams += "         sbSQL.Append(\"    " + dvCol[i]["ColName"] + " = " + $"{ConvertParameterString($"w_{dvCol[i]["ColName"]}", parameterType)}" + "\");\r\n";
                     w_parameters += $"parameters.Add(\"{$"w_{dvCol[i]["ColName"]}"}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
                 }
                 else
                 {
-                    whereParams += "         sbSQL.Append(\"    " + dvCol[i]["ColName"] + " = " + $"{ConvertParameterString($"w_{dvCol[i]["ColName"]}",parameterType)}" + " AND \");\r\n";
+                    whereParams += "         sbSQL.Append(\"    " + dvCol[i]["ColName"] + " = " + $"{ConvertParameterString($"w_{dvCol[i]["ColName"]}", parameterType)}" + " AND \");\r\n";
                     w_parameters += $"parameters.Add(\"{$"w_{dvCol[i]["ColName"]}"}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
                 }
 

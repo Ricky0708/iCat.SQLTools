@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using iCat.SQLTools.Shareds.Enums;
+using NPOI.OpenXmlFormats.Wordprocessing;
+using NPOI.OpenXmlFormats;
+using NPOI.SS.Formula.PTG;
 
 namespace iCat.SQLTools.Repositories.Implements
 {
@@ -175,79 +178,120 @@ namespace iCat.SQLTools.Repositories.Implements
             return ExecuteGetDataTable(script, Consts.strOutputParams);
         }
 
+        public bool UpdateDescription(ref DataSet ds)
+        {
+            bool result = false;
+
+
+            DataView dv = default;
+            StringBuilder sbSQL = new StringBuilder();
+            if (ds.Tables[Consts.strTables].GetChanges(DataRowState.Modified) != null)
+            {
+                dv = ds.Tables[Consts.strTables].GetChanges(DataRowState.Modified).DefaultView;
+                if (dv != null && dv.Count > 0)
+                {
+                    dv.RowFilter = "TableType = '" + "VIEW" + "'";
+                    sbSQL.Append(GeneratScriptUpdate(dv, "VIEW"));
+                    dv.RowFilter = "TableType = '" + "BASE TABLE" + "'";
+                    sbSQL.Append(GeneratScriptUpdate(dv, "TABLE"));
+                }
+            }
+            if (ds.Tables[Consts.strColumns].GetChanges(DataRowState.Modified) != null)
+            {
+                dv = ds.Tables[Consts.strColumns].GetChanges(DataRowState.Modified).DefaultView;
+                if (dv != null && dv.Count > 0)
+                {
+                    sbSQL.Append(GeneratScriptUpdate(dv, "COLUMN"));
+                }
+            }
+
+            if (sbSQL.Length > 0)
+            {
+                _factory.GetConnection(Category).ExecuteNonQuery(sbSQL.ToString(), null);
+                ds.AcceptChanges();
+                result = true;
+            }
+
+            return result;
+
+        }
+
         #region script generator
 
-        //private string GeneratScriptUpdate(DataView dv, string target)
-        //{
-
-        //    SqlCommand cmd = new SqlCommand();
-        //    string script = "";
-        //    switch (target)
-        //    {
-        //        case "VIEW":
-        //            cmd = new SqlCommand(@"SELECT * 
-        //				  FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'VIEW',@TableName, default, default)
-        //				  WHERE
-        //					name='MS_Description' AND 
-        //					objtype = 'VIEW' AND
-        //					objname = @objName");
-        //            break;
-        //        case "TABLE":
-        //            cmd = new SqlCommand(@"SELECT * 
-        //				  FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'TABLE',@TableName, default, default)
-        //				  WHERE
-        //					name='MS_Description' AND 
-        //					objtype = 'TABLE' AND
-        //					objname = @objName");
-        //            break;
-        //        case "COLUMN":
-        //            cmd = new SqlCommand(@"SELECT * 
-        //				  FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'TABLE',@TableName, 'COLUMN', default)
-        //				  WHERE
-        //					name='MS_Description' AND 
-        //					objtype = 'COLUMN' AND
-        //					objname = @objName");
-        //            break;
-        //        default:
-        //            break;
-        //    }
-
-
-        //    for (int i = 0; i < dv.Count; i++)
-        //    {
-        //        cmd.Parameters.Clear();
-        //        cmd.Parameters.AddWithValue("@TableName", dv[i]["TableName"].ToString());
-        //        string execFunName = "";
-        //        string description = "";
-        //        string tableName = "";
-
-        //        cmd.Parameters.AddWithValue("@objName", target == "COLUMN" ? dv[i]["ColName"].ToString() : dv[i]["TableName"].ToString());
-        //        execFunName = dao.ReadSQL(cmd) != "" ? "EXECUTE sp_updateextendedproperty N'MS_Description', N'" : "EXECUTE sp_addextendedproperty N'MS_Description', N'";
-        //        description = target == "COLUMN" ? dv[i]["ColDescription"].ToString()!.Replace("'", "") : dv[i]["TableDescription"].ToString()!.Replace("'", "");
-        //        tableName = dv[i]["TableName"].ToString()!.Replace("'", "");
-
-        //        switch (target)
-        //        {
-        //            case "VIEW":
-        //            case "TABLE":
-        //                script += execFunName + description + "', N'SCHEMA', N'dbo', N'" + target + "', N'" + tableName + "', NULL, NULL ;";
-        //                break;
-        //            case "COLUMN":
-        //                script += execFunName + description + "', N'SCHEMA', N'dbo', N'TABLE', N'" + tableName + "', N'COLUMN', N'" + dv[i]["ColName"].ToString()!.Replace("'", "") + "' ;";
-        //                break;
-        //            default:
-        //                break;
-        //        }
-        //    }
-
-        //    return script;
-        //}
 
         private string GeneratScriptGetOutPutParam(string name)
         {
             string script = string.Format("SELECT '{0}' AS SPECIFIC_NAME, Name, System_Type_Name, Error_Message FROM sys.dm_exec_describe_first_result_set('{0}',null,0)", name);
             return script;
         }
+
+        private string GeneratScriptUpdate(DataView dv, string target)
+        {
+
+            SqlCommand cmd = new SqlCommand();
+            string script = "";
+            switch (target)
+            {
+                case "VIEW":
+                    cmd = new SqlCommand(@"SELECT * 
+												  FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'VIEW',@TableName, default, default)
+												  WHERE
+													name='MS_Description' AND 
+													objtype = 'VIEW' AND
+													objname = @objName");
+                    break;
+                case "TABLE":
+                    cmd = new SqlCommand(@"SELECT * 
+												  FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'TABLE',@TableName, default, default)
+												  WHERE
+													name='MS_Description' AND 
+													objtype = 'TABLE' AND
+													objname = @objName");
+                    break;
+                case "COLUMN":
+                    cmd = new SqlCommand(@"SELECT * 
+												  FROM fn_listextendedproperty (NULL, 'schema', 'dbo', 'TABLE',@TableName, 'COLUMN', default)
+												  WHERE
+													name='MS_Description' AND 
+													objtype = 'COLUMN' AND
+													objname = @objName");
+                    break;
+                default:
+                    break;
+            }
+
+            var sqlParameters = new List<SqlParameter>();
+            for (int i = 0; i < dv.Count; i++)
+            {
+                sqlParameters.Clear();
+                cmd.Parameters.Clear();
+                sqlParameters.Add(new SqlParameter("@TableName", dv[i]["TableName"].ToString()));
+                string execFunName = "";
+                string description = "";
+                string tableName = "";
+
+                sqlParameters.Add(new SqlParameter("@objName", target == "COLUMN" ? dv[i]["ColName"].ToString() : dv[i]["TableName"].ToString()));
+                execFunName = _factory.GetConnection(Category).ExecuteScalar(cmd.CommandText, sqlParameters.ToArray()) != null ? "EXECUTE sp_updateextendedproperty N'MS_Description', N'" : "EXECUTE sp_addextendedproperty N'MS_Description', N'";
+                description = target == "COLUMN" ? dv[i]["ColDescription"].ToString().Replace("'", "") : dv[i]["TableDescription"].ToString().Replace("'", "");
+                tableName = dv[i]["TableName"].ToString().Replace("'", "");
+
+                switch (target)
+                {
+                    case "VIEW":
+                    case "TABLE":
+                        script += execFunName + description + "', N'SCHEMA', N'dbo', N'" + target + "', N'" + tableName + "', NULL, NULL ;";
+                        break;
+                    case "COLUMN":
+                        script += execFunName + description + "', N'SCHEMA', N'dbo', N'TABLE', N'" + tableName + "', N'COLUMN', N'" + dv[i]["ColName"].ToString().Replace("'", "") + "' ;";
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return script;
+        }
+
 
         #endregion
 

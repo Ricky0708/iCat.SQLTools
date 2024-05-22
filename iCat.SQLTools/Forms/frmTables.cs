@@ -1,4 +1,5 @@
-﻿using iCat.SQLTools.Models;
+﻿using iCat.DB.Client.Factory.Interfaces;
+using iCat.SQLTools.Models;
 using iCat.SQLTools.Repositories.Implements;
 using iCat.SQLTools.Services.Interfaces;
 using iCat.SQLTools.Services.Managers;
@@ -15,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ZstdSharp.Unsafe;
 using static ICSharpCode.SharpZipLib.Zip.ExtendedUnixData;
 using static Org.BouncyCastle.Math.EC.ECCurve;
 
@@ -148,7 +150,41 @@ namespace iCat.SQLTools.Forms
 
         private void Update_Description_Click(object sender, EventArgs e)
         {
-
+            if (_datasetManager.DataProvider == Shareds.Enums.DataProvider.XML)
+            {
+                MessageBox.Show("This command only for load data from SQL !");
+                return;
+            }
+            if (_datasetManager.Dataset != null)
+            {
+                var service = _provider.GetRequiredService<ISchemaService>();
+                var conn = _provider.GetRequiredService<IUnitOfWorkFactory>().GetUnitOfWork(_config.ConnectionSetting.ConnectionType.ToString());
+                try
+                {
+                    conn.Open();
+                    conn.BeginTransaction();
+                    if (!service.UpdateDescription(_datasetManager.Dataset))
+                    {
+                        MessageBox.Show("Fail!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Success！");
+                        conn.Commit();
+                        conn.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    conn.Rollback();
+                    conn.Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please load data from SQL and modify it, befor you update to SQL !");
+            }
 
 
         }
@@ -156,6 +192,63 @@ namespace iCat.SQLTools.Forms
         private void btnUpdateAllDescription_Click(object sender, EventArgs e)
         {
 
+            var service = _provider.GetRequiredService<ISchemaService>();
+            if (_datasetManager.Dataset != null)
+            {
+                if (MessageBox.Show(this, "It will update and cover all current description to SQL ! \r\r Are you sure to do it ?", "Info", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    foreach (DataTable dt in _datasetManager.Dataset.Tables)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            if (dt.TableName != "Columns" || (dt.TableName == "Columns" && row["ColDescription"].ToString() != "not support"))
+                            {
+                                if (row.RowState == DataRowState.Unchanged)
+                                {
+                                    row.SetModified();
+                                }
+                                else
+                                {
+                                }
+                            }
+                        }
+                    }
+                    var conn = _provider.GetRequiredService<IUnitOfWorkFactory>().GetUnitOfWork(_config.ConnectionSetting.ConnectionType.ToString());
+                    try
+                    {
+                        conn.Open();
+                        conn.BeginTransaction();
+                        if (!service.UpdateDescription(_datasetManager.Dataset))
+                        {
+                            string msg = "\r\n\r\n";
+                            msg += "If data access obj is empty,  try to follow these step :\r\n\r\n";
+                            msg += "1. Save to xml file\r\n\r\n";
+                            msg += "2. Make sure connection string is correct in [Set Config]\r\n\r\n";
+                            msg += "3. Load data from SQL\r\n\r\n";
+                            msg += "4. Load data from xml file\r\n\r\n";
+                            msg += "5. update it again";
+                            MessageBox.Show(msg);
+                        }
+                        else
+                        {
+                            conn.Commit();
+                            conn.Close();
+                            MessageBox.Show("Success！");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        conn.Rollback();
+                        conn.Close();
+                    }
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Please load data and modify befor you update !");
+            }
         }
 
         #endregion
