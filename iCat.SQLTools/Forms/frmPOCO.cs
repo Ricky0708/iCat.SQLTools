@@ -165,97 +165,14 @@ namespace iCat.SQLTools.Forms
             {
                 MessageBox.Show(ex.Message);
             }
-            //switch (((Button)sender).Name)
-            //{
-            //    case "btnFromScript":
-            //        if (txtClassName.Text == "")
-            //        {
-            //            txtClassName.Focus();
-            //            MessageBox.Show("Please type in a class name..");
-            //        }
-            //        var b = objDAL2.GenerateFromScript(txtClassName.Text, txtScript.Text);
-            //        txtResult.Text = b;// objDAL.GenerateFromScript(txtClassName.Text, txtScript.Text);
-            //        if (txtResult.Text == "")
-            //        {
-            //            MessageBox.Show(objDAL2.ErrMsg);
-            //        }
-            //        break;
-            //    case "btnFromDB":
-            //        string folder = objUti.OpenFolder();
-            //        if (folder != "")
-            //        {
-            //            if (!objDAL.GenerateFromDB(ds, folder))
-            //            {
-            //                MessageBox.Show(objDAL.ErrMsg);
-            //            }
-            //            else
-            //            {
-            //                MessageBox.Show($"Files has write to \r\n\r\n {folder}\\");
-            //                string file = folder;
-            //                System.Diagnostics.Process.Start(file);
-            //            }
-            //        }
-            //        break;
-            //    case "btnExportCRptXml":
-            //        if (dtScript.Rows.Count == 0)
-            //        {
-            //            MessageBox.Show("There is not any scripts could be generate xsd for export !\r\n\r\n 1. Please type in TSQL in [script] and click 『+』 to add !");
-            //        }
-            //        else
-            //        {
-            //            string fileName = objUti.SetFileName(Application.StartupPath + "\\CrystalReportXsd\\", "", "xsd");
-            //            if (fileName != "")
-            //            {
-            //                if (objDAL.GenerateCRptXsd(dtScript, fileName))
-            //                {
-            //                    MessageBox.Show("Success !");
-            //                    dtScript.Clear();
-            //                    dtScript.AcceptChanges();
-            //                    string file = @"C:\Windows\explorer.exe";
-            //                    string argument = @"/select, " + fileName;
-            //                    System.Diagnostics.Process.Start(file, argument);
-            //                }
-            //                else
-            //                {
-            //                    MessageBox.Show(objDAL.ErrMsg);
-            //                }
-            //            }
-            //        }
-            //        break;
-            //    case "btnAddScript":
-            //        bool isExist = false;
-            //        foreach (DataRow row in dtScript.Rows)
-            //        {
-            //            if (row["ScriptName"].ToString() == txtClassName.Text)
-            //            {
-            //                isExist = true;
-            //            }
-            //        }
-            //        if (!isExist && !(txtClassName.Text == string.Empty))
-            //        {
-            //            if (objDAL.CheckScriptNotError(txtScript.Text))
-            //            {
-            //                DataRow dr = dtScript.NewRow();
-            //                dr["ScriptName"] = txtClassName.Text;
-            //                dr["Script"] = txtScript.Text;
-            //                dr["cmd"] = "X";
-            //                dtScript.Rows.Add(dr);
-            //                dtScript.AcceptChanges();
-            //            }
-            //            else
-            //            {
-            //                MessageBox.Show(objDAL.ErrMsg);
-            //            }
+        }
 
-            //        }
-            //        else
-            //        {
-            //            MessageBox.Show("Please check these rules : \r\n\r\n 1. Can't use a empty name for a table.\r\n\r\n 2. this name in scripts already exist.");
-            //        }
-            //        break;
-            //    default:
-            //        break;
-            //}
+        private void frmPOCO_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.F)
+            {
+                txtTableFilter.Focus();
+            }
         }
 
         private void txt_KeyDown(object sender, KeyEventArgs e)

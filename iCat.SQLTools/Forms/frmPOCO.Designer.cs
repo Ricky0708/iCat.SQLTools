@@ -324,7 +324,7 @@
             tabPage3.Margin = new Padding(3, 2, 3, 2);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3, 2, 3, 2);
-            tabPage3.Size = new Size(404, 649);
+            tabPage3.Size = new Size(404, 617);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Stored Procedures";
             tabPage3.UseVisualStyleBackColor = true;
@@ -342,7 +342,7 @@
             dgvSpsAndFuncs.Name = "dgvSpsAndFuncs";
             dgvSpsAndFuncs.ReadOnly = true;
             dgvSpsAndFuncs.RowTemplate.Height = 24;
-            dgvSpsAndFuncs.Size = new Size(398, 618);
+            dgvSpsAndFuncs.Size = new Size(398, 586);
             dgvSpsAndFuncs.TabIndex = 5;
             dgvSpsAndFuncs.CellDoubleClick += dgv_CellDoubleClick;
             // 
@@ -392,7 +392,7 @@
             tabPage2.Margin = new Padding(3, 2, 3, 2);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3, 2, 3, 2);
-            tabPage2.Size = new Size(404, 649);
+            tabPage2.Size = new Size(404, 617);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Scripts";
             tabPage2.UseVisualStyleBackColor = true;
@@ -412,7 +412,7 @@
             dgvScripts.RowHeadersVisible = false;
             dgvScripts.RowTemplate.Height = 24;
             dgvScripts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvScripts.Size = new Size(398, 558);
+            dgvScripts.Size = new Size(398, 526);
             dgvScripts.TabIndex = 1;
             dgvScripts.TabStop = false;
             dgvScripts.CellDoubleClick += dgv_CellDoubleClick;
@@ -496,10 +496,12 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1055, 683);
             Controls.Add(splitContainer1);
+            KeyPreview = true;
             Margin = new Padding(5, 6, 5, 6);
             Name = "frmPOCO";
             Text = "POCO_Genrator";
             Load += frmPOCOGenrator_Load;
+            KeyDown += frmPOCO_KeyDown;
             Controls.SetChildIndex(panel1, 0);
             Controls.SetChildIndex(splitContainer1, 0);
             ((System.ComponentModel.ISupportInitialize)dgvTables).EndInit();

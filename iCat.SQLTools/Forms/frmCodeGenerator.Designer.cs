@@ -202,7 +202,7 @@
             tabParameterType.Location = new Point(4, 26);
             tabParameterType.Name = "tabParameterType";
             tabParameterType.Padding = new Padding(3);
-            tabParameterType.Size = new Size(364, 92);
+            tabParameterType.Size = new Size(364, 96);
             tabParameterType.TabIndex = 1;
             tabParameterType.Text = "Parameter Type";
             // 
@@ -265,10 +265,12 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1057, 661);
             Controls.Add(splitContainer1);
+            KeyPreview = true;
             Margin = new Padding(4, 2, 4, 2);
             Name = "frmCodeGenerator";
             Text = "frmADONetGenerator";
             Load += frmADONetGenerator_Load;
+            KeyDown += frmCodeGenerator_KeyDown;
             Controls.SetChildIndex(panel1, 0);
             Controls.SetChildIndex(splitContainer1, 0);
             ((System.ComponentModel.ISupportInitialize)dgvTables).EndInit();

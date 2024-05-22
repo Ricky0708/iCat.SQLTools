@@ -48,6 +48,15 @@ namespace iCat.SQLTools.Forms
             }
         }
 
+
+        private void frmCodeGenerator_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.F)
+            {
+                txtTableFilter.Focus();
+            }
+        }
+
         private void txt_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Control && e.KeyCode == Keys.A)
@@ -97,5 +106,6 @@ namespace iCat.SQLTools.Forms
             }
 
         }
+
     }
 }
