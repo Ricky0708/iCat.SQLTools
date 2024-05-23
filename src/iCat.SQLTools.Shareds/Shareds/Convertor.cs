@@ -1,6 +1,7 @@
 ﻿using Org.BouncyCastle.Asn1.X509.Qualified;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,13 +74,20 @@ namespace iCat.SQLTools.Shareds.Shareds
             string result = "";
             switch (name.ToUpper())
             {
+                case  "UNIQUEIDENTIFIER":
+                    result = "DbType.Guid";
+                    break;
                 case "CHAR":
                 case "NVARCHAR":
                 case "VARCHAR":
                     result = "DbType.String";
                     break;
+                case "SMALLDATETIME":
                 case "DATETIME":
                     result = "DbType.DateTime";
+                    break;
+                case "TINYINT":
+                    result = "DbType.Byte";
                     break;
                 case "BIT":
                     result = "DbType.Boolean";
