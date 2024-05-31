@@ -17,25 +17,75 @@ using System.Data.Common;
 
 namespace iCat.SQLTools.Services.Managers
 {
+    public class DatasetManagerFactory
+    {
+        private List<DatasetManager> Datasets { get; set; } = new List<DatasetManager>();
+
+        public DatasetManagerFactory()
+        {
+        }
+
+        public DatasetManager? GetDatasetManager(string category)
+        {
+            lock (Datasets)
+            {
+                var dm = Datasets.FirstOrDefault(p => p.Category == category);
+                return dm;
+            }
+
+        }
+
+        public DatasetManager? AddDatasetManager(string category, DataSource dataSource, DataSet ds)
+        {
+            lock (Datasets)
+            {
+                var dsManager = Datasets.FirstOrDefault(p => p.Category == category);
+                if (dsManager == null)
+                {
+                    Datasets.Add(new DatasetManager
+                    {
+                        Category = category,
+                        DataSource = dataSource,
+                        Dataset = ds
+                    });
+                }
+                else
+                {
+                    dsManager = new DatasetManager
+                    {
+                        Category = category,
+                        DataSource = dataSource,
+                        Dataset = ds
+                    };
+                }
+
+            }
+            var dm = Datasets.FirstOrDefault(p => p.Category == category);
+            return dm;
+        }
+
+        public bool SaveToXml(string key, string fileName)
+        {
+            lock (Datasets)
+            {
+
+                string saveToPath = fileName;
+                var ds = Datasets.FirstOrDefault(p => p.Category == key)?.Dataset;
+                if (ds != null)
+                {
+                    ds.WriteXml(saveToPath, XmlWriteMode.WriteSchema);
+                    return true;
+                }
+                return false;
+            }
+
+        }
+    }
+
     public class DatasetManager
     {
-
+        public string? Category { get; set; }
         public DataSet? Dataset { get; set; }
-        public DataProvider DataProvider { get; set; }
-
-        public DatasetManager()
-        {
-        }
-
-
-
-        public bool SaveToXml(DataSet ds, string fileName)
-        {
-            string saveToPath = fileName;
-            ds.WriteXml(saveToPath, XmlWriteMode.WriteSchema);
-            return true;
-        }
-
-
+        public DataSource DataSource { get; set; }
     }
 }

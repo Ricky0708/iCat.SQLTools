@@ -1,5 +1,6 @@
 ﻿using iCat.DB.Client.Factory.Interfaces;
 using iCat.SQLTools.Models;
+using iCat.SQLTools.Repositories.Enums;
 using iCat.SQLTools.Repositories.Implements;
 using iCat.SQLTools.Services.Interfaces;
 using iCat.SQLTools.Services.Managers;
@@ -26,18 +27,21 @@ namespace iCat.SQLTools.Forms
     {
         CurrencyManager bmTables;
         CurrencyManager bmSps;
+        CurrencyManager bmSetting;
+        ConnectionSetting? _connectionSetting => bmSetting?.Current != null ? (ConnectionSetting)bmSetting.Current : null;
 
         DataView _dvFks;
         private readonly SettingConfig _config;
         private readonly IServiceProvider _provider;
         private readonly IFileService _fileService;
-        private DatasetManager _datasetManager;
+        private DatasetManagerFactory _datasetManagerFactory;
+
 
         public frmTables(
             SettingConfig config,
             IServiceProvider provider,
             IFileService fileService,
-            DatasetManager datasetManager
+            DatasetManagerFactory datasetManagerFactory
             )
         {
             InitializeComponent();
@@ -63,90 +67,21 @@ namespace iCat.SQLTools.Forms
                     dgvSpsAndFuncs.Focus();
                 }
             };
+
             _config = config ?? throw new ArgumentNullException(nameof(config));
             _provider = provider ?? throw new ArgumentNullException(nameof(provider));
             _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
-            _datasetManager = datasetManager ?? throw new ArgumentNullException(nameof(datasetManager));
-        }
+            _datasetManagerFactory = datasetManagerFactory ?? throw new ArgumentNullException(nameof(datasetManagerFactory));
 
-        #region method
 
-        private void BindFrm()
-        {
-            dgvTables.DataSource = _datasetManager.Dataset;
-            dgvTables.DataMember = "Tables";
-
-            dgvColumns.DataSource = _datasetManager.Dataset;
-            dgvColumns.DataMember = "Tables.MasterDetailCols";
-
-            _dvFks = _datasetManager.Dataset.Tables["FKs"].DefaultView;
-            dgvFK.DataSource = _dvFks;
-
-            dgvIndexes.DataSource = _datasetManager.Dataset;
-            dgvIndexes.DataMember = "Tables.MasterDetailIndexes";
-
-            dgvSpsAndFuncs.DataSource = _datasetManager.Dataset;
-            dgvSpsAndFuncs.DataMember = "SpsAndFuncs";
-
-            dgvInputParams.DataSource = _datasetManager.Dataset;
-            dgvInputParams.DataMember = "SpsAndFuncs.MasterDetailInputParams";
-
-            dgvOutPutParams.DataSource = _datasetManager.Dataset;
-            dgvOutPutParams.DataMember = "SpsAndFuncs.MasterDetailOutputParams";
-
-            bmTables = (CurrencyManager)this.BindingContext[_datasetManager.Dataset, "Tables"];
-            bmSps = (CurrencyManager)this.BindingContext[_datasetManager.Dataset, "SpsAndFuncs"];
-
-            bmTables.PositionChanged += (sender, e) =>
-            {
-                if (bmTables.Position != -1)
-                {
-                    string tableName = ((DataRowView)bmTables.Current)["TableName"].ToString();
-                    _dvFks.RowFilter = "ParentTable = '" + tableName + "' OR ReferencedTable = '" + tableName + "'";
-                    dColDescription.ReadOnly = ((DataRowView)bmTables.Current)["TableType"].ToString() == "VIEW";
-                }
-            };
-            _dvFks.RowFilter = "ParentTable = '" + ((DataRowView)bmTables.Current)["TableName"].ToString() + "' OR ReferencedTable = '" + ((DataRowView)bmTables.Current)["TableName"].ToString() + "'";
-        }
-
-        private void Filter(object sender, EventArgs e)
-        {
-            if (bmTables != null)
-            {
-                var filters = txtTableFilter.Text.Split(',');
-                var filterString = "";
-                var i = 0;
-                foreach (var filter in filters)
-                {
-                    if (!string.IsNullOrEmpty(filter))
-                    {
-                        filterString += i == 0 ? "TableName LIKE '%" + filter + "%'" : " OR TableName LIKE '%" + filter + "%'";
-                        i++;
-                    }
-                };
-                ((DataView)bmTables.List).RowFilter = filterString;
-            }
-
-            if (bmSps != null)
-            {
-                var filters = txtTableFilter.Text.Split(',');
-                var filterString = "";
-                var i = 0;
-                foreach (var filter in filters)
-                {
-                    if (!string.IsNullOrEmpty(filter))
-                    {
-                        filterString += i == 0 ? "SPECIFIC_NAME LIKE '%" + filter + "%'" : " OR SPECIFIC_NAME LIKE '%" + filter + "%'";
-                        i++;
-                    }
-                };
-                //((DataView)bmSps.List).RowFilter = "SPECIFIC_NAME LIKE '%" + txtSpFilter.Text + "%'";
-                ((DataView)bmSps.List).RowFilter = filterString;
-            }
+            //var a = new BindingSource() { DataSource = _config.ConnectionSettings };
+            bmSetting = (CurrencyManager)this.BindingContext[_config.ConnectionSettings];
+            
+            cboSettingKey.DataSource = _config.ConnectionSettings;
+            cboSettingKey.DisplayMember = "Key";
+            cboSettingKey.ValueMember = "Key";
 
         }
-
-        #endregion
 
         #region Event Button SQL
 
@@ -155,13 +90,15 @@ namespace iCat.SQLTools.Forms
             try
             {
                 var service = _provider.GetRequiredService<ISchemaService>();
-                switch (_config.ConnectionSetting.ConnectionType)
+                var datasetManager = new DatasetManager();
+                switch (_connectionSetting!.ConnectionType)
                 {
-                    case Shareds.Enums.ConnectionType.MSSQL: _datasetManager.DataProvider = Shareds.Enums.DataProvider.MSSQL; break;
-                    case Shareds.Enums.ConnectionType.MySQL: _datasetManager.DataProvider = Shareds.Enums.DataProvider.MySQL; break;
+                    case ConnectionType.MSSQL: datasetManager.DataSource = Shareds.Enums.DataSource.MSSQL; break;
+                    case ConnectionType.MySQL: datasetManager.DataSource = Shareds.Enums.DataSource.MySQL; break;
                     default: throw new Exception("Unknow dbType");
                 }
-                _datasetManager.Dataset = service.GetDatasetFromDB();
+                datasetManager.Dataset = service.GetDatasetFromDB(_connectionSetting.ConnectionType);
+                _datasetManagerFactory.AddDatasetManager(_connectionSetting.Key, datasetManager.DataSource, datasetManager.Dataset);
                 BindFrm();
                 tabControl1.SelectedTab = tabTablesAndCols;
                 this.Parent!.Text = "Tables-『SQL』";
@@ -174,20 +111,21 @@ namespace iCat.SQLTools.Forms
 
         private void Update_Description_Click(object sender, EventArgs e)
         {
-            if (_datasetManager.DataProvider == Shareds.Enums.DataProvider.XML)
+            var datasetManager = _datasetManagerFactory.GetDatasetManager(_connectionSetting!.Key)!;
+            if (datasetManager.DataSource == Shareds.Enums.DataSource.XML)
             {
                 MessageBox.Show("This command only for load data from SQL !");
                 return;
             }
-            if (_datasetManager.Dataset != null)
+            if (datasetManager.Dataset != null)
             {
                 var service = _provider.GetRequiredService<ISchemaService>();
-                var conn = _provider.GetRequiredService<IUnitOfWorkFactory>().GetUnitOfWork(_config.ConnectionSetting.ConnectionType.ToString());
+                var conn = _provider.GetRequiredService<IUnitOfWorkFactory>().GetUnitOfWork(_connectionSetting.ConnectionType.ToString());
                 try
                 {
                     conn.Open();
                     conn.BeginTransaction();
-                    if (!service.UpdateDescription(_datasetManager.Dataset))
+                    if (!service.UpdateDescription(_connectionSetting.ConnectionType, datasetManager.Dataset))
                     {
                         MessageBox.Show("Fail!");
                     }
@@ -216,12 +154,13 @@ namespace iCat.SQLTools.Forms
         private void btnUpdateAllDescription_Click(object sender, EventArgs e)
         {
 
+            var datasetManager = _datasetManagerFactory.GetDatasetManager(_connectionSetting!.Key)!;
             var service = _provider.GetRequiredService<ISchemaService>();
-            if (_datasetManager.Dataset != null)
+            if (datasetManager.Dataset != null)
             {
                 if (MessageBox.Show(this, "It will update and cover all current description to SQL ! \r\r Are you sure to do it ?", "Info", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    foreach (DataTable dt in _datasetManager.Dataset.Tables)
+                    foreach (DataTable dt in datasetManager.Dataset.Tables)
                     {
                         foreach (DataRow row in dt.Rows)
                         {
@@ -237,12 +176,12 @@ namespace iCat.SQLTools.Forms
                             }
                         }
                     }
-                    var conn = _provider.GetRequiredService<IUnitOfWorkFactory>().GetUnitOfWork(_config.ConnectionSetting.ConnectionType.ToString());
+                    var conn = _provider.GetRequiredService<IUnitOfWorkFactory>().GetUnitOfWork(_connectionSetting.ConnectionType.ToString());
                     try
                     {
                         conn.Open();
                         conn.BeginTransaction();
-                        if (!service.UpdateDescription(_datasetManager.Dataset))
+                        if (!service.UpdateDescription(_connectionSetting.ConnectionType, datasetManager.Dataset))
                         {
                             string msg = "\r\n\r\n";
                             msg += "If data access obj is empty,  try to follow these step :\r\n\r\n";
@@ -281,6 +220,7 @@ namespace iCat.SQLTools.Forms
 
         private void btnLoadDataFromXML_Click(object sender, EventArgs e)
         {
+            var datasetManager = _datasetManagerFactory.GetDatasetManager(_connectionSetting!.Key)!;
             var fileName = GetFileName();
             if (fileName != "")
             {
@@ -288,8 +228,8 @@ namespace iCat.SQLTools.Forms
                 {
                     var xml = sr.ReadToEnd();
                     var service = _provider.GetRequiredService<ISchemaService>();
-                    _datasetManager.Dataset = service.GetDatasetFromXml(xml);
-                    _datasetManager.DataProvider = Shareds.Enums.DataProvider.XML;
+                    datasetManager.Dataset = service.GetDatasetFromXml(xml);
+                    datasetManager.DataSource = Shareds.Enums.DataSource.XML;
                     BindFrm();
                     tabControl1.SelectedTab = tabTablesAndCols;
                     this.Parent!.Text = "Tables-『" + fileName.Substring(fileName.LastIndexOf("\\") + 1) + "』";
@@ -299,7 +239,8 @@ namespace iCat.SQLTools.Forms
 
         private void btnSaveToXml_Click(object sender, EventArgs e)
         {
-            if (_datasetManager.Dataset != null)
+            var datasetManager = _datasetManagerFactory.GetDatasetManager(_connectionSetting!.Key);
+            if (datasetManager?.Dataset != null)
             {
                 var defRoot = Path.Combine(Application.StartupPath, "database");
                 var extensionName = "Xml";
@@ -308,7 +249,7 @@ namespace iCat.SQLTools.Forms
                 if (fileName != "")
                 {
                     var service = _provider.GetRequiredService<ISchemaService>();
-                    if (_datasetManager.SaveToXml(_datasetManager.Dataset, fileName))
+                    if (_datasetManagerFactory.SaveToXml(_connectionSetting.Key, fileName))
                     {
                         MessageBox.Show("Success save to  xml file!!");
                     }
@@ -330,9 +271,10 @@ namespace iCat.SQLTools.Forms
 
         private void btnExportExcel_Click(object sender, EventArgs e)
         {
-            if (_datasetManager.Dataset != null)
+            var datasetManager = _datasetManagerFactory.GetDatasetManager(_connectionSetting!.Key);
+            if (datasetManager?.Dataset != null)
             {
-                NpoiOperator objNpoi = new NpoiOperator(_datasetManager.Dataset);
+                NpoiOperator objNpoi = new NpoiOperator(datasetManager.Dataset);
                 string fileName = SetFileName(Application.StartupPath + "\\database\\", "Db_Schema", "xlsx");
                 if (fileName != "")
                 {
@@ -392,6 +334,86 @@ namespace iCat.SQLTools.Forms
             {
                 di.Create();
             }
+        }
+
+        #endregion
+
+        #region method
+
+        private void BindFrm()
+        {
+            var datasetManager = _datasetManagerFactory.GetDatasetManager(_connectionSetting!.Key)!;
+            dgvTables.DataSource = datasetManager.Dataset;
+            dgvTables.DataMember = "Tables";
+
+            dgvColumns.DataSource = datasetManager.Dataset;
+            dgvColumns.DataMember = "Tables.MasterDetailCols";
+
+            _dvFks = datasetManager.Dataset.Tables["FKs"].DefaultView;
+            dgvFK.DataSource = _dvFks;
+
+            dgvIndexes.DataSource = datasetManager.Dataset;
+            dgvIndexes.DataMember = "Tables.MasterDetailIndexes";
+
+            dgvSpsAndFuncs.DataSource = datasetManager.Dataset;
+            dgvSpsAndFuncs.DataMember = "SpsAndFuncs";
+
+            dgvInputParams.DataSource = datasetManager.Dataset;
+            dgvInputParams.DataMember = "SpsAndFuncs.MasterDetailInputParams";
+
+            dgvOutPutParams.DataSource = datasetManager.Dataset;
+            dgvOutPutParams.DataMember = "SpsAndFuncs.MasterDetailOutputParams";
+
+            bmTables = (CurrencyManager)this.BindingContext[datasetManager.Dataset, "Tables"];
+            bmSps = (CurrencyManager)this.BindingContext[datasetManager.Dataset, "SpsAndFuncs"];
+
+            bmTables.PositionChanged += (sender, e) =>
+            {
+                if (bmTables.Position != -1)
+                {
+                    string tableName = ((DataRowView)bmTables.Current)["TableName"].ToString();
+                    _dvFks.RowFilter = "ParentTable = '" + tableName + "' OR ReferencedTable = '" + tableName + "'";
+                    dColDescription.ReadOnly = ((DataRowView)bmTables.Current)["TableType"].ToString() == "VIEW";
+                }
+            };
+            _dvFks.RowFilter = "ParentTable = '" + ((DataRowView)bmTables.Current)["TableName"].ToString() + "' OR ReferencedTable = '" + ((DataRowView)bmTables.Current)["TableName"].ToString() + "'";
+        }
+
+        private void Filter(object sender, EventArgs e)
+        {
+            if (bmTables != null)
+            {
+                var filters = txtTableFilter.Text.Split(',');
+                var filterString = "";
+                var i = 0;
+                foreach (var filter in filters)
+                {
+                    if (!string.IsNullOrEmpty(filter))
+                    {
+                        filterString += i == 0 ? "TableName LIKE '%" + filter + "%'" : " OR TableName LIKE '%" + filter + "%'";
+                        i++;
+                    }
+                };
+                ((DataView)bmTables.List).RowFilter = filterString;
+            }
+
+            if (bmSps != null)
+            {
+                var filters = txtTableFilter.Text.Split(',');
+                var filterString = "";
+                var i = 0;
+                foreach (var filter in filters)
+                {
+                    if (!string.IsNullOrEmpty(filter))
+                    {
+                        filterString += i == 0 ? "SPECIFIC_NAME LIKE '%" + filter + "%'" : " OR SPECIFIC_NAME LIKE '%" + filter + "%'";
+                        i++;
+                    }
+                };
+                //((DataView)bmSps.List).RowFilter = "SPECIFIC_NAME LIKE '%" + txtSpFilter.Text + "%'";
+                ((DataView)bmSps.List).RowFilter = filterString;
+            }
+
         }
 
         #endregion

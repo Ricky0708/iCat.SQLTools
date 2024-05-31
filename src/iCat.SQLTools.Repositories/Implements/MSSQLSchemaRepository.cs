@@ -11,13 +11,14 @@ using iCat.SQLTools.Shareds.Enums;
 using NPOI.OpenXmlFormats.Wordprocessing;
 using NPOI.OpenXmlFormats;
 using NPOI.SS.Formula.PTG;
+using iCat.SQLTools.Repositories.Enums;
 
 namespace iCat.SQLTools.Repositories.Implements
 {
     public class MSSQLSchemaRepository : ISchemaRepository
     {
 
-        public string Category => "MSSQL";
+        public ConnectionType ConnectionType => ConnectionType.MSSQL;
 
         private readonly IConnectionFactory _factory;
 
@@ -207,7 +208,7 @@ namespace iCat.SQLTools.Repositories.Implements
 
             if (sbSQL.Length > 0)
             {
-                _factory.GetConnection(Category).ExecuteNonQuery(sbSQL.ToString(), null);
+                _factory.GetConnection(ConnectionType.ToString()).ExecuteNonQuery(sbSQL.ToString(), null);
                 ds.AcceptChanges();
                 result = true;
             }
@@ -271,7 +272,7 @@ namespace iCat.SQLTools.Repositories.Implements
                 string tableName = "";
 
                 sqlParameters.Add(new SqlParameter("@objName", target == "COLUMN" ? dv[i]["ColName"].ToString() : dv[i]["TableName"].ToString()));
-                execFunName = _factory.GetConnection(Category).ExecuteScalar(cmd.CommandText, sqlParameters.ToArray()) != null ? "EXECUTE sp_updateextendedproperty N'MS_Description', N'" : "EXECUTE sp_addextendedproperty N'MS_Description', N'";
+                execFunName = _factory.GetConnection(ConnectionType.ToString()).ExecuteScalar(cmd.CommandText, sqlParameters.ToArray()) != null ? "EXECUTE sp_updateextendedproperty N'MS_Description', N'" : "EXECUTE sp_addextendedproperty N'MS_Description', N'";
                 description = target == "COLUMN" ? dv[i]["ColDescription"].ToString().Replace("'", "") : dv[i]["TableDescription"].ToString().Replace("'", "");
                 tableName = dv[i]["TableName"].ToString().Replace("'", "");
 
@@ -298,7 +299,7 @@ namespace iCat.SQLTools.Repositories.Implements
         public DataTable ExecuteGetDataTable(string script, string dtName)
         {
             var dt = new DataTable(dtName);
-            var conn = (SqlConnection)_factory.GetConnection(Category).Connection;
+            var conn = (SqlConnection)_factory.GetConnection(ConnectionType.ToString()).Connection;
             var da = new SqlDataAdapter(script, conn);
             da.SelectCommand.CommandTimeout = 999;
             da.Fill(dt);
@@ -308,7 +309,7 @@ namespace iCat.SQLTools.Repositories.Implements
         public DataTable GetTableSchema(string script, string dtName)
         {
             var dt = new DataTable(dtName);
-            var conn = (SqlConnection)_factory.GetConnection(Category).Connection;
+            var conn = (SqlConnection)_factory.GetConnection(ConnectionType.ToString()).Connection;
             var da = new SqlDataAdapter(script, conn);
             da.SelectCommand.CommandTimeout = 999;
             da.FillSchema(dt, SchemaType.Source);

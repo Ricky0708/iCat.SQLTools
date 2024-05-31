@@ -1,4 +1,6 @@
-﻿using System;
+﻿using iCat.SQLTools.Repositories.Enums;
+using iCat.SQLTools.Shareds.Enums;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace iCat.SQLTools.Repositories.Interfaces
 {
     public interface ISchemaRepository
     {
-        string Category { get; }
+        ConnectionType ConnectionType { get; }
         DataSet GetDatasetFromSQL();
         DataTable GetTables();
         DataTable GetColumns();

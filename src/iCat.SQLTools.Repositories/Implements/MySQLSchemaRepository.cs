@@ -1,4 +1,5 @@
 ﻿using iCat.DB.Client.Factory.Interfaces;
+using iCat.SQLTools.Repositories.Enums;
 using iCat.SQLTools.Repositories.Interfaces;
 using iCat.SQLTools.Shareds.Enums;
 using Microsoft.Data.SqlClient;
@@ -15,7 +16,7 @@ namespace iCat.SQLTools.Repositories.Implements
 {
     public class MySQLSchemaRepository : ISchemaRepository
     {
-        public string Category => "MySQL";
+        public ConnectionType ConnectionType => ConnectionType.MySQL;
 
         private readonly IConnectionFactory _factory;
 
@@ -159,7 +160,7 @@ namespace iCat.SQLTools.Repositories.Implements
         public DataTable ExecuteGetDataTable(string script, string dtName)
         {
             var dt = new DataTable(dtName);
-            var conn = (MySqlConnection)_factory.GetConnection(Category).Connection;
+            var conn = (MySqlConnection)_factory.GetConnection(ConnectionType.ToString()).Connection;
             var da = new MySqlDataAdapter(script, conn);
             da.SelectCommand.CommandTimeout = 999;
             da.Fill(dt);
@@ -169,7 +170,7 @@ namespace iCat.SQLTools.Repositories.Implements
         public DataTable GetTableSchema(string script, string dtName)
         {
             var dt = new DataTable(dtName);
-            var conn = (MySqlConnection)_factory.GetConnection(Category).Connection;
+            var conn = (MySqlConnection)_factory.GetConnection(ConnectionType.ToString()).Connection;
             var da = new MySqlDataAdapter(script, conn);
             da.SelectCommand.CommandTimeout = 999;
             da.FillSchema(dt, SchemaType.Source);

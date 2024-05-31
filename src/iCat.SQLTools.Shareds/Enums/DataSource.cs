@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace iCat.SQLTools.Shareds.Enums
 {
-    public enum DataProvider
+    public enum DataSource
     {
         None,
         MSSQL,

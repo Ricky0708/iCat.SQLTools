@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using iCat.SQLTools.Shareds.Shareds;
 using MySqlX.XDevAPI.Common;
 using System.Xml.XPath;
+using iCat.SQLTools.Repositories.Enums;
 
 namespace iCat.SQLTools.Services.Implements
 {
@@ -28,22 +29,17 @@ namespace iCat.SQLTools.Services.Implements
     {
         public string Category => _category;
         private string _category;
-        private readonly ISchemaRepository _repository;
-        public SchemaService(
-            ConnectionType connectionType,
-            IServiceProvider provider
-            )
+        private readonly IEnumerable<ISchemaRepository> _repositories;
+        public SchemaService(IEnumerable<ISchemaRepository> schemaRepositories)
         {
-            _category = connectionType.ToString();
-            _repository = provider
-                .GetRequiredService<IEnumerable<ISchemaRepository>>()
-                .First(p => p.Category == connectionType.ToString()) ?? throw new ArgumentNullException(nameof(ISchemaRepository));
+            _category = "";
+            _repositories = schemaRepositories;
         }
 
-        public DataSet GetDatasetFromDB()
+        public DataSet GetDatasetFromDB(ConnectionType connectionType)
         {
             var ds = new DataSet();
-            ds = _repository.GetDatasetFromSQL();
+            ds = _repositories.First(p => p.ConnectionType == connectionType).GetDatasetFromSQL();
 
             DataRelation relCol = new DataRelation("MasterDetailCols", ds.Tables[Consts.strTables]!.Columns["TableName"]!, ds.Tables[Consts.strColumns]!.Columns["TableName"]!);
             ds.Relations.Add(relCol);
@@ -62,9 +58,9 @@ namespace iCat.SQLTools.Services.Implements
 
         }
 
-        public DataTable GetTableSchema(string sqlScript, string tableName)
+        public DataTable GetTableSchema(ConnectionType connectionType, string sqlScript, string tableName)
         {
-            var dt = _repository.GetTableSchema(sqlScript, tableName);
+            var dt = _repositories.First(p => p.ConnectionType == connectionType).GetTableSchema(sqlScript, tableName);
             return dt;
         }
 
@@ -173,9 +169,9 @@ namespace iCat.SQLTools.Services.Implements
             return result;
         }
 
-        public bool UpdateDescription(DataSet ds)
+        public bool UpdateDescription(ConnectionType connectionType, DataSet ds)
         {
-            return _repository.UpdateDescription(ref ds);
+            return _repositories.First(p => p.ConnectionType == connectionType).UpdateDescription(ref ds);
         }
 
         #region from dataset

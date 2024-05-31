@@ -27,45 +27,45 @@ namespace iCat.SQLTools.Forms
 
         public frmConfigSettingDlg(IDBProvider provider, IFileService fileService, SettingConfig config)
         {
-            InitializeComponent();
-            _provider = provider ?? throw new ArgumentNullException(nameof(provider));
-            _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
-            _config = config ?? throw new ArgumentNullException(nameof(config));
+            //InitializeComponent();
+            //_provider = provider ?? throw new ArgumentNullException(nameof(provider));
+            //_fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
+            //_config = config ?? throw new ArgumentNullException(nameof(config));
 
 
-            txtConnectionString.Text = config.ConnectionSetting.ConnectionString;
-            txtUsing.Text = config.Using;
-            txtNamespace.Text = config.Namespace;
-            txtClassSuffix.Text = config.ClassSuffix;
+            //txtConnectionString.Text = config.ConnectionSetting.ConnectionString;
+            //txtUsing.Text = config.Using;
+            //txtNamespace.Text = config.Namespace;
+            //txtClassSuffix.Text = config.ClassSuffix;
 
-            var connectionTypes = ((ConnectionType[])Enum.GetValues(typeof(ConnectionType)))
-                .Select(p => new
-                {
-                    Name = p.ToString(),
-                    Value = p
-                }).ToList();
+            //var connectionTypes = ((ConnectionType[])Enum.GetValues(typeof(ConnectionType)))
+            //    .Select(p => new
+            //    {
+            //        Name = p.ToString(),
+            //        Value = p
+            //    }).ToList();
 
-            cboConnectionType.DataSource = connectionTypes;
-            cboConnectionType.DisplayMember = "Name";
-            cboConnectionType.ValueMember = "Value";
+            //cboConnectionType.DataSource = connectionTypes;
+            //cboConnectionType.DisplayMember = "Name";
+            //cboConnectionType.ValueMember = "Value";
 
-            cboConnectionType.SelectedValue = config.ConnectionSetting.ConnectionType;
+            //cboConnectionType.SelectedValue = config.ConnectionSetting.ConnectionType;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure to save it ?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                _config.ConnectionSetting.ConnectionString = txtConnectionString.Text;
-                _config.ConnectionSetting.ConnectionType = (ConnectionType)cboConnectionType.SelectedValue!;
-                _config.Using = txtUsing.Text;
-                _config.Namespace = txtNamespace.Text;
-                _config.ClassSuffix = txtClassSuffix.Text;
-                var data = JsonUtil.Serialize(_config);
-                _fileService.SaveStringFileAsync("settingConfig.json", data);
-                _provider.SetNewDbClient(_config.ConnectionSetting.ConnectionType, _config.ConnectionSetting.ConnectionString);
-                MessageBox.Show("Success!");
-                this.Close();
+                //_config.ConnectionSetting.ConnectionString = txtConnectionString.Text;
+                //_config.ConnectionSetting.ConnectionType = (ConnectionType)cboConnectionType.SelectedValue!;
+                //_config.Using = txtUsing.Text;
+                //_config.Namespace = txtNamespace.Text;
+                //_config.ClassSuffix = txtClassSuffix.Text;
+                //var data = JsonUtil.Serialize(_config);
+                //_fileService.SaveStringFileAsync("settingConfig.json", data);
+                //_provider.SetNewDbClient(_config.ConnectionSetting.ConnectionType, _config.ConnectionSetting.ConnectionString);
+                //MessageBox.Show("Success!");
+                //this.Close();
             }
         }
     }
