@@ -64,22 +64,7 @@ namespace iCat.SQLTools.Services.Managers
             return dm;
         }
 
-        public bool SaveToXml(string key, string fileName)
-        {
-            lock (DatasetManagers)
-            {
 
-                string saveToPath = fileName;
-                var ds = DatasetManagers.FirstOrDefault(p => p.Category == key)?.Dataset;
-                if (ds != null)
-                {
-                    ds.WriteXml(saveToPath, XmlWriteMode.WriteSchema);
-                    return true;
-                }
-                return false;
-            }
-
-        }
     }
 
     public class DatasetManager
@@ -87,5 +72,17 @@ namespace iCat.SQLTools.Services.Managers
         public string? Category { get; set; }
         public DataSet? Dataset { get; set; }
         public DataSource DataSource { get; set; }
+        public bool SaveToXml(string fileName)
+        {
+
+            string saveToPath = fileName;
+            if (Dataset != null)
+            {
+                Dataset.WriteXml(saveToPath, XmlWriteMode.WriteSchema);
+                return true;
+            }
+            return false;
+
+        }
     }
 }

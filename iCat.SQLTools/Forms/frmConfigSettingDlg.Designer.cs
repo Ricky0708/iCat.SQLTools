@@ -149,6 +149,7 @@
             btnLoadData.TabIndex = 12;
             btnLoadData.Text = "Load Data";
             btnLoadData.UseVisualStyleBackColor = true;
+            btnLoadData.Click += btnLoadData_Click;
             // 
             // btnDelete
             // 

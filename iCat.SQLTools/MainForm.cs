@@ -6,6 +6,7 @@ using iCat.SQLTools.Services.Managers;
 using iCat.SQLTools.Shareds;
 using iCat.SQLTools.Shareds.Shareds;
 using Microsoft.Extensions.DependencyInjection;
+using NPOI.SS.Util;
 using System.Reflection;
 using System.Text.Json;
 using System.Windows.Forms;
@@ -19,7 +20,7 @@ namespace iCat.SQLTools
         private readonly SettingConfig _config;
         private readonly DatasetManagerFactory _datasetManagerFactory;
         private readonly IServiceProvider _provider;
-        private CurrencyManager _bmSetting;
+        private CurrencyManager _bmDatasetManager;
 
         public MainForm(IFileService fileService, SettingConfig config, DatasetManagerFactory datasetManagerFactory, IServiceProvider provider)
         {
@@ -50,7 +51,7 @@ namespace iCat.SQLTools
                 }
 
                 this.dgvDatasets.AutoGenerateColumns = false;
-                _bmSetting = (CurrencyManager)this.BindingContext[_datasetManagerFactory.DatasetManagers];
+                _bmDatasetManager = (CurrencyManager)this.BindingContext[_datasetManagerFactory.DatasetManagers];
                 this.dgvDatasets.DataSource = _datasetManagerFactory.DatasetManagers;
 
             }
@@ -62,7 +63,7 @@ namespace iCat.SQLTools
 
         private void btn_Click(object sender, EventArgs e)
         {
-            _bmSetting?.Refresh();
+            _bmDatasetManager?.Refresh();
 
             string assName = ((AssemblyButton)sender).AssName;
             string objectName = ((AssemblyButton)sender).ObjectName;
@@ -79,15 +80,16 @@ namespace iCat.SQLTools
             }
             if (!isChildExist)
             {
-                Form item;
+                frmBase item;
                 //Assembly asm = Assembly.Load(assName);
                 TabPage childTab = new TabPage();
-                item = _provider.CreateScope().ServiceProvider.GetKeyedService<Form>(objectName)!;
-                if (objectName.EndsWith("Dlg"))
-                {
-                    item.ShowDialog(tabControl1);
-                    return;
-                }
+                item = _provider.CreateScope().ServiceProvider.GetKeyedService<frmBase>(objectName)!;
+                //if (objectName.EndsWith("Dlg"))
+                //{
+                //    item.ShowDialog(tabControl1);
+                //    return;
+                //}
+                item.CurrencyManager = _bmDatasetManager;
                 tabControl1.TabPages.Add(childTab);
                 childTab.Name = objectName;
                 childTab.Text = ((AssemblyButton)sender).Text;
@@ -109,6 +111,81 @@ namespace iCat.SQLTools
         private void ChildFormClose(Object sender, FormClosingEventArgs e)
         {
             this.tabControl1.SelectedTab!.Dispose();
+        }
+
+        private void btnLoadFromSQL_Click(object sender, EventArgs e)
+        {
+            var dlg = new frmConfigSettingDlg(_config);
+            dlg.OnLoadData += (setting) =>
+            {
+                var service = _provider.GetRequiredService<ISchemaService>();
+                var datasetManager = new DatasetManager();
+                var key = setting!.Key;
+                switch (setting!.ConnectionType)
+                {
+                    case Repositories.Enums.ConnectionType.MSSQL: datasetManager.DataSource = Shareds.Enums.DataSource.MSSQL; break;
+                    case Repositories.Enums.ConnectionType.MySQL: datasetManager.DataSource = Shareds.Enums.DataSource.MySQL; break;
+                    default: throw new Exception("Unknow dbType");
+                }
+                datasetManager.Dataset = service.GetDatasetFromDB(setting.Key, setting.ConnectionType);
+                _datasetManagerFactory.AddDatasetManager(setting.Key, datasetManager.DataSource, datasetManager.Dataset);
+                _bmDatasetManager.Refresh();
+                return true;
+            };
+            dlg.OnSaveSettings += (jsonSettings) =>
+            {
+                _fileService.SaveStringFileAsync("settingConfig.json", jsonSettings);
+                return true;
+            };
+            dlg.ShowDialog();
+            dlg.Dispose();
+        }
+
+        private void btnLoadFromXML_Click(object sender, EventArgs e)
+        {
+            var fileFullName = GetFileName();
+            if (fileFullName != "")
+            {
+                var fileName = Path.GetFileName(fileFullName);
+
+                using (var sr = new StreamReader(fileFullName))
+                {
+                    var xml = sr.ReadToEnd();
+                    var service = _provider.GetRequiredService<ISchemaService>();
+
+                    var datasetManager = new DatasetManager();
+                    datasetManager.Dataset = service.GetDatasetFromXml(xml);
+                    datasetManager.DataSource = Shareds.Enums.DataSource.XML;
+                    _datasetManagerFactory.AddDatasetManager(fileName, datasetManager.DataSource, datasetManager.Dataset);
+                    _bmDatasetManager.Refresh();
+                }
+            }
+        }
+
+        public string GetFileName()
+        {
+            string filePath = Path.Combine(Application.StartupPath, "database");
+            SetFolderExists(filePath);
+            string fileName = "";
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.DefaultExt = "xml";
+            dlg.Filter = "xml file|*.xml";
+            dlg.InitialDirectory = filePath;
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+
+                fileName = dlg.FileName;
+            }
+            return fileName;
+        }
+
+        public void SetFolderExists(string filePath)
+        {
+            DirectoryInfo di = new DirectoryInfo(filePath);
+            if (!di.Exists)
+            {
+                di.Create();
+            }
         }
     }
 }

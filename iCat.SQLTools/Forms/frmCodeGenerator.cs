@@ -24,17 +24,17 @@ namespace iCat.SQLTools.Forms
         CurrencyManager cmTables;
         CurrencyManager cmScripts;
         CurrencyManager cmSPAndFuncs;
-        private readonly DatasetManagerFactory _datasetManagerFactory;
         private readonly SettingConfig _settingConfig;
         private readonly IFileService _fileService;
         private readonly ISchemaService _schemaService;
 
+        DatasetManager _datasetManager => CurrencyManager?.Current != null ? (DatasetManager)CurrencyManager.Current : null;
+
+
         public frmCodeGenerator(
-            DatasetManagerFactory datasetManager,
-            SettingConfig settingConfig,
             IFileService fileService,
-            ISchemaService schemaService
-            )
+            IServiceProvider provider
+            ) : base(provider)
         {
             InitializeComponent();
             dgvTables.AutoGenerateColumns = false;
@@ -43,10 +43,7 @@ namespace iCat.SQLTools.Forms
             dtScript.Columns.Add("Script");
             dtScript.Columns.Add("cmd");
             cmScripts = (CurrencyManager)this.BindingContext[dtScript];
-            _datasetManagerFactory = datasetManager ?? throw new ArgumentNullException(nameof(datasetManager));
-            _settingConfig = settingConfig ?? throw new ArgumentNullException(nameof(settingConfig));
             _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
-            _schemaService = schemaService ?? throw new ArgumentNullException(nameof(schemaService));
             //tableLayoutPanel1.SetColumnSpan(btnAllTables, 2);
             //Button btnAddScript = new Button();
             //btnAddScript.Name = "btnAddScript";
@@ -59,32 +56,37 @@ namespace iCat.SQLTools.Forms
         private void frmPOCOGenrator_Load(object sender, EventArgs e)
         {
 
-            //if (_datasetManagerFactory.DataSource != DataSource.None && _datasetManagerFactory.Dataset != null)
-            //{
-            //    dgvTables.Focus();
-            //    dgvTables.DataSource = _datasetManagerFactory.Dataset;
-            //    dgvTables.DataMember = "Tables";
-            //    cmTables = (CurrencyManager)this.BindingContext![_datasetManagerFactory.Dataset, "Tables"];
-            //    cmSPAndFuncs = (CurrencyManager)this.BindingContext[_datasetManagerFactory.Dataset, "SpsAndFuncs"];
-            //    ((DataView)cmTables.List).RowFilter = "TableName LIKE '%" + txtTableFilter.Text + "%'";
+      
 
-            //    var parameterTypes = ((ParameterType[])Enum.GetValues(typeof(ParameterType)))
-            //        .Select(p => new
-            //        {
-            //            Name = p.ToString(),
-            //            Value = p
-            //        }).ToList();
+        }
 
-            //    cboParameterType.DataSource = parameterTypes;
-            //    cboParameterType.DisplayMember = "Name";
-            //    cboParameterType.ValueMember = "Value";
-            //    cboParameterType.SelectedValue = ParameterType.MSSQL;
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Please load data first.");
-            //}
+        public override void BindFrm()
+        {
+            if (_datasetManager.DataSource != DataSource.None && _datasetManager.Dataset != null)
+            {
+                dgvTables.Focus();
+                dgvTables.DataSource = _datasetManager.Dataset;
+                dgvTables.DataMember = "Tables";
+                cmTables = (CurrencyManager)this.BindingContext![_datasetManager.Dataset, "Tables"];
+                cmSPAndFuncs = (CurrencyManager)this.BindingContext[_datasetManager.Dataset, "SpsAndFuncs"];
+                ((DataView)cmTables.List).RowFilter = "TableName LIKE '%" + txtTableFilter.Text + "%'";
 
+                var parameterTypes = ((ParameterType[])Enum.GetValues(typeof(ParameterType)))
+                    .Select(p => new
+                    {
+                        Name = p.ToString(),
+                        Value = p
+                    }).ToList();
+
+                cboParameterType.DataSource = parameterTypes;
+                cboParameterType.DisplayMember = "Name";
+                cboParameterType.ValueMember = "Value";
+                cboParameterType.SelectedValue = ParameterType.MSSQL;
+            }
+            else
+            {
+                MessageBox.Show("Please load data first.");
+            }
         }
 
         private void btn_Click(object sender, EventArgs e)

@@ -54,10 +54,10 @@ namespace iCat.SQLTools
                     services.AddSingleton<IFileService>(s => new FileService("Config", Path.Combine(Application.StartupPath, "Configs")));
                     services.AddSingleton<MainForm>();
                     services.AddKeyedScoped<Form, frmConfigSettingDlg>(nameof(frmConfigSettingDlg));
-                    services.AddKeyedScoped<Form, frmTables>(nameof(frmTables));
+                    services.AddKeyedScoped<frmBase, frmTables>(nameof(frmTables));
                     //services.AddKeyedScoped<Form, frmPOCO>(nameof(frmPOCO));
-                    services.AddKeyedScoped<Form, frmCodeGenerator_xx>(nameof(frmCodeGenerator_xx));
-                    services.AddKeyedScoped<Form, frmCodeGenerator>(nameof(frmCodeGenerator));
+                    services.AddKeyedScoped<frmBase, frmCodeGenerator_xx>(nameof(frmCodeGenerator_xx));
+                    services.AddKeyedScoped<frmBase, frmCodeGenerator>(nameof(frmCodeGenerator));
 
                     services.AddScoped<ISchemaService, SchemaService>();
                     services.AddScoped<ISchemaRepository, MSSQLSchemaRepository>();

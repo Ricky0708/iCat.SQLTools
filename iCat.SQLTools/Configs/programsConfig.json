@@ -1,12 +1,6 @@
 {
 	"programs": [
 		{
-			"progId": "frmConfigSettingDlg",
-			"progName": "Config Setting",
-			"moduleName": "iCat.SQLTools",
-			"seq": 1
-		},
-		{
 			"progId": "frmTables",
 			"progName": "Tables",
 			"moduleName": "iCat.SQLTools",
