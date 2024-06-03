@@ -64,7 +64,7 @@ namespace iCat.SQLTools.Forms
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure to load it ?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if (MessageBox.Show("Are you sure to save it ?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 var data = JsonUtil.Serialize(_config);
                 _fileService.SaveStringFileAsync("settingConfig.json", data);

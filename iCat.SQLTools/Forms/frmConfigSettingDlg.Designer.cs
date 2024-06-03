@@ -36,14 +36,14 @@
             btnSave = new Button();
             txtClassSuffix = new CustomControlleres.PlaceholderTextBox();
             groupBox1 = new GroupBox();
+            btnLoadData = new Button();
+            btnDelete = new Button();
+            btnAddNew = new Button();
+            lblKey = new Label();
+            txtKey = new TextBox();
             panel1 = new Panel();
             dgvSettings = new DataGridView();
             dKey = new DataGridViewTextBoxColumn();
-            txtKey = new TextBox();
-            lblKey = new Label();
-            btnAddNew = new Button();
-            btnDelete = new Button();
-            btnLoadData = new Button();
             groupBox1.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSettings).BeginInit();
@@ -141,6 +141,54 @@
             groupBox1.TabIndex = 8;
             groupBox1.TabStop = false;
             // 
+            // btnLoadData
+            // 
+            btnLoadData.Location = new Point(369, 382);
+            btnLoadData.Name = "btnLoadData";
+            btnLoadData.Size = new Size(75, 23);
+            btnLoadData.TabIndex = 12;
+            btnLoadData.Text = "Load Data";
+            btnLoadData.UseVisualStyleBackColor = true;
+            // 
+            // btnDelete
+            // 
+            btnDelete.Location = new Point(157, 384);
+            btnDelete.Margin = new Padding(2, 3, 2, 3);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(58, 22);
+            btnDelete.TabIndex = 11;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
+            // 
+            // btnAddNew
+            // 
+            btnAddNew.Location = new Point(95, 384);
+            btnAddNew.Margin = new Padding(2, 3, 2, 3);
+            btnAddNew.Name = "btnAddNew";
+            btnAddNew.Size = new Size(58, 22);
+            btnAddNew.TabIndex = 10;
+            btnAddNew.Text = "Add";
+            btnAddNew.UseVisualStyleBackColor = true;
+            btnAddNew.Click += btnAddNew_Click;
+            // 
+            // lblKey
+            // 
+            lblKey.AutoSize = true;
+            lblKey.Location = new Point(64, 30);
+            lblKey.Margin = new Padding(2, 0, 2, 0);
+            lblKey.Name = "lblKey";
+            lblKey.Size = new Size(26, 15);
+            lblKey.TabIndex = 9;
+            lblKey.Text = "Key";
+            // 
+            // txtKey
+            // 
+            txtKey.Location = new Point(95, 27);
+            txtKey.Name = "txtKey";
+            txtKey.Size = new Size(413, 23);
+            txtKey.TabIndex = 8;
+            // 
             // panel1
             // 
             panel1.Controls.Add(dgvSettings);
@@ -171,58 +219,11 @@
             dKey.Name = "dKey";
             dKey.ReadOnly = true;
             // 
-            // txtKey
-            // 
-            txtKey.Location = new Point(95, 27);
-            txtKey.Name = "txtKey";
-            txtKey.Size = new Size(413, 23);
-            txtKey.TabIndex = 8;
-            // 
-            // lblKey
-            // 
-            lblKey.AutoSize = true;
-            lblKey.Location = new Point(64, 30);
-            lblKey.Margin = new Padding(2, 0, 2, 0);
-            lblKey.Name = "lblKey";
-            lblKey.Size = new Size(26, 15);
-            lblKey.TabIndex = 9;
-            lblKey.Text = "Key";
-            // 
-            // btnAddNew
-            // 
-            btnAddNew.Location = new Point(95, 384);
-            btnAddNew.Margin = new Padding(2, 3, 2, 3);
-            btnAddNew.Name = "btnAddNew";
-            btnAddNew.Size = new Size(58, 22);
-            btnAddNew.TabIndex = 10;
-            btnAddNew.Text = "Add";
-            btnAddNew.UseVisualStyleBackColor = true;
-            btnAddNew.Click += btnAddNew_Click;
-            // 
-            // btnDelete
-            // 
-            btnDelete.Location = new Point(157, 384);
-            btnDelete.Margin = new Padding(2, 3, 2, 3);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(58, 22);
-            btnDelete.TabIndex = 11;
-            btnDelete.Text = "Delete";
-            btnDelete.UseVisualStyleBackColor = true;
-            btnDelete.Click += btnDelete_Click;
-            // 
-            // btnLoadData
-            // 
-            btnLoadData.Location = new Point(369, 382);
-            btnLoadData.Name = "btnLoadData";
-            btnLoadData.Size = new Size(75, 23);
-            btnLoadData.TabIndex = 12;
-            btnLoadData.Text = "Load Data";
-            btnLoadData.UseVisualStyleBackColor = true;
-            // 
             // frmConfigSettingDlg
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Lavender;
             ClientSize = new Size(737, 426);
             Controls.Add(groupBox1);
             Controls.Add(panel1);
