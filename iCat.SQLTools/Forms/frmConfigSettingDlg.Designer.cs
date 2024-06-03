@@ -41,6 +41,9 @@
             dKey = new DataGridViewTextBoxColumn();
             txtKey = new TextBox();
             lblKey = new Label();
+            btnAddNew = new Button();
+            btnDelete = new Button();
+            btnLoadData = new Button();
             groupBox1.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSettings).BeginInit();
@@ -119,6 +122,9 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(btnLoadData);
+            groupBox1.Controls.Add(btnDelete);
+            groupBox1.Controls.Add(btnAddNew);
             groupBox1.Controls.Add(lblKey);
             groupBox1.Controls.Add(txtKey);
             groupBox1.Controls.Add(txtConnectionString);
@@ -131,7 +137,7 @@
             groupBox1.Dock = DockStyle.Fill;
             groupBox1.Location = new Point(200, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(537, 410);
+            groupBox1.Size = new Size(537, 426);
             groupBox1.TabIndex = 8;
             groupBox1.TabStop = false;
             // 
@@ -141,7 +147,7 @@
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(200, 410);
+            panel1.Size = new Size(200, 426);
             panel1.TabIndex = 9;
             // 
             // dgvSettings
@@ -154,7 +160,7 @@
             dgvSettings.Location = new Point(0, 0);
             dgvSettings.Name = "dgvSettings";
             dgvSettings.ReadOnly = true;
-            dgvSettings.Size = new Size(200, 410);
+            dgvSettings.Size = new Size(200, 426);
             dgvSettings.TabIndex = 0;
             // 
             // dKey
@@ -182,11 +188,42 @@
             lblKey.TabIndex = 9;
             lblKey.Text = "Key";
             // 
+            // btnAddNew
+            // 
+            btnAddNew.Location = new Point(95, 384);
+            btnAddNew.Margin = new Padding(2, 3, 2, 3);
+            btnAddNew.Name = "btnAddNew";
+            btnAddNew.Size = new Size(58, 22);
+            btnAddNew.TabIndex = 10;
+            btnAddNew.Text = "Add";
+            btnAddNew.UseVisualStyleBackColor = true;
+            btnAddNew.Click += btnAddNew_Click;
+            // 
+            // btnDelete
+            // 
+            btnDelete.Location = new Point(157, 384);
+            btnDelete.Margin = new Padding(2, 3, 2, 3);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(58, 22);
+            btnDelete.TabIndex = 11;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
+            // 
+            // btnLoadData
+            // 
+            btnLoadData.Location = new Point(369, 382);
+            btnLoadData.Name = "btnLoadData";
+            btnLoadData.Size = new Size(75, 23);
+            btnLoadData.TabIndex = 12;
+            btnLoadData.Text = "Load Data";
+            btnLoadData.UseVisualStyleBackColor = true;
+            // 
             // frmConfigSettingDlg
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(737, 410);
+            ClientSize = new Size(737, 426);
             Controls.Add(groupBox1);
             Controls.Add(panel1);
             Margin = new Padding(2, 3, 2, 3);
@@ -216,5 +253,8 @@
         private DataGridViewTextBoxColumn dKey;
         private Label lblKey;
         private TextBox txtKey;
+        private Button btnAddNew;
+        private Button btnDelete;
+        private Button btnLoadData;
     }
 }
