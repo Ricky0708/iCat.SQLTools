@@ -2,24 +2,31 @@ using iCat.SQLTools.CustomControlleres;
 using iCat.SQLTools.Forms;
 using iCat.SQLTools.Models;
 using iCat.SQLTools.Services.Interfaces;
+using iCat.SQLTools.Services.Managers;
 using iCat.SQLTools.Shareds;
 using iCat.SQLTools.Shareds.Shareds;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Text.Json;
 using System.Windows.Forms;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace iCat.SQLTools
 {
     public partial class MainForm : Form
     {
         private readonly IFileService _fileService;
+        private readonly SettingConfig _config;
+        private readonly DatasetManagerFactory _datasetManagerFactory;
         private readonly IServiceProvider _provider;
+        private CurrencyManager _bmSetting;
 
-        public MainForm(IFileService fileService, IServiceProvider provider)
+        public MainForm(IFileService fileService, SettingConfig config, DatasetManagerFactory datasetManagerFactory, IServiceProvider provider)
         {
             InitializeComponent();
             _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
+            _config = config ?? throw new ArgumentNullException(nameof(config));
+            _datasetManagerFactory = datasetManagerFactory ?? throw new ArgumentNullException(nameof(datasetManagerFactory));
             _provider = provider ?? throw new ArgumentNullException(nameof(provider));
         }
 
@@ -41,6 +48,11 @@ namespace iCat.SQLTools
                     btn.Dock = DockStyle.Top;
                     btn.Click += new System.EventHandler(btn_Click!);
                 }
+
+                this.dgvDatasets.AutoGenerateColumns = false;
+                _bmSetting = (CurrencyManager)this.BindingContext[_datasetManagerFactory.DatasetManagers];
+                this.dgvDatasets.DataSource = _datasetManagerFactory.DatasetManagers;
+
             }
             else
             {
@@ -50,6 +62,8 @@ namespace iCat.SQLTools
 
         private void btn_Click(object sender, EventArgs e)
         {
+            _bmSetting?.Refresh();
+
             string assName = ((AssemblyButton)sender).AssName;
             string objectName = ((AssemblyButton)sender).ObjectName;
             bool isChildExist = false;

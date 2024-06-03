@@ -15,13 +15,13 @@ namespace iCat.SQLTools.Services.Interfaces
     public interface ISchemaService
     {
         string Category { get; }
-        DataSet GetDatasetFromDB(ConnectionType connectionType);
-        DataTable GetTableSchema(ConnectionType connectionType, string sqlScript, string tableName);
+        DataSet GetDatasetFromDB(string key, ConnectionType connectionType);
+        DataTable GetTableSchema(string key, ConnectionType connectionType, string sqlScript, string tableName);
         DataSet GetDatasetFromXml(string xmlString);
         string GenerateClassWithSummary(DataTable dtColumns, string @namespace, string @using, string className, string sqlScript);
         string GenerateClassWithoutSummary(DataTable dtTables, string @namespace, string @using, string className);
         string GenerateClassAssign(DataTable dtTables);
         string GenerateDapperScript(DataTable dtColumns, string tableName, ScriptKind scriptKind, ParameterType parameterType);
-        bool UpdateDescription(ConnectionType connectionType, DataSet ds);
+        bool UpdateDescription(string key, ConnectionType connectionType, DataSet ds);
     }
 }

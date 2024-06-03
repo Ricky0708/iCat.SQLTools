@@ -12,16 +12,16 @@ namespace iCat.SQLTools.Repositories.Interfaces
     public interface ISchemaRepository
     {
         ConnectionType ConnectionType { get; }
-        DataSet GetDatasetFromSQL();
-        DataTable GetTables();
-        DataTable GetColumns();
-        DataTable GetFks();
-        DataTable GetIndexes();
-        DataTable GetSpsAndFuncs();
-        DataTable GetInputParams();
-        DataTable GetOutputParams(DataTable spAndFuncTable);
-        DataTable ExecuteGetDataTable(string script, string dtName);
-        DataTable GetTableSchema(string script, string dtName);
-        bool UpdateDescription(ref DataSet ds);
+        DataSet GetDatasetFromSQL(string key);
+        DataTable GetTables(string key);
+        DataTable GetColumns(string key);
+        DataTable GetFks(string key);
+        DataTable GetIndexes(string key);
+        DataTable GetSpsAndFuncs(string key);
+        DataTable GetInputParams(string key);
+        DataTable GetOutputParams(string key, DataTable spAndFuncTable);
+        DataTable ExecuteGetDataTable(string key, string script, string dtName);
+        DataTable GetTableSchema(string key, string script, string dtName);
+        bool UpdateDescription(string key, ref DataSet ds);
     }
 }

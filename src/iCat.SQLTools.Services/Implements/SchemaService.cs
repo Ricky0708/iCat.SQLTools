@@ -36,10 +36,10 @@ namespace iCat.SQLTools.Services.Implements
             _repositories = schemaRepositories;
         }
 
-        public DataSet GetDatasetFromDB(ConnectionType connectionType)
+        public DataSet GetDatasetFromDB(string key, ConnectionType connectionType)
         {
             var ds = new DataSet();
-            ds = _repositories.First(p => p.ConnectionType == connectionType).GetDatasetFromSQL();
+            ds = _repositories.First(p => p.ConnectionType == connectionType).GetDatasetFromSQL(key);
 
             DataRelation relCol = new DataRelation("MasterDetailCols", ds.Tables[Consts.strTables]!.Columns["TableName"]!, ds.Tables[Consts.strColumns]!.Columns["TableName"]!);
             ds.Relations.Add(relCol);
@@ -58,9 +58,9 @@ namespace iCat.SQLTools.Services.Implements
 
         }
 
-        public DataTable GetTableSchema(ConnectionType connectionType, string sqlScript, string tableName)
+        public DataTable GetTableSchema(string key, ConnectionType connectionType, string sqlScript, string tableName)
         {
-            var dt = _repositories.First(p => p.ConnectionType == connectionType).GetTableSchema(sqlScript, tableName);
+            var dt = _repositories.First(p => p.ConnectionType == connectionType).GetTableSchema(key, sqlScript, tableName);
             return dt;
         }
 
@@ -169,9 +169,9 @@ namespace iCat.SQLTools.Services.Implements
             return result;
         }
 
-        public bool UpdateDescription(ConnectionType connectionType, DataSet ds)
+        public bool UpdateDescription(string key, ConnectionType connectionType, DataSet ds)
         {
-            return _repositories.First(p => p.ConnectionType == connectionType).UpdateDescription(ref ds);
+            return _repositories.First(p => p.ConnectionType == connectionType).UpdateDescription(key, ref ds);
         }
 
         #region from dataset

@@ -19,7 +19,7 @@ namespace iCat.SQLTools.Services.Managers
 {
     public class DatasetManagerFactory
     {
-        private List<DatasetManager> Datasets { get; set; } = new List<DatasetManager>();
+        public List<DatasetManager> DatasetManagers { get; set; } = new List<DatasetManager>();
 
         public DatasetManagerFactory()
         {
@@ -27,9 +27,9 @@ namespace iCat.SQLTools.Services.Managers
 
         public DatasetManager? GetDatasetManager(string category)
         {
-            lock (Datasets)
+            lock (DatasetManagers)
             {
-                var dm = Datasets.FirstOrDefault(p => p.Category == category);
+                var dm = DatasetManagers.FirstOrDefault(p => p.Category == category);
                 return dm;
             }
 
@@ -37,12 +37,12 @@ namespace iCat.SQLTools.Services.Managers
 
         public DatasetManager? AddDatasetManager(string category, DataSource dataSource, DataSet ds)
         {
-            lock (Datasets)
+            lock (DatasetManagers)
             {
-                var dsManager = Datasets.FirstOrDefault(p => p.Category == category);
+                var dsManager = DatasetManagers.FirstOrDefault(p => p.Category == category);
                 if (dsManager == null)
                 {
-                    Datasets.Add(new DatasetManager
+                    DatasetManagers.Add(new DatasetManager
                     {
                         Category = category,
                         DataSource = dataSource,
@@ -60,17 +60,17 @@ namespace iCat.SQLTools.Services.Managers
                 }
 
             }
-            var dm = Datasets.FirstOrDefault(p => p.Category == category);
+            var dm = DatasetManagers.FirstOrDefault(p => p.Category == category);
             return dm;
         }
 
         public bool SaveToXml(string key, string fileName)
         {
-            lock (Datasets)
+            lock (DatasetManagers)
             {
 
                 string saveToPath = fileName;
-                var ds = Datasets.FirstOrDefault(p => p.Category == key)?.Dataset;
+                var ds = DatasetManagers.FirstOrDefault(p => p.Category == key)?.Dataset;
                 if (ds != null)
                 {
                     ds.WriteXml(saveToPath, XmlWriteMode.WriteSchema);

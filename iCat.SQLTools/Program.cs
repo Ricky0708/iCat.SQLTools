@@ -73,7 +73,7 @@ namespace iCat.SQLTools
                         var result = new DBProvider();
                         foreach (var setting in config.ConnectionSettings)
                         {
-                            result.AddOrUpdateDbClient(setting.ConnectionType, setting.ConnectionString);
+                            result.AddOrUpdateDbClient(setting.Key, setting.ConnectionType, setting.ConnectionString);
                         }
                         return result;
                     });

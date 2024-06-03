@@ -8,6 +8,9 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<PublishSingleFile>true</PublishSingleFile>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<AssemblyVersion>2.0.1</AssemblyVersion>
+		<FileVersion>2.0.2</FileVersion>
+		<Version>2.0.3</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -12,6 +12,7 @@ using NPOI.OpenXmlFormats.Wordprocessing;
 using NPOI.OpenXmlFormats;
 using NPOI.SS.Formula.PTG;
 using iCat.SQLTools.Repositories.Enums;
+using static Mysqlx.Expect.Open.Types.Condition.Types;
 
 namespace iCat.SQLTools.Repositories.Implements
 {
@@ -27,18 +28,18 @@ namespace iCat.SQLTools.Repositories.Implements
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
         }
 
-        public DataSet GetDatasetFromSQL()
+        public DataSet GetDatasetFromSQL(string key)
         {
             var ds = new DataSet();
             try
             {
-                var tables = GetTables();
-                var columns = GetColumns();
-                var fks = GetFks();
-                var indexes = GetIndexes();
-                var spsAndFuncs = GetSpsAndFuncs();
-                var inputParams = GetInputParams();
-                var outputParams = GetOutputParams(spsAndFuncs);
+                var tables = GetTables(key);
+                var columns = GetColumns(key);
+                var fks = GetFks(key);
+                var indexes = GetIndexes(key);
+                var spsAndFuncs = GetSpsAndFuncs(key);
+                var inputParams = GetInputParams(key);
+                var outputParams = GetOutputParams(key, spsAndFuncs);
                 ds.Tables.AddRange(new[] { tables, columns, fks, indexes, spsAndFuncs, inputParams, outputParams });
 
                 return ds;
@@ -50,7 +51,7 @@ namespace iCat.SQLTools.Repositories.Implements
 
         }
 
-        public DataTable GetTables()
+        public DataTable GetTables(string key)
         {
             var script = @"
 							   SELECT 
@@ -64,10 +65,10 @@ namespace iCat.SQLTools.Repositories.Implements
 								AND prop.name = 'MS_Description' 
 							  WHERE tbl.table_type = 'base table' OR tbl.table_type = 'VIEW' 
 							  ORDER BY TableName";
-            return ExecuteGetDataTable(script, Consts.strTables);
+            return ExecuteGetDataTable(key, script, Consts.strTables);
         }
 
-        public DataTable GetColumns()
+        public DataTable GetColumns(string key)
         {
             var script = @"SELECT
 								a.TABLE_NAME                as TableName,
@@ -120,10 +121,10 @@ namespace iCat.SQLTools.Repositories.Implements
 								LEFT JOIN INFORMATION_SCHEMA.COLUMNS b ON (a.TABLE_NAME=b.TABLE_NAME)
 								 ORDER BY
 								a.TABLE_NAME, ordinal_position";
-            return ExecuteGetDataTable(script, Consts.strColumns);
+            return ExecuteGetDataTable(key, script, Consts.strColumns);
         }
 
-        public DataTable GetFks()
+        public DataTable GetFks(string key)
         {
             string script = @"SELECT  
 								fk.name,
@@ -139,36 +140,36 @@ namespace iCat.SQLTools.Repositories.Implements
 								sys.columns c1 ON fkc.parent_column_id = c1.column_id AND fkc.parent_object_id = c1.object_id
 							  INNER JOIN
 								sys.columns c2 ON fkc.referenced_column_id = c2.column_id AND fkc.referenced_object_id = c2.object_id";
-            return ExecuteGetDataTable(script, Consts.strFKs);
+            return ExecuteGetDataTable(key, script, Consts.strFKs);
         }
 
-        public DataTable GetIndexes()
+        public DataTable GetIndexes(string key)
         {
             var script = @"SELECT  ix.name as IndexName, t.name AS TableName, c.name AS ColName
 											FROM    sys.indexes ix
 													INNER JOIN sys.tables t ON ix.object_id = t.object_id
 													INNER JOIN sys.index_columns ic ON ic.index_id = ix.index_id AND ic.object_id = ix.object_id
 													INNER JOIN sys.columns c ON c.object_id = ix.object_id AND c.column_id = ic.column_id";
-            return ExecuteGetDataTable(script, Consts.strIndexes);
+            return ExecuteGetDataTable(key, script, Consts.strIndexes);
         }
 
-        public DataTable GetSpsAndFuncs()
+        public DataTable GetSpsAndFuncs(string key)
         {
             var script = @"   SELECT SPECIFIC_NAME, ROUTINE_DEFINITION, ROUTINE_TYPE, DATA_TYPE 
 												FROM information_schema.routines 
 												ORDER BY SPECIFIC_NAME";
-            return ExecuteGetDataTable(script, Consts.strSpsAndFuncs);
+            return ExecuteGetDataTable(key, script, Consts.strSpsAndFuncs);
         }
 
-        public DataTable GetInputParams()
+        public DataTable GetInputParams(string key)
         {
             string script = @"SELECT A.SPECIFIC_NAME, A.Parameter_Name, A.Data_Type, A.Character_Maximum_Length, A.Parameter_Mode 
 										   FROM information_schema.PARAMETERS A
 										   INNER JOIN information_schema.routines B ON A.SPECIFIC_NAME = B.SPECIFIC_NAME AND (B.ROUTINE_TYPE = 'PROCEDURE' OR B.ROUTINE_TYPE = 'FUNCTION')";
-            return ExecuteGetDataTable(script, Consts.strInputParams);
+            return ExecuteGetDataTable(key, script, Consts.strInputParams);
         }
 
-        public DataTable GetOutputParams(DataTable spAndFuncTable)
+        public DataTable GetOutputParams(string key, DataTable spAndFuncTable)
         {
             string script = GeneratScriptGetOutPutParam("") + " UNION ALL ";
             foreach (DataRow dr in spAndFuncTable.Rows)
@@ -176,13 +177,12 @@ namespace iCat.SQLTools.Repositories.Implements
                 script += GeneratScriptGetOutPutParam(dr["SPECIFIC_NAME"].ToString()!) + " UNION ALL ";
             }
             script = script.Substring(0, script.Length - 11);
-            return ExecuteGetDataTable(script, Consts.strOutputParams);
+            return ExecuteGetDataTable(key, script, Consts.strOutputParams);
         }
 
-        public bool UpdateDescription(ref DataSet ds)
+        public bool UpdateDescription(string key, ref DataSet ds)
         {
             bool result = false;
-
 
             DataView dv = default;
             StringBuilder sbSQL = new StringBuilder();
@@ -192,9 +192,9 @@ namespace iCat.SQLTools.Repositories.Implements
                 if (dv != null && dv.Count > 0)
                 {
                     dv.RowFilter = "TableType = '" + "VIEW" + "'";
-                    sbSQL.Append(GeneratScriptUpdate(dv, "VIEW"));
+                    sbSQL.Append(GeneratScriptUpdate(key, dv, "VIEW"));
                     dv.RowFilter = "TableType = '" + "BASE TABLE" + "'";
-                    sbSQL.Append(GeneratScriptUpdate(dv, "TABLE"));
+                    sbSQL.Append(GeneratScriptUpdate(key, dv, "TABLE"));
                 }
             }
             if (ds.Tables[Consts.strColumns].GetChanges(DataRowState.Modified) != null)
@@ -202,13 +202,13 @@ namespace iCat.SQLTools.Repositories.Implements
                 dv = ds.Tables[Consts.strColumns].GetChanges(DataRowState.Modified).DefaultView;
                 if (dv != null && dv.Count > 0)
                 {
-                    sbSQL.Append(GeneratScriptUpdate(dv, "COLUMN"));
+                    sbSQL.Append(GeneratScriptUpdate(key, dv, "COLUMN"));
                 }
             }
 
             if (sbSQL.Length > 0)
             {
-                _factory.GetConnection(ConnectionType.ToString()).ExecuteNonQuery(sbSQL.ToString(), null);
+                _factory.GetConnection(key).ExecuteNonQuery(sbSQL.ToString(), null);
                 ds.AcceptChanges();
                 result = true;
             }
@@ -226,7 +226,7 @@ namespace iCat.SQLTools.Repositories.Implements
             return script;
         }
 
-        private string GeneratScriptUpdate(DataView dv, string target)
+        private string GeneratScriptUpdate(string key, DataView dv, string target)
         {
 
             SqlCommand cmd = new SqlCommand();
@@ -272,7 +272,7 @@ namespace iCat.SQLTools.Repositories.Implements
                 string tableName = "";
 
                 sqlParameters.Add(new SqlParameter("@objName", target == "COLUMN" ? dv[i]["ColName"].ToString() : dv[i]["TableName"].ToString()));
-                execFunName = _factory.GetConnection(ConnectionType.ToString()).ExecuteScalar(cmd.CommandText, sqlParameters.ToArray()) != null ? "EXECUTE sp_updateextendedproperty N'MS_Description', N'" : "EXECUTE sp_addextendedproperty N'MS_Description', N'";
+                execFunName = _factory.GetConnection(key).ExecuteScalar(cmd.CommandText, sqlParameters.ToArray()) != null ? "EXECUTE sp_updateextendedproperty N'MS_Description', N'" : "EXECUTE sp_addextendedproperty N'MS_Description', N'";
                 description = target == "COLUMN" ? dv[i]["ColDescription"].ToString().Replace("'", "") : dv[i]["TableDescription"].ToString().Replace("'", "");
                 tableName = dv[i]["TableName"].ToString().Replace("'", "");
 
@@ -296,20 +296,20 @@ namespace iCat.SQLTools.Repositories.Implements
 
         #endregion
 
-        public DataTable ExecuteGetDataTable(string script, string dtName)
+        public DataTable ExecuteGetDataTable(string key, string script, string dtName)
         {
             var dt = new DataTable(dtName);
-            var conn = (SqlConnection)_factory.GetConnection(ConnectionType.ToString()).Connection;
+            var conn = (SqlConnection)_factory.GetConnection(key).Connection;
             var da = new SqlDataAdapter(script, conn);
             da.SelectCommand.CommandTimeout = 999;
             da.Fill(dt);
             return dt;
         }
 
-        public DataTable GetTableSchema(string script, string dtName)
+        public DataTable GetTableSchema(string key, string script, string dtName)
         {
             var dt = new DataTable(dtName);
-            var conn = (SqlConnection)_factory.GetConnection(ConnectionType.ToString()).Connection;
+            var conn = (SqlConnection)_factory.GetConnection(key).Connection;
             var da = new SqlDataAdapter(script, conn);
             da.SelectCommand.CommandTimeout = 999;
             da.FillSchema(dt, SchemaType.Source);

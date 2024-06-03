@@ -30,11 +30,15 @@
         {
             splitContainer1 = new SplitContainer();
             panel1 = new Panel();
+            dgvDatasets = new DataGridView();
             tabControl1 = new TabControl();
+            dCategory = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvDatasets).BeginInit();
             SuspendLayout();
             // 
             // splitContainer1
@@ -58,11 +62,25 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(dgvDatasets);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(160, 450);
             panel1.TabIndex = 0;
+            // 
+            // dgvDatasets
+            // 
+            dgvDatasets.AllowUserToAddRows = false;
+            dgvDatasets.AllowUserToDeleteRows = false;
+            dgvDatasets.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDatasets.Columns.AddRange(new DataGridViewColumn[] { dCategory });
+            dgvDatasets.Dock = DockStyle.Fill;
+            dgvDatasets.Location = new Point(0, 0);
+            dgvDatasets.Name = "dgvDatasets";
+            dgvDatasets.ReadOnly = true;
+            dgvDatasets.Size = new Size(160, 450);
+            dgvDatasets.TabIndex = 0;
             // 
             // tabControl1
             // 
@@ -72,6 +90,14 @@
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(637, 450);
             tabControl1.TabIndex = 0;
+            // 
+            // dCategory
+            // 
+            dCategory.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dCategory.DataPropertyName = "Category";
+            dCategory.HeaderText = "Category";
+            dCategory.Name = "dCategory";
+            dCategory.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -90,6 +116,8 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvDatasets).EndInit();
             ResumeLayout(false);
         }
 
@@ -98,5 +126,7 @@
         private SplitContainer splitContainer1;
         private Panel panel1;
         private TabControl tabControl1;
+        private DataGridView dgvDatasets;
+        private DataGridViewTextBoxColumn dCategory;
     }
 }

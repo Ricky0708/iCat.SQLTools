@@ -10,6 +10,6 @@ namespace iCat.SQLTools.Services.Interfaces
 {
     public interface IDBProvider : iCat.DB.Client.Factory.Interfaces.IDBClientProvider
     {
-        void AddOrUpdateDbClient(ConnectionType connectionType, string connectionString);
+        void AddOrUpdateDbClient(string key, ConnectionType connectionType, string connectionString);
     }
 }

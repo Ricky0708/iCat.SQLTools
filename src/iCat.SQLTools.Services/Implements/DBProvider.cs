@@ -27,43 +27,32 @@ namespace iCat.SQLTools.Services.Implements
         {
             lock (_dbClients)
             {
-                return _dbClients.First().Value;
+                return _dbClients.First(p => p.Key == key).Value;
             }
         }
 
-        public void AddOrUpdateDbClient(ConnectionType connectionType, string connectionString)
+        public void AddOrUpdateDbClient(string key, ConnectionType connectionType, string connectionString)
         {
             lock (_dbClients)
             {
-                if (_dbClients.TryGetValue(connectionType.ToString(), out var dbClient))
+                if (_dbClients.TryGetValue(key, out var dbClient))
                 {
 
-                    switch (connectionType)
+                    dbClient = connectionType switch
                     {
-                        case ConnectionType.MSSQL:
-                            dbClient = () => new DBClient(new SqlConnection(connectionString));
-                            break;
-                        case ConnectionType.MySQL:
-                            dbClient = () => new DBClient(new MySqlConnection(connectionString));
-                            break;
-                        default:
-                            throw new NotImplementedException();
-                    }
+                        ConnectionType.MSSQL => () => new DBClient(new SqlConnection(connectionString)),
+                        ConnectionType.MySQL => () => new DBClient(new MySqlConnection(connectionString)),
+                        _ => throw new NotImplementedException(),
+                    };
                 }
                 else
                 {
-                    switch (connectionType)
+                    _dbClients.Add(key, connectionType switch
                     {
-                        case ConnectionType.MSSQL:
-                            _dbClients.Add(connectionType.ToString(), () => new DBClient(new SqlConnection(connectionString)));
-                            break;
-                        case ConnectionType.MySQL:
-                            _dbClients.Add(connectionType.ToString(), () => new DBClient(new MySqlConnection(connectionString)));
-                            break;
-                        default:
-                            throw new NotImplementedException();
-                    }
-
+                        ConnectionType.MSSQL => () => new DBClient(new SqlConnection(connectionString)),
+                        ConnectionType.MySQL => () => new DBClient(new MySqlConnection(connectionString)),
+                        _ => throw new NotImplementedException(),
+                    });
                 }
             }
         }

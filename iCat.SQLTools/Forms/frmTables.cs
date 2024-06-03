@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -49,7 +50,7 @@ namespace iCat.SQLTools.Forms
             dgvTables.AutoGenerateColumns = false;
             dgvFK.AutoGenerateColumns = true;
             dgvIndexes.AutoGenerateColumns = false;
-
+            
             txtTableFilter.KeyDown += (sender, e) =>
             {
                 if (e.KeyCode == Keys.Enter)
@@ -73,10 +74,9 @@ namespace iCat.SQLTools.Forms
             _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
             _datasetManagerFactory = datasetManagerFactory ?? throw new ArgumentNullException(nameof(datasetManagerFactory));
 
-
             //var a = new BindingSource() { DataSource = _config.ConnectionSettings };
             bmSetting = (CurrencyManager)this.BindingContext[_config.ConnectionSettings];
-            
+
             cboSettingKey.DataSource = _config.ConnectionSettings;
             cboSettingKey.DisplayMember = "Key";
             cboSettingKey.ValueMember = "Key";
@@ -91,13 +91,14 @@ namespace iCat.SQLTools.Forms
             {
                 var service = _provider.GetRequiredService<ISchemaService>();
                 var datasetManager = new DatasetManager();
+                var key = _connectionSetting!.Key;
                 switch (_connectionSetting!.ConnectionType)
                 {
                     case ConnectionType.MSSQL: datasetManager.DataSource = Shareds.Enums.DataSource.MSSQL; break;
                     case ConnectionType.MySQL: datasetManager.DataSource = Shareds.Enums.DataSource.MySQL; break;
                     default: throw new Exception("Unknow dbType");
                 }
-                datasetManager.Dataset = service.GetDatasetFromDB(_connectionSetting.ConnectionType);
+                datasetManager.Dataset = service.GetDatasetFromDB(_connectionSetting.Key, _connectionSetting.ConnectionType);
                 _datasetManagerFactory.AddDatasetManager(_connectionSetting.Key, datasetManager.DataSource, datasetManager.Dataset);
                 BindFrm();
                 tabControl1.SelectedTab = tabTablesAndCols;
@@ -120,12 +121,12 @@ namespace iCat.SQLTools.Forms
             if (datasetManager.Dataset != null)
             {
                 var service = _provider.GetRequiredService<ISchemaService>();
-                var conn = _provider.GetRequiredService<IUnitOfWorkFactory>().GetUnitOfWork(_connectionSetting.ConnectionType.ToString());
+                var conn = _provider.GetRequiredService<IUnitOfWorkFactory>().GetUnitOfWork(_connectionSetting.Key);
                 try
                 {
                     conn.Open();
                     conn.BeginTransaction();
-                    if (!service.UpdateDescription(_connectionSetting.ConnectionType, datasetManager.Dataset))
+                    if (!service.UpdateDescription(_connectionSetting.Key, _connectionSetting.ConnectionType, datasetManager.Dataset))
                     {
                         MessageBox.Show("Fail!");
                     }
@@ -176,12 +177,12 @@ namespace iCat.SQLTools.Forms
                             }
                         }
                     }
-                    var conn = _provider.GetRequiredService<IUnitOfWorkFactory>().GetUnitOfWork(_connectionSetting.ConnectionType.ToString());
+                    var conn = _provider.GetRequiredService<IUnitOfWorkFactory>().GetUnitOfWork(_connectionSetting.Key);
                     try
                     {
                         conn.Open();
                         conn.BeginTransaction();
-                        if (!service.UpdateDescription(_connectionSetting.ConnectionType, datasetManager.Dataset))
+                        if (!service.UpdateDescription(_connectionSetting.Key, _connectionSetting.ConnectionType, datasetManager.Dataset))
                         {
                             string msg = "\r\n\r\n";
                             msg += "If data access obj is empty,  try to follow these step :\r\n\r\n";
