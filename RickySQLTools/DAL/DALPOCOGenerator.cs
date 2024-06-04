@@ -16,20 +16,22 @@ namespace RickySQLTools.DAL
         ShareUtility objUti = new ShareUtility();
         public bool CreateDataSet()
         {
-            DAL.DALTables objDAL = new DAL.DALTables();
-            _strConn = base.connString; //save the current db connection
-            dao = new DAO(_strConn);
+            //DAL.DALTables objDAL = new DAL.DALTables();
+            //_strConn = base.connString; //save the current db connection
+            //dao = new DAO(_strConn);
 
-            if (objDAL.GetDatasetFromSQL())
-            {
-                dalDataset = objDAL.dalDataset;
-                return true;
-            }
-            else
-            {
-                ErrMsg = objDAL.ErrMsg;
-                return false;
-            }
+            //if (objDAL.GetDatasetFromSQL())
+            //{
+            //    _dalDataset = objDAL._dalDataset;
+            //    return true;
+            //}
+            //else
+            //{
+            //    ErrMsg = objDAL.ErrMsg;
+            //    return false;
+            //}
+            if (DALBase._dalDataset == null) return false;
+            return true;
         }
 
         public string GenerateFromScript(string className, string script)
@@ -178,7 +180,7 @@ namespace RickySQLTools.DAL
         private string GetAttrib(DataColumn col)
         {
             string result = "";
-            DataTable dtColumnsTable = dalDataset.Tables[strColumns];
+            DataTable dtColumnsTable = _dalDataset.Tables[strColumns];
             var colInfo = GetColumnInfo(col);
 
             if (colInfo != null)
@@ -198,7 +200,7 @@ namespace RickySQLTools.DAL
         private string GetSummary(DataColumn col)
         {
             string result = "";
-            DataTable dtColumnsTable = dalDataset.Tables[strColumns];
+            DataTable dtColumnsTable = _dalDataset.Tables[strColumns];
             var colInfo = GetColumnInfo(col);
 
             if (colInfo != null)
@@ -212,7 +214,7 @@ namespace RickySQLTools.DAL
 
         private DataRow GetColumnInfo(DataColumn col)
         {
-            DataTable dtColumnsTable = dalDataset.Tables[strColumns];
+            DataTable dtColumnsTable = _dalDataset.Tables[strColumns];
             var colInfo = (from p in dtColumnsTable.AsEnumerable()
                            where p.Field<string>("TableName") == col.Table.TableName &&
                                p.Field<string>("ColName") == col.ColumnName

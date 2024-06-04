@@ -19,7 +19,7 @@ namespace RickySQLTools.DAL
         protected const string strSpsAndFuncs = "SpsAndFuncs";
         protected const string strInputParams = "InputParams";
         protected const string strOutputParams = "OutputParams";
-        public DataSet dalDataset;
+        public static DataSet _dalDataset;
 
         private string _connString;
 

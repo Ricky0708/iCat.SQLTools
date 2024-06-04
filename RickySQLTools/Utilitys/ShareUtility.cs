@@ -60,6 +60,7 @@ namespace RickySQLTools.Utilitys
                 case "DATETIME":
                     result = "DateTime";
                     break;
+                case "INTEGER":
                 case "INT32":
                     result = "int";
                     break;

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NPOI.XSSF.UserModel;
 using System.IO;
 using System.Data;
 using NPOI.SS.UserModel;
-using NPOI.HSSF.UserModel;
-using System.Drawing;
 using NPOI.SS.Util;
 
 namespace RickySQLTools.DAL

@@ -1,9 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RickySQLTools", "RickySQLTools\RickySQLTools.csproj", "{95C24643-6FB5-4968-A18E-A2A4EE5BA2D5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iCat.SQLTools", "iCat.SQLTools\iCat.SQLTools.csproj", "{E93DB26E-AB02-4C1A-B009-4D0A0AF285E2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BB53AC00-6E1B-4E5E-A83E-147641F5AAF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iCat.SQLTools.Repositories", "src\iCat.SQLTools.Repositories\iCat.SQLTools.Repositories.csproj", "{BAB035BB-DFFA-4C09-812B-FE15EBA1DBC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iCat.SQLTools.Services", "src\iCat.SQLTools.Services\iCat.SQLTools.Services.csproj", "{0B395867-689C-4430-A304-201CC6150968}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iCat.SQLTools.Shareds", "src\iCat.SQLTools.Shareds\iCat.SQLTools.Shareds.csproj", "{0EB9584A-7523-4B3A-856E-E6E06F299622}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +25,32 @@ Global
 		{95C24643-6FB5-4968-A18E-A2A4EE5BA2D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95C24643-6FB5-4968-A18E-A2A4EE5BA2D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95C24643-6FB5-4968-A18E-A2A4EE5BA2D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E93DB26E-AB02-4C1A-B009-4D0A0AF285E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E93DB26E-AB02-4C1A-B009-4D0A0AF285E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E93DB26E-AB02-4C1A-B009-4D0A0AF285E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E93DB26E-AB02-4C1A-B009-4D0A0AF285E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAB035BB-DFFA-4C09-812B-FE15EBA1DBC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAB035BB-DFFA-4C09-812B-FE15EBA1DBC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAB035BB-DFFA-4C09-812B-FE15EBA1DBC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAB035BB-DFFA-4C09-812B-FE15EBA1DBC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B395867-689C-4430-A304-201CC6150968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B395867-689C-4430-A304-201CC6150968}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B395867-689C-4430-A304-201CC6150968}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B395867-689C-4430-A304-201CC6150968}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EB9584A-7523-4B3A-856E-E6E06F299622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EB9584A-7523-4B3A-856E-E6E06F299622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EB9584A-7523-4B3A-856E-E6E06F299622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EB9584A-7523-4B3A-856E-E6E06F299622}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BAB035BB-DFFA-4C09-812B-FE15EBA1DBC4} = {BB53AC00-6E1B-4E5E-A83E-147641F5AAF8}
+		{0B395867-689C-4430-A304-201CC6150968} = {BB53AC00-6E1B-4E5E-A83E-147641F5AAF8}
+		{0EB9584A-7523-4B3A-856E-E6E06F299622} = {BB53AC00-6E1B-4E5E-A83E-147641F5AAF8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {931BDA13-AB8B-457F-99CE-7D06C56C31BC}
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,5 @@
-﻿using RickySQLTools.Utilitys;
+﻿using RickySQLTools.DAL;
+using RickySQLTools.Utilitys;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,7 @@ namespace RickySQLTools
     public partial class frmPOCOGenerator : frmBase
     {
         DAL.DALPOCOGenerator objDAL = new DAL.DALPOCOGenerator();
+        DAL.DALClassModelGenerator objDAL2 = new DAL.DALClassModelGenerator();
         ShareUtility objUti = new ShareUtility();
         DataSet ds;
         DataTable dtScript;
@@ -43,11 +45,11 @@ namespace RickySQLTools
 
         private void frmPOCOGenrator_Load(object sender, EventArgs e)
         {
-
+            objDAL2.CreateDataSet();
             if (objDAL.CreateDataSet())
             {
                 dgvTables.Focus();
-                ds = objDAL.dalDataset;
+                ds = DALBase._dalDataset;
                 dgvTables.DataSource = ds;
                 dgvTables.DataMember = "Tables";
                 dgvSpsAndFuncs.DataSource = ds;
@@ -85,10 +87,11 @@ namespace RickySQLTools
                         txtClassName.Focus();
                         MessageBox.Show("Please type in a class name..");
                     }
-                    txtResult.Text = objDAL.GenerateFromScript(txtClassName.Text, txtScript.Text);
+                    var b = objDAL2.GenerateFromScript(txtClassName.Text, txtScript.Text);
+                    txtResult.Text = b;// objDAL.GenerateFromScript(txtClassName.Text, txtScript.Text);
                     if (txtResult.Text == "")
                     {
-                        MessageBox.Show(objDAL.ErrMsg);
+                        MessageBox.Show(objDAL2.ErrMsg);
                     }
                     break;
                 case "btnFromDB":
