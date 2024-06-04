@@ -14,6 +14,7 @@ using System.Xml;
 using ZstdSharp.Unsafe;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data.Common;
+using iCat.SQLTools.Repositories.Enums;
 
 namespace iCat.SQLTools.Services.Managers
 {
@@ -35,7 +36,7 @@ namespace iCat.SQLTools.Services.Managers
 
         }
 
-        public DatasetManager? AddDatasetManager(string category, DataSource dataSource, DataSet ds)
+        public DatasetManager? AddDatasetManager(string category, DataSource dataSource, DataSet ds, string @using, string @namespace, string classSuffix)
         {
             lock (DatasetManagers)
             {
@@ -46,7 +47,10 @@ namespace iCat.SQLTools.Services.Managers
                     {
                         Category = category,
                         DataSource = dataSource,
-                        Dataset = ds
+                        Dataset = ds,
+                        ClassSuffix = classSuffix,
+                        Namespace = @namespace,
+                        Using = @using,
                     });
                 }
                 else
@@ -55,7 +59,10 @@ namespace iCat.SQLTools.Services.Managers
                     {
                         Category = category,
                         DataSource = dataSource,
-                        Dataset = ds
+                        Dataset = ds,
+                        ClassSuffix = classSuffix,
+                        Namespace = @namespace,
+                        Using = @using,
                     };
                 }
 
@@ -69,9 +76,18 @@ namespace iCat.SQLTools.Services.Managers
 
     public class DatasetManager
     {
-        public string? Category { get; set; }
+        public string Category { get; set; } = "";
         public DataSet? Dataset { get; set; }
         public DataSource DataSource { get; set; }
+        public ConnectionType? ConnectionType => DataSource switch
+        {
+            Shareds.Enums.DataSource.MSSQL => iCat.SQLTools.Repositories.Enums.ConnectionType.MSSQL,
+            Shareds.Enums.DataSource.MySQL => iCat.SQLTools.Repositories.Enums.ConnectionType.MySQL,
+            _ => null,
+        };
+        public string Using { get; set; } = "";
+        public string Namespace { get; set; } = "";
+        public string ClassSuffix { get; set; } = "";
         public bool SaveToXml(string fileName)
         {
 

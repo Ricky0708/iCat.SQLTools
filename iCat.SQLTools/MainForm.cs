@@ -119,16 +119,16 @@ namespace iCat.SQLTools
             dlg.OnLoadData += (setting) =>
             {
                 var service = _provider.GetRequiredService<ISchemaService>();
-                var datasetManager = new DatasetManager();
-                var key = setting!.Key;
-                switch (setting!.ConnectionType)
-                {
-                    case Repositories.Enums.ConnectionType.MSSQL: datasetManager.DataSource = Shareds.Enums.DataSource.MSSQL; break;
-                    case Repositories.Enums.ConnectionType.MySQL: datasetManager.DataSource = Shareds.Enums.DataSource.MySQL; break;
-                    default: throw new Exception("Unknow dbType");
-                }
-                datasetManager.Dataset = service.GetDatasetFromDB(setting.Key, setting.ConnectionType);
-                _datasetManagerFactory.AddDatasetManager(setting.Key, datasetManager.DataSource, datasetManager.Dataset);
+                _datasetManagerFactory.AddDatasetManager(
+                    setting.Key,
+                    setting!.ConnectionType switch
+                    {
+                        Repositories.Enums.ConnectionType.MSSQL => Shareds.Enums.DataSource.MSSQL,
+                        Repositories.Enums.ConnectionType.MySQL => Shareds.Enums.DataSource.MySQL,
+                        _ => throw new ArgumentException("Unkno Connection Type.")
+                    },
+                    service.GetDatasetFromDB(setting.Key, setting.ConnectionType),
+                    setting.Using, setting.Namespace, setting.ClassSuffix);
                 _bmDatasetManager.Refresh();
                 return true;
             };
@@ -153,10 +153,11 @@ namespace iCat.SQLTools
                     var xml = sr.ReadToEnd();
                     var service = _provider.GetRequiredService<ISchemaService>();
 
-                    var datasetManager = new DatasetManager();
-                    datasetManager.Dataset = service.GetDatasetFromXml(xml);
-                    datasetManager.DataSource = Shareds.Enums.DataSource.XML;
-                    _datasetManagerFactory.AddDatasetManager(fileName, datasetManager.DataSource, datasetManager.Dataset);
+                    _datasetManagerFactory.AddDatasetManager(
+                        fileName,
+                        Shareds.Enums.DataSource.XML,
+                        service.GetDatasetFromXml(xml),
+                        "", "", "");
                     _bmDatasetManager.Refresh();
                 }
             }
