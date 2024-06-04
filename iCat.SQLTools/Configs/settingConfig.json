@@ -1,0 +1,21 @@
+{
+  "connectionSettings": [
+    {
+      "key": "MgReport",
+      "connectionType": 2,
+      "connectionString": "server=192.168.51.233;port=2883;uid=root@live_user_qat#test;pwd=livePassWd123!#;DataBase=MgReport;max pool size=5000;",
+      "namespace": "",
+      "using": "",
+      "classSuffix": ""
+    },
+    {
+      "key": "MgPlatform",
+      "connectionType": 2,
+      "connectionString": "server=192.168.51.233;port=2883;uid=root@live_user_qat#test;pwd=livePassWd123!#;DataBase=MgPlatform;max pool size=5000;",
+      "namespace": "",
+      "using": "",
+      "classSuffix": ""
+    }
+  ]
+
+}

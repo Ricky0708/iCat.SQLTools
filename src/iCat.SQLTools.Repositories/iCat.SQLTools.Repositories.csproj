@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\iCat.SQLTools.Shareds\iCat.SQLTools.Shareds.csproj" />
+		<PackageReference Include="iCat.DB.Client" Version="2.1.2-alpha" />
+		<PackageReference Include="iCat.DB.Client.Factory" Version="2.2.2-alpha" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+		<PackageReference Include="MySql.Data" Version="8.4.0" />
+	</ItemGroup>
+
+</Project>

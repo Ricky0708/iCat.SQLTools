@@ -15,32 +15,34 @@ namespace RickySQLTools.DAL
 
         public bool CreateDataSet()
         {
-            dao = new DAO(_strConn);
-            DAL.DALTables objDAL = new DAL.DALTables();
-            _strConn = base.connString; //save the current db connection
+            //dao = new DAO(_strConn);
+            //DAL.DALTables objDAL = new DAL.DALTables();
+            //_strConn = base.connString; //save the current db connection
 
-            if (objDAL.GetDatasetFromSQL())
-            {
-                dalDataset = objDAL.dalDataset;
-                dalDataset.Tables[strTables].Columns.Add(
-                    new DataColumn("IsMakeFakeData", typeof(bool)));
+            //if (objDAL.GetDatasetFromSQL())
+            //{
+            //    _dalDataset = objDAL._dalDataset;
+            //    _dalDataset.Tables[strTables].Columns.Add(
+            //        new DataColumn("IsMakeFakeData", typeof(bool)));
 
-                foreach (DataRow dr in dalDataset.Tables[strTables].Rows)
-                {
-                    dr["IsMakeFakeData"] = false;
-                    if (dr["TableType"].ToString() == "VIEW")
-                    {
-                        dr.Delete();
-                    }
-                }
-                dalDataset.AcceptChanges();
-                return true;
-            }
-            else
-            {
-                ErrMsg = objDAL.ErrMsg;
-                return false;
-            }
+            //    foreach (DataRow dr in _dalDataset.Tables[strTables].Rows)
+            //    {
+            //        dr["IsMakeFakeData"] = false;
+            //        if (dr["TableType"].ToString() == "VIEW")
+            //        {
+            //            dr.Delete();
+            //        }
+            //    }
+            //    _dalDataset.AcceptChanges();
+            //    return true;
+            //}
+            //else
+            //{
+            //    ErrMsg = objDAL.ErrMsg;
+            //    return false;
+            //}
+            if (DALBase._dalDataset == null) return false;
+            return true;
         }
 
         public bool MakeFakeData(DataSet ds)
@@ -81,7 +83,7 @@ namespace RickySQLTools.DAL
 
             }
 
-            
+
             // Create dataset for insert
             if (result)
             {
@@ -139,9 +141,9 @@ namespace RickySQLTools.DAL
         private IEnumerable<DataRow> GetColTables(DataTable dt, IEnumerable<string> tables)
         {
             var colTables = (from row in dt.AsEnumerable()
-                       from rowB in tables
-                       where row.Field<string>("TableName").ToUpper() == rowB.ToUpper()
-                       select row);
+                             from rowB in tables
+                             where row.Field<string>("TableName").ToUpper() == rowB.ToUpper()
+                             select row);
             return colTables;
         }
 
