@@ -44,6 +44,8 @@
             panel1 = new Panel();
             dgvSettings = new DataGridView();
             dKey = new DataGridViewTextBoxColumn();
+            lblSeq = new Label();
+            txtSeq = new TextBox();
             groupBox1.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSettings).BeginInit();
@@ -122,6 +124,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(lblSeq);
+            groupBox1.Controls.Add(txtSeq);
             groupBox1.Controls.Add(btnLoadData);
             groupBox1.Controls.Add(btnDelete);
             groupBox1.Controls.Add(btnAddNew);
@@ -220,6 +224,23 @@
             dKey.Name = "dKey";
             dKey.ReadOnly = true;
             // 
+            // lblSeq
+            // 
+            lblSeq.AutoSize = true;
+            lblSeq.Location = new Point(369, 119);
+            lblSeq.Margin = new Padding(2, 0, 2, 0);
+            lblSeq.Name = "lblSeq";
+            lblSeq.Size = new Size(28, 15);
+            lblSeq.TabIndex = 14;
+            lblSeq.Text = "SEQ";
+            // 
+            // txtSeq
+            // 
+            txtSeq.Location = new Point(402, 116);
+            txtSeq.Name = "txtSeq";
+            txtSeq.Size = new Size(105, 23);
+            txtSeq.TabIndex = 13;
+            // 
             // frmConfigSettingDlg
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -258,5 +279,7 @@
         private Button btnAddNew;
         private Button btnDelete;
         private Button btnLoadData;
+        private Label lblSeq;
+        private TextBox txtSeq;
     }
 }

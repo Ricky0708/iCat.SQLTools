@@ -23,6 +23,7 @@ namespace iCat.SQLTools.Models
         public required string Key { get; set; }
         public required ConnectionType ConnectionType { get; set; }
         public required string ConnectionString { get; set; }
+        public required int SEQ { get; set; }
 
     }
 }

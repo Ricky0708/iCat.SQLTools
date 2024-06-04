@@ -65,7 +65,6 @@ namespace iCat.SQLTools.Services.Managers
                         Using = @using,
                     };
                 }
-
             }
             var dm = DatasetManagers.FirstOrDefault(p => p.Category == category);
             return dm;

@@ -36,7 +36,7 @@ namespace iCat.SQLTools.Forms
         {
             InitializeComponent();
             _config = config ?? throw new ArgumentNullException(nameof(config));
-
+            config.ConnectionSettings = config.ConnectionSettings.OrderBy(p => p.SEQ).ToList();
             dgvSettings.AutoGenerateColumns = false;
             dgvSettings.DataSource = config.ConnectionSettings;
             _bmSetting = (CurrencyManager)this.BindingContext[config.ConnectionSettings];
@@ -46,6 +46,7 @@ namespace iCat.SQLTools.Forms
             this.txtConnectionString.DataBindings.Add(new Binding("Text", config.ConnectionSettings, "ConnectionString"));
             this.txtNamespace.DataBindings.Add(new Binding("Text", config.ConnectionSettings, "Namespace"));
             this.txtUsing.DataBindings.Add(new Binding("Text", config.ConnectionSettings, "Using"));
+            this.txtSeq.DataBindings.Add(new Binding("Text", config.ConnectionSettings, "SEQ"));
             //txtConnectionString.Text = config.ConnectionSetting.ConnectionString;
             //txtUsing.Text = config.Using;
             //txtNamespace.Text = config.Namespace;
@@ -85,12 +86,13 @@ namespace iCat.SQLTools.Forms
         {
             _config.ConnectionSettings.Add(new ConnectionSetting
             {
-                ClassSuffix = "Suffix",
-                ConnectionString = "Connection",
+                ClassSuffix = "",
+                ConnectionString = "",
                 ConnectionType = ConnectionType.MSSQL,
-                Key = "Key",
-                Namespace = "Namespace",
-                Using = "Using"
+                Key = "",
+                Namespace = "",
+                Using = "",
+                SEQ = _config.ConnectionSettings.OrderBy(p => p.SEQ).Last().SEQ + 1
             });
             _bmSetting.Refresh();
             _bmSetting.Position = _config.ConnectionSettings.Count() - 1;
