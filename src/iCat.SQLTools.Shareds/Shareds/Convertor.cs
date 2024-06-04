@@ -92,6 +92,9 @@ namespace iCat.SQLTools.Shareds.Shareds
                 case "BIT":
                     result = "DbType.Boolean";
                     break;
+                case "SMALLINT":
+                    result = "DbType.Int16";
+                    break;
                 case "INT":
                     result = "DbType.Int32";
                     break;

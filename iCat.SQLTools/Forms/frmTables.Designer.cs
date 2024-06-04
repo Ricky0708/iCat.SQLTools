@@ -28,870 +28,858 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.dgvTables = new System.Windows.Forms.DataGridView();
-            this.dTableName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dTableDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dTableType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtTableFilter = new iCat.SQLTools.CustomControlleres.PlaceholderTextBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabCommand = new System.Windows.Forms.TabPage();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.btnExportExcel = new System.Windows.Forms.Button();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.btnLoadDataFromXML = new System.Windows.Forms.Button();
-            this.btnSaveToXml = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.btnUpdateAllDescription = new System.Windows.Forms.Button();
-            this.btnLoadDataFromSQL = new System.Windows.Forms.Button();
-            this.btnUpdateDescription = new System.Windows.Forms.Button();
-            this.tabTablesAndCols = new System.Windows.Forms.TabPage();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.dgvColumns = new System.Windows.Forms.DataGridView();
-            this.dColName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dColType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dColLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dDefaultValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dIsNullable = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dColDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dIsIdentity = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dIsPK = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.dCollationName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.dgvIndexes = new System.Windows.Forms.DataGridView();
-            this.dIndexName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dIxColName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.dgvFK = new System.Windows.Forms.DataGridView();
-            this.dName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dMasterTable = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dMasterCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dDetail = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dDetailCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabSpsAndFuncs = new System.Windows.Forms.TabPage();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.dgvSpsAndFuncs = new System.Windows.Forms.DataGridView();
-            this.dSPECIFIC_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dROUTINE_TYPE = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dDATA_TYPE = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dROUTINE_DEFINITION = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtSpFilter = new iCat.SQLTools.CustomControlleres.PlaceholderTextBox();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.dgvInputParams = new System.Windows.Forms.DataGridView();
-            this.dISPECIFIC_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dParameter_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dIData_Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dCharacter_Maximum_Length = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dParameter_Mode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgvOutPutParams = new System.Windows.Forms.DataGridView();
-            this.dOSPECIFIC_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dOName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dSystem_Type_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dError_Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTables)).BeginInit();
-            this.tabControl1.SuspendLayout();
-            this.tabCommand.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.tabTablesAndCols.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
-            this.splitContainer5.Panel1.SuspendLayout();
-            this.splitContainer5.Panel2.SuspendLayout();
-            this.splitContainer5.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvColumns)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-            this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
-            this.splitContainer2.SuspendLayout();
-            this.groupBox7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvIndexes)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvFK)).BeginInit();
-            this.tabSpsAndFuncs.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
-            this.splitContainer3.Panel1.SuspendLayout();
-            this.splitContainer3.Panel2.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSpsAndFuncs)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
-            this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
-            this.splitContainer4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvInputParams)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvOutPutParams)).BeginInit();
-            this.SuspendLayout();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            groupBox1 = new GroupBox();
+            dgvTables = new DataGridView();
+            dTableName = new DataGridViewTextBoxColumn();
+            dTableDescription = new DataGridViewTextBoxColumn();
+            dTableType = new DataGridViewTextBoxColumn();
+            txtTableFilter = new CustomControlleres.PlaceholderTextBox();
+            tabControl1 = new TabControl();
+            tabTablesAndCols = new TabPage();
+            splitContainer1 = new SplitContainer();
+            splitContainer5 = new SplitContainer();
+            groupBox2 = new GroupBox();
+            dgvColumns = new DataGridView();
+            dColName = new DataGridViewTextBoxColumn();
+            dColType = new DataGridViewTextBoxColumn();
+            dColLength = new DataGridViewTextBoxColumn();
+            dDefaultValue = new DataGridViewTextBoxColumn();
+            dIsNullable = new DataGridViewCheckBoxColumn();
+            dColDescription = new DataGridViewTextBoxColumn();
+            dIsIdentity = new DataGridViewCheckBoxColumn();
+            dIsPK = new DataGridViewCheckBoxColumn();
+            dCollationName = new DataGridViewTextBoxColumn();
+            splitContainer2 = new SplitContainer();
+            groupBox7 = new GroupBox();
+            dgvIndexes = new DataGridView();
+            dIndexName = new DataGridViewTextBoxColumn();
+            dIxColName = new DataGridViewTextBoxColumn();
+            groupBox3 = new GroupBox();
+            dgvFK = new DataGridView();
+            dName = new DataGridViewTextBoxColumn();
+            dMasterTable = new DataGridViewTextBoxColumn();
+            dMasterCol = new DataGridViewTextBoxColumn();
+            dDetail = new DataGridViewTextBoxColumn();
+            dDetailCol = new DataGridViewTextBoxColumn();
+            tabSpsAndFuncs = new TabPage();
+            splitContainer3 = new SplitContainer();
+            dgvSpsAndFuncs = new DataGridView();
+            dSPECIFIC_NAME = new DataGridViewTextBoxColumn();
+            dROUTINE_TYPE = new DataGridViewTextBoxColumn();
+            dDATA_TYPE = new DataGridViewTextBoxColumn();
+            dROUTINE_DEFINITION = new DataGridViewTextBoxColumn();
+            txtSpFilter = new CustomControlleres.PlaceholderTextBox();
+            splitContainer4 = new SplitContainer();
+            dgvInputParams = new DataGridView();
+            dISPECIFIC_NAME = new DataGridViewTextBoxColumn();
+            dParameter_Name = new DataGridViewTextBoxColumn();
+            dIData_Type = new DataGridViewTextBoxColumn();
+            dCharacter_Maximum_Length = new DataGridViewTextBoxColumn();
+            dParameter_Mode = new DataGridViewTextBoxColumn();
+            dgvOutPutParams = new DataGridView();
+            dOSPECIFIC_NAME = new DataGridViewTextBoxColumn();
+            dOName = new DataGridViewTextBoxColumn();
+            dSystem_Type_Name = new DataGridViewTextBoxColumn();
+            dError_Message = new DataGridViewTextBoxColumn();
+            tabCommand = new TabPage();
+            groupBox6 = new GroupBox();
+            btnExportExcel = new Button();
+            groupBox5 = new GroupBox();
+            btnSaveToXml = new Button();
+            groupBox4 = new GroupBox();
+            btnUpdateAllDescription = new Button();
+            btnUpdateDescription = new Button();
+            groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvTables).BeginInit();
+            tabControl1.SuspendLayout();
+            tabTablesAndCols.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
+            splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer5).BeginInit();
+            splitContainer5.Panel1.SuspendLayout();
+            splitContainer5.Panel2.SuspendLayout();
+            splitContainer5.SuspendLayout();
+            groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvColumns).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
+            splitContainer2.Panel1.SuspendLayout();
+            splitContainer2.Panel2.SuspendLayout();
+            splitContainer2.SuspendLayout();
+            groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvIndexes).BeginInit();
+            groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvFK).BeginInit();
+            tabSpsAndFuncs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer3).BeginInit();
+            splitContainer3.Panel1.SuspendLayout();
+            splitContainer3.Panel2.SuspendLayout();
+            splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvSpsAndFuncs).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)splitContainer4).BeginInit();
+            splitContainer4.Panel1.SuspendLayout();
+            splitContainer4.Panel2.SuspendLayout();
+            splitContainer4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvInputParams).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvOutPutParams).BeginInit();
+            tabCommand.SuspendLayout();
+            groupBox6.SuspendLayout();
+            groupBox5.SuspendLayout();
+            groupBox4.SuspendLayout();
+            SuspendLayout();
+            // 
+            // panel1
+            // 
+            panel1.Margin = new Padding(4, 3, 4, 3);
+            panel1.Size = new Size(674, 43);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.dgvTables);
-            this.groupBox1.Controls.Add(this.txtTableFilter);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(388, 654);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Tables";
+            groupBox1.Controls.Add(dgvTables);
+            groupBox1.Controls.Add(txtTableFilter);
+            groupBox1.Dock = DockStyle.Fill;
+            groupBox1.Location = new Point(0, 0);
+            groupBox1.Margin = new Padding(3, 2, 3, 2);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Padding = new Padding(3, 2, 3, 2);
+            groupBox1.Size = new Size(213, 532);
+            groupBox1.TabIndex = 1;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Tables";
             // 
             // dgvTables
             // 
-            this.dgvTables.AllowUserToAddRows = false;
-            this.dgvTables.AllowUserToDeleteRows = false;
-            this.dgvTables.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvTables.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dTableName,
-            this.dTableDescription,
-            this.dTableType});
-            this.dgvTables.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvTables.Location = new System.Drawing.Point(3, 58);
-            this.dgvTables.Name = "dgvTables";
-            this.dgvTables.RowTemplate.Height = 24;
-            this.dgvTables.Size = new System.Drawing.Size(382, 593);
-            this.dgvTables.TabIndex = 0;
+            dgvTables.AllowUserToAddRows = false;
+            dgvTables.AllowUserToDeleteRows = false;
+            dgvTables.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvTables.Columns.AddRange(new DataGridViewColumn[] { dTableName, dTableDescription, dTableType });
+            dgvTables.Dock = DockStyle.Fill;
+            dgvTables.Location = new Point(3, 49);
+            dgvTables.Margin = new Padding(3, 2, 3, 2);
+            dgvTables.Name = "dgvTables";
+            dgvTables.RowTemplate.Height = 24;
+            dgvTables.Size = new Size(207, 481);
+            dgvTables.TabIndex = 0;
             // 
             // dTableName
             // 
-            this.dTableName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dTableName.DataPropertyName = "TableName";
-            this.dTableName.HeaderText = "TableName";
-            this.dTableName.Name = "dTableName";
-            this.dTableName.ReadOnly = true;
-            this.dTableName.Width = 124;
+            dTableName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dTableName.DataPropertyName = "TableName";
+            dTableName.HeaderText = "TableName";
+            dTableName.Name = "dTableName";
+            dTableName.ReadOnly = true;
+            dTableName.Width = 104;
             // 
             // dTableDescription
             // 
-            this.dTableDescription.DataPropertyName = "TableDescription";
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dTableDescription.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dTableDescription.HeaderText = "TableDescription";
-            this.dTableDescription.MinimumWidth = 100;
-            this.dTableDescription.Name = "dTableDescription";
+            dTableDescription.DataPropertyName = "TableDescription";
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dTableDescription.DefaultCellStyle = dataGridViewCellStyle1;
+            dTableDescription.HeaderText = "TableDescription";
+            dTableDescription.MinimumWidth = 100;
+            dTableDescription.Name = "dTableDescription";
             // 
             // dTableType
             // 
-            this.dTableType.DataPropertyName = "TableType";
-            this.dTableType.HeaderText = "TableTyle";
-            this.dTableType.Name = "dTableType";
-            this.dTableType.ReadOnly = true;
+            dTableType.DataPropertyName = "TableType";
+            dTableType.HeaderText = "TableTyle";
+            dTableType.Name = "dTableType";
+            dTableType.ReadOnly = true;
             // 
             // txtTableFilter
             // 
-            this.txtTableFilter.BackColor = System.Drawing.SystemColors.Info;
-            this.txtTableFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtTableFilter.Location = new System.Drawing.Point(3, 27);
-            this.txtTableFilter.Name = "txtTableFilter";
-            this.txtTableFilter.PlaceHolder = "Write something here to filter Table";
-            this.txtTableFilter.Size = new System.Drawing.Size(382, 31);
-            this.txtTableFilter.TabIndex = 1;
-            this.txtTableFilter.TextChanged += new System.EventHandler(this.Filter);
+            txtTableFilter.BackColor = SystemColors.Info;
+            txtTableFilter.Dock = DockStyle.Top;
+            txtTableFilter.Location = new Point(3, 22);
+            txtTableFilter.Margin = new Padding(5, 2, 5, 2);
+            txtTableFilter.Name = "txtTableFilter";
+            txtTableFilter.PlaceHolder = "Write something here to filter Table";
+            txtTableFilter.Size = new Size(207, 27);
+            txtTableFilter.TabIndex = 1;
+            txtTableFilter.TextChanged += Filter;
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabCommand);
-            this.tabControl1.Controls.Add(this.tabTablesAndCols);
-            this.tabControl1.Controls.Add(this.tabSpsAndFuncs);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 39);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1195, 698);
-            this.tabControl1.TabIndex = 2;
-            this.tabControl1.TabStop = false;
-            // 
-            // tabCommand
-            // 
-            this.tabCommand.Controls.Add(this.groupBox6);
-            this.tabCommand.Controls.Add(this.groupBox5);
-            this.tabCommand.Controls.Add(this.groupBox4);
-            this.tabCommand.Location = new System.Drawing.Point(4, 30);
-            this.tabCommand.Name = "tabCommand";
-            this.tabCommand.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCommand.Size = new System.Drawing.Size(1187, 664);
-            this.tabCommand.TabIndex = 1;
-            this.tabCommand.Text = "Command";
-            this.tabCommand.UseVisualStyleBackColor = true;
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.btnExportExcel);
-            this.groupBox6.Location = new System.Drawing.Point(41, 325);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(261, 323);
-            this.groupBox6.TabIndex = 6;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Generator";
-            // 
-            // btnExportExcel
-            // 
-            this.btnExportExcel.Location = new System.Drawing.Point(6, 30);
-            this.btnExportExcel.Name = "btnExportExcel";
-            this.btnExportExcel.Size = new System.Drawing.Size(172, 40);
-            this.btnExportExcel.TabIndex = 4;
-            this.btnExportExcel.Text = "Export to Excel";
-            this.btnExportExcel.UseVisualStyleBackColor = true;
-            this.btnExportExcel.Click += new System.EventHandler(this.btnExportExcel_Click);
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.btnLoadDataFromXML);
-            this.groupBox5.Controls.Add(this.btnSaveToXml);
-            this.groupBox5.Location = new System.Drawing.Point(308, 44);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(313, 275);
-            this.groupBox5.TabIndex = 5;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "XML";
-            // 
-            // btnLoadDataFromXML
-            // 
-            this.btnLoadDataFromXML.Location = new System.Drawing.Point(6, 30);
-            this.btnLoadDataFromXML.Name = "btnLoadDataFromXML";
-            this.btnLoadDataFromXML.Size = new System.Drawing.Size(172, 40);
-            this.btnLoadDataFromXML.TabIndex = 5;
-            this.btnLoadDataFromXML.Text = "Load Data";
-            this.btnLoadDataFromXML.UseVisualStyleBackColor = true;
-            this.btnLoadDataFromXML.Click += new System.EventHandler(this.btnLoadDataFromXML_Click);
-            // 
-            // btnSaveToXml
-            // 
-            this.btnSaveToXml.Location = new System.Drawing.Point(6, 229);
-            this.btnSaveToXml.Name = "btnSaveToXml";
-            this.btnSaveToXml.Size = new System.Drawing.Size(172, 40);
-            this.btnSaveToXml.TabIndex = 5;
-            this.btnSaveToXml.Text = "Save To Xml";
-            this.btnSaveToXml.UseVisualStyleBackColor = true;
-            this.btnSaveToXml.Click += new System.EventHandler(this.btnSaveToXml_Click);
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.btnUpdateAllDescription);
-            this.groupBox4.Controls.Add(this.btnLoadDataFromSQL);
-            this.groupBox4.Controls.Add(this.btnUpdateDescription);
-            this.groupBox4.Location = new System.Drawing.Point(41, 44);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(261, 275);
-            this.groupBox4.TabIndex = 4;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "SQL Server";
-            // 
-            // btnUpdateAllDescription
-            // 
-            this.btnUpdateAllDescription.Location = new System.Drawing.Point(6, 122);
-            this.btnUpdateAllDescription.Name = "btnUpdateAllDescription";
-            this.btnUpdateAllDescription.Size = new System.Drawing.Size(249, 40);
-            this.btnUpdateAllDescription.TabIndex = 6;
-            this.btnUpdateAllDescription.Text = "Update All Description";
-            this.btnUpdateAllDescription.UseVisualStyleBackColor = true;
-            this.btnUpdateAllDescription.Click += new System.EventHandler(this.btnUpdateAllDescription_Click);
-            // 
-            // btnLoadDataFromSQL
-            // 
-            this.btnLoadDataFromSQL.Location = new System.Drawing.Point(6, 30);
-            this.btnLoadDataFromSQL.Name = "btnLoadDataFromSQL";
-            this.btnLoadDataFromSQL.Size = new System.Drawing.Size(172, 40);
-            this.btnLoadDataFromSQL.TabIndex = 4;
-            this.btnLoadDataFromSQL.Text = "Load Data";
-            this.btnLoadDataFromSQL.UseVisualStyleBackColor = true;
-            this.btnLoadDataFromSQL.Click += new System.EventHandler(this.btnLoadDataFromSQL_Click);
-            // 
-            // btnUpdateDescription
-            // 
-            this.btnUpdateDescription.Location = new System.Drawing.Point(6, 76);
-            this.btnUpdateDescription.Name = "btnUpdateDescription";
-            this.btnUpdateDescription.Size = new System.Drawing.Size(249, 40);
-            this.btnUpdateDescription.TabIndex = 3;
-            this.btnUpdateDescription.Text = "Update Modified Description";
-            this.btnUpdateDescription.UseVisualStyleBackColor = true;
-            this.btnUpdateDescription.Click += new System.EventHandler(this.Update_Description_Click);
+            tabControl1.Controls.Add(tabCommand);
+            tabControl1.Controls.Add(tabTablesAndCols);
+            tabControl1.Controls.Add(tabSpsAndFuncs);
+            tabControl1.Dock = DockStyle.Fill;
+            tabControl1.Location = new Point(0, 43);
+            tabControl1.Margin = new Padding(3, 2, 3, 2);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(674, 570);
+            tabControl1.TabIndex = 2;
+            tabControl1.TabStop = false;
             // 
             // tabTablesAndCols
             // 
-            this.tabTablesAndCols.Controls.Add(this.splitContainer1);
-            this.tabTablesAndCols.Location = new System.Drawing.Point(4, 30);
-            this.tabTablesAndCols.Name = "tabTablesAndCols";
-            this.tabTablesAndCols.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTablesAndCols.Size = new System.Drawing.Size(1187, 664);
-            this.tabTablesAndCols.TabIndex = 0;
-            this.tabTablesAndCols.Text = "Tables & Columns";
-            this.tabTablesAndCols.UseVisualStyleBackColor = true;
+            tabTablesAndCols.Controls.Add(splitContainer1);
+            tabTablesAndCols.Location = new Point(4, 26);
+            tabTablesAndCols.Margin = new Padding(3, 2, 3, 2);
+            tabTablesAndCols.Name = "tabTablesAndCols";
+            tabTablesAndCols.Padding = new Padding(3, 2, 3, 2);
+            tabTablesAndCols.Size = new Size(666, 540);
+            tabTablesAndCols.TabIndex = 0;
+            tabTablesAndCols.Text = "Tables & Columns";
+            tabTablesAndCols.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
             // 
-            this.splitContainer1.BackColor = System.Drawing.Color.Transparent;
-            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer1.Name = "splitContainer1";
+            splitContainer1.BackColor = Color.Transparent;
+            splitContainer1.BorderStyle = BorderStyle.Fixed3D;
+            splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.Location = new Point(3, 2);
+            splitContainer1.Margin = new Padding(3, 2, 3, 2);
+            splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
+            splitContainer1.Panel1.Controls.Add(groupBox1);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.splitContainer5);
-            this.splitContainer1.Size = new System.Drawing.Size(1181, 658);
-            this.splitContainer1.SplitterDistance = 392;
-            this.splitContainer1.TabIndex = 2;
-            this.splitContainer1.TabStop = false;
+            splitContainer1.Panel2.Controls.Add(splitContainer5);
+            splitContainer1.Size = new Size(660, 536);
+            splitContainer1.SplitterDistance = 217;
+            splitContainer1.TabIndex = 2;
+            splitContainer1.TabStop = false;
             // 
             // splitContainer5
             // 
-            this.splitContainer5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer5.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer5.Name = "splitContainer5";
-            this.splitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            splitContainer5.BorderStyle = BorderStyle.Fixed3D;
+            splitContainer5.Dock = DockStyle.Fill;
+            splitContainer5.Location = new Point(0, 0);
+            splitContainer5.Margin = new Padding(8, 2, 8, 2);
+            splitContainer5.Name = "splitContainer5";
+            splitContainer5.Orientation = Orientation.Horizontal;
             // 
             // splitContainer5.Panel1
             // 
-            this.splitContainer5.Panel1.Controls.Add(this.groupBox2);
+            splitContainer5.Panel1.Controls.Add(groupBox2);
             // 
             // splitContainer5.Panel2
             // 
-            this.splitContainer5.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer5.Size = new System.Drawing.Size(785, 658);
-            this.splitContainer5.SplitterDistance = 187;
-            this.splitContainer5.TabIndex = 2;
-            this.splitContainer5.TabStop = false;
+            splitContainer5.Panel2.Controls.Add(splitContainer2);
+            splitContainer5.Size = new Size(439, 536);
+            splitContainer5.SplitterDistance = 149;
+            splitContainer5.SplitterWidth = 2;
+            splitContainer5.TabIndex = 2;
+            splitContainer5.TabStop = false;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.dgvColumns);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(781, 183);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Columns Info";
+            groupBox2.Controls.Add(dgvColumns);
+            groupBox2.Dock = DockStyle.Fill;
+            groupBox2.Location = new Point(0, 0);
+            groupBox2.Margin = new Padding(8, 2, 8, 2);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Padding = new Padding(8, 2, 8, 2);
+            groupBox2.Size = new Size(435, 145);
+            groupBox2.TabIndex = 0;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Columns Info";
             // 
             // dgvColumns
             // 
-            this.dgvColumns.AllowUserToAddRows = false;
-            this.dgvColumns.AllowUserToDeleteRows = false;
-            this.dgvColumns.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvColumns.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dColName,
-            this.dColType,
-            this.dColLength,
-            this.dDefaultValue,
-            this.dIsNullable,
-            this.dColDescription,
-            this.dIsIdentity,
-            this.dIsPK,
-            this.dCollationName});
-            this.dgvColumns.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvColumns.Location = new System.Drawing.Point(3, 27);
-            this.dgvColumns.Name = "dgvColumns";
-            this.dgvColumns.RowTemplate.Height = 24;
-            this.dgvColumns.Size = new System.Drawing.Size(775, 153);
-            this.dgvColumns.TabIndex = 1;
-            this.dgvColumns.TabStop = false;
+            dgvColumns.AllowUserToAddRows = false;
+            dgvColumns.AllowUserToDeleteRows = false;
+            dgvColumns.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvColumns.Columns.AddRange(new DataGridViewColumn[] { dColName, dColType, dColLength, dDefaultValue, dIsNullable, dColDescription, dIsIdentity, dIsPK, dCollationName });
+            dgvColumns.Dock = DockStyle.Fill;
+            dgvColumns.Location = new Point(8, 22);
+            dgvColumns.Margin = new Padding(8, 2, 8, 2);
+            dgvColumns.Name = "dgvColumns";
+            dgvColumns.RowTemplate.Height = 24;
+            dgvColumns.Size = new Size(419, 121);
+            dgvColumns.TabIndex = 1;
+            dgvColumns.TabStop = false;
             // 
             // dColName
             // 
-            this.dColName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dColName.DataPropertyName = "ColName";
-            this.dColName.HeaderText = "ColName";
-            this.dColName.MinimumWidth = 100;
-            this.dColName.Name = "dColName";
-            this.dColName.ReadOnly = true;
-            this.dColName.Width = 110;
+            dColName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dColName.DataPropertyName = "ColName";
+            dColName.HeaderText = "ColName";
+            dColName.MinimumWidth = 100;
+            dColName.Name = "dColName";
+            dColName.ReadOnly = true;
             // 
             // dColType
             // 
-            this.dColType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dColType.DataPropertyName = "ColType";
-            this.dColType.HeaderText = "ColType";
-            this.dColType.Name = "dColType";
-            this.dColType.ReadOnly = true;
-            this.dColType.Width = 102;
+            dColType.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dColType.DataPropertyName = "ColType";
+            dColType.HeaderText = "ColType";
+            dColType.Name = "dColType";
+            dColType.ReadOnly = true;
+            dColType.Width = 86;
             // 
             // dColLength
             // 
-            this.dColLength.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dColLength.DataPropertyName = "ColLength";
-            this.dColLength.HeaderText = "ColLength";
-            this.dColLength.Name = "dColLength";
-            this.dColLength.ReadOnly = true;
-            this.dColLength.Width = 116;
+            dColLength.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dColLength.DataPropertyName = "ColLength";
+            dColLength.HeaderText = "ColLength";
+            dColLength.Name = "dColLength";
+            dColLength.ReadOnly = true;
+            dColLength.Width = 98;
             // 
             // dDefaultValue
             // 
-            this.dDefaultValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dDefaultValue.DataPropertyName = "DefaultValue";
-            this.dDefaultValue.HeaderText = "DefaultValue";
-            this.dDefaultValue.Name = "dDefaultValue";
-            this.dDefaultValue.ReadOnly = true;
-            this.dDefaultValue.Width = 137;
+            dDefaultValue.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dDefaultValue.DataPropertyName = "DefaultValue";
+            dDefaultValue.HeaderText = "DefaultValue";
+            dDefaultValue.Name = "dDefaultValue";
+            dDefaultValue.ReadOnly = true;
+            dDefaultValue.Width = 115;
             // 
             // dIsNullable
             // 
-            this.dIsNullable.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dIsNullable.DataPropertyName = "IsNullable";
-            this.dIsNullable.HeaderText = "IsNullable";
-            this.dIsNullable.Name = "dIsNullable";
-            this.dIsNullable.ReadOnly = true;
-            this.dIsNullable.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dIsNullable.Width = 91;
+            dIsNullable.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dIsNullable.DataPropertyName = "IsNullable";
+            dIsNullable.HeaderText = "IsNullable";
+            dIsNullable.Name = "dIsNullable";
+            dIsNullable.ReadOnly = true;
+            dIsNullable.Resizable = DataGridViewTriState.True;
+            dIsNullable.Width = 77;
             // 
             // dColDescription
             // 
-            this.dColDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dColDescription.DataPropertyName = "ColDescription";
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dColDescription.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dColDescription.HeaderText = "ColDescription";
-            this.dColDescription.Name = "dColDescription";
-            this.dColDescription.Width = 150;
+            dColDescription.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dColDescription.DataPropertyName = "ColDescription";
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dColDescription.DefaultCellStyle = dataGridViewCellStyle2;
+            dColDescription.HeaderText = "ColDescription";
+            dColDescription.Name = "dColDescription";
+            dColDescription.Width = 126;
             // 
             // dIsIdentity
             // 
-            this.dIsIdentity.DataPropertyName = "IsIdentity";
-            this.dIsIdentity.HeaderText = "IsIdentity";
-            this.dIsIdentity.Name = "dIsIdentity";
-            this.dIsIdentity.ReadOnly = true;
-            this.dIsIdentity.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            dIsIdentity.DataPropertyName = "IsIdentity";
+            dIsIdentity.HeaderText = "IsIdentity";
+            dIsIdentity.Name = "dIsIdentity";
+            dIsIdentity.ReadOnly = true;
+            dIsIdentity.Resizable = DataGridViewTriState.True;
             // 
             // dIsPK
             // 
-            this.dIsPK.DataPropertyName = "IsPK";
-            this.dIsPK.HeaderText = "IsPK";
-            this.dIsPK.Name = "dIsPK";
-            this.dIsPK.ReadOnly = true;
-            this.dIsPK.TrueValue = "";
+            dIsPK.DataPropertyName = "IsPK";
+            dIsPK.HeaderText = "IsPK";
+            dIsPK.Name = "dIsPK";
+            dIsPK.ReadOnly = true;
+            dIsPK.TrueValue = "";
             // 
             // dCollationName
             // 
-            this.dCollationName.DataPropertyName = "CollationName";
-            this.dCollationName.HeaderText = "CollationName";
-            this.dCollationName.Name = "dCollationName";
-            this.dCollationName.ReadOnly = true;
+            dCollationName.DataPropertyName = "CollationName";
+            dCollationName.HeaderText = "CollationName";
+            dCollationName.Name = "dCollationName";
+            dCollationName.ReadOnly = true;
             // 
             // splitContainer2
             // 
-            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            splitContainer2.BorderStyle = BorderStyle.Fixed3D;
+            splitContainer2.Dock = DockStyle.Fill;
+            splitContainer2.Location = new Point(0, 0);
+            splitContainer2.Margin = new Padding(8, 2, 8, 2);
+            splitContainer2.Name = "splitContainer2";
+            splitContainer2.Orientation = Orientation.Horizontal;
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.groupBox7);
+            splitContainer2.Panel1.Controls.Add(groupBox7);
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.groupBox3);
-            this.splitContainer2.Size = new System.Drawing.Size(785, 467);
-            this.splitContainer2.SplitterDistance = 94;
-            this.splitContainer2.TabIndex = 1;
-            this.splitContainer2.TabStop = false;
+            splitContainer2.Panel2.Controls.Add(groupBox3);
+            splitContainer2.Size = new Size(439, 385);
+            splitContainer2.SplitterDistance = 76;
+            splitContainer2.SplitterWidth = 2;
+            splitContainer2.TabIndex = 1;
+            splitContainer2.TabStop = false;
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.dgvIndexes);
-            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox7.Location = new System.Drawing.Point(0, 0);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(781, 90);
-            this.groupBox7.TabIndex = 0;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "PK && IX";
+            groupBox7.Controls.Add(dgvIndexes);
+            groupBox7.Dock = DockStyle.Fill;
+            groupBox7.Location = new Point(0, 0);
+            groupBox7.Margin = new Padding(8, 2, 8, 2);
+            groupBox7.Name = "groupBox7";
+            groupBox7.Padding = new Padding(8, 2, 8, 2);
+            groupBox7.Size = new Size(435, 72);
+            groupBox7.TabIndex = 0;
+            groupBox7.TabStop = false;
+            groupBox7.Text = "PK && IX";
             // 
             // dgvIndexes
             // 
-            this.dgvIndexes.AllowUserToAddRows = false;
-            this.dgvIndexes.AllowUserToDeleteRows = false;
-            this.dgvIndexes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvIndexes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dIndexName,
-            this.dIxColName});
-            this.dgvIndexes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvIndexes.Location = new System.Drawing.Point(3, 27);
-            this.dgvIndexes.Name = "dgvIndexes";
-            this.dgvIndexes.RowTemplate.Height = 24;
-            this.dgvIndexes.Size = new System.Drawing.Size(775, 60);
-            this.dgvIndexes.TabIndex = 2;
-            this.dgvIndexes.TabStop = false;
+            dgvIndexes.AllowUserToAddRows = false;
+            dgvIndexes.AllowUserToDeleteRows = false;
+            dgvIndexes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvIndexes.Columns.AddRange(new DataGridViewColumn[] { dIndexName, dIxColName });
+            dgvIndexes.Dock = DockStyle.Fill;
+            dgvIndexes.Location = new Point(8, 22);
+            dgvIndexes.Margin = new Padding(8, 2, 8, 2);
+            dgvIndexes.Name = "dgvIndexes";
+            dgvIndexes.RowTemplate.Height = 24;
+            dgvIndexes.Size = new Size(419, 48);
+            dgvIndexes.TabIndex = 2;
+            dgvIndexes.TabStop = false;
             // 
             // dIndexName
             // 
-            this.dIndexName.DataPropertyName = "IndexName";
-            this.dIndexName.HeaderText = "IndexName";
-            this.dIndexName.MinimumWidth = 200;
-            this.dIndexName.Name = "dIndexName";
-            this.dIndexName.ReadOnly = true;
-            this.dIndexName.Width = 200;
+            dIndexName.DataPropertyName = "IndexName";
+            dIndexName.HeaderText = "IndexName";
+            dIndexName.MinimumWidth = 200;
+            dIndexName.Name = "dIndexName";
+            dIndexName.ReadOnly = true;
+            dIndexName.Width = 200;
             // 
             // dIxColName
             // 
-            this.dIxColName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dIxColName.DataPropertyName = "ColName";
-            this.dIxColName.HeaderText = "ColName";
-            this.dIxColName.Name = "dIxColName";
-            this.dIxColName.ReadOnly = true;
+            dIxColName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dIxColName.DataPropertyName = "ColName";
+            dIxColName.HeaderText = "ColName";
+            dIxColName.Name = "dIxColName";
+            dIxColName.ReadOnly = true;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.dgvFK);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(0, 0);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(781, 365);
-            this.groupBox3.TabIndex = 1;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "FK";
+            groupBox3.Controls.Add(dgvFK);
+            groupBox3.Dock = DockStyle.Fill;
+            groupBox3.Location = new Point(0, 0);
+            groupBox3.Margin = new Padding(8, 2, 8, 2);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Padding = new Padding(8, 2, 8, 2);
+            groupBox3.Size = new Size(435, 303);
+            groupBox3.TabIndex = 1;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "FK";
             // 
             // dgvFK
             // 
-            this.dgvFK.AllowUserToAddRows = false;
-            this.dgvFK.AllowUserToDeleteRows = false;
-            this.dgvFK.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvFK.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFK.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dName,
-            this.dMasterTable,
-            this.dMasterCol,
-            this.dDetail,
-            this.dDetailCol});
-            this.dgvFK.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvFK.Location = new System.Drawing.Point(3, 27);
-            this.dgvFK.Name = "dgvFK";
-            this.dgvFK.ReadOnly = true;
-            this.dgvFK.RowTemplate.Height = 24;
-            this.dgvFK.Size = new System.Drawing.Size(775, 335);
-            this.dgvFK.TabIndex = 2;
-            this.dgvFK.TabStop = false;
+            dgvFK.AllowUserToAddRows = false;
+            dgvFK.AllowUserToDeleteRows = false;
+            dgvFK.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvFK.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvFK.Columns.AddRange(new DataGridViewColumn[] { dName, dMasterTable, dMasterCol, dDetail, dDetailCol });
+            dgvFK.Dock = DockStyle.Fill;
+            dgvFK.Location = new Point(8, 22);
+            dgvFK.Margin = new Padding(8, 2, 8, 2);
+            dgvFK.Name = "dgvFK";
+            dgvFK.ReadOnly = true;
+            dgvFK.RowTemplate.Height = 24;
+            dgvFK.Size = new Size(419, 279);
+            dgvFK.TabIndex = 2;
+            dgvFK.TabStop = false;
             // 
             // dName
             // 
-            this.dName.DataPropertyName = "name";
-            this.dName.HeaderText = "Name";
-            this.dName.Name = "dName";
-            this.dName.ReadOnly = true;
+            dName.DataPropertyName = "name";
+            dName.HeaderText = "Name";
+            dName.Name = "dName";
+            dName.ReadOnly = true;
             // 
             // dMasterTable
             // 
-            this.dMasterTable.DataPropertyName = "ReferencedTable";
-            this.dMasterTable.HeaderText = "MasterTable";
-            this.dMasterTable.Name = "dMasterTable";
-            this.dMasterTable.ReadOnly = true;
+            dMasterTable.DataPropertyName = "ReferencedTable";
+            dMasterTable.HeaderText = "MasterTable";
+            dMasterTable.Name = "dMasterTable";
+            dMasterTable.ReadOnly = true;
             // 
             // dMasterCol
             // 
-            this.dMasterCol.DataPropertyName = "ReferencedColumn";
-            this.dMasterCol.HeaderText = "MasterCol";
-            this.dMasterCol.Name = "dMasterCol";
-            this.dMasterCol.ReadOnly = true;
+            dMasterCol.DataPropertyName = "ReferencedColumn";
+            dMasterCol.HeaderText = "MasterCol";
+            dMasterCol.Name = "dMasterCol";
+            dMasterCol.ReadOnly = true;
             // 
             // dDetail
             // 
-            this.dDetail.DataPropertyName = "ParentTable";
-            this.dDetail.HeaderText = "DetailTable";
-            this.dDetail.Name = "dDetail";
-            this.dDetail.ReadOnly = true;
+            dDetail.DataPropertyName = "ParentTable";
+            dDetail.HeaderText = "DetailTable";
+            dDetail.Name = "dDetail";
+            dDetail.ReadOnly = true;
             // 
             // dDetailCol
             // 
-            this.dDetailCol.DataPropertyName = "ParentColumn";
-            this.dDetailCol.HeaderText = "DetaliCol";
-            this.dDetailCol.Name = "dDetailCol";
-            this.dDetailCol.ReadOnly = true;
+            dDetailCol.DataPropertyName = "ParentColumn";
+            dDetailCol.HeaderText = "DetaliCol";
+            dDetailCol.Name = "dDetailCol";
+            dDetailCol.ReadOnly = true;
             // 
             // tabSpsAndFuncs
             // 
-            this.tabSpsAndFuncs.Controls.Add(this.splitContainer3);
-            this.tabSpsAndFuncs.Location = new System.Drawing.Point(4, 30);
-            this.tabSpsAndFuncs.Name = "tabSpsAndFuncs";
-            this.tabSpsAndFuncs.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSpsAndFuncs.Size = new System.Drawing.Size(1187, 664);
-            this.tabSpsAndFuncs.TabIndex = 2;
-            this.tabSpsAndFuncs.Text = "SP & Func";
-            this.tabSpsAndFuncs.UseVisualStyleBackColor = true;
+            tabSpsAndFuncs.Controls.Add(splitContainer3);
+            tabSpsAndFuncs.Location = new Point(4, 26);
+            tabSpsAndFuncs.Margin = new Padding(3, 2, 3, 2);
+            tabSpsAndFuncs.Name = "tabSpsAndFuncs";
+            tabSpsAndFuncs.Padding = new Padding(3, 2, 3, 2);
+            tabSpsAndFuncs.Size = new Size(666, 540);
+            tabSpsAndFuncs.TabIndex = 2;
+            tabSpsAndFuncs.Text = "SP & Func";
+            tabSpsAndFuncs.UseVisualStyleBackColor = true;
             // 
             // splitContainer3
             // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer3.Name = "splitContainer3";
+            splitContainer3.Dock = DockStyle.Fill;
+            splitContainer3.Location = new Point(3, 2);
+            splitContainer3.Margin = new Padding(3, 2, 3, 2);
+            splitContainer3.Name = "splitContainer3";
             // 
             // splitContainer3.Panel1
             // 
-            this.splitContainer3.Panel1.Controls.Add(this.dgvSpsAndFuncs);
-            this.splitContainer3.Panel1.Controls.Add(this.txtSpFilter);
+            splitContainer3.Panel1.Controls.Add(dgvSpsAndFuncs);
+            splitContainer3.Panel1.Controls.Add(txtSpFilter);
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
-            this.splitContainer3.Size = new System.Drawing.Size(1181, 658);
-            this.splitContainer3.SplitterDistance = 696;
-            this.splitContainer3.TabIndex = 0;
-            this.splitContainer3.TabStop = false;
+            splitContainer3.Panel2.Controls.Add(splitContainer4);
+            splitContainer3.Size = new Size(660, 536);
+            splitContainer3.SplitterDistance = 386;
+            splitContainer3.TabIndex = 0;
+            splitContainer3.TabStop = false;
             // 
             // dgvSpsAndFuncs
             // 
-            this.dgvSpsAndFuncs.AllowUserToAddRows = false;
-            this.dgvSpsAndFuncs.AllowUserToDeleteRows = false;
-            this.dgvSpsAndFuncs.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvSpsAndFuncs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSpsAndFuncs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dSPECIFIC_NAME,
-            this.dROUTINE_TYPE,
-            this.dDATA_TYPE,
-            this.dROUTINE_DEFINITION});
-            this.dgvSpsAndFuncs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvSpsAndFuncs.Location = new System.Drawing.Point(0, 31);
-            this.dgvSpsAndFuncs.Name = "dgvSpsAndFuncs";
-            this.dgvSpsAndFuncs.ReadOnly = true;
-            this.dgvSpsAndFuncs.RowTemplate.Height = 24;
-            this.dgvSpsAndFuncs.Size = new System.Drawing.Size(696, 627);
-            this.dgvSpsAndFuncs.TabIndex = 3;
+            dgvSpsAndFuncs.AllowUserToAddRows = false;
+            dgvSpsAndFuncs.AllowUserToDeleteRows = false;
+            dgvSpsAndFuncs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvSpsAndFuncs.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvSpsAndFuncs.Columns.AddRange(new DataGridViewColumn[] { dSPECIFIC_NAME, dROUTINE_TYPE, dDATA_TYPE, dROUTINE_DEFINITION });
+            dgvSpsAndFuncs.Dock = DockStyle.Fill;
+            dgvSpsAndFuncs.Location = new Point(0, 27);
+            dgvSpsAndFuncs.Margin = new Padding(3, 2, 3, 2);
+            dgvSpsAndFuncs.Name = "dgvSpsAndFuncs";
+            dgvSpsAndFuncs.ReadOnly = true;
+            dgvSpsAndFuncs.RowTemplate.Height = 24;
+            dgvSpsAndFuncs.Size = new Size(386, 509);
+            dgvSpsAndFuncs.TabIndex = 3;
             // 
             // dSPECIFIC_NAME
             // 
-            this.dSPECIFIC_NAME.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dSPECIFIC_NAME.DataPropertyName = "SPECIFIC_NAME";
-            this.dSPECIFIC_NAME.HeaderText = "SPECIFIC_NAME";
-            this.dSPECIFIC_NAME.Name = "dSPECIFIC_NAME";
-            this.dSPECIFIC_NAME.ReadOnly = true;
-            this.dSPECIFIC_NAME.Width = 182;
+            dSPECIFIC_NAME.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dSPECIFIC_NAME.DataPropertyName = "SPECIFIC_NAME";
+            dSPECIFIC_NAME.HeaderText = "SPECIFIC_NAME";
+            dSPECIFIC_NAME.Name = "dSPECIFIC_NAME";
+            dSPECIFIC_NAME.ReadOnly = true;
+            dSPECIFIC_NAME.Width = 147;
             // 
             // dROUTINE_TYPE
             // 
-            this.dROUTINE_TYPE.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dROUTINE_TYPE.DataPropertyName = "ROUTINE_TYPE";
-            this.dROUTINE_TYPE.HeaderText = "ROUTINE_TYPE";
-            this.dROUTINE_TYPE.Name = "dROUTINE_TYPE";
-            this.dROUTINE_TYPE.ReadOnly = true;
-            this.dROUTINE_TYPE.Width = 176;
+            dROUTINE_TYPE.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dROUTINE_TYPE.DataPropertyName = "ROUTINE_TYPE";
+            dROUTINE_TYPE.HeaderText = "ROUTINE_TYPE";
+            dROUTINE_TYPE.Name = "dROUTINE_TYPE";
+            dROUTINE_TYPE.ReadOnly = true;
+            dROUTINE_TYPE.Width = 143;
             // 
             // dDATA_TYPE
             // 
-            this.dDATA_TYPE.DataPropertyName = "DATA_TYPE";
-            this.dDATA_TYPE.HeaderText = "TYPE";
-            this.dDATA_TYPE.MinimumWidth = 100;
-            this.dDATA_TYPE.Name = "dDATA_TYPE";
-            this.dDATA_TYPE.ReadOnly = true;
+            dDATA_TYPE.DataPropertyName = "DATA_TYPE";
+            dDATA_TYPE.HeaderText = "TYPE";
+            dDATA_TYPE.MinimumWidth = 100;
+            dDATA_TYPE.Name = "dDATA_TYPE";
+            dDATA_TYPE.ReadOnly = true;
             // 
             // dROUTINE_DEFINITION
             // 
-            this.dROUTINE_DEFINITION.DataPropertyName = "ROUTINE_DEFINITION";
-            this.dROUTINE_DEFINITION.HeaderText = "Script";
-            this.dROUTINE_DEFINITION.MinimumWidth = 100;
-            this.dROUTINE_DEFINITION.Name = "dROUTINE_DEFINITION";
-            this.dROUTINE_DEFINITION.ReadOnly = true;
+            dROUTINE_DEFINITION.DataPropertyName = "ROUTINE_DEFINITION";
+            dROUTINE_DEFINITION.HeaderText = "Script";
+            dROUTINE_DEFINITION.MinimumWidth = 100;
+            dROUTINE_DEFINITION.Name = "dROUTINE_DEFINITION";
+            dROUTINE_DEFINITION.ReadOnly = true;
             // 
             // txtSpFilter
             // 
-            this.txtSpFilter.BackColor = System.Drawing.SystemColors.Info;
-            this.txtSpFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtSpFilter.Location = new System.Drawing.Point(0, 0);
-            this.txtSpFilter.Name = "txtSpFilter";
-            this.txtSpFilter.PlaceHolder = "Write something here to filter SP && Func";
-            this.txtSpFilter.Size = new System.Drawing.Size(696, 31);
-            this.txtSpFilter.TabIndex = 4;
-            this.txtSpFilter.TextChanged += new System.EventHandler(this.Filter);
+            txtSpFilter.BackColor = SystemColors.Info;
+            txtSpFilter.Dock = DockStyle.Top;
+            txtSpFilter.Location = new Point(0, 0);
+            txtSpFilter.Margin = new Padding(5, 2, 5, 2);
+            txtSpFilter.Name = "txtSpFilter";
+            txtSpFilter.PlaceHolder = "Write something here to filter SP && Func";
+            txtSpFilter.Size = new Size(386, 27);
+            txtSpFilter.TabIndex = 4;
+            txtSpFilter.TextChanged += Filter;
             // 
             // splitContainer4
             // 
-            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer4.Name = "splitContainer4";
-            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            splitContainer4.Dock = DockStyle.Fill;
+            splitContainer4.Location = new Point(0, 0);
+            splitContainer4.Margin = new Padding(8, 2, 8, 2);
+            splitContainer4.Name = "splitContainer4";
+            splitContainer4.Orientation = Orientation.Horizontal;
             // 
             // splitContainer4.Panel1
             // 
-            this.splitContainer4.Panel1.Controls.Add(this.dgvInputParams);
+            splitContainer4.Panel1.Controls.Add(dgvInputParams);
             // 
             // splitContainer4.Panel2
             // 
-            this.splitContainer4.Panel2.Controls.Add(this.dgvOutPutParams);
-            this.splitContainer4.Size = new System.Drawing.Size(481, 658);
-            this.splitContainer4.SplitterDistance = 299;
-            this.splitContainer4.TabIndex = 0;
-            this.splitContainer4.TabStop = false;
+            splitContainer4.Panel2.Controls.Add(dgvOutPutParams);
+            splitContainer4.Size = new Size(270, 536);
+            splitContainer4.SplitterDistance = 241;
+            splitContainer4.SplitterWidth = 2;
+            splitContainer4.TabIndex = 0;
+            splitContainer4.TabStop = false;
             // 
             // dgvInputParams
             // 
-            this.dgvInputParams.AllowUserToAddRows = false;
-            this.dgvInputParams.AllowUserToDeleteRows = false;
-            this.dgvInputParams.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvInputParams.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dISPECIFIC_NAME,
-            this.dParameter_Name,
-            this.dIData_Type,
-            this.dCharacter_Maximum_Length,
-            this.dParameter_Mode});
-            this.dgvInputParams.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvInputParams.Location = new System.Drawing.Point(0, 0);
-            this.dgvInputParams.Name = "dgvInputParams";
-            this.dgvInputParams.ReadOnly = true;
-            this.dgvInputParams.RowTemplate.Height = 24;
-            this.dgvInputParams.Size = new System.Drawing.Size(481, 299);
-            this.dgvInputParams.TabIndex = 1;
-            this.dgvInputParams.TabStop = false;
+            dgvInputParams.AllowUserToAddRows = false;
+            dgvInputParams.AllowUserToDeleteRows = false;
+            dgvInputParams.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvInputParams.Columns.AddRange(new DataGridViewColumn[] { dISPECIFIC_NAME, dParameter_Name, dIData_Type, dCharacter_Maximum_Length, dParameter_Mode });
+            dgvInputParams.Dock = DockStyle.Fill;
+            dgvInputParams.Location = new Point(0, 0);
+            dgvInputParams.Margin = new Padding(8, 2, 8, 2);
+            dgvInputParams.Name = "dgvInputParams";
+            dgvInputParams.ReadOnly = true;
+            dgvInputParams.RowTemplate.Height = 24;
+            dgvInputParams.Size = new Size(270, 241);
+            dgvInputParams.TabIndex = 1;
+            dgvInputParams.TabStop = false;
             // 
             // dISPECIFIC_NAME
             // 
-            this.dISPECIFIC_NAME.DataPropertyName = "SPECIFIC_NAME";
-            this.dISPECIFIC_NAME.HeaderText = "SPECIFIC_NAME";
-            this.dISPECIFIC_NAME.Name = "dISPECIFIC_NAME";
-            this.dISPECIFIC_NAME.ReadOnly = true;
-            this.dISPECIFIC_NAME.Visible = false;
+            dISPECIFIC_NAME.DataPropertyName = "SPECIFIC_NAME";
+            dISPECIFIC_NAME.HeaderText = "SPECIFIC_NAME";
+            dISPECIFIC_NAME.Name = "dISPECIFIC_NAME";
+            dISPECIFIC_NAME.ReadOnly = true;
+            dISPECIFIC_NAME.Visible = false;
             // 
             // dParameter_Name
             // 
-            this.dParameter_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dParameter_Name.DataPropertyName = "Parameter_Name";
-            this.dParameter_Name.HeaderText = "Parameter_Name";
-            this.dParameter_Name.Name = "dParameter_Name";
-            this.dParameter_Name.ReadOnly = true;
+            dParameter_Name.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dParameter_Name.DataPropertyName = "Parameter_Name";
+            dParameter_Name.HeaderText = "Parameter_Name";
+            dParameter_Name.Name = "dParameter_Name";
+            dParameter_Name.ReadOnly = true;
             // 
             // dIData_Type
             // 
-            this.dIData_Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dIData_Type.DataPropertyName = "Data_Type";
-            this.dIData_Type.HeaderText = "Data_Type";
-            this.dIData_Type.Name = "dIData_Type";
-            this.dIData_Type.ReadOnly = true;
-            this.dIData_Type.Width = 119;
+            dIData_Type.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dIData_Type.DataPropertyName = "Data_Type";
+            dIData_Type.HeaderText = "Data_Type";
+            dIData_Type.Name = "dIData_Type";
+            dIData_Type.ReadOnly = true;
+            dIData_Type.Width = 101;
             // 
             // dCharacter_Maximum_Length
             // 
-            this.dCharacter_Maximum_Length.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dCharacter_Maximum_Length.DataPropertyName = "Character_Maximum_Length";
-            this.dCharacter_Maximum_Length.HeaderText = "Col_Length";
-            this.dCharacter_Maximum_Length.Name = "dCharacter_Maximum_Length";
-            this.dCharacter_Maximum_Length.ReadOnly = true;
-            this.dCharacter_Maximum_Length.Width = 125;
+            dCharacter_Maximum_Length.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dCharacter_Maximum_Length.DataPropertyName = "Character_Maximum_Length";
+            dCharacter_Maximum_Length.HeaderText = "Col_Length";
+            dCharacter_Maximum_Length.Name = "dCharacter_Maximum_Length";
+            dCharacter_Maximum_Length.ReadOnly = true;
+            dCharacter_Maximum_Length.Width = 106;
             // 
             // dParameter_Mode
             // 
-            this.dParameter_Mode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dParameter_Mode.DataPropertyName = "Parameter_Mode";
-            this.dParameter_Mode.HeaderText = "Parameter_Mode";
-            this.dParameter_Mode.Name = "dParameter_Mode";
-            this.dParameter_Mode.ReadOnly = true;
-            this.dParameter_Mode.Width = 164;
+            dParameter_Mode.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dParameter_Mode.DataPropertyName = "Parameter_Mode";
+            dParameter_Mode.HeaderText = "Parameter_Mode";
+            dParameter_Mode.Name = "dParameter_Mode";
+            dParameter_Mode.ReadOnly = true;
+            dParameter_Mode.Width = 138;
             // 
             // dgvOutPutParams
             // 
-            this.dgvOutPutParams.AllowUserToAddRows = false;
-            this.dgvOutPutParams.AllowUserToDeleteRows = false;
-            this.dgvOutPutParams.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvOutPutParams.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dOSPECIFIC_NAME,
-            this.dOName,
-            this.dSystem_Type_Name,
-            this.dError_Message});
-            this.dgvOutPutParams.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvOutPutParams.Location = new System.Drawing.Point(0, 0);
-            this.dgvOutPutParams.Name = "dgvOutPutParams";
-            this.dgvOutPutParams.ReadOnly = true;
-            this.dgvOutPutParams.RowTemplate.Height = 24;
-            this.dgvOutPutParams.Size = new System.Drawing.Size(481, 355);
-            this.dgvOutPutParams.TabIndex = 1;
-            this.dgvOutPutParams.TabStop = false;
+            dgvOutPutParams.AllowUserToAddRows = false;
+            dgvOutPutParams.AllowUserToDeleteRows = false;
+            dgvOutPutParams.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvOutPutParams.Columns.AddRange(new DataGridViewColumn[] { dOSPECIFIC_NAME, dOName, dSystem_Type_Name, dError_Message });
+            dgvOutPutParams.Dock = DockStyle.Fill;
+            dgvOutPutParams.Location = new Point(0, 0);
+            dgvOutPutParams.Margin = new Padding(8, 2, 8, 2);
+            dgvOutPutParams.Name = "dgvOutPutParams";
+            dgvOutPutParams.ReadOnly = true;
+            dgvOutPutParams.RowTemplate.Height = 24;
+            dgvOutPutParams.Size = new Size(270, 293);
+            dgvOutPutParams.TabIndex = 1;
+            dgvOutPutParams.TabStop = false;
             // 
             // dOSPECIFIC_NAME
             // 
-            this.dOSPECIFIC_NAME.DataPropertyName = "SPECIFIC_NAME";
-            this.dOSPECIFIC_NAME.HeaderText = "SPECIFIC_NAME";
-            this.dOSPECIFIC_NAME.Name = "dOSPECIFIC_NAME";
-            this.dOSPECIFIC_NAME.ReadOnly = true;
-            this.dOSPECIFIC_NAME.Visible = false;
+            dOSPECIFIC_NAME.DataPropertyName = "SPECIFIC_NAME";
+            dOSPECIFIC_NAME.HeaderText = "SPECIFIC_NAME";
+            dOSPECIFIC_NAME.Name = "dOSPECIFIC_NAME";
+            dOSPECIFIC_NAME.ReadOnly = true;
+            dOSPECIFIC_NAME.Visible = false;
             // 
             // dOName
             // 
-            this.dOName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dOName.DataPropertyName = "Name";
-            this.dOName.HeaderText = "Name";
-            this.dOName.Name = "dOName";
-            this.dOName.ReadOnly = true;
-            this.dOName.Width = 83;
+            dOName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dOName.DataPropertyName = "Name";
+            dOName.HeaderText = "Name";
+            dOName.Name = "dOName";
+            dOName.ReadOnly = true;
+            dOName.Width = 69;
             // 
             // dSystem_Type_Name
             // 
-            this.dSystem_Type_Name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dSystem_Type_Name.DataPropertyName = "System_Type_Name";
-            this.dSystem_Type_Name.HeaderText = "System_Type_Name";
-            this.dSystem_Type_Name.Name = "dSystem_Type_Name";
-            this.dSystem_Type_Name.ReadOnly = true;
+            dSystem_Type_Name.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dSystem_Type_Name.DataPropertyName = "System_Type_Name";
+            dSystem_Type_Name.HeaderText = "System_Type_Name";
+            dSystem_Type_Name.Name = "dSystem_Type_Name";
+            dSystem_Type_Name.ReadOnly = true;
             // 
             // dError_Message
             // 
-            this.dError_Message.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dError_Message.DataPropertyName = "Error_Message";
-            this.dError_Message.HeaderText = "Error";
-            this.dError_Message.MinimumWidth = 100;
-            this.dError_Message.Name = "dError_Message";
-            this.dError_Message.ReadOnly = true;
+            dError_Message.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dError_Message.DataPropertyName = "Error_Message";
+            dError_Message.HeaderText = "Error";
+            dError_Message.MinimumWidth = 100;
+            dError_Message.Name = "dError_Message";
+            dError_Message.ReadOnly = true;
+            // 
+            // tabCommand
+            // 
+            tabCommand.Controls.Add(groupBox6);
+            tabCommand.Controls.Add(groupBox5);
+            tabCommand.Controls.Add(groupBox4);
+            tabCommand.Location = new Point(4, 26);
+            tabCommand.Margin = new Padding(3, 2, 3, 2);
+            tabCommand.Name = "tabCommand";
+            tabCommand.Padding = new Padding(3, 2, 3, 2);
+            tabCommand.Size = new Size(666, 540);
+            tabCommand.TabIndex = 1;
+            tabCommand.Text = "Command";
+            tabCommand.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            groupBox6.Controls.Add(btnExportExcel);
+            groupBox6.Location = new Point(37, 260);
+            groupBox6.Margin = new Padding(3, 2, 3, 2);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Padding = new Padding(3, 2, 3, 2);
+            groupBox6.Size = new Size(235, 258);
+            groupBox6.TabIndex = 6;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "Generator";
+            // 
+            // btnExportExcel
+            // 
+            btnExportExcel.Location = new Point(5, 23);
+            btnExportExcel.Margin = new Padding(3, 2, 3, 2);
+            btnExportExcel.Name = "btnExportExcel";
+            btnExportExcel.Size = new Size(156, 32);
+            btnExportExcel.TabIndex = 4;
+            btnExportExcel.Text = "Export to Excel";
+            btnExportExcel.UseVisualStyleBackColor = true;
+            btnExportExcel.Click += btnExportExcel_Click;
+            // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(btnSaveToXml);
+            groupBox5.Location = new Point(276, 35);
+            groupBox5.Margin = new Padding(3, 2, 3, 2);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Padding = new Padding(3, 2, 3, 2);
+            groupBox5.Size = new Size(180, 220);
+            groupBox5.TabIndex = 5;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "XML";
+            // 
+            // btnSaveToXml
+            // 
+            btnSaveToXml.Location = new Point(5, 23);
+            btnSaveToXml.Margin = new Padding(3, 2, 3, 2);
+            btnSaveToXml.Name = "btnSaveToXml";
+            btnSaveToXml.Size = new Size(156, 32);
+            btnSaveToXml.TabIndex = 5;
+            btnSaveToXml.Text = "Save To Xml";
+            btnSaveToXml.UseVisualStyleBackColor = true;
+            btnSaveToXml.Click += btnSaveToXml_Click;
+            // 
+            // groupBox4
+            // 
+            groupBox4.Controls.Add(btnUpdateAllDescription);
+            groupBox4.Controls.Add(btnUpdateDescription);
+            groupBox4.Location = new Point(37, 35);
+            groupBox4.Margin = new Padding(3, 2, 3, 2);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Padding = new Padding(3, 2, 3, 2);
+            groupBox4.Size = new Size(235, 220);
+            groupBox4.TabIndex = 4;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "SQL Server";
+            // 
+            // btnUpdateAllDescription
+            // 
+            btnUpdateAllDescription.Location = new Point(0, 61);
+            btnUpdateAllDescription.Margin = new Padding(3, 2, 3, 2);
+            btnUpdateAllDescription.Name = "btnUpdateAllDescription";
+            btnUpdateAllDescription.Size = new Size(224, 32);
+            btnUpdateAllDescription.TabIndex = 6;
+            btnUpdateAllDescription.Text = "Update All Description";
+            btnUpdateAllDescription.UseVisualStyleBackColor = true;
+            btnUpdateAllDescription.Click += btnUpdateAllDescription_Click;
+            // 
+            // btnUpdateDescription
+            // 
+            btnUpdateDescription.Location = new Point(0, 23);
+            btnUpdateDescription.Margin = new Padding(3, 2, 3, 2);
+            btnUpdateDescription.Name = "btnUpdateDescription";
+            btnUpdateDescription.Size = new Size(224, 32);
+            btnUpdateDescription.TabIndex = 3;
+            btnUpdateDescription.Text = "Update Modified Description";
+            btnUpdateDescription.UseVisualStyleBackColor = true;
+            btnUpdateDescription.Click += Update_Description_Click;
             // 
             // frmTables
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1195, 737);
-            this.Controls.Add(this.tabControl1);
-            this.Name = "frmTables";
-            this.Text = "Tables";
-            this.Controls.SetChildIndex(this.tabControl1, 0);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTables)).EndInit();
-            this.tabControl1.ResumeLayout(false);
-            this.tabCommand.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.tabTablesAndCols.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.splitContainer5.Panel1.ResumeLayout(false);
-            this.splitContainer5.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
-            this.splitContainer5.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvColumns)).EndInit();
-            this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-            this.splitContainer2.ResumeLayout(false);
-            this.groupBox7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvIndexes)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvFK)).EndInit();
-            this.tabSpsAndFuncs.ResumeLayout(false);
-            this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel1.PerformLayout();
-            this.splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
-            this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvSpsAndFuncs)).EndInit();
-            this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
-            this.splitContainer4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvInputParams)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvOutPutParams)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(9F, 16F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(674, 613);
+            Controls.Add(tabControl1);
+            Margin = new Padding(4, 2, 4, 2);
+            Name = "frmTables";
+            Text = "Tables";
+            Controls.SetChildIndex(panel1, 0);
+            Controls.SetChildIndex(tabControl1, 0);
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvTables).EndInit();
+            tabControl1.ResumeLayout(false);
+            tabTablesAndCols.ResumeLayout(false);
+            splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
+            splitContainer5.Panel1.ResumeLayout(false);
+            splitContainer5.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer5).EndInit();
+            splitContainer5.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvColumns).EndInit();
+            splitContainer2.Panel1.ResumeLayout(false);
+            splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
+            splitContainer2.ResumeLayout(false);
+            groupBox7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvIndexes).EndInit();
+            groupBox3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvFK).EndInit();
+            tabSpsAndFuncs.ResumeLayout(false);
+            splitContainer3.Panel1.ResumeLayout(false);
+            splitContainer3.Panel1.PerformLayout();
+            splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer3).EndInit();
+            splitContainer3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvSpsAndFuncs).EndInit();
+            splitContainer4.Panel1.ResumeLayout(false);
+            splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer4).EndInit();
+            splitContainer4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvInputParams).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvOutPutParams).EndInit();
+            tabCommand.ResumeLayout(false);
+            groupBox6.ResumeLayout(false);
+            groupBox5.ResumeLayout(false);
+            groupBox4.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion
@@ -910,8 +898,6 @@
         private System.Windows.Forms.Button btnUpdateDescription;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Button btnLoadDataFromSQL;
-        private System.Windows.Forms.Button btnLoadDataFromXML;
         private System.Windows.Forms.Button btnSaveToXml;
         private System.Windows.Forms.DataGridViewTextBoxColumn dColName;
         private System.Windows.Forms.DataGridViewTextBoxColumn dColType;

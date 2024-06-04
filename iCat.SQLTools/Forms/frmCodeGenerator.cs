@@ -2,6 +2,8 @@
 using iCat.SQLTools.Services.Interfaces;
 using iCat.SQLTools.Services.Managers;
 using iCat.SQLTools.Shareds.Enums;
+using Microsoft.Extensions.DependencyInjection;
+using NPOI.OpenXmlFormats.Spreadsheet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,17 +26,16 @@ namespace iCat.SQLTools.Forms
         CurrencyManager cmTables;
         CurrencyManager cmScripts;
         CurrencyManager cmSPAndFuncs;
-        private readonly DatasetManager _datasetManager;
         private readonly SettingConfig _settingConfig;
         private readonly IFileService _fileService;
         private readonly ISchemaService _schemaService;
 
+        DatasetManager _datasetManager => CurrencyManager?.Current != null ? (DatasetManager)CurrencyManager.Current : null;
+
+
         public frmCodeGenerator(
-            DatasetManager datasetManager,
-            SettingConfig settingConfig,
-            IFileService fileService,
-            ISchemaService schemaService
-            )
+            IServiceProvider provider
+            ) : base(provider)
         {
             InitializeComponent();
             dgvTables.AutoGenerateColumns = false;
@@ -43,10 +44,8 @@ namespace iCat.SQLTools.Forms
             dtScript.Columns.Add("Script");
             dtScript.Columns.Add("cmd");
             cmScripts = (CurrencyManager)this.BindingContext[dtScript];
-            _datasetManager = datasetManager ?? throw new ArgumentNullException(nameof(datasetManager));
-            _settingConfig = settingConfig ?? throw new ArgumentNullException(nameof(settingConfig));
-            _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
-            _schemaService = schemaService ?? throw new ArgumentNullException(nameof(schemaService));
+            _schemaService = provider.GetRequiredService<ISchemaService>();
+            _fileService = provider.GetRequiredService<IFileService>();
             //tableLayoutPanel1.SetColumnSpan(btnAllTables, 2);
             //Button btnAddScript = new Button();
             //btnAddScript.Name = "btnAddScript";
@@ -59,7 +58,13 @@ namespace iCat.SQLTools.Forms
         private void frmPOCOGenrator_Load(object sender, EventArgs e)
         {
 
-            if (_datasetManager.DataProvider != DataProvider.None && _datasetManager.Dataset != null)
+
+
+        }
+
+        public override void BindFrm()
+        {
+            if (_datasetManager.DataSource != DataSource.None && _datasetManager.Dataset != null)
             {
                 dgvTables.Focus();
                 dgvTables.DataSource = _datasetManager.Dataset;
@@ -84,7 +89,6 @@ namespace iCat.SQLTools.Forms
             {
                 MessageBox.Show("Please load data first.");
             }
-
         }
 
         private void btn_Click(object sender, EventArgs e)
@@ -102,7 +106,7 @@ namespace iCat.SQLTools.Forms
                                 txtClassName.Focus();
                                 MessageBox.Show("Please type in a class name..");
                             }
-                            txtResult.Text = _schemaService.GenerateClassWithSummary(_datasetManager.Dataset.Tables[Consts.strColumns]!, _settingConfig.Namespace, _settingConfig.Using, $"{txtClassName.Text}{_settingConfig.ClassSuffix}", txtScript.Text);
+                            txtResult.Text = _schemaService.GenerateClassWithSummary(_datasetManager.Dataset.Tables[Consts.strColumns]!, _datasetManager.Namespace, _datasetManager.Using, $"{txtClassName.Text}{_datasetManager.ClassSuffix}", txtScript.Text);
                             break;
                         case nameof(btnWithoutComment):
                             if (txtClassName.Text == "")
@@ -111,14 +115,14 @@ namespace iCat.SQLTools.Forms
                                 MessageBox.Show("Please type in a class name..");
                                 return;
                             }
-                            if (_datasetManager.DataProvider != DataProvider.MySQL &&
-                                _datasetManager.DataProvider != DataProvider.MSSQL)
+                            if (_datasetManager.DataSource != DataSource.MySQL &&
+                                _datasetManager.DataSource != DataSource.MSSQL)
                             {
                                 MessageBox.Show("Data of the action have to come from database.");
                                 return;
                             }
 
-                            txtResult.Text = _schemaService.GenerateClassWithoutSummary(_schemaService.GetTableSchema(txtScript.Text, txtClassName.Text), _settingConfig.Namespace, _settingConfig.Using, $"{txtClassName.Text}{_settingConfig.ClassSuffix}");
+                            txtResult.Text = _schemaService.GenerateClassWithoutSummary(_schemaService.GetTableSchema(_datasetManager.Category, _datasetManager.ConnectionType ?? throw new ArgumentException("ConnectionType can't be null"), txtScript.Text, txtClassName.Text), _datasetManager.Namespace, _datasetManager.Using, $"{txtClassName.Text}{_datasetManager.ClassSuffix}");
                             break;
                         case nameof(btnAllTables):
 
@@ -134,8 +138,8 @@ namespace iCat.SQLTools.Forms
                                     var item = _datasetManager!.Dataset!.Tables[Consts.strTables]!.Rows[i];
                                     var tableName = item["TableName"].ToString();
                                     var script = $"SELECT * FROM {tableName}";
-                                    var classBody = _schemaService.GenerateClassWithSummary(_datasetManager.Dataset.Tables[Consts.strColumns]!, _settingConfig.Namespace, _settingConfig.Using, $"{tableName}{_settingConfig.ClassSuffix}", script);
-                                    _fileService.SaveStringFileAsync($"{Path.Combine(filePath, tableName + _settingConfig.ClassSuffix + ".cs")}", classBody);
+                                    var classBody = _schemaService.GenerateClassWithSummary(_datasetManager.Dataset.Tables[Consts.strColumns]!, _datasetManager.Namespace, _datasetManager.Using, $"{tableName}{_datasetManager.ClassSuffix}", script);
+                                    _fileService.SaveStringFileAsync($"{Path.Combine(filePath, tableName + _datasetManager.ClassSuffix + ".cs")}", classBody);
                                 });
 
                                 MessageBox.Show("Files saved.");
@@ -148,13 +152,13 @@ namespace iCat.SQLTools.Forms
                                 MessageBox.Show("Please type in a class name..");
                                 return;
                             }
-                            if (_datasetManager.DataProvider != DataProvider.MySQL &&
-                                _datasetManager.DataProvider != DataProvider.MSSQL)
+                            if (_datasetManager.DataSource != DataSource.MySQL &&
+                                _datasetManager.DataSource != DataSource.MSSQL)
                             {
                                 MessageBox.Show("Data of the action have to come from database.");
                                 return;
                             }
-                            var dtTables = _schemaService.GetTableSchema(txtScript.Text, $"{txtClassName.Text}{_settingConfig.ClassSuffix}");
+                            var dtTables = _schemaService.GetTableSchema(_datasetManager.Category, _datasetManager.ConnectionType ?? throw new ArgumentException("ConnectionType can't be null"), txtScript.Text, $"{txtClassName.Text}{_datasetManager.ClassSuffix}");
                             txtResult.Text = _schemaService.GenerateClassAssign(dtTables);
                             break;
                         case nameof(btnSelect): txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Select, (ParameterType)cboParameterType.SelectedValue!); break;
@@ -210,7 +214,6 @@ namespace iCat.SQLTools.Forms
                 ((DataView)cmTables.List).RowFilter = filterString;
             }
         }
-
 
         private void dgv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {

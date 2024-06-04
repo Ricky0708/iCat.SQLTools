@@ -24,7 +24,8 @@ namespace iCat.SQLTools.Forms
 
         public frmCodeGenerator_xx(
             ISchemaService schemaService,
-            DatasetManager datasetManager)
+            DatasetManager datasetManager,
+            IServiceProvider provider) : base(provider)
         {
             InitializeComponent();
             dgvTables.AutoGenerateColumns = false;
@@ -48,6 +49,10 @@ namespace iCat.SQLTools.Forms
             }
         }
 
+        public override void BindFrm()
+        {
+            //throw new NotImplementedException();
+        }
 
         private void frmCodeGenerator_KeyDown(object sender, KeyEventArgs e)
         {

@@ -1,4 +1,5 @@
-﻿using iCat.SQLTools.Shareds.Enums;
+﻿using iCat.SQLTools.Repositories.Enums;
+using iCat.SQLTools.Shareds.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace iCat.SQLTools.Services.Interfaces
 {
     public interface IDBProvider : iCat.DB.Client.Factory.Interfaces.IDBClientProvider
     {
-        void SetNewDbClient(ConnectionType connectionType, string connectionString);
+        void AddOrUpdateDbClient(string key, ConnectionType connectionType, string connectionString);
     }
 }

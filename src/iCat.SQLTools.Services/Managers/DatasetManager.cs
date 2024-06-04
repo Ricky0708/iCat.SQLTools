@@ -14,28 +14,91 @@ using System.Xml;
 using ZstdSharp.Unsafe;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data.Common;
+using iCat.SQLTools.Repositories.Enums;
 
 namespace iCat.SQLTools.Services.Managers
 {
+    public class DatasetManagerFactory
+    {
+        public List<DatasetManager> DatasetManagers { get; set; } = new List<DatasetManager>();
+
+        public DatasetManagerFactory()
+        {
+        }
+
+        public DatasetManager? GetDatasetManager(string category)
+        {
+            lock (DatasetManagers)
+            {
+                var dm = DatasetManagers.FirstOrDefault(p => p.Category == category);
+                return dm;
+            }
+
+        }
+
+        public DatasetManager? AddDatasetManager(string category, DataSource dataSource, DataSet ds, string @using, string @namespace, string classSuffix)
+        {
+            lock (DatasetManagers)
+            {
+                var dsManager = DatasetManagers.FirstOrDefault(p => p.Category == category);
+                if (dsManager == null)
+                {
+                    DatasetManagers.Add(new DatasetManager
+                    {
+                        Category = category,
+                        DataSource = dataSource,
+                        Dataset = ds,
+                        ClassSuffix = classSuffix,
+                        Namespace = @namespace,
+                        Using = @using,
+                    });
+                }
+                else
+                {
+                    dsManager = new DatasetManager
+                    {
+                        Category = category,
+                        DataSource = dataSource,
+                        Dataset = ds,
+                        ClassSuffix = classSuffix,
+                        Namespace = @namespace,
+                        Using = @using,
+                    };
+                }
+
+            }
+            var dm = DatasetManagers.FirstOrDefault(p => p.Category == category);
+            return dm;
+        }
+
+
+    }
+
     public class DatasetManager
     {
-
+        public string Category { get; set; } = "";
         public DataSet? Dataset { get; set; }
-        public DataProvider DataProvider { get; set; }
-
-        public DatasetManager()
+        public DataSource DataSource { get; set; }
+        public ConnectionType? ConnectionType => DataSource switch
         {
-        }
-
-
-
-        public bool SaveToXml(DataSet ds, string fileName)
+            Shareds.Enums.DataSource.MSSQL => iCat.SQLTools.Repositories.Enums.ConnectionType.MSSQL,
+            Shareds.Enums.DataSource.MySQL => iCat.SQLTools.Repositories.Enums.ConnectionType.MySQL,
+            _ => null,
+        };
+        public string Using { get; set; } = "";
+        public string Namespace { get; set; } = "";
+        public string ClassSuffix { get; set; } = "";
+        public bool SaveToXml(string fileName)
         {
+
             string saveToPath = fileName;
-            ds.WriteXml(saveToPath, XmlWriteMode.WriteSchema);
-            return true;
+            if (Dataset != null)
+            {
+                Dataset.WriteXml(saveToPath, XmlWriteMode.WriteSchema);
+                return true;
+            }
+            return false;
+
         }
-
-
     }
 }

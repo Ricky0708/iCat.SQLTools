@@ -13,6 +13,7 @@ using iCat.Worker.Implements;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.ComponentModel;
 
 namespace iCat.SQLTools
 {
@@ -53,20 +54,16 @@ namespace iCat.SQLTools
                     services.AddSingleton<IFileService>(s => new FileService("Config", Path.Combine(Application.StartupPath, "Configs")));
                     services.AddSingleton<MainForm>();
                     services.AddKeyedScoped<Form, frmConfigSettingDlg>(nameof(frmConfigSettingDlg));
-                    services.AddKeyedScoped<Form, frmTables>(nameof(frmTables));
-                    services.AddKeyedScoped<Form, frmPOCO>(nameof(frmPOCO));
-                    services.AddKeyedScoped<Form, frmCodeGenerator_xx>(nameof(frmCodeGenerator_xx));
-                    services.AddKeyedScoped<Form, frmCodeGenerator>(nameof(frmCodeGenerator));
+                    services.AddKeyedScoped<frmBase, frmTables>(nameof(frmTables));
+                    //services.AddKeyedScoped<Form, frmPOCO>(nameof(frmPOCO));
+                    services.AddKeyedScoped<frmBase, frmCodeGenerator_xx>(nameof(frmCodeGenerator_xx));
+                    services.AddKeyedScoped<frmBase, frmCodeGenerator>(nameof(frmCodeGenerator));
 
-                    services.AddScoped<ISchemaService, SchemaService>(s =>
-                    {
-                        var connType = s.GetRequiredService<SettingConfig>();
-                        return new SchemaService(connType.ConnectionSetting.ConnectionType, s);
-                    });
+                    services.AddScoped<ISchemaService, SchemaService>();
                     services.AddScoped<ISchemaRepository, MSSQLSchemaRepository>();
                     services.AddScoped<ISchemaRepository, MySQLSchemaRepository>();
 
-                    services.AddSingleton<DatasetManager>();
+                    services.AddSingleton<DatasetManagerFactory>();
                     services.AddScoped<IUnitOfWorkFactory, DBClientFactory>();
                     services.AddScoped<IConnectionFactory, DBClientFactory>(s => (DBClientFactory)s.GetRequiredService<IUnitOfWorkFactory>());
                     services.AddSingleton<IDBClientProvider>(s => s.GetRequiredService<IDBProvider>());
@@ -74,7 +71,10 @@ namespace iCat.SQLTools
                     {
                         var config = s.GetRequiredService<SettingConfig>();
                         var result = new DBProvider();
-                        result.SetNewDbClient(config.ConnectionSetting.ConnectionType, config.ConnectionSetting.ConnectionString);
+                        foreach (var setting in config.ConnectionSettings)
+                        {
+                            result.AddOrUpdateDbClient(setting.Key, setting.ConnectionType, setting.ConnectionString);
+                        }
                         return result;
                     });
                 });

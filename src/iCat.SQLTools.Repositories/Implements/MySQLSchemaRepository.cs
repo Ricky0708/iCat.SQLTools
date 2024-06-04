@@ -1,4 +1,5 @@
 ﻿using iCat.DB.Client.Factory.Interfaces;
+using iCat.SQLTools.Repositories.Enums;
 using iCat.SQLTools.Repositories.Interfaces;
 using iCat.SQLTools.Shareds.Enums;
 using Microsoft.Data.SqlClient;
@@ -15,7 +16,7 @@ namespace iCat.SQLTools.Repositories.Implements
 {
     public class MySQLSchemaRepository : ISchemaRepository
     {
-        public string Category => "MySQL";
+        public ConnectionType ConnectionType => ConnectionType.MySQL;
 
         private readonly IConnectionFactory _factory;
 
@@ -24,18 +25,18 @@ namespace iCat.SQLTools.Repositories.Implements
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
         }
 
-        public DataSet GetDatasetFromSQL()
+        public DataSet GetDatasetFromSQL(string key)
         {
             var ds = new DataSet();
             try
             {
-                var tables = GetTables();
-                var columns = GetColumns();
-                var fks = GetFks();
-                var indexes = GetIndexes();
-                var spsAndFuncs = GetSpsAndFuncs();
-                var inputParams = GetInputParams();
-                var outputParams = GetOutputParams(spsAndFuncs);
+                var tables = GetTables(key);
+                var columns = GetColumns(key);
+                var fks = GetFks(key);
+                var indexes = GetIndexes(key);
+                var spsAndFuncs = GetSpsAndFuncs(key);
+                var inputParams = GetInputParams(key);
+                var outputParams = GetOutputParams(key, spsAndFuncs);
                 ds.Tables.AddRange(new[] { tables, columns, fks, indexes, spsAndFuncs, inputParams, outputParams });
 
                 return ds;
@@ -46,7 +47,7 @@ namespace iCat.SQLTools.Repositories.Implements
             }
         }
 
-        public DataTable GetTables()
+        public DataTable GetTables(string key)
         {
             var sbSQL = new StringBuilder();
             sbSQL.Append("SELECT ");
@@ -56,10 +57,10 @@ namespace iCat.SQLTools.Repositories.Implements
             sbSQL.Append("FROM information_schema.tables tbl ");
             sbSQL.Append("WHERE tbl.TABLE_SCHEMA = DATABASE() AND (tbl.TABLE_TYPE = 'BASE TABLE' OR tbl.TABLE_TYPE = 'VIEW') ");
             sbSQL.Append("ORDER BY TableName ");
-            return ExecuteGetDataTable(sbSQL.ToString(), Consts.strTables);
+            return ExecuteGetDataTable(key, sbSQL.ToString(), Consts.strTables);
         }
 
-        public DataTable GetColumns()
+        public DataTable GetColumns(string key)
         {
             var sbSQL = new StringBuilder();
             sbSQL.Append("SELECT DISTINCT ");
@@ -81,10 +82,10 @@ namespace iCat.SQLTools.Repositories.Implements
             sbSQL.Append("WHERE ");
             sbSQL.Append("	A.TABLE_SCHEMA = DATABASE() ");
             sbSQL.Append("ORDER BY A.ORDINAL_POSITION ");
-            return ExecuteGetDataTable(sbSQL.ToString(), Consts.strColumns);
+            return ExecuteGetDataTable(key, sbSQL.ToString(), Consts.strColumns);
         }
 
-        public DataTable GetFks()
+        public DataTable GetFks(string key)
         {
             var sbSQL = new StringBuilder();
             sbSQL.Append("SELECT ");
@@ -99,10 +100,10 @@ namespace iCat.SQLTools.Repositories.Implements
             sbSQL.Append("	INFORMATION_SCHEMA.KEY_COLUMN_USAGE B ON A.TABLE_SCHEMA = B.TABLE_SCHEMA AND A.TABLE_NAME = B.TABLE_NAME AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME ");
             sbSQL.Append("WHERE ");
             sbSQL.Append("	A.TABLE_SCHEMA = DATABASE() AND A.CONSTRAINT_TYPE = 'FOREIGN KEY' ");
-            return ExecuteGetDataTable(sbSQL.ToString(), Consts.strFKs);
+            return ExecuteGetDataTable(key, sbSQL.ToString(), Consts.strFKs);
         }
 
-        public DataTable GetIndexes()
+        public DataTable GetIndexes(string key)
         {
             var sbSQL = new StringBuilder();
             sbSQL.Append("SELECT ");
@@ -113,10 +114,10 @@ namespace iCat.SQLTools.Repositories.Implements
             sbSQL.Append("    INFORMATION_SCHEMA.STATISTICS A ");
             sbSQL.Append("WHERE ");
             sbSQL.Append("    TABLE_SCHEMA = DATABASE() ");
-            return ExecuteGetDataTable(sbSQL.ToString(), Consts.strIndexes);
+            return ExecuteGetDataTable(key, sbSQL.ToString(), Consts.strIndexes);
         }
 
-        public DataTable GetSpsAndFuncs()
+        public DataTable GetSpsAndFuncs(string key)
         {
             //var sbSQL = new StringBuilder();
             //sbSQL.Append("");
@@ -129,7 +130,7 @@ namespace iCat.SQLTools.Repositories.Implements
             return result;
         }
 
-        public DataTable GetInputParams()
+        public DataTable GetInputParams(string key)
         {
             //var sbSQL = new StringBuilder();
             //sbSQL.Append("");
@@ -143,7 +144,7 @@ namespace iCat.SQLTools.Repositories.Implements
             return result;
         }
 
-        public DataTable GetOutputParams(DataTable spAndFuncTable)
+        public DataTable GetOutputParams(string key, DataTable spAndFuncTable)
         {
             //var sbSQL = new StringBuilder();
             //sbSQL.Append("");
@@ -156,27 +157,27 @@ namespace iCat.SQLTools.Repositories.Implements
             return result;
         }
 
-        public DataTable ExecuteGetDataTable(string script, string dtName)
+        public DataTable ExecuteGetDataTable(string key, string script, string dtName)
         {
             var dt = new DataTable(dtName);
-            var conn = (MySqlConnection)_factory.GetConnection(Category).Connection;
+            var conn = (MySqlConnection)_factory.GetConnection(key).Connection;
             var da = new MySqlDataAdapter(script, conn);
             da.SelectCommand.CommandTimeout = 999;
             da.Fill(dt);
             return dt;
         }
 
-        public DataTable GetTableSchema(string script, string dtName)
+        public DataTable GetTableSchema(string key, string script, string dtName)
         {
             var dt = new DataTable(dtName);
-            var conn = (MySqlConnection)_factory.GetConnection(Category).Connection;
+            var conn = (MySqlConnection)_factory.GetConnection(key).Connection;
             var da = new MySqlDataAdapter(script, conn);
             da.SelectCommand.CommandTimeout = 999;
             da.FillSchema(dt, SchemaType.Source);
             return dt;
         }
 
-        public bool UpdateDescription(ref DataSet ds)
+        public bool UpdateDescription(string key, ref DataSet ds)
         {
             throw new NotImplementedException();
         }

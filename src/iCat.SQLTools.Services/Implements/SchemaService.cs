@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using iCat.SQLTools.Shareds.Shareds;
 using MySqlX.XDevAPI.Common;
 using System.Xml.XPath;
+using iCat.SQLTools.Repositories.Enums;
 
 namespace iCat.SQLTools.Services.Implements
 {
@@ -28,22 +29,17 @@ namespace iCat.SQLTools.Services.Implements
     {
         public string Category => _category;
         private string _category;
-        private readonly ISchemaRepository _repository;
-        public SchemaService(
-            ConnectionType connectionType,
-            IServiceProvider provider
-            )
+        private readonly IEnumerable<ISchemaRepository> _repositories;
+        public SchemaService(IEnumerable<ISchemaRepository> schemaRepositories)
         {
-            _category = connectionType.ToString();
-            _repository = provider
-                .GetRequiredService<IEnumerable<ISchemaRepository>>()
-                .First(p => p.Category == connectionType.ToString()) ?? throw new ArgumentNullException(nameof(ISchemaRepository));
+            _category = "";
+            _repositories = schemaRepositories;
         }
 
-        public DataSet GetDatasetFromDB()
+        public DataSet GetDatasetFromDB(string key, ConnectionType connectionType)
         {
             var ds = new DataSet();
-            ds = _repository.GetDatasetFromSQL();
+            ds = _repositories.First(p => p.ConnectionType == connectionType).GetDatasetFromSQL(key);
 
             DataRelation relCol = new DataRelation("MasterDetailCols", ds.Tables[Consts.strTables]!.Columns["TableName"]!, ds.Tables[Consts.strColumns]!.Columns["TableName"]!);
             ds.Relations.Add(relCol);
@@ -62,9 +58,9 @@ namespace iCat.SQLTools.Services.Implements
 
         }
 
-        public DataTable GetTableSchema(string sqlScript, string tableName)
+        public DataTable GetTableSchema(string key, ConnectionType connectionType, string sqlScript, string tableName)
         {
-            var dt = _repository.GetTableSchema(sqlScript, tableName);
+            var dt = _repositories.First(p => p.ConnectionType == connectionType).GetTableSchema(key, sqlScript, tableName);
             return dt;
         }
 
@@ -173,9 +169,9 @@ namespace iCat.SQLTools.Services.Implements
             return result;
         }
 
-        public bool UpdateDescription(DataSet ds)
+        public bool UpdateDescription(string key, ConnectionType connectionType, DataSet ds)
         {
-            return _repository.UpdateDescription(ref ds);
+            return _repositories.First(p => p.ConnectionType == connectionType).UpdateDescription(key, ref ds);
         }
 
         #region from dataset
@@ -401,19 +397,21 @@ namespace iCat.SQLTools.Services.Implements
             sb.Append("var sbSQL = new StringBuilder();\r\n");
             for (int i = 0; i < dvCol.Count; i++)
             {
+                var colName = dvCol[i]["ColName"].ToString()!;
+                var colType = dvCol[i]["ColType"].ToString()!;
+                var colLength = dvCol[i]["ColLength"].ToString();
+
                 if (i == dvCol.Count - 1)
                 {
-                    selectCols += "A." + dvCol[i]["ColName"];
-                    whereParams += $"sbSQL.Append(\"    A.{dvCol[i]["ColName"]} = {ConvertParameterString(dvCol[i]["ColName"].ToString()!, parameterType)}\"); \r\n";
-                    parameters += $"parameters.Add(\"{dvCol[i]["ColName"].ToString()!}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
-                    //sb.Append("@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + "\r\n\r\n");
+                    selectCols += "A." + colName;
+                    whereParams += $"sbSQL.Append(\"    A.{colName} = {ConvertParameterString(colName, parameterType)}\"); \r\n";
+                    parameters += $"parameters.Add(\"{colName}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
                 }
                 else
                 {
-                    selectCols += "A." + dvCol[i]["ColName"] + ", ";
-                    whereParams += $"sbSQL.Append(\"    A.{dvCol[i]["ColName"]} = {ConvertParameterString(dvCol[i]["ColName"].ToString()!, parameterType)} AND \"); \r\n";
-                    parameters += $"parameters.Add(\"{dvCol[i]["ColName"].ToString()}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
-                    //sb.Append("@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + ",\r\n");
+                    selectCols += "A." + colName + ", ";
+                    whereParams += $"sbSQL.Append(\"    A.{colName} = {ConvertParameterString(colName.ToString()!, parameterType)} AND \"); \r\n";
+                    parameters += $"parameters.Add(\"{colName}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
                 }
             }
             sb.Append($"    sbSQL.Append(\"SELECT {selectCols} \");\r\n");
@@ -438,19 +436,21 @@ namespace iCat.SQLTools.Services.Implements
             sb.Append("var sbSQL = new StringBuilder();\r\n");
             for (int i = 0; i < dvCol.Count; i++)
             {
+                var colName = dvCol[i]["ColName"].ToString()!;
+                var colType = dvCol[i]["ColType"].ToString()!;
+                var colLength = dvCol[i]["ColLength"].ToString();
+
                 if (i == dvCol.Count - 1)
                 {
-                    selectCols += dvCol[i]["ColName"];
-                    valueParams += $"{ConvertParameterString(dvCol[i]["ColName"].ToString()!, parameterType)}";
-                    parameters += $"parameters.Add(\"{dvCol[i]["ColName"].ToString()!}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
-                    //sb.Append("@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + "\r\n\r\n");
+                    selectCols += colName;
+                    valueParams += $"{ConvertParameterString(colName, parameterType)}";
+                    parameters += $"parameters.Add(\"{colName}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
                 }
                 else
                 {
-                    selectCols += dvCol[i]["ColName"] + ", ";
-                    valueParams += $"{ConvertParameterString(dvCol[i]["ColName"].ToString()!, parameterType)}, ";
-                    parameters += $"parameters.Add(\"{dvCol[i]["ColName"].ToString()!}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
-                    //sb.Append("@w_" + dvCol[i]["ColName"] + " " + dvCol[i]["ColType"] + (dvCol[i]["ColLength"].ToString() != "" ? "(" + dvCol[i]["ColLength"].ToString() + ")" : "") + ",\r\n");
+                    selectCols += colName + ", ";
+                    valueParams += $"{ConvertParameterString(colName, parameterType)}, ";
+                    parameters += $"parameters.Add(\"{colName}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
                 }
             }
             sb.Append($"    sbSQL.Append(\"INSERT INTO {tableName}({selectCols}) \");\r\n");
@@ -476,28 +476,31 @@ namespace iCat.SQLTools.Services.Implements
             sb.Append("var sbSQL = new StringBuilder();\r\n");
             for (int i = 0; i < dvCol.Count; i++)
             {
+                var colName = dvCol[i]["ColName"].ToString()!;
+                var colType = dvCol[i]["ColType"].ToString()!;
+                var colLength = dvCol[i]["ColLength"].ToString();
                 if (dvCol[i]["IsIdentity"].ToString() != "true")
                 {
                     if (i == dvCol.Count - 1)
                     {
-                        updateParams += dvCol[i]["ColName"] + " = " + $"{ConvertParameterString($"p_{dvCol[i]["ColName"].ToString()}", parameterType)}" + " ";
-                        p_parameters += $"parameters.Add(\"{$"p_{dvCol[i]["ColName"]}"}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                        updateParams += colName + " = " + $"{ConvertParameterString($"p_{colName}", parameterType)}" + " ";
+                        p_parameters += $"parameters.Add(\"{$"p_{colName}"}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
                     }
                     else
                     {
-                        updateParams += dvCol[i]["ColName"] + " = " + $"{ConvertParameterString($"p_{dvCol[i]["ColName"].ToString()}", parameterType)}" + ", ";
-                        p_parameters += $"parameters.Add(\"{$"p_{dvCol[i]["ColName"]}"}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                        updateParams += colName + " = " + $"{ConvertParameterString($"p_{colName}", parameterType)}" + ", ";
+                        p_parameters += $"parameters.Add(\"{$"p_{colName}"}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
                     }
                 }
                 if (i == dvCol.Count - 1)
                 {
-                    whereParams += "         sbSQL.Append(\"    " + dvCol[i]["ColName"] + " = " + $"{ConvertParameterString($"w_{dvCol[i]["ColName"]}", parameterType)}" + "\");\r\n";
-                    w_parameters += $"parameters.Add(\"{$"w_{dvCol[i]["ColName"]}"}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                    whereParams += "         sbSQL.Append(\"    " + colName + " = " + $"{ConvertParameterString($"w_{colName}", parameterType)}" + "\");\r\n";
+                    w_parameters += $"parameters.Add(\"{$"w_{colName}"}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
                 }
                 else
                 {
-                    whereParams += "         sbSQL.Append(\"    " + dvCol[i]["ColName"] + " = " + $"{ConvertParameterString($"w_{dvCol[i]["ColName"]}", parameterType)}" + " AND \");\r\n";
-                    w_parameters += $"parameters.Add(\"{$"w_{dvCol[i]["ColName"]}"}\", {dvCol[i]["ColName"].ToString().ToLower()}, {Convertor.ConvertToCSharpDbType(dvCol[i]["ColType"].ToString())}, ParameterDirection.Input, {dvCol[i]["ColLength"].ToString()});\r\n";
+                    whereParams += "         sbSQL.Append(\"    " + colName + " = " + $"{ConvertParameterString($"w_{colName}", parameterType)}" + " AND \");\r\n";
+                    w_parameters += $"parameters.Add(\"{$"w_{colName}"}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
                 }
 
             }

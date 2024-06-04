@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace iCat.SQLTools.Shareds.Enums
+namespace iCat.SQLTools.Repositories.Enums
 {
     public enum ConnectionType
     {
