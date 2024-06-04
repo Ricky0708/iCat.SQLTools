@@ -109,7 +109,7 @@ namespace iCat.SQLTools
             }
         }
 
-     
+
 
         private void ChildFormClose(Object sender, FormClosingEventArgs e)
         {
@@ -156,11 +156,21 @@ namespace iCat.SQLTools
                     var xml = sr.ReadToEnd();
                     var service = _provider.GetRequiredService<ISchemaService>();
 
-                    _datasetManagerFactory.AddDatasetManager(
-                        fileName,
-                        Shareds.Enums.DataSource.XML,
-                        service.GetDatasetFromXml(xml),
-                        "", "", "");
+                    var databaseManager = _datasetManagerFactory.GetDatasetManager(fileName);
+                    if (databaseManager == null)
+                    {
+                        _datasetManagerFactory.AddDatasetManager(
+                            fileName,
+                            Shareds.Enums.DataSource.XML,
+                            service.GetDatasetFromXml(xml),
+                            "", "", "");
+                    }
+                    else
+                    {
+                        databaseManager.Dataset = service.GetDatasetFromXml(xml);
+                    }
+
+
                     _bmDatasetManager.Refresh();
                 }
             }
@@ -201,6 +211,6 @@ namespace iCat.SQLTools
             }
         }
 
-       
+
     }
 }
