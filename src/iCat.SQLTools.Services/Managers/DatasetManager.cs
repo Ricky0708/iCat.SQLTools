@@ -70,6 +70,13 @@ namespace iCat.SQLTools.Services.Managers
             return dm;
         }
 
+        public void RemoveDatasetManager(string category)
+        {
+            lock (DatasetManagers)
+            {
+                var dm = DatasetManagers.Remove(DatasetManagers.First(p => p.Category == category));
+            }
+        }
 
     }
 

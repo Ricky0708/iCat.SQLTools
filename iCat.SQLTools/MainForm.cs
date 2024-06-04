@@ -50,6 +50,7 @@ namespace iCat.SQLTools
                     btn.Click += new System.EventHandler(btn_Click!);
                 }
 
+                this.dgvDatasets.RowHeadersVisible = false;
                 this.dgvDatasets.AutoGenerateColumns = false;
                 _bmDatasetManager = (CurrencyManager)this.BindingContext[_datasetManagerFactory.DatasetManagers];
                 this.dgvDatasets.DataSource = _datasetManagerFactory.DatasetManagers;
@@ -108,6 +109,8 @@ namespace iCat.SQLTools
             }
         }
 
+     
+
         private void ChildFormClose(Object sender, FormClosingEventArgs e)
         {
             this.tabControl1.SelectedTab!.Dispose();
@@ -163,6 +166,15 @@ namespace iCat.SQLTools
             }
         }
 
+        private void dgvDatasets_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 1)
+            {
+                _datasetManagerFactory.RemoveDatasetManager(((DatasetManager)(_bmDatasetManager.Current)).Category);
+                _bmDatasetManager.Refresh();
+            }
+        }
+
         public string GetFileName()
         {
             string filePath = Path.Combine(Application.StartupPath, "database");
@@ -188,5 +200,7 @@ namespace iCat.SQLTools
                 di.Create();
             }
         }
+
+       
     }
 }

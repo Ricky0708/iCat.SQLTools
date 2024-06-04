@@ -32,6 +32,7 @@
             panel1 = new Panel();
             dgvDatasets = new DataGridView();
             dCategory = new DataGridViewTextBoxColumn();
+            dDelete = new DataGridViewButtonColumn();
             tableLayoutPanel1 = new TableLayoutPanel();
             btnLoadFromSQL = new Button();
             btnLoadFromXML = new Button();
@@ -78,14 +79,17 @@
             // 
             dgvDatasets.AllowUserToAddRows = false;
             dgvDatasets.AllowUserToDeleteRows = false;
+            dgvDatasets.AllowUserToResizeColumns = false;
+            dgvDatasets.AllowUserToResizeRows = false;
             dgvDatasets.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDatasets.Columns.AddRange(new DataGridViewColumn[] { dCategory });
+            dgvDatasets.Columns.AddRange(new DataGridViewColumn[] { dCategory, dDelete });
             dgvDatasets.Dock = DockStyle.Fill;
             dgvDatasets.Location = new Point(0, 29);
             dgvDatasets.Name = "dgvDatasets";
             dgvDatasets.ReadOnly = true;
             dgvDatasets.Size = new Size(184, 421);
             dgvDatasets.TabIndex = 0;
+            dgvDatasets.CellContentClick += dgvDatasets_CellContentClick;
             // 
             // dCategory
             // 
@@ -94,6 +98,18 @@
             dCategory.HeaderText = "Category";
             dCategory.Name = "dCategory";
             dCategory.ReadOnly = true;
+            // 
+            // dDelete
+            // 
+            dDelete.FillWeight = 50F;
+            dDelete.HeaderText = "Remove";
+            dDelete.Name = "dDelete";
+            dDelete.ReadOnly = true;
+            dDelete.Resizable = DataGridViewTriState.False;
+            dDelete.SortMode = DataGridViewColumnSortMode.Automatic;
+            dDelete.Text = "-";
+            dDelete.UseColumnTextForButtonValue = true;
+            dDelete.Width = 50;
             // 
             // tableLayoutPanel1
             // 
@@ -170,9 +186,10 @@
         private Panel panel1;
         private TabControl tabControl1;
         private DataGridView dgvDatasets;
-        private DataGridViewTextBoxColumn dCategory;
         private TableLayoutPanel tableLayoutPanel1;
         private Button btnLoadFromSQL;
         private Button btnLoadFromXML;
+        private DataGridViewTextBoxColumn dCategory;
+        private DataGridViewButtonColumn dDelete;
     }
 }
