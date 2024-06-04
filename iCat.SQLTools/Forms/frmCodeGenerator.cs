@@ -62,7 +62,7 @@ namespace iCat.SQLTools.Forms
 
         }
 
-        public override void BindFrm()
+        protected override void BindFrm()
         {
             if (_datasetManager.DataSource != DataSource.None && _datasetManager.Dataset != null)
             {
@@ -89,6 +89,14 @@ namespace iCat.SQLTools.Forms
             {
                 MessageBox.Show("Please load data first.");
             }
+        }
+
+        protected override void SetControlEnabled(DataSource dataSource)
+        {
+            base.SetControlEnabled(dataSource);
+            btnWithoutComment.Enabled = dataSource == DataSource.MSSQL || dataSource == DataSource.MySQL;
+            btnAllTables.Enabled = dataSource == DataSource.MSSQL || dataSource == DataSource.MySQL;
+            btnClassAssign.Enabled = dataSource == DataSource.MSSQL || dataSource == DataSource.MySQL;
         }
 
         private void btn_Click(object sender, EventArgs e)

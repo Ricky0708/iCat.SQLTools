@@ -1,6 +1,7 @@
 ﻿using iCat.SQLTools.Models;
 using iCat.SQLTools.Services.Interfaces;
 using iCat.SQLTools.Services.Managers;
+using iCat.SQLTools.Shareds.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,10 @@ namespace iCat.SQLTools.Forms
             this.Close();
         }
 
-        public virtual void BindFrm() { }
+        protected virtual void BindFrm() { }
+
+        protected virtual void SetControlEnabled(DataSource dataSource) { }
+
 
         private void frmBase_Load(object sender, EventArgs e)
         {
@@ -45,8 +49,10 @@ namespace iCat.SQLTools.Forms
                 CurrencyManager.PositionChanged += (s, e) =>
                 {
                     BindFrm();
+                    SetControlEnabled(((DatasetManager)CurrencyManager.Current).DataSource);
                 };
                 BindFrm();
+                SetControlEnabled(((DatasetManager)CurrencyManager.Current).DataSource);
             }
             catch (Exception ex)
             {

@@ -49,7 +49,7 @@ namespace iCat.SQLTools.Forms
             }
         }
 
-        public override void BindFrm()
+        protected override void BindFrm()
         {
             //throw new NotImplementedException();
         }

@@ -7,6 +7,7 @@ using iCat.SQLTools.Repositories.Implements;
 using iCat.SQLTools.Services.Interfaces;
 using iCat.SQLTools.Services.Managers;
 using iCat.SQLTools.Shareds;
+using iCat.SQLTools.Shareds.Enums;
 using iCat.SQLTools.Shareds.Shareds;
 using Microsoft.Extensions.DependencyInjection;
 using Org.BouncyCastle.Asn1.Esf;
@@ -242,40 +243,16 @@ namespace iCat.SQLTools.Forms
 
         #endregion
 
-        #region private method
+        #region override
 
-        public string SetFileName(string defRoot, string defName, string extensionName)
+        protected override void SetControlEnabled(DataSource dataSource)
         {
-            string fileName = "";
-            string filePath = defRoot;
-            SetFolderExists(filePath);
-            SaveFileDialog saveDlg = new SaveFileDialog();
-            saveDlg.DefaultExt = extensionName;
-            saveDlg.InitialDirectory = filePath;
-            saveDlg.FileName = defName + "." + extensionName;
-            saveDlg.Filter = extensionName + " file|*." + extensionName;
-
-            if (saveDlg.ShowDialog() == DialogResult.OK)
-            {
-                fileName = saveDlg.FileName;
-            }
-            return fileName;
+            base.SetControlEnabled(dataSource);
+            btnUpdateAllDescription.Enabled = dataSource == DataSource.MSSQL;
+            btnUpdateDescription.Enabled = dataSource == DataSource.MSSQL;
         }
 
-        public void SetFolderExists(string filePath)
-        {
-            DirectoryInfo di = new DirectoryInfo(filePath);
-            if (!di.Exists)
-            {
-                di.Create();
-            }
-        }
-
-        #endregion
-
-        #region method
-
-        public override void BindFrm()
+        protected override void BindFrm()
         {
             //var datasetManager = DatasetManager.GetDatasetManager(_connectionSetting!.Key)!;
             dgvTables.DataSource = ((DatasetManager)CurrencyManager.Current).Dataset;
@@ -313,6 +290,43 @@ namespace iCat.SQLTools.Forms
             };
             _dvFks.RowFilter = "ParentTable = '" + ((DataRowView)bmTables.Current)["TableName"].ToString() + "' OR ReferencedTable = '" + ((DataRowView)bmTables.Current)["TableName"].ToString() + "'";
         }
+
+        #endregion
+
+        #region private method
+
+        public string SetFileName(string defRoot, string defName, string extensionName)
+        {
+            string fileName = "";
+            string filePath = defRoot;
+            SetFolderExists(filePath);
+            SaveFileDialog saveDlg = new SaveFileDialog();
+            saveDlg.DefaultExt = extensionName;
+            saveDlg.InitialDirectory = filePath;
+            saveDlg.FileName = defName + "." + extensionName;
+            saveDlg.Filter = extensionName + " file|*." + extensionName;
+
+            if (saveDlg.ShowDialog() == DialogResult.OK)
+            {
+                fileName = saveDlg.FileName;
+            }
+            return fileName;
+        }
+
+        public void SetFolderExists(string filePath)
+        {
+            DirectoryInfo di = new DirectoryInfo(filePath);
+            if (!di.Exists)
+            {
+                di.Create();
+            }
+        }
+
+        #endregion
+
+        #region method
+
+
 
         private void Filter(object sender, EventArgs e)
         {
