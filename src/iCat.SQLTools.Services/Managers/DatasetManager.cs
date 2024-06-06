@@ -15,6 +15,7 @@ using ZstdSharp.Unsafe;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data.Common;
 using iCat.SQLTools.Repositories.Enums;
+using System.ComponentModel;
 
 namespace iCat.SQLTools.Services.Managers
 {
@@ -36,7 +37,7 @@ namespace iCat.SQLTools.Services.Managers
 
         }
 
-        public DatasetManager? AddDatasetManager(string category, DataSource dataSource, DataSet ds, string @using, string @namespace, string classSuffix)
+        public DatasetManager? AddDatasetManager(string category, DataSource dataSource, DataSet ds, string @using, string @namespace, string classSuffix, int seq)
         {
             lock (DatasetManagers)
             {
@@ -51,6 +52,7 @@ namespace iCat.SQLTools.Services.Managers
                         ClassSuffix = classSuffix,
                         Namespace = @namespace,
                         Using = @using,
+                        Seq = seq
                     });
                 }
                 else
@@ -63,11 +65,17 @@ namespace iCat.SQLTools.Services.Managers
                         ClassSuffix = classSuffix,
                         Namespace = @namespace,
                         Using = @using,
+                        Seq = seq
                     };
                 }
+
+                var tempList = DatasetManagers.OrderBy(p => p.Seq).ToList();
+                DatasetManagers = tempList;
+                var dm = DatasetManagers.FirstOrDefault(p => p.Category == category);
+                return dm;
             }
-            var dm = DatasetManagers.FirstOrDefault(p => p.Category == category);
-            return dm;
+
+   
         }
 
         public void RemoveDatasetManager(string category)
@@ -106,5 +114,6 @@ namespace iCat.SQLTools.Services.Managers
             return false;
 
         }
+        public int Seq { get; set; }
     }
 }

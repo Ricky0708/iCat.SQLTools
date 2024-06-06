@@ -7,6 +7,7 @@ using iCat.SQLTools.Shareds;
 using iCat.SQLTools.Shareds.Shareds;
 using Microsoft.Extensions.DependencyInjection;
 using NPOI.SS.Util;
+using System.ComponentModel;
 using System.Reflection;
 using System.Text.Json;
 using System.Windows.Forms;
@@ -21,7 +22,7 @@ namespace iCat.SQLTools
         private readonly DatasetManagerFactory _datasetManagerFactory;
         private readonly IServiceProvider _provider;
         private CurrencyManager _bmDatasetManager;
-
+        private BindingSource _bindingSource = new BindingSource();
         public MainForm(IFileService fileService, SettingConfig config, DatasetManagerFactory datasetManagerFactory, IServiceProvider provider)
         {
             InitializeComponent();
@@ -52,14 +53,20 @@ namespace iCat.SQLTools
 
                 this.dgvDatasets.RowHeadersVisible = false;
                 this.dgvDatasets.AutoGenerateColumns = false;
-                _bmDatasetManager = (CurrencyManager)this.BindingContext[_datasetManagerFactory.DatasetManagers];
-                this.dgvDatasets.DataSource = _datasetManagerFactory.DatasetManagers;
-
+                BindFrm();
             }
             else
             {
                 MessageBox.Show($"File {Path.Combine(_fileService.Folder, "programsConfig.json")} is not exist");
             }
+        }
+
+        private void BindFrm()
+        {
+            var bindingList = new BindingList<DatasetManager>(_datasetManagerFactory.DatasetManagers);
+            _bindingSource.DataSource = bindingList;
+            _bmDatasetManager = _bindingSource.CurrencyManager;
+            this.dgvDatasets.DataSource = _bindingSource;
         }
 
         private void btn_Click(object sender, EventArgs e)
@@ -120,6 +127,7 @@ namespace iCat.SQLTools
             dlg.OnLoadData += (setting) =>
             {
                 var service = _provider.GetRequiredService<ISchemaService>();
+
                 _datasetManagerFactory.AddDatasetManager(
                     setting.Key,
                     setting!.ConnectionType switch
@@ -129,11 +137,12 @@ namespace iCat.SQLTools
                         _ => throw new ArgumentException("Unkno Connection Type.")
                     },
                     service.GetDatasetFromDB(setting.Key, setting.ConnectionType),
-                    setting.Using, setting.Namespace, setting.ClassSuffix);
+                    setting.Using, setting.Namespace, setting.ClassSuffix, setting.SEQ);
                 return true;
             };
             dlg.OnDataLoaded += (count) =>
             {
+                BindFrm();
                 _bmDatasetManager.Refresh();
                 MessageBox.Show($"{count} databases are connected!");
             };
@@ -165,7 +174,7 @@ namespace iCat.SQLTools
                             fileName,
                             Shareds.Enums.DataSource.XML,
                             service.GetDatasetFromXml(xml),
-                            "", "", "");
+                            "", "", "", 999);
                     }
                     else
                     {

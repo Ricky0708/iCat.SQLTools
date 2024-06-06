@@ -57,7 +57,13 @@ namespace iCat.SQLTools.Forms
 
         private void frmBase_FormClosing(object sender, FormClosingEventArgs e)
         {
-            CurrencyManager.PositionChanged -= CurrencyManager_PositionChanged;
+            try
+            {
+                CurrencyManager.PositionChanged -= CurrencyManager_PositionChanged;
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void CurrencyManager_PositionChanged(object? sender, EventArgs e)
