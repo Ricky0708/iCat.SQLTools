@@ -68,8 +68,11 @@ namespace iCat.SQLTools.Forms
 
         private void CurrencyManager_PositionChanged(object? sender, EventArgs e)
         {
-            BindFrm();
-            SetControlEnabled(((DatasetManager)CurrencyManager.Current).DataSource);
+            if (CurrencyManager.Position > -1)
+            {
+                BindFrm();
+                SetControlEnabled(((DatasetManager)CurrencyManager.Current).DataSource);
+            }
         }
     }
 }
