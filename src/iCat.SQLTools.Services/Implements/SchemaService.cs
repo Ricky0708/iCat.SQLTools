@@ -22,6 +22,7 @@ using iCat.SQLTools.Shareds.Shareds;
 using MySqlX.XDevAPI.Common;
 using System.Xml.XPath;
 using iCat.SQLTools.Repositories.Enums;
+using NPOI.OpenXmlFormats;
 
 namespace iCat.SQLTools.Services.Implements
 {
@@ -43,8 +44,9 @@ namespace iCat.SQLTools.Services.Implements
 
             DataRelation relCol = new DataRelation("MasterDetailCols", ds.Tables[Consts.strTables]!.Columns["TableName"]!, ds.Tables[Consts.strColumns]!.Columns["TableName"]!);
             ds.Relations.Add(relCol);
-            //DataRelation relFK = new DataRelation("MasterDetailFKs", ds.Tables[dtTables].Columns["TableName"], ds.Tables[dtFKs].Columns["ParentTable"]);
-            //ds.Relations.Add(relFK);
+
+            DataRelation relFK = new DataRelation("MasterDetailFKs", ds.Tables[Consts.strTables]!.Columns["TableName"]!, ds.Tables[Consts.strFKs]!.Columns["ParentTable"]!);
+            ds.Relations.Add(relFK);
 
             DataRelation resIndex = new DataRelation("MasterDetailIndexes", ds.Tables[Consts.strTables]!.Columns["TableName"]!, ds.Tables[Consts.strIndexes]!.Columns["TableName"]!);
             ds.Relations.Add(resIndex);
