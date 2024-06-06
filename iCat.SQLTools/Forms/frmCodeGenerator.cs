@@ -55,13 +55,6 @@ namespace iCat.SQLTools.Forms
             //btnAddScript.Cursor = Cursors.Default;
         }
 
-        private void frmPOCOGenrator_Load(object sender, EventArgs e)
-        {
-
-
-
-        }
-
         protected override void BindFrm()
         {
             if (_datasetManager.DataSource != DataSource.None && _datasetManager.Dataset != null)

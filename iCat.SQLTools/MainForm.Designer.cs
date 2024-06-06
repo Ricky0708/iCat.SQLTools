@@ -31,12 +31,12 @@
             splitContainer1 = new SplitContainer();
             panel1 = new Panel();
             dgvDatasets = new DataGridView();
-            dCategory = new DataGridViewTextBoxColumn();
-            dDelete = new DataGridViewButtonColumn();
             tableLayoutPanel1 = new TableLayoutPanel();
             btnLoadFromSQL = new Button();
             btnLoadFromXML = new Button();
             tabControl1 = new TabControl();
+            dCategory = new DataGridViewTextBoxColumn();
+            dDelete = new DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
@@ -91,26 +91,6 @@
             dgvDatasets.TabIndex = 0;
             dgvDatasets.CellContentClick += dgvDatasets_CellContentClick;
             // 
-            // dCategory
-            // 
-            dCategory.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dCategory.DataPropertyName = "Category";
-            dCategory.HeaderText = "Category";
-            dCategory.Name = "dCategory";
-            dCategory.ReadOnly = true;
-            // 
-            // dDelete
-            // 
-            dDelete.FillWeight = 50F;
-            dDelete.HeaderText = "Remove";
-            dDelete.Name = "dDelete";
-            dDelete.ReadOnly = true;
-            dDelete.Resizable = DataGridViewTriState.False;
-            dDelete.SortMode = DataGridViewColumnSortMode.Automatic;
-            dDelete.Text = "-";
-            dDelete.UseColumnTextForButtonValue = true;
-            dDelete.Width = 50;
-            // 
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 2;
@@ -156,6 +136,26 @@
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(735, 450);
             tabControl1.TabIndex = 0;
+            // 
+            // dCategory
+            // 
+            dCategory.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dCategory.DataPropertyName = "Category";
+            dCategory.HeaderText = "Category";
+            dCategory.Name = "dCategory";
+            dCategory.ReadOnly = true;
+            // 
+            // dDelete
+            // 
+            dDelete.FillWeight = 50F;
+            dDelete.HeaderText = "";
+            dDelete.Name = "dDelete";
+            dDelete.ReadOnly = true;
+            dDelete.Resizable = DataGridViewTriState.False;
+            dDelete.SortMode = DataGridViewColumnSortMode.Automatic;
+            dDelete.Text = "-";
+            dDelete.UseColumnTextForButtonValue = true;
+            dDelete.Width = 50;
             // 
             // MainForm
             // 

@@ -64,6 +64,7 @@
             Margin = new Padding(4, 3, 4, 3);
             Name = "frmBase";
             Text = "frmBase";
+            FormClosing += frmBase_FormClosing;
             Load += frmBase_Load;
             panel1.ResumeLayout(false);
             ResumeLayout(false);

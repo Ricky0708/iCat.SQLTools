@@ -109,8 +109,6 @@ namespace iCat.SQLTools
             }
         }
 
-
-
         private void ChildFormClose(Object sender, FormClosingEventArgs e)
         {
             this.tabControl1.SelectedTab!.Dispose();
@@ -132,8 +130,12 @@ namespace iCat.SQLTools
                     },
                     service.GetDatasetFromDB(setting.Key, setting.ConnectionType),
                     setting.Using, setting.Namespace, setting.ClassSuffix);
-                _bmDatasetManager.Refresh();
                 return true;
+            };
+            dlg.OnDataLoaded += (count) =>
+            {
+                _bmDatasetManager.Refresh();
+                MessageBox.Show($"{count} databases are connected!");
             };
             dlg.OnSaveSettings += (jsonSettings) =>
             {

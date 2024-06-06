@@ -326,8 +326,6 @@ namespace iCat.SQLTools.Forms
 
         #region method
 
-
-
         private void Filter(object sender, EventArgs e)
         {
             if (bmTables != null)

@@ -46,18 +46,24 @@ namespace iCat.SQLTools.Forms
         {
             try
             {
-                CurrencyManager.PositionChanged += (s, e) =>
-                {
-                    BindFrm();
-                    SetControlEnabled(((DatasetManager)CurrencyManager.Current).DataSource);
-                };
-                BindFrm();
-                SetControlEnabled(((DatasetManager)CurrencyManager.Current).DataSource);
+                CurrencyManager.PositionChanged += CurrencyManager_PositionChanged;
+                CurrencyManager_PositionChanged(null, null!);
             }
             catch (Exception ex)
             {
             }
 
+        }
+
+        private void frmBase_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            CurrencyManager.PositionChanged -= CurrencyManager_PositionChanged;
+        }
+
+        private void CurrencyManager_PositionChanged(object? sender, EventArgs e)
+        {
+            BindFrm();
+            SetControlEnabled(((DatasetManager)CurrencyManager.Current).DataSource);
         }
     }
 }

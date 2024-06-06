@@ -413,7 +413,6 @@
             Margin = new Padding(5, 6, 5, 6);
             Name = "frmCodeGenerator";
             Text = "POCO_Genrator";
-            Load += frmPOCOGenrator_Load;
             KeyDown += frmPOCO_KeyDown;
             Controls.SetChildIndex(panel1, 0);
             Controls.SetChildIndex(splitContainer1, 0);

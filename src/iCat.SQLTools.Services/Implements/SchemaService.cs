@@ -180,8 +180,6 @@ namespace iCat.SQLTools.Services.Implements
         {
             try
             {
-
-
                 var selectClauses = jObj["SqlScript"]!["SqlBatch"]!["SqlSelectStatement"]!["SqlSelectSpecification"]!["SqlQuerySpecification"]!["SqlSelectClause"]!;
                 var fromClauses = jObj["SqlScript"]!["SqlBatch"]!["SqlSelectStatement"]!["SqlSelectSpecification"]!["SqlQuerySpecification"]!["SqlFromClause"]!;
 

@@ -25,6 +25,8 @@ namespace iCat.SQLTools.Forms
     {
         public delegate bool LoadData(ConnectionSetting setting);
         public event LoadData OnLoadData;
+        public delegate void DataLoaded(int count);
+        public event DataLoaded OnDataLoaded;
         public delegate bool SaveSettings(string configJson);
         public event SaveSettings OnSaveSettings;
 
@@ -38,6 +40,7 @@ namespace iCat.SQLTools.Forms
             _config = config ?? throw new ArgumentNullException(nameof(config));
             config.ConnectionSettings = config.ConnectionSettings.OrderBy(p => p.SEQ).ToList();
             dgvSettings.AutoGenerateColumns = false;
+            dgvSettings.RowHeadersVisible = false;
             dgvSettings.DataSource = config.ConnectionSettings;
             _bmSetting = (CurrencyManager)this.BindingContext[config.ConnectionSettings];
 
@@ -106,11 +109,19 @@ namespace iCat.SQLTools.Forms
 
         private void btnLoadData_Click(object sender, EventArgs e)
         {
-            if (OnLoadData?.Invoke((ConnectionSetting)_bmSetting.Current) ?? false)
+            var count = 0;
+            Parallel.For(0, dgvSettings.Rows.Count, i =>
             {
-                MessageBox.Show("Success!");
-                this.Close();
-            };
+                var row = dgvSettings.Rows[i];
+                var cell = row.Cells[nameof(dSelected)]!;
+                var isChecked = cell.Value?.ToString() == "1";
+                if (isChecked && (OnLoadData?.Invoke((ConnectionSetting)row.DataBoundItem) ?? false))
+                {
+                    ++count;
+                };
+            });
+
+            OnDataLoaded?.Invoke(count);
         }
     }
 }

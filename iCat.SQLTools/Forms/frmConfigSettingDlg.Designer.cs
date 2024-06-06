@@ -36,6 +36,8 @@
             btnSave = new Button();
             txtClassSuffix = new CustomControlleres.PlaceholderTextBox();
             groupBox1 = new GroupBox();
+            lblSeq = new Label();
+            txtSeq = new TextBox();
             btnLoadData = new Button();
             btnDelete = new Button();
             btnAddNew = new Button();
@@ -44,8 +46,7 @@
             panel1 = new Panel();
             dgvSettings = new DataGridView();
             dKey = new DataGridViewTextBoxColumn();
-            lblSeq = new Label();
-            txtSeq = new TextBox();
+            dSelected = new DataGridViewCheckBoxColumn();
             groupBox1.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSettings).BeginInit();
@@ -145,6 +146,23 @@
             groupBox1.TabIndex = 8;
             groupBox1.TabStop = false;
             // 
+            // lblSeq
+            // 
+            lblSeq.AutoSize = true;
+            lblSeq.Location = new Point(369, 119);
+            lblSeq.Margin = new Padding(2, 0, 2, 0);
+            lblSeq.Name = "lblSeq";
+            lblSeq.Size = new Size(28, 15);
+            lblSeq.TabIndex = 14;
+            lblSeq.Text = "SEQ";
+            // 
+            // txtSeq
+            // 
+            txtSeq.Location = new Point(402, 116);
+            txtSeq.Name = "txtSeq";
+            txtSeq.Size = new Size(105, 23);
+            txtSeq.TabIndex = 13;
+            // 
             // btnLoadData
             // 
             btnLoadData.Location = new Point(369, 382);
@@ -207,12 +225,13 @@
             // 
             dgvSettings.AllowUserToAddRows = false;
             dgvSettings.AllowUserToDeleteRows = false;
+            dgvSettings.AllowUserToResizeColumns = false;
+            dgvSettings.AllowUserToResizeRows = false;
             dgvSettings.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvSettings.Columns.AddRange(new DataGridViewColumn[] { dKey });
+            dgvSettings.Columns.AddRange(new DataGridViewColumn[] { dKey, dSelected });
             dgvSettings.Dock = DockStyle.Fill;
             dgvSettings.Location = new Point(0, 0);
             dgvSettings.Name = "dgvSettings";
-            dgvSettings.ReadOnly = true;
             dgvSettings.Size = new Size(200, 426);
             dgvSettings.TabIndex = 0;
             // 
@@ -223,23 +242,19 @@
             dKey.HeaderText = "Key";
             dKey.Name = "dKey";
             dKey.ReadOnly = true;
+            dKey.Resizable = DataGridViewTriState.False;
             // 
-            // lblSeq
+            // dSelected
             // 
-            lblSeq.AutoSize = true;
-            lblSeq.Location = new Point(369, 119);
-            lblSeq.Margin = new Padding(2, 0, 2, 0);
-            lblSeq.Name = "lblSeq";
-            lblSeq.Size = new Size(28, 15);
-            lblSeq.TabIndex = 14;
-            lblSeq.Text = "SEQ";
-            // 
-            // txtSeq
-            // 
-            txtSeq.Location = new Point(402, 116);
-            txtSeq.Name = "txtSeq";
-            txtSeq.Size = new Size(105, 23);
-            txtSeq.TabIndex = 13;
+            dSelected.FalseValue = "0";
+            dSelected.FillWeight = 50F;
+            dSelected.HeaderText = "";
+            dSelected.IndeterminateValue = "0";
+            dSelected.Name = "dSelected";
+            dSelected.Resizable = DataGridViewTriState.False;
+            dSelected.SortMode = DataGridViewColumnSortMode.Automatic;
+            dSelected.TrueValue = "1";
+            dSelected.Width = 50;
             // 
             // frmConfigSettingDlg
             // 
@@ -273,7 +288,6 @@
         private GroupBox groupBox1;
         private Panel panel1;
         private DataGridView dgvSettings;
-        private DataGridViewTextBoxColumn dKey;
         private Label lblKey;
         private TextBox txtKey;
         private Button btnAddNew;
@@ -281,5 +295,7 @@
         private Button btnLoadData;
         private Label lblSeq;
         private TextBox txtSeq;
+        private DataGridViewTextBoxColumn dKey;
+        private DataGridViewCheckBoxColumn dSelected;
     }
 }
