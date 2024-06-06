@@ -30,7 +30,7 @@ namespace iCat.SQLTools.Forms
         private readonly IFileService _fileService;
         private readonly ISchemaService _schemaService;
 
-        DatasetManager _datasetManager => CurrencyManager?.Current != null ? (DatasetManager)CurrencyManager.Current : null;
+        DatasetManager? _datasetManager => (CurrencyManager?.Position ?? -1) > -1 ? (DatasetManager)CurrencyManager.Current : null;
 
 
         public frmCodeGenerator(
@@ -57,7 +57,7 @@ namespace iCat.SQLTools.Forms
 
         protected override void BindFrm()
         {
-            if (_datasetManager.DataSource != DataSource.None && _datasetManager.Dataset != null)
+            if (_datasetManager?.Dataset != null && _datasetManager.DataSource != DataSource.None )
             {
                 dgvTables.Focus();
                 dgvTables.DataSource = _datasetManager.Dataset;

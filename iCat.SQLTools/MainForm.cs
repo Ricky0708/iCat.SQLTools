@@ -63,7 +63,7 @@ namespace iCat.SQLTools
 
         private void BindFrm()
         {
-            var bindingList = new BindingList<DatasetManager>(_datasetManagerFactory.DatasetManagers);
+            var bindingList = new BindingList<DatasetManager>(_datasetManagerFactory.DatasetManagers.OrderBy(p => p.Seq).ToList());
             _bindingSource.DataSource = bindingList;
             _bmDatasetManager = _bindingSource.CurrencyManager;
             this.dgvDatasets.DataSource = _bindingSource;
@@ -192,7 +192,7 @@ namespace iCat.SQLTools
             if (e.ColumnIndex == 1)
             {
                 var current = _bmDatasetManager.Current as DatasetManager;
-                //_bindingSource.Remove(current);
+                _bindingSource.Remove(current);
                 _datasetManagerFactory.RemoveDatasetManager(current?.Category ?? throw new Exception($"_bmDatasetManager.Current is null"));
                 _bmDatasetManager.Refresh();
             }

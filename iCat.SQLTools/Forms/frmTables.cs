@@ -32,7 +32,7 @@ namespace iCat.SQLTools.Forms
     {
         CurrencyManager bmTables;
         CurrencyManager bmSps;
-        DatasetManager _datasetManager => CurrencyManager?.Current != null ? (DatasetManager)CurrencyManager.Current : null;
+        DatasetManager? _datasetManager => (CurrencyManager?.Position ?? -1) > -1 ? (DatasetManager)CurrencyManager.Current : null;
 
         DataView _dvFks;
         private readonly IServiceProvider _provider;
@@ -255,40 +255,43 @@ namespace iCat.SQLTools.Forms
         protected override void BindFrm()
         {
             //var datasetManager = DatasetManager.GetDatasetManager(_connectionSetting!.Key)!;
-            dgvTables.DataSource = ((DatasetManager)CurrencyManager.Current).Dataset;
-            dgvTables.DataMember = "Tables";
-
-            dgvColumns.DataSource = _datasetManager.Dataset;
-            dgvColumns.DataMember = "Tables.MasterDetailCols";
-
-            _dvFks = _datasetManager.Dataset.Tables["FKs"].DefaultView;
-            dgvFK.DataSource = _dvFks;
-
-            dgvIndexes.DataSource = _datasetManager.Dataset;
-            dgvIndexes.DataMember = "Tables.MasterDetailIndexes";
-
-            dgvSpsAndFuncs.DataSource = _datasetManager.Dataset;
-            dgvSpsAndFuncs.DataMember = "SpsAndFuncs";
-
-            dgvInputParams.DataSource = _datasetManager.Dataset;
-            dgvInputParams.DataMember = "SpsAndFuncs.MasterDetailInputParams";
-
-            dgvOutPutParams.DataSource = _datasetManager.Dataset;
-            dgvOutPutParams.DataMember = "SpsAndFuncs.MasterDetailOutputParams";
-
-            bmTables = (CurrencyManager)this.BindingContext[_datasetManager.Dataset, "Tables"];
-            bmSps = (CurrencyManager)this.BindingContext[_datasetManager.Dataset, "SpsAndFuncs"];
-
-            bmTables.PositionChanged += (sender, e) =>
+            if (_datasetManager?.Dataset != null && _datasetManager.DataSource != DataSource.None)
             {
-                if (bmTables.Position != -1)
+                dgvTables.DataSource = ((DatasetManager)CurrencyManager.Current).Dataset;
+                dgvTables.DataMember = "Tables";
+
+                dgvColumns.DataSource = _datasetManager.Dataset;
+                dgvColumns.DataMember = "Tables.MasterDetailCols";
+
+                _dvFks = _datasetManager.Dataset.Tables["FKs"].DefaultView;
+                dgvFK.DataSource = _dvFks;
+
+                dgvIndexes.DataSource = _datasetManager.Dataset;
+                dgvIndexes.DataMember = "Tables.MasterDetailIndexes";
+
+                dgvSpsAndFuncs.DataSource = _datasetManager.Dataset;
+                dgvSpsAndFuncs.DataMember = "SpsAndFuncs";
+
+                dgvInputParams.DataSource = _datasetManager.Dataset;
+                dgvInputParams.DataMember = "SpsAndFuncs.MasterDetailInputParams";
+
+                dgvOutPutParams.DataSource = _datasetManager.Dataset;
+                dgvOutPutParams.DataMember = "SpsAndFuncs.MasterDetailOutputParams";
+
+                bmTables = (CurrencyManager)this.BindingContext[_datasetManager.Dataset, "Tables"];
+                bmSps = (CurrencyManager)this.BindingContext[_datasetManager.Dataset, "SpsAndFuncs"];
+
+                bmTables.PositionChanged += (sender, e) =>
                 {
-                    string tableName = ((DataRowView)bmTables.Current)["TableName"].ToString();
-                    _dvFks.RowFilter = "ParentTable = '" + tableName + "' OR ReferencedTable = '" + tableName + "'";
-                    dColDescription.ReadOnly = ((DataRowView)bmTables.Current)["TableType"].ToString() == "VIEW";
-                }
+                    if (bmTables.Position != -1)
+                    {
+                        string tableName = ((DataRowView)bmTables.Current)["TableName"].ToString();
+                        _dvFks.RowFilter = "ParentTable = '" + tableName + "' OR ReferencedTable = '" + tableName + "'";
+                        dColDescription.ReadOnly = ((DataRowView)bmTables.Current)["TableType"].ToString() == "VIEW";
+                    }
+                };
+                _dvFks.RowFilter = "ParentTable = '" + ((DataRowView)bmTables.Current)["TableName"].ToString() + "' OR ReferencedTable = '" + ((DataRowView)bmTables.Current)["TableName"].ToString() + "'";
             };
-            _dvFks.RowFilter = "ParentTable = '" + ((DataRowView)bmTables.Current)["TableName"].ToString() + "' OR ReferencedTable = '" + ((DataRowView)bmTables.Current)["TableName"].ToString() + "'";
         }
 
         #endregion

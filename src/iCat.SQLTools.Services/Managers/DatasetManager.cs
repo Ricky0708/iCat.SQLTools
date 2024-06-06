@@ -69,8 +69,8 @@ namespace iCat.SQLTools.Services.Managers
                     };
                 }
 
-                var tempList = DatasetManagers.OrderBy(p => p.Seq).ToList();
-                DatasetManagers = tempList;
+                //var tempList = DatasetManagers.OrderBy(p => p.Seq).ToList();
+                //DatasetManagers = tempList;
                 var dm = DatasetManagers.FirstOrDefault(p => p.Category == category);
                 return dm;
             }
