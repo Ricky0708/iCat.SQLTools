@@ -181,7 +181,7 @@ namespace iCat.SQLTools
                         databaseManager.Dataset = service.GetDatasetFromXml(xml);
                     }
 
-
+                    BindFrm();
                     _bmDatasetManager.Refresh();
                 }
             }
