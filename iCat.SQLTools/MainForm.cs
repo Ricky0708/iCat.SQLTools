@@ -191,7 +191,9 @@ namespace iCat.SQLTools
         {
             if (e.ColumnIndex == 1)
             {
-                _datasetManagerFactory.RemoveDatasetManager(((DatasetManager)(_bmDatasetManager.Current)).Category);
+                var current = _bmDatasetManager.Current as DatasetManager;
+                //_bindingSource.Remove(current);
+                _datasetManagerFactory.RemoveDatasetManager(current?.Category ?? throw new Exception($"_bmDatasetManager.Current is null"));
                 _bmDatasetManager.Refresh();
             }
         }
