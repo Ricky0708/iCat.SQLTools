@@ -414,10 +414,10 @@ namespace iCat.SQLTools.Services.Implements
                     parameters += $"parameters.Add(\"{colName}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
                 }
             }
-            sb.Append($"    sbSQL.Append(\"SELECT {selectCols} \");\r\n");
-            sb.Append($"    sbSQL.Append(\"FROM {tableName} A \");\r\n");
-            sb.Append($"    sbSQL.Append(\"WHERE \");\r\n");
-            sb.Append($"    {whereParams}\r\n");
+            sb.Append($"sbSQL.Append(\"SELECT {selectCols} \");\r\n");
+            sb.Append($"sbSQL.Append(\"FROM {tableName} A \");\r\n");
+            sb.Append($"sbSQL.Append(\"WHERE \");\r\n");
+            sb.Append($"{whereParams}\r\n");
 
             sb.Append(parameters);
             result = sb.ToString();
@@ -453,8 +453,8 @@ namespace iCat.SQLTools.Services.Implements
                     parameters += $"parameters.Add(\"{colName}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
                 }
             }
-            sb.Append($"    sbSQL.Append(\"INSERT INTO {tableName}({selectCols}) \");\r\n");
-            sb.Append($"    sbSQL.Append(\"VALUES({valueParams}) \");\r\n");
+            sb.Append($"sbSQL.Append(\"INSERT INTO {tableName}({selectCols}) \");\r\n");
+            sb.Append($"sbSQL.Append(\"VALUES({valueParams}) \");\r\n\r\n");
 
             sb.Append(parameters);
             result = sb.ToString();
@@ -494,19 +494,19 @@ namespace iCat.SQLTools.Services.Implements
                 }
                 if (i == dvCol.Count - 1)
                 {
-                    whereParams += "         sbSQL.Append(\"    " + colName + " = " + $"{ConvertParameterString($"w_{colName}", parameterType)}" + "\");\r\n";
+                    whereParams += "sbSQL.Append(\"    " + colName + " = " + $"{ConvertParameterString($"w_{colName}", parameterType)}" + "\");\r\n";
                     w_parameters += $"parameters.Add(\"{$"w_{colName}"}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
                 }
                 else
                 {
-                    whereParams += "         sbSQL.Append(\"    " + colName + " = " + $"{ConvertParameterString($"w_{colName}", parameterType)}" + " AND \");\r\n";
+                    whereParams += "sbSQL.Append(\"    " + colName + " = " + $"{ConvertParameterString($"w_{colName}", parameterType)}" + " AND \");\r\n";
                     w_parameters += $"parameters.Add(\"{$"w_{colName}"}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
                 }
 
             }
             sb.Append(topUpdateParams);
-            sb.Append($"    sbSQL.Append(\"UPDATE {tableName} SET {updateParams} \");\r\n");
-            sb.Append($"    sbSQL.Append(\"WHERE \");\r\n" + whereParams + "");
+            sb.Append($"sbSQL.Append(\"UPDATE {tableName} SET {updateParams} \");\r\n");
+            sb.Append($"sbSQL.Append(\"WHERE \");\r\n" + whereParams + "\r\n");
             sb.Append(p_parameters);
             sb.Append(w_parameters);
             result = sb.ToString();
@@ -515,7 +515,37 @@ namespace iCat.SQLTools.Services.Implements
 
         public string GenerateDelete(DataTable dtColumns, string tableName, ParameterType parameterType)
         {
-            return "";
+            string result = "";
+            StringBuilder sb = new StringBuilder();
+            DataView dvCol = dtColumns.DefaultView;
+            dvCol.RowFilter = "TableName='" + tableName + "'";
+            string whereParams = "";
+            string parameters = "var parameters = new DynamicParameters();\r\n";
+            sb.Append("var sbSQL = new StringBuilder();\r\n");
+            for (int i = 0; i < dvCol.Count; i++)
+            {
+                var colName = dvCol[i]["ColName"].ToString()!;
+                var colType = dvCol[i]["ColType"].ToString()!;
+                var colLength = dvCol[i]["ColLength"].ToString();
+
+                if (i == dvCol.Count - 1)
+                {
+                    whereParams += $"sbSQL.Append(\"    A.{colName} = {ConvertParameterString(colName, parameterType)}\"); \r\n";
+                    parameters += $"parameters.Add(\"{colName}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
+                }
+                else
+                {
+                    whereParams += $"sbSQL.Append(\"    A.{colName} = {ConvertParameterString(colName.ToString()!, parameterType)} AND \"); \r\n";
+                    parameters += $"parameters.Add(\"{colName}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
+                }
+            }
+            sb.Append($"sbSQL.Append(\"DELETE FROM {tableName} A \");\r\n");
+            sb.Append($"sbSQL.Append(\"WHERE \");\r\n");
+            sb.Append($"{whereParams}\r\n");
+
+            sb.Append(parameters);
+            result = sb.ToString();
+            return result;
         }
 
         private string ConvertParameterString(string parameter, ParameterType parameterType)

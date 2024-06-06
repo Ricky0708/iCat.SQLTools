@@ -52,6 +52,7 @@
             cboParameterType = new ComboBox();
             btnInsert = new Button();
             btnSelect = new Button();
+            btnDelete = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvTables).BeginInit();
             groupBox2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
@@ -82,11 +83,11 @@
             dgvTables.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvTables.Columns.AddRange(new DataGridViewColumn[] { dTableName });
             dgvTables.Dock = DockStyle.Fill;
-            dgvTables.Location = new Point(0, 228);
+            dgvTables.Location = new Point(0, 266);
             dgvTables.Name = "dgvTables";
             dgvTables.ReadOnly = true;
             dgvTables.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dgvTables.Size = new Size(412, 419);
+            dgvTables.Size = new Size(412, 381);
             dgvTables.TabIndex = 0;
             dgvTables.CellDoubleClick += dgv_CellDoubleClick;
             // 
@@ -103,7 +104,7 @@
             // 
             txtTableFilter.BackColor = SystemColors.Info;
             txtTableFilter.Dock = DockStyle.Top;
-            txtTableFilter.Location = new Point(0, 201);
+            txtTableFilter.Location = new Point(0, 239);
             txtTableFilter.Margin = new Padding(3, 2, 3, 2);
             txtTableFilter.Name = "txtTableFilter";
             txtTableFilter.PlaceHolder = "Write something here to filter Table";
@@ -286,7 +287,7 @@
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(412, 201);
+            panel2.Size = new Size(412, 239);
             panel2.TabIndex = 0;
             // 
             // tabControl1
@@ -298,7 +299,7 @@
             tabControl1.Margin = new Padding(3, 2, 3, 2);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(412, 201);
+            tabControl1.Size = new Size(412, 239);
             tabControl1.TabIndex = 3;
             tabControl1.TabStop = false;
             // 
@@ -309,7 +310,7 @@
             tabPage1.Margin = new Padding(3, 2, 3, 2);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3, 2, 3, 2);
-            tabPage1.Size = new Size(404, 171);
+            tabPage1.Size = new Size(404, 245);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Class";
             tabPage1.UseVisualStyleBackColor = true;
@@ -321,7 +322,7 @@
             tabPage2.Margin = new Padding(3, 2, 3, 2);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3, 2, 3, 2);
-            tabPage2.Size = new Size(404, 171);
+            tabPage2.Size = new Size(404, 209);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "SQL";
             tabPage2.UseVisualStyleBackColor = true;
@@ -329,17 +330,18 @@
             // groupBox1
             // 
             groupBox1.BackColor = Color.Lavender;
+            groupBox1.Controls.Add(btnDelete);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(btnUpdate);
             groupBox1.Controls.Add(cboParameterType);
             groupBox1.Controls.Add(btnInsert);
             groupBox1.Controls.Add(btnSelect);
-            groupBox1.Dock = DockStyle.Top;
+            groupBox1.Dock = DockStyle.Fill;
             groupBox1.Location = new Point(3, 2);
             groupBox1.Margin = new Padding(3, 2, 3, 2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(3, 2, 3, 2);
-            groupBox1.Size = new Size(398, 168);
+            groupBox1.Size = new Size(398, 205);
             groupBox1.TabIndex = 3;
             groupBox1.TabStop = false;
             groupBox1.Text = "Generate Command";
@@ -348,7 +350,7 @@
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(287, 113);
+            label1.Location = new Point(290, 150);
             label1.Name = "label1";
             label1.Size = new Size(105, 16);
             label1.TabIndex = 5;
@@ -372,7 +374,7 @@
             cboParameterType.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             cboParameterType.DropDownStyle = ComboBoxStyle.DropDownList;
             cboParameterType.FormattingEnabled = true;
-            cboParameterType.Location = new Point(3, 132);
+            cboParameterType.Location = new Point(6, 169);
             cboParameterType.Name = "cboParameterType";
             cboParameterType.Size = new Size(392, 24);
             cboParameterType.TabIndex = 4;
@@ -402,6 +404,19 @@
             btnSelect.Text = "Select";
             btnSelect.UseVisualStyleBackColor = true;
             btnSelect.Click += btn_Click;
+            // 
+            // btnDelete
+            // 
+            btnDelete.Dock = DockStyle.Top;
+            btnDelete.Location = new Point(3, 109);
+            btnDelete.Margin = new Padding(3, 2, 3, 2);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(392, 29);
+            btnDelete.TabIndex = 6;
+            btnDelete.TabStop = false;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btn_Click;
             // 
             // frmCodeGenerator
             // 
@@ -464,5 +479,6 @@
         private ComboBox cboParameterType;
         private Label label1;
         private Panel panel2;
+        private Button btnDelete;
     }
 }

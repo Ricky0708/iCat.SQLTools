@@ -165,6 +165,7 @@ namespace iCat.SQLTools.Forms
                         case nameof(btnSelect): txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Select, (ParameterType)cboParameterType.SelectedValue!); break;
                         case nameof(btnInsert): txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Insert, (ParameterType)cboParameterType.SelectedValue!); break;
                         case nameof(btnUpdate): txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Update, (ParameterType)cboParameterType.SelectedValue!); break;
+                        case nameof(btnDelete): txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Delete, (ParameterType)cboParameterType.SelectedValue!); break;
                         default:
                             break;
                     }
