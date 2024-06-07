@@ -34,9 +34,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\src\iCat.SQLTools.Repositories\iCat.SQLTools.Repositories.csproj" />
-		<ProjectReference Include="..\src\iCat.SQLTools.Services\iCat.SQLTools.Services.csproj" />
-		<ProjectReference Include="..\src\iCat.SQLTools.Shareds\iCat.SQLTools.Shareds.csproj" />
+	  <ProjectReference Include="..\iCat.SQLTools.Repositories\iCat.SQLTools.Repositories.csproj" />
+	  <ProjectReference Include="..\iCat.SQLTools.Services\iCat.SQLTools.Services.csproj" />
+	  <ProjectReference Include="..\iCat.SQLTools.Shareds\iCat.SQLTools.Shareds.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
