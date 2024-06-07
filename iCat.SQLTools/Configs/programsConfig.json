@@ -1,0 +1,16 @@
+{
+	"programs": [
+		{
+			"progId": "frmTables",
+			"progName": "Tables",
+			"moduleName": "iCat.SQLTools",
+			"seq": 2
+		},
+		{
+			"progId": "frmCodeGenerator",
+			"progName": "Code Generator",
+			"moduleName": "iCat.SQLTools",
+			"seq": 3
+		}
+	]
+}

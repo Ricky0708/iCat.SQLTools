@@ -1,0 +1,23 @@
+{
+  "connectionSettings": [
+    {
+      "key": "MgReport",
+      "connectionType": 2,
+      "connectionString": "",
+      "namespace": "",
+      "using": "",
+      "classSuffix": "",
+      "SEQ": 1
+    },
+    {
+      "key": "MgPlatform",
+      "connectionType": 2,
+      "connectionString": "",
+      "namespace": "",
+      "using": "",
+      "classSuffix": "",
+      "SEQ": 2
+    }
+  ]
+
+}

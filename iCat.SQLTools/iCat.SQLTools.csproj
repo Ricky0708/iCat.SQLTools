@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<PublishSingleFile>true</PublishSingleFile>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<AssemblyVersion>2.0.0</AssemblyVersion>
+		<FileVersion>2.0.0-Beta</FileVersion>
+		<Version>2.0.0-Beta</Version>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Forms\frmPOCO.cs" />
+	  <Compile Remove="Forms\frmPOCO.Designer.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Remove="Forms\frmPOCO.resx" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="iCat.Worker" Version="1.0.0" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
+		<PackageReference Include="Microsoft.SqlServer.Management.SqlParser" Version="172.0.1" />
+		<PackageReference Include="MySql.Data" Version="8.4.0" />
+		<PackageReference Include="NPOI" Version="2.7.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\src\iCat.SQLTools.Repositories\iCat.SQLTools.Repositories.csproj" />
+		<ProjectReference Include="..\src\iCat.SQLTools.Services\iCat.SQLTools.Services.csproj" />
+		<ProjectReference Include="..\src\iCat.SQLTools.Shareds\iCat.SQLTools.Shareds.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Configs\programsConfig.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Configs\settingConfig.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+</Project>
