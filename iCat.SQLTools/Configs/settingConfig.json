@@ -1,18 +1,18 @@
 {
   "connectionSettings": [
     {
-      "key": "MgReport",
+      "key": "Test1",
       "connectionType": 2,
-      "connectionString": "",
+      "connectionString": "Server=127.0.0.1; DataBase=TestDB; uid=sa;pwd=P@ssw0rd;Encrypt=false;TrustServerCertificate=true",
       "namespace": "",
       "using": "",
       "classSuffix": "",
       "SEQ": 1
     },
     {
-      "key": "MgPlatform",
+      "key": "Test2",
       "connectionType": 2,
-      "connectionString": "",
+      "connectionString": "Server=127.0.0.1; DataBase=TestDB; uid=sa;pwd=P@ssw0rd;Encrypt=false;TrustServerCertificate=true",
       "namespace": "",
       "using": "",
       "classSuffix": "",
