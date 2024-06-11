@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -33,6 +34,7 @@ namespace iCat.SQLTools.Forms
 
         private readonly SettingConfig _config;
         private CurrencyManager _bmSetting;
+        private bool _isLoadingData = false;
 
         public frmConfigSettingDlg(SettingConfig config)
         {
@@ -109,19 +111,101 @@ namespace iCat.SQLTools.Forms
 
         private void btnLoadData_Click(object sender, EventArgs e)
         {
-            var count = 0;
+            var processedCount = 0;
+            var processingCount = 0;
+            var total = 0;
+            var locker = new object();
+            var tasks = new List<Task>();
             Parallel.For(0, dgvSettings.Rows.Count, i =>
             {
                 var row = dgvSettings.Rows[i];
                 var cell = row.Cells[nameof(dSelected)]!;
                 var isChecked = cell.Value?.ToString() == "1";
-                if (isChecked && (OnLoadData?.Invoke((ConnectionSetting)row.DataBoundItem) ?? false))
+                if (isChecked)
                 {
-                    ++count;
+                    lock (locker)
+                    {
+                        ++total;
+                    }
                 };
             });
 
-            OnDataLoaded?.Invoke(count);
+            if (total > 0)
+            {
+                _isLoadingData = true;
+                btnAddNew.Enabled = !_isLoadingData;
+                btnDelete.Enabled = !_isLoadingData;
+                btnLoadData.Enabled = !_isLoadingData;
+                btnSave.Enabled = !_isLoadingData;
+                lblLoadingResult.Visible = _isLoadingData;
+            }
+
+            for (int i = 0; i < dgvSettings.Rows.Count; i++)
+            {
+                var row = dgvSettings.Rows[i];
+                var cell = row.Cells[nameof(dSelected)]!;
+                var isChecked = cell.Value?.ToString() == "1";
+                if (isChecked)
+                {
+                    LoadingProcess(++processingCount, processedCount, total);
+                    var task = Task.Run(() =>
+                    {
+                        OnLoadData?.Invoke((ConnectionSetting)row.DataBoundItem);
+                        lock (locker)
+                        {
+                            LoadingProcess(--processingCount, ++processedCount, total);
+                        }
+                    });
+                    tasks.Add(task);
+                }
+            }
+
+            //Task.WhenAll(tasks).Wait();
+            //Parallel.For(0, dgvSettings.Rows.Count, i =>
+            //{
+            //    var row = dgvSettings.Rows[i];
+            //    var cell = row.Cells[nameof(dSelected)]!;
+            //    var isChecked = cell.Value?.ToString() == "1";
+            //    lock (locker)
+            //    {
+            //        LoadingProcess(++processingCount, processedCount, total);
+            //    }
+            //    if (isChecked && (OnLoadData?.Invoke((ConnectionSetting)row.DataBoundItem) ?? false))
+            //    {
+            //        lock (locker)
+            //        {
+            //            LoadingProcess(--processingCount, ++processedCount, total);
+            //        }
+            //    };
+            //});
+            //lblLoadingResult.Visible = false;
+        }
+
+        private void LoadingProcess(int processingCount, int processedCount, int total)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(LoadingProcess, processingCount, processedCount, total);
+            }
+            else
+            {
+                lblLoadingResult.Text = $"{processingCount}/{processedCount}/{total}";
+                if (processedCount == total)
+                {
+                    OnDataLoaded?.Invoke(processedCount);
+                    _isLoadingData = false;
+                    btnAddNew.Enabled = !_isLoadingData;
+                    btnDelete.Enabled = !_isLoadingData;
+                    btnLoadData.Enabled = !_isLoadingData;
+                    btnSave.Enabled = !_isLoadingData;
+                    lblLoadingResult.Visible = _isLoadingData;
+                }
+            }
+        }
+
+        private void frmConfigSettingDlg_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = _isLoadingData;
         }
     }
 }
