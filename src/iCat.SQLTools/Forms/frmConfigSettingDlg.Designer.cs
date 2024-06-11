@@ -36,6 +36,7 @@
             btnSave = new Button();
             txtClassSuffix = new CustomControlleres.PlaceholderTextBox();
             groupBox1 = new GroupBox();
+            lblLoadingResult = new Label();
             lblSeq = new Label();
             txtSeq = new TextBox();
             btnLoadData = new Button();
@@ -125,6 +126,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(lblLoadingResult);
             groupBox1.Controls.Add(lblSeq);
             groupBox1.Controls.Add(txtSeq);
             groupBox1.Controls.Add(btnLoadData);
@@ -145,6 +147,16 @@
             groupBox1.Size = new Size(537, 426);
             groupBox1.TabIndex = 8;
             groupBox1.TabStop = false;
+            // 
+            // lblLoadingResult
+            // 
+            lblLoadingResult.Location = new Point(263, 382);
+            lblLoadingResult.Name = "lblLoadingResult";
+            lblLoadingResult.Size = new Size(100, 23);
+            lblLoadingResult.TabIndex = 15;
+            lblLoadingResult.Text = "Loading result";
+            lblLoadingResult.TextAlign = ContentAlignment.MiddleRight;
+            lblLoadingResult.Visible = false;
             // 
             // lblSeq
             // 
@@ -266,7 +278,9 @@
             Controls.Add(panel1);
             Margin = new Padding(2, 3, 2, 3);
             Name = "frmConfigSettingDlg";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Config Setting";
+            FormClosing += frmConfigSettingDlg_FormClosing;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             panel1.ResumeLayout(false);
@@ -297,5 +311,6 @@
         private TextBox txtSeq;
         private DataGridViewTextBoxColumn dKey;
         private DataGridViewCheckBoxColumn dSelected;
+        private Label lblLoadingResult;
     }
 }

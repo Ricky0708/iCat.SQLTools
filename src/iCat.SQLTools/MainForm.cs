@@ -144,7 +144,7 @@ namespace iCat.SQLTools
             {
                 BindFrm();
                 _bmDatasetManager.Refresh();
-                MessageBox.Show($"{count} databases are connected!");
+                MessageBox.Show(this, $"{count} databases are connected!");
             };
             dlg.OnSaveSettings += (jsonSettings) =>
             {
