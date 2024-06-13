@@ -140,6 +140,7 @@ namespace iCat.SQLTools.Forms
                 lblLoadingResult.Visible = _isLoadingData;
             }
 
+            var exceptions = new List<Exception>();
             for (int i = 0; i < dgvSettings.Rows.Count; i++)
             {
                 var row = dgvSettings.Rows[i];
@@ -147,18 +148,32 @@ namespace iCat.SQLTools.Forms
                 var isChecked = cell.Value?.ToString() == "1";
                 if (isChecked)
                 {
-                    LoadingProcess(++processingCount, processedCount, total);
+                    LoadingProcess(++processingCount, processedCount, total, exceptions);
+
                     var task = Task.Run(() =>
                     {
-                        OnLoadData?.Invoke((ConnectionSetting)row.DataBoundItem);
-                        lock (locker)
+                        try
                         {
-                            LoadingProcess(--processingCount, ++processedCount, total);
+                            OnLoadData?.Invoke((ConnectionSetting)row.DataBoundItem);
                         }
+                        catch (Exception ex)
+                        {
+                            exceptions.Add(ex);
+                        }
+                        finally
+                        {
+                            lock (locker)
+                            {
+                                LoadingProcess(--processingCount, ++processedCount, total, exceptions);
+                            }
+                        }
+
+
                     });
                     tasks.Add(task);
                 }
             }
+
 
             //Task.WhenAll(tasks).Wait();
             //Parallel.For(0, dgvSettings.Rows.Count, i =>
@@ -181,24 +196,28 @@ namespace iCat.SQLTools.Forms
             //lblLoadingResult.Visible = false;
         }
 
-        private void LoadingProcess(int processingCount, int processedCount, int total)
+        private void LoadingProcess(int processingCount, int processedCount, int total, List<Exception> exceptions)
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(LoadingProcess, processingCount, processedCount, total);
+                this.Invoke(LoadingProcess, processingCount, processedCount, total, exceptions);
             }
             else
             {
                 lblLoadingResult.Text = $"{processingCount}/{processedCount}/{total}";
                 if (processedCount == total)
                 {
-                    OnDataLoaded?.Invoke(processedCount);
+                    OnDataLoaded?.Invoke(processedCount - exceptions.Count);
                     _isLoadingData = false;
                     btnAddNew.Enabled = !_isLoadingData;
                     btnDelete.Enabled = !_isLoadingData;
                     btnLoadData.Enabled = !_isLoadingData;
                     btnSave.Enabled = !_isLoadingData;
                     lblLoadingResult.Visible = _isLoadingData;
+                    if (exceptions.Count > 0)
+                    {
+                        MessageBox.Show(string.Join("\r\n", exceptions.Select(p => p.Message)));
+                    }
                 }
             }
         }
