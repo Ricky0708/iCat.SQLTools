@@ -128,17 +128,24 @@ namespace iCat.SQLTools
             {
                 var service = _provider.GetRequiredService<ISchemaService>();
 
-                _datasetManagerFactory.AddDatasetManager(
-                    setting.Key,
-                    setting!.ConnectionType switch
-                    {
-                        Repositories.Enums.ConnectionType.MSSQL => Shareds.Enums.DataSource.MSSQL,
-                        Repositories.Enums.ConnectionType.MySQL => Shareds.Enums.DataSource.MySQL,
-                        _ => throw new ArgumentException("Unkno Connection Type.")
-                    },
-                    service.GetDatasetFromDB(setting.Key, setting.ConnectionType),
-                    setting.Using, setting.Namespace, setting.ClassSuffix, setting.SEQ);
-                return true;
+                try
+                {
+                    _datasetManagerFactory.AddDatasetManager(
+                        setting.Key,
+                        setting!.ConnectionType switch
+                        {
+                            Repositories.Enums.ConnectionType.MSSQL => Shareds.Enums.DataSource.MSSQL,
+                            Repositories.Enums.ConnectionType.MySQL => Shareds.Enums.DataSource.MySQL,
+                            _ => throw new ArgumentException("Unkno Connection Type.")
+                        },
+                        service.GetDatasetFromDB(setting.Key, setting.ConnectionType),
+                        setting.Using, setting.Namespace, setting.ClassSuffix, setting.SEQ);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             };
             dlg.OnDataLoaded += (count) =>
             {
