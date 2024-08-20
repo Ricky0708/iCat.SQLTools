@@ -103,7 +103,7 @@ namespace iCat.SQLTools.Services.Implements
                 if (colInfo != null)
                 {
                     summary = GetSummary(colInfo) + "\r\n";
-                    isNullable = (int)colInfo["IsNullable"] == 1;
+                    isNullable = int.TryParse(colInfo["IsNullable"]?.ToString(), out var d) ? d == 1 : false;
                 }
                 body += summary + attr + string.Format("        public {0} {1} {{ get; set; }} {2}\r\n",
                     (Convertor.ConvertDBTypeToCSharpType(colInfo?.ItemArray[3]?.ToString()) ?? Convertor.ConvertDBTypeToCSharpType(col.ColumnType)) + (isNullable ? "?" : ""),
@@ -151,7 +151,6 @@ namespace iCat.SQLTools.Services.Implements
             {
                 var a = typeof(int);
                 sb.AppendLine($"{dtTables.TableName}.{col.ColumnName} = p.{col.ColumnName};");
-                sb.AppendLine($"");
             }
             return sb.ToString();
         }

@@ -136,6 +136,7 @@ namespace iCat.SQLTools
                         {
                             Repositories.Enums.ConnectionType.MSSQL => Shareds.Enums.DataSource.MSSQL,
                             Repositories.Enums.ConnectionType.MySQL => Shareds.Enums.DataSource.MySQL,
+                            Repositories.Enums.ConnectionType.Oracle => Shareds.Enums.DataSource.Oracle,
                             _ => throw new ArgumentException("Unkno Connection Type.")
                         },
                         service.GetDatasetFromDB(setting.Key, setting.ConnectionType),

@@ -11,6 +11,7 @@ namespace iCat.SQLTools.Shareds.Enums
         None,
         MSSQL,
         MySQL,
+        Oracle,
         XML
     }
 }

@@ -10,5 +10,6 @@ namespace iCat.SQLTools.Repositories.Enums
     {
         MSSQL = 1,
         MySQL = 2,
+        Oracle = 3,
     }
 }

@@ -62,6 +62,7 @@ namespace iCat.SQLTools
                     services.AddScoped<ISchemaService, SchemaService>();
                     services.AddScoped<ISchemaRepository, MSSQLSchemaRepository>();
                     services.AddScoped<ISchemaRepository, MySQLSchemaRepository>();
+                    services.AddScoped<ISchemaRepository, OracleSchemaRepository>();
 
                     services.AddSingleton<DatasetManagerFactory>();
                     services.AddScoped<IUnitOfWorkFactory, DBClientFactory>();
