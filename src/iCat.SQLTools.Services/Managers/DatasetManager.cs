@@ -97,6 +97,7 @@ namespace iCat.SQLTools.Services.Managers
         {
             Shareds.Enums.DataSource.MSSQL => iCat.SQLTools.Repositories.Enums.ConnectionType.MSSQL,
             Shareds.Enums.DataSource.MySQL => iCat.SQLTools.Repositories.Enums.ConnectionType.MySQL,
+            Shareds.Enums.DataSource.Oracle => iCat.SQLTools.Repositories.Enums.ConnectionType.Oracle,
             _ => null,
         };
         public string Using { get; set; } = "";

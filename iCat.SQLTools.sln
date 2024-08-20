@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iCat.SQLTools.Shareds", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iCat.SQLTools", "src\iCat.SQLTools\iCat.SQLTools.csproj", "{99C9836F-A51E-4747-899F-F85D41541B71}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1899F97B-EE5D-46BD-B750-34AC50A89091}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iCat.SQLTools.ConsoleTest", "test\iCat.SQLTools.Console\iCat.SQLTools.ConsoleTest.csproj", "{3AF85DB9-7941-4DE3-A2DF-8F4C7E239650}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,10 @@ Global
 		{99C9836F-A51E-4747-899F-F85D41541B71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99C9836F-A51E-4747-899F-F85D41541B71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99C9836F-A51E-4747-899F-F85D41541B71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AF85DB9-7941-4DE3-A2DF-8F4C7E239650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AF85DB9-7941-4DE3-A2DF-8F4C7E239650}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AF85DB9-7941-4DE3-A2DF-8F4C7E239650}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AF85DB9-7941-4DE3-A2DF-8F4C7E239650}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +52,7 @@ Global
 		{0B395867-689C-4430-A304-201CC6150968} = {BB53AC00-6E1B-4E5E-A83E-147641F5AAF8}
 		{0EB9584A-7523-4B3A-856E-E6E06F299622} = {BB53AC00-6E1B-4E5E-A83E-147641F5AAF8}
 		{99C9836F-A51E-4747-899F-F85D41541B71} = {BB53AC00-6E1B-4E5E-A83E-147641F5AAF8}
+		{3AF85DB9-7941-4DE3-A2DF-8F4C7E239650} = {1899F97B-EE5D-46BD-B750-34AC50A89091}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {931BDA13-AB8B-457F-99CE-7D06C56C31BC}

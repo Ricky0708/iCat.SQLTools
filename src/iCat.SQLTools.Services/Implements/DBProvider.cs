@@ -4,6 +4,7 @@ using iCat.SQLTools.Services.Interfaces;
 using iCat.SQLTools.Shareds.Enums;
 using Microsoft.Data.SqlClient;
 using MySql.Data.MySqlClient;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,7 @@ namespace iCat.SQLTools.Services.Implements
                     {
                         ConnectionType.MSSQL => () => new DBClient(new SqlConnection(connectionString)),
                         ConnectionType.MySQL => () => new DBClient(new MySqlConnection(connectionString)),
+                        ConnectionType.Oracle => () => new DBClient(new OracleConnection(connectionString)),
                         _ => throw new NotImplementedException(),
                     };
                 }
@@ -51,6 +53,7 @@ namespace iCat.SQLTools.Services.Implements
                     {
                         ConnectionType.MSSQL => () => new DBClient(new SqlConnection(connectionString)),
                         ConnectionType.MySQL => () => new DBClient(new MySqlConnection(connectionString)),
+                        ConnectionType.Oracle => () => new DBClient(new OracleConnection(connectionString)),
                         _ => throw new NotImplementedException(),
                     });
                 }

@@ -12,6 +12,7 @@
 		<PackageReference Include="iCat.DB.Client.Factory" Version="2.2.2-alpha" />
 		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
 		<PackageReference Include="MySql.Data" Version="8.4.0" />
+		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.5.1" />
 	</ItemGroup>
 
 </Project>

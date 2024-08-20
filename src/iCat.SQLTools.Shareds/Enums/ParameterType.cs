@@ -10,6 +10,7 @@ namespace iCat.SQLTools.Shareds.Enums
     {
         MSSQL,
         MySQL,
+        Oracle,
         ODBC
     }
 }

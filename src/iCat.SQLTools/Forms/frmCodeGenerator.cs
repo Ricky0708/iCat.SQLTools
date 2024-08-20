@@ -87,9 +87,9 @@ namespace iCat.SQLTools.Forms
         protected override void SetControlEnabled(DataSource dataSource)
         {
             base.SetControlEnabled(dataSource);
-            btnWithoutComment.Enabled = dataSource == DataSource.MSSQL || dataSource == DataSource.MySQL;
-            btnAllTables.Enabled = dataSource == DataSource.MSSQL || dataSource == DataSource.MySQL;
-            btnClassAssign.Enabled = dataSource == DataSource.MSSQL || dataSource == DataSource.MySQL;
+            btnWithoutComment.Enabled = dataSource == DataSource.MSSQL || dataSource == DataSource.MySQL || dataSource == DataSource.Oracle;
+            btnAllTables.Enabled = dataSource == DataSource.MSSQL || dataSource == DataSource.MySQL || dataSource == DataSource.Oracle;
+            btnClassAssign.Enabled = dataSource == DataSource.MSSQL || dataSource == DataSource.MySQL || dataSource == DataSource.Oracle;
         }
 
         private void btn_Click(object sender, EventArgs e)
@@ -117,7 +117,8 @@ namespace iCat.SQLTools.Forms
                                 return;
                             }
                             if (_datasetManager.DataSource != DataSource.MySQL &&
-                                _datasetManager.DataSource != DataSource.MSSQL)
+                                _datasetManager.DataSource != DataSource.MSSQL &&
+                                _datasetManager.DataSource != DataSource.Oracle)
                             {
                                 MessageBox.Show("Data of the action have to come from database.");
                                 return;
@@ -154,7 +155,8 @@ namespace iCat.SQLTools.Forms
                                 return;
                             }
                             if (_datasetManager.DataSource != DataSource.MySQL &&
-                                _datasetManager.DataSource != DataSource.MSSQL)
+                                _datasetManager.DataSource != DataSource.MSSQL &&
+                                _datasetManager.DataSource != DataSource.Oracle)
                             {
                                 MessageBox.Show("Data of the action have to come from database.");
                                 return;
