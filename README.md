@@ -3,6 +3,10 @@
   <p>This is a sql tools collection, it support developer to maintain schema description, and can be export to db schema document.<br/>
   (if table,sp,func name over then 31 char, it will display [TempNameX] in xlsx column, cause excel sheet name only support 31 char)</p>
 
+   <p>
+      ※ Code generator for Oracle can't be used yet.
+   </p>
+
 #Current features
 * **Tables**
    * Maintain DB description for MSSQL
