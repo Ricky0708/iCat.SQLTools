@@ -164,10 +164,10 @@ namespace iCat.SQLTools.Forms
                             var dtTables = _schemaService.GetTableSchema(_datasetManager.Category, _datasetManager.ConnectionType ?? throw new ArgumentException("ConnectionType can't be null"), txtScript.Text, $"{txtClassName.Text}{_datasetManager.ClassSuffix}");
                             txtResult.Text = _schemaService.GenerateClassAssign(dtTables);
                             break;
-                        case nameof(btnSelect): txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Select, (ParameterType)cboParameterType.SelectedValue!); break;
-                        case nameof(btnInsert): txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Insert, (ParameterType)cboParameterType.SelectedValue!); break;
-                        case nameof(btnUpdate): txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Update, (ParameterType)cboParameterType.SelectedValue!); break;
-                        case nameof(btnDelete): txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Delete, (ParameterType)cboParameterType.SelectedValue!); break;
+                        case nameof(btnSelect): txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Select, (ParameterType)cboParameterType.SelectedValue!, txtParameterObjName.Text); break;
+                        case nameof(btnInsert): txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Insert, (ParameterType)cboParameterType.SelectedValue!, txtParameterObjName.Text); break;
+                        case nameof(btnUpdate): txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Update, (ParameterType)cboParameterType.SelectedValue!, txtParameterObjName.Text); break;
+                        case nameof(btnDelete): txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Delete, (ParameterType)cboParameterType.SelectedValue!, txtParameterObjName.Text); break;
                         default:
                             break;
                     }

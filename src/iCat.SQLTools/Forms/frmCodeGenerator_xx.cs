@@ -107,10 +107,10 @@ namespace iCat.SQLTools.Forms
                         throw new ArgumentException("Unknow parameter type.");
                     switch (btnName)
                     {
-                        case "btnSelect": txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Select, paramType); break;
-                        case "btnInsert": txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Insert, paramType); break;
-                        case "btnUpdate": txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Update, paramType); break;
-                        case "btnDelete": txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Delete, paramType); break;
+                        case "btnSelect": txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Select, paramType, ""); break;
+                        case "btnInsert": txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Insert, paramType, ""); break;
+                        case "btnUpdate": txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Update, paramType, ""); break;
+                        case "btnDelete": txtResult.Text = _schemaService.GenerateDapperScript(_datasetManager.Dataset!.Tables[Consts.strColumns]!, tableName, ScriptKind.Delete, paramType, ""); break;
                         default:
                             break;
                     }
