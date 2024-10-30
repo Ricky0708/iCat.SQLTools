@@ -81,7 +81,7 @@ namespace iCat.SQLTools.Services.Implements
 
         }
 
-        public string GenerateClassWithSummary(DataTable dtColumns, string @namespace, string @using, string className, string sqlScript)
+        public string GenerateClassWithSummary(DataTable dtTables, DataTable dtColumns, string @namespace, string @using, string className, string sqlScript)
         {
             var parserResult = Microsoft.SqlServer.Management.SqlParser.Parser.Parser.Parse(sqlScript);
             XmlDocument doc = new XmlDocument();
@@ -96,6 +96,7 @@ namespace iCat.SQLTools.Services.Implements
             var body = "";
             foreach (var col in cols)
             {
+                var dtColIndex = dtTables.Columns.IndexOf(col.ColumnName);
                 var summary = "";
                 var attr = "";
                 var isNullable = false;
@@ -106,8 +107,8 @@ namespace iCat.SQLTools.Services.Implements
                     isNullable = int.TryParse(colInfo["IsNullable"]?.ToString(), out var d) ? d == 1 : false;
                 }
                 body += summary + attr + string.Format("        public {0} {1} {{ get; set; }} {2}\r\n",
-                    (Convertor.ConvertDBTypeToCSharpType(colInfo?.ItemArray[3]?.ToString()) ?? Convertor.ConvertDBTypeToCSharpType(col.ColumnType)) + (isNullable ? "?" : ""),
-                    col.ColumnName,
+                    $"{Convertor.GetAlias(dtTables.Columns[dtColIndex].DataType)}{(dtTables.Columns[dtColIndex].AllowDBNull ? "?" : "")}",
+                    col.ColumnName.ToLower(),
                     (colInfo?.ItemArray[3]?.ToString() ?? col.ColumnType).ToLower() == "string" //item.DataType.Name.ToLower() == "string"
                     ? isNullable
                         ? ""
@@ -375,7 +376,7 @@ namespace iCat.SQLTools.Services.Implements
                             select p).ToList();
             var colInfo = (from p in dtColumnsTable.AsEnumerable()
                            where p.Field<string>("ColName").ToLower() == colName.ToLower() && tableNames.Any(x => x.ToLower() == p.Field<string>("TableName").ToLower())
-                           select p).Single();
+                           select p).Last();
             return colInfo;
 
         }
@@ -404,13 +405,13 @@ namespace iCat.SQLTools.Services.Implements
                 {
                     selectCols += "A." + colName;
                     whereParams += $"sbSQL.Append(\"    A.{colName} = {ConvertParameterString(colName, parameterType)}\"); \r\n";
-                    parameters += $"parameters.Add(\"{colName}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
+                    parameters += $"parameters.Add(\"{colName}\", {colName.ToLower()});\r\n";
                 }
                 else
                 {
                     selectCols += "A." + colName + ", ";
                     whereParams += $"sbSQL.Append(\"    A.{colName} = {ConvertParameterString(colName.ToString()!, parameterType)} AND \"); \r\n";
-                    parameters += $"parameters.Add(\"{colName}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
+                    parameters += $"parameters.Add(\"{colName}\", {colName.ToLower()});\r\n";
                 }
             }
             sb.Append($"sbSQL.Append(\"SELECT {selectCols} \");\r\n");
@@ -443,13 +444,13 @@ namespace iCat.SQLTools.Services.Implements
                 {
                     selectCols += colName;
                     valueParams += $"{ConvertParameterString(colName, parameterType)}";
-                    parameters += $"parameters.Add(\"{colName}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
+                    parameters += $"parameters.Add(\"{colName}\", {colName.ToLower()});\r\n";
                 }
                 else
                 {
                     selectCols += colName + ", ";
                     valueParams += $"{ConvertParameterString(colName, parameterType)}, ";
-                    parameters += $"parameters.Add(\"{colName}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
+                    parameters += $"parameters.Add(\"{colName}\", {colName.ToLower()});\r\n";
                 }
             }
             sb.Append($"sbSQL.Append(\"INSERT INTO {tableName}({selectCols}) \");\r\n");
@@ -483,23 +484,23 @@ namespace iCat.SQLTools.Services.Implements
                     if (i == dvCol.Count - 1)
                     {
                         updateParams += colName + " = " + $"{ConvertParameterString($"p_{colName}", parameterType)}" + " ";
-                        p_parameters += $"parameters.Add(\"{$"p_{colName}"}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
+                        p_parameters += $"parameters.Add(\"{$"p_{colName}"}\", {colName.ToLower()});\r\n";
                     }
                     else
                     {
                         updateParams += colName + " = " + $"{ConvertParameterString($"p_{colName}", parameterType)}" + ", ";
-                        p_parameters += $"parameters.Add(\"{$"p_{colName}"}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
+                        p_parameters += $"parameters.Add(\"{$"p_{colName}"}\", {colName.ToLower()});\r\n";
                     }
                 }
                 if (i == dvCol.Count - 1)
                 {
                     whereParams += "sbSQL.Append(\"    " + colName + " = " + $"{ConvertParameterString($"w_{colName}", parameterType)}" + "\");\r\n";
-                    w_parameters += $"parameters.Add(\"{$"w_{colName}"}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
+                    w_parameters += $"parameters.Add(\"{$"w_{colName}"}\", {colName.ToLower()});\r\n";
                 }
                 else
                 {
                     whereParams += "sbSQL.Append(\"    " + colName + " = " + $"{ConvertParameterString($"w_{colName}", parameterType)}" + " AND \");\r\n";
-                    w_parameters += $"parameters.Add(\"{$"w_{colName}"}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
+                    w_parameters += $"parameters.Add(\"{$"w_{colName}"}\", {colName.ToLower()});\r\n";
                 }
 
             }
@@ -530,12 +531,12 @@ namespace iCat.SQLTools.Services.Implements
                 if (i == dvCol.Count - 1)
                 {
                     whereParams += $"sbSQL.Append(\"    A.{colName} = {ConvertParameterString(colName, parameterType)}\"); \r\n";
-                    parameters += $"parameters.Add(\"{colName}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
+                    parameters += $"parameters.Add(\"{colName}\", {colName.ToLower()});\r\n";
                 }
                 else
                 {
                     whereParams += $"sbSQL.Append(\"    A.{colName} = {ConvertParameterString(colName.ToString()!, parameterType)} AND \"); \r\n";
-                    parameters += $"parameters.Add(\"{colName}\", {colName}, {Convertor.ConvertToCSharpDbType(colType)}, ParameterDirection.Input{(string.IsNullOrEmpty(colLength) ? "" : $", {colLength}")});\r\n";
+                    parameters += $"parameters.Add(\"{colName}\", {colName.ToLower()});\r\n";
                 }
             }
             sb.Append($"sbSQL.Append(\"DELETE FROM {tableName} A \");\r\n");
@@ -554,6 +555,7 @@ namespace iCat.SQLTools.Services.Implements
                 case ParameterType.MSSQL: return $"@{parameter}";
                 case ParameterType.MySQL: return $"?{parameter}";
                 case ParameterType.ODBC: return $"?{parameter}?";
+                case ParameterType.Oracle: return $":{parameter}";
             }
             return "";
         }

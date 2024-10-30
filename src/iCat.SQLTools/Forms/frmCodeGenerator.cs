@@ -107,7 +107,7 @@ namespace iCat.SQLTools.Forms
                                 txtClassName.Focus();
                                 MessageBox.Show("Please type in a class name..");
                             }
-                            txtResult.Text = _schemaService.GenerateClassWithSummary(_datasetManager.Dataset.Tables[Consts.strColumns]!, _datasetManager.Namespace, _datasetManager.Using, $"{txtClassName.Text}{_datasetManager.ClassSuffix}", txtScript.Text);
+                            txtResult.Text = _schemaService.GenerateClassWithSummary(_schemaService.GetTableSchema(_datasetManager.Category, _datasetManager.ConnectionType ?? throw new ArgumentException("ConnectionType can't be null"), txtScript.Text, txtClassName.Text), _datasetManager.Dataset.Tables[Consts.strColumns]!, _datasetManager.Namespace, _datasetManager.Using, $"{txtClassName.Text}{_datasetManager.ClassSuffix}", txtScript.Text);
                             break;
                         case nameof(btnWithoutComment):
                             if (txtClassName.Text == "")
@@ -140,7 +140,7 @@ namespace iCat.SQLTools.Forms
                                     var item = _datasetManager!.Dataset!.Tables[Consts.strTables]!.Rows[i];
                                     var tableName = item["TableName"].ToString();
                                     var script = $"SELECT * FROM {tableName}";
-                                    var classBody = _schemaService.GenerateClassWithSummary(_datasetManager.Dataset.Tables[Consts.strColumns]!, _datasetManager.Namespace, _datasetManager.Using, $"{tableName}{_datasetManager.ClassSuffix}", script);
+                                    var classBody = _schemaService.GenerateClassWithSummary(null, _datasetManager.Dataset.Tables[Consts.strColumns]!, _datasetManager.Namespace, _datasetManager.Using, $"{tableName}{_datasetManager.ClassSuffix}", script);
                                     _fileService.SaveStringFileAsync($"{Path.Combine(filePath, tableName + _datasetManager.ClassSuffix + ".cs")}", classBody);
                                 });
 

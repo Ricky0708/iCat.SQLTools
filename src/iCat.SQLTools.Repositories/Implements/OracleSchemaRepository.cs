@@ -46,6 +46,7 @@ namespace iCat.SQLTools.Repositories.Implements
         {
             var sbSQL = new StringBuilder();
             sbSQL.Append("SELECT ");
+            sbSQL.Append("    0 AS IsChecked, ");
             sbSQL.Append("    tbl.TABLE_NAME AS TableName, ");
             sbSQL.Append("    comments.COMMENTS AS TableDescription, ");
             sbSQL.Append("    'TABLE' AS TableType ");
@@ -54,6 +55,7 @@ namespace iCat.SQLTools.Repositories.Implements
             sbSQL.Append("WHERE tbl.OWNER = USER ");
             sbSQL.Append("UNION ALL ");
             sbSQL.Append("SELECT ");
+            sbSQL.Append("    0 AS IsChecked, ");
             sbSQL.Append("    vw.VIEW_NAME AS TableName, ");
             sbSQL.Append("    comments.COMMENTS AS TableDescription, ");
             sbSQL.Append("    'VIEW' AS TableType ");
@@ -73,7 +75,11 @@ namespace iCat.SQLTools.Repositories.Implements
             sbSQL.Append("    CASE WHEN ID.COLUMN_NAME IS NOT NULL THEN 1 ELSE 0 END AS IsIdentity, ");
             sbSQL.Append("    A.COLUMN_NAME AS ColName, ");
             sbSQL.Append("    A.DATA_TYPE AS ColType, ");
-            sbSQL.Append("    A.DATA_LENGTH AS ColLength, ");
+            sbSQL.Append("    CASE ");
+            sbSQL.Append("	    WHEN A.DATA_TYPE = 'NVARCHAR2' THEN TO_CHAR(A.CHAR_LENGTH) ");
+            sbSQL.Append("	    WHEN A.DATA_TYPE = 'NUMBER' THEN CASE WHEN NVL(A.DATA_SCALE, 0) != 0 THEN '(' || A.DATA_PRECISION || ',' || A.DATA_SCALE || ')' ELSE TO_CHAR(A.DATA_PRECISION) END ");
+            sbSQL.Append(" 	    ELSE TO_CHAR(A.DATA_LENGTH) ");
+            sbSQL.Append(" 	  END AS ColLength, ");
             sbSQL.Append("    A.DATA_DEFAULT AS DefaultValue, ");
             sbSQL.Append("    NULL AS CollationName, ");
             sbSQL.Append("    CASE WHEN A.NULLABLE = 'Y' THEN 1 ELSE 0 END AS IsNullable, ");

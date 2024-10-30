@@ -118,26 +118,29 @@ namespace iCat.SQLTools.Shareds.Shareds
             //lisk tables and views
             foreach (DataRow dr in _ds.Tables[dtTables].Rows)
             {
-                string tableName = dr["TableName"].ToString();
-                string tableDescription = dr["TableDescription"].ToString();
-                string tableType = dr["TableType"].ToString();
-                dvTables.RowFilter = "TableName = '" + tableName + "'";
-                dvColumns.RowFilter = "TableName = '" + tableName + "'";
-                dvIndexes.RowFilter = "TableName = '" + tableName + "'";
-                dvFks.RowFilter = "ParentTable = '" + tableName + "' OR ReferencedTable = '" + tableName + "'";
+                if (dr["IsChecked"].ToString() == "1")
+                {
+                    string tableName = dr["TableName"].ToString();
+                    string tableDescription = dr["TableDescription"].ToString();
+                    string tableType = dr["TableType"].ToString();
+                    dvTables.RowFilter = "TableName = '" + tableName + "'";
+                    dvColumns.RowFilter = "TableName = '" + tableName + "'";
+                    dvIndexes.RowFilter = "TableName = '" + tableName + "'";
+                    dvFks.RowFilter = "ParentTable = '" + tableName + "' OR ReferencedTable = '" + tableName + "'";
 
-                //create sheet for table and view
-                tableName = CreateSheet_TableAndView(dvTables, dvColumns, dvIndexes, dvFks);
-                IRow currentRow = sheet.CreateRow(i + 1);
+                    //create sheet for table and view
+                    tableName = CreateSheet_TableAndView(dvTables, dvColumns, dvIndexes, dvFks);
+                    IRow currentRow = sheet.CreateRow(i + 1);
 
-                //create cell in sheet index and set hyperlink
-                XSSFHyperlink link = new XSSFHyperlink(HyperlinkType.Document);
-                link.Address = "'" + tableName + "'!A1";
-                currentRow.CreateCell(0).SetCellValue(tableName); currentRow.GetCell(0).CellStyle = linkCellStyle;
-                currentRow.CreateCell(1).SetCellValue(tableType); currentRow.GetCell(1).CellStyle = cellStyle;
-                currentRow.CreateCell(2).SetCellValue(tableDescription); currentRow.GetCell(2).CellStyle = cellStyle;
-                currentRow.GetCell(0).Hyperlink = link;
-                i++;
+                    //create cell in sheet index and set hyperlink
+                    XSSFHyperlink link = new XSSFHyperlink(HyperlinkType.Document);
+                    link.Address = "'" + tableName + "'!A1";
+                    currentRow.CreateCell(0).SetCellValue(dvTables[0]["TableName"].ToString()); currentRow.GetCell(0).CellStyle = linkCellStyle;
+                    currentRow.CreateCell(1).SetCellValue(tableType); currentRow.GetCell(1).CellStyle = cellStyle;
+                    currentRow.CreateCell(2).SetCellValue(tableDescription); currentRow.GetCell(2).CellStyle = cellStyle;
+                    currentRow.GetCell(0).Hyperlink = link;
+                    i++;
+                }
             }
 
             //list sps ans funcs
@@ -215,7 +218,7 @@ namespace iCat.SQLTools.Shareds.Shareds
             //head row
             IRow headRow = sheet.CreateRow(i);
             headRow.CreateCell(0).SetCellValue("TableName");
-            headRow.CreateCell(1).SetCellFormula("RIGHT(CELL(\"filename\",A1),LEN(CELL(\"filename\",A1))-FIND(\"]\",CELL(\"filename\",A1)))");
+            headRow.CreateCell(1).SetCellValue(dvTables[0]["TableName"].ToString());
             sheet.AddMergedRegion(new CellRangeAddress(0, 0, 1, 2));
             headRow.CreateCell(3).SetCellValue("Index"); headRow.GetCell(3).CellStyle = linkCellStyleWithoutBorder;
             XSSFHyperlink link = new XSSFHyperlink(HyperlinkType.Document);

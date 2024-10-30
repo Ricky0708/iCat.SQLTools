@@ -52,6 +52,8 @@ namespace iCat.SQLTools
                         return JsonUtil.Deserialize<SettingConfig>(data)!;
                     });
                     services.AddSingleton<IFileService>(s => new FileService("Config", Path.Combine(Application.StartupPath, "Configs")));
+                    services.AddSingleton<IDBDiagramService, DBDiagramService>();
+
                     services.AddSingleton<MainForm>();
                     services.AddKeyedScoped<Form, frmConfigSettingDlg>(nameof(frmConfigSettingDlg));
                     services.AddKeyedScoped<frmBase, frmTables>(nameof(frmTables));

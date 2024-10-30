@@ -240,6 +240,29 @@ namespace iCat.SQLTools.Forms
                 MessageBox.Show("No data could be export !!");
             }
         }
+        private void btnExportDBDiagramIO_Click(object sender, EventArgs e)
+        {
+            var service = _provider.GetRequiredService<IDBDiagramService>();
+            var result = service.GenerateScript(_datasetManager.Dataset, StringCase.Normal, true);
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                var defRoot = Path.Combine(Application.StartupPath, "database");
+                var extensionName = "txt";
+                var fileName = SetFileName(defRoot, "DBML", extensionName);
+
+                if (fileName != "")
+                {
+                    var fileService = _provider.GetRequiredService<IFileService>();
+                    fileService.SaveStringFileAsync(fileName, result).Wait();
+                }
+            }
+            else
+            {
+                MessageBox.Show("No data could be save !!");
+            }
+
+        }
 
         #endregion
 
@@ -367,5 +390,7 @@ namespace iCat.SQLTools.Forms
         }
 
         #endregion
+
+
     }
 }

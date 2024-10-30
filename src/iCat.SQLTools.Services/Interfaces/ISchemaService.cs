@@ -18,7 +18,7 @@ namespace iCat.SQLTools.Services.Interfaces
         DataSet GetDatasetFromDB(string key, ConnectionType connectionType);
         DataTable GetTableSchema(string key, ConnectionType connectionType, string sqlScript, string tableName);
         DataSet GetDatasetFromXml(string xmlString);
-        string GenerateClassWithSummary(DataTable dtColumns, string @namespace, string @using, string className, string sqlScript);
+        string GenerateClassWithSummary(DataTable dtTables, DataTable dtColumns, string @namespace, string @using, string className, string sqlScript);
         string GenerateClassWithoutSummary(DataTable dtTables, string @namespace, string @using, string className);
         string GenerateClassAssign(DataTable dtTables);
         string GenerateDapperScript(DataTable dtColumns, string tableName, ScriptKind scriptKind, ParameterType parameterType);
