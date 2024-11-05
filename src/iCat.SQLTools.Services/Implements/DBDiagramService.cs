@@ -35,12 +35,12 @@ namespace iCat.SQLTools.Services.Implements
                 if (dr["IsChecked"].ToString() == "1")
                 {
                     string tableName = dr["TableName"].ToString();
-                    string tableDescription = dr["TableDescription"].ToString();
+                    string tableDescription = dr["TableDescription"].ToString().Split('#')[0];
                     string tableType = dr["TableType"].ToString();
                     dvTables.RowFilter = "TableName = '" + tableName + "'";
                     dvColumns.RowFilter = "TableName = '" + tableName + "'";
                     dvColumns.Sort = "IsPk DESC, ColName ASC";
-                    result.Append($"Table {dr["TableName"].ToString()}{(isShowDescriptionAfterColName ? $"_{tableDescription}" : "")} [note: '{dr["TableDescription"].ToString()}'] {{ \r\n");
+                    result.Append($"Table {dr["TableName"].ToString()}{(isShowDescriptionAfterColName ? $"_{tableDescription}" : "")} [note: '{tableDescription}'] {{ \r\n");
                     foreach (DataRowView col in dvColumns)
                     {
                         var colProperties = new List<string>();
@@ -48,7 +48,8 @@ namespace iCat.SQLTools.Services.Implements
                         if (col["IsNullable"].ToString() == "0") colProperties.Add("not null");
                         colProperties.Add($"note: '{col["ColDescription"].ToString()}'");
 
-                        var colName = col["ColName"].ToString().PadRight(30); // col["ColName"].ToString();
+                        var colDescription = col["ColDescription"].ToString().Split('#')[0].Replace('(', '_').Replace(")", "");
+                        var colName = isShowDescriptionAfterColName ? $"{col["ColName"].ToString()}_{colDescription}".PadRight(100) : $"{col["ColName"].ToString()}".PadRight(30); // col["ColName"].ToString();
                         var colType = col["ColType"].ToString().PadRight(15);
                         var colLength = col["ColLength"].ToString().StartsWith("(") ? col["ColLength"].ToString().PadRight(10) : $"({col["ColLength"].ToString()})".PadRight(10);
                         var colProperty = $"[{string.Join(", ", colProperties)}]";

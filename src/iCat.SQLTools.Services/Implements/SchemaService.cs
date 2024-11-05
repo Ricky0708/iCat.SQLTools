@@ -108,7 +108,7 @@ namespace iCat.SQLTools.Services.Implements
                 }
                 body += summary + attr + string.Format("        public {0} {1} {{ get; set; }} {2}\r\n",
                     $"{Convertor.GetAlias(dtTables.Columns[dtColIndex].DataType)}{(dtTables.Columns[dtColIndex].AllowDBNull ? "?" : "")}",
-                    col.ColumnName.ToLower(),
+                    col.ColumnName,
                     (colInfo?.ItemArray[3]?.ToString() ?? col.ColumnType).ToLower() == "string" //item.DataType.Name.ToLower() == "string"
                     ? isNullable
                         ? ""
@@ -403,15 +403,15 @@ namespace iCat.SQLTools.Services.Implements
 
                 if (i == dvCol.Count - 1)
                 {
-                    selectCols += "A." + colName;
-                    whereParams += $"sbSQL.Append(\"    A.{colName} = {ConvertParameterString(colName, parameterType)}\"); \r\n";
-                    parameters += $"parameters.Add(\"{colName}\", {colName.ToLower()});\r\n";
+                    selectCols += "A." + colName.ToUpper();
+                    whereParams += $"sbSQL.Append(\"    A.{colName.ToUpper()} = {ConvertParameterString(colName.ToUpper(), parameterType)}\"); \r\n";
+                    parameters += $"parameters.Add(\"{colName.ToUpper()}\", data.{colName});\r\n";
                 }
                 else
                 {
-                    selectCols += "A." + colName + ", ";
-                    whereParams += $"sbSQL.Append(\"    A.{colName} = {ConvertParameterString(colName.ToString()!, parameterType)} AND \"); \r\n";
-                    parameters += $"parameters.Add(\"{colName}\", {colName.ToLower()});\r\n";
+                    selectCols += "A." + colName.ToUpper() + ", ";
+                    whereParams += $"sbSQL.Append(\"    A.{colName.ToUpper()} = {ConvertParameterString(colName.ToUpper()!, parameterType)} AND \"); \r\n";
+                    parameters += $"parameters.Add(\"{colName.ToUpper()}\", data.{colName});\r\n";
                 }
             }
             sb.Append($"sbSQL.Append(\"SELECT {selectCols} \");\r\n");
@@ -442,15 +442,15 @@ namespace iCat.SQLTools.Services.Implements
 
                 if (i == dvCol.Count - 1)
                 {
-                    selectCols += colName;
-                    valueParams += $"{ConvertParameterString(colName, parameterType)}";
-                    parameters += $"parameters.Add(\"{colName}\", {colName.ToLower()});\r\n";
+                    selectCols += colName.ToUpper();
+                    valueParams += $"{ConvertParameterString(colName.ToUpper(), parameterType)}";
+                    parameters += $"parameters.Add(\"{colName.ToUpper()}\", data.{colName});\r\n";
                 }
                 else
                 {
-                    selectCols += colName + ", ";
-                    valueParams += $"{ConvertParameterString(colName, parameterType)}, ";
-                    parameters += $"parameters.Add(\"{colName}\", {colName.ToLower()});\r\n";
+                    selectCols += colName.ToUpper() + ", ";
+                    valueParams += $"{ConvertParameterString(colName.ToUpper(), parameterType)}, ";
+                    parameters += $"parameters.Add(\"{colName.ToUpper()}\", data.{colName});\r\n";
                 }
             }
             sb.Append($"sbSQL.Append(\"INSERT INTO {tableName}({selectCols}) \");\r\n");
@@ -483,24 +483,24 @@ namespace iCat.SQLTools.Services.Implements
                 {
                     if (i == dvCol.Count - 1)
                     {
-                        updateParams += colName + " = " + $"{ConvertParameterString($"p_{colName}", parameterType)}" + " ";
-                        p_parameters += $"parameters.Add(\"{$"p_{colName}"}\", {colName.ToLower()});\r\n";
+                        updateParams += colName.ToUpper() + " = " + $"{ConvertParameterString($"p_{colName.ToUpper()}", parameterType)}" + " ";
+                        p_parameters += $"parameters.Add(\"{$"p_{colName.ToUpper()}"}\", data.{colName});\r\n";
                     }
                     else
                     {
-                        updateParams += colName + " = " + $"{ConvertParameterString($"p_{colName}", parameterType)}" + ", ";
-                        p_parameters += $"parameters.Add(\"{$"p_{colName}"}\", {colName.ToLower()});\r\n";
+                        updateParams += colName.ToUpper() + " = " + $"{ConvertParameterString($"p_{colName.ToUpper()}", parameterType)}" + ", ";
+                        p_parameters += $"parameters.Add(\"{$"p_{colName.ToUpper()}"}\", data.{colName});\r\n";
                     }
                 }
                 if (i == dvCol.Count - 1)
                 {
-                    whereParams += "sbSQL.Append(\"    " + colName + " = " + $"{ConvertParameterString($"w_{colName}", parameterType)}" + "\");\r\n";
-                    w_parameters += $"parameters.Add(\"{$"w_{colName}"}\", {colName.ToLower()});\r\n";
+                    whereParams += "sbSQL.Append(\"    " + colName.ToUpper() + " = " + $"{ConvertParameterString($"w_{colName.ToUpper()}", parameterType)}" + "\");\r\n";
+                    w_parameters += $"parameters.Add(\"{$"w_{colName.ToUpper()}"}\", data.{colName});\r\n";
                 }
                 else
                 {
-                    whereParams += "sbSQL.Append(\"    " + colName + " = " + $"{ConvertParameterString($"w_{colName}", parameterType)}" + " AND \");\r\n";
-                    w_parameters += $"parameters.Add(\"{$"w_{colName}"}\", {colName.ToLower()});\r\n";
+                    whereParams += "sbSQL.Append(\"    " + colName.ToUpper() + " = " + $"{ConvertParameterString($"w_{colName.ToUpper()}", parameterType)}" + " AND \");\r\n";
+                    w_parameters += $"parameters.Add(\"{$"w_{colName.ToUpper()}"}\", data.{colName});\r\n";
                 }
 
             }
@@ -530,13 +530,13 @@ namespace iCat.SQLTools.Services.Implements
 
                 if (i == dvCol.Count - 1)
                 {
-                    whereParams += $"sbSQL.Append(\"    A.{colName} = {ConvertParameterString(colName, parameterType)}\"); \r\n";
-                    parameters += $"parameters.Add(\"{colName}\", {colName.ToLower()});\r\n";
+                    whereParams += $"sbSQL.Append(\"    A.{colName.ToUpper()} = {ConvertParameterString(colName.ToUpper(), parameterType)}\"); \r\n";
+                    parameters += $"parameters.Add(\"{colName.ToUpper()}\", data.{colName});\r\n";
                 }
                 else
                 {
-                    whereParams += $"sbSQL.Append(\"    A.{colName} = {ConvertParameterString(colName.ToString()!, parameterType)} AND \"); \r\n";
-                    parameters += $"parameters.Add(\"{colName}\", {colName.ToLower()});\r\n";
+                    whereParams += $"sbSQL.Append(\"    A.{colName.ToUpper()} = {ConvertParameterString(colName.ToUpper()!, parameterType)} AND \"); \r\n";
+                    parameters += $"parameters.Add(\"{colName.ToUpper()}\", data.{colName});\r\n";
                 }
             }
             sb.Append($"sbSQL.Append(\"DELETE FROM {tableName} A \");\r\n");

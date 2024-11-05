@@ -254,7 +254,7 @@ namespace iCat.SQLTools.Forms
                 if (fileName != "")
                 {
                     var fileService = _provider.GetRequiredService<IFileService>();
-                    fileService.SaveStringFileAsync(fileName, result).Wait();
+                    fileService.SaveStringFileAsync(fileName, result);
                 }
             }
             else
