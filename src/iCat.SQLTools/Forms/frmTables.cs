@@ -243,7 +243,7 @@ namespace iCat.SQLTools.Forms
         private void btnExportDBDiagramIO_Click(object sender, EventArgs e)
         {
             var service = _provider.GetRequiredService<IDBDiagramService>();
-            var result = service.GenerateScript(_datasetManager.Dataset, StringCase.Normal, true);
+            var result = service.GenerateScript(_datasetManager.Dataset, StringCase.ToUpper, false);
 
             if (!string.IsNullOrEmpty(result))
             {
@@ -354,39 +354,48 @@ namespace iCat.SQLTools.Forms
 
         private void Filter(object sender, EventArgs e)
         {
-            if (bmTables != null)
+            try
             {
-                var filters = txtTableFilter.Text.Split(',');
-                var filterString = "";
-                var i = 0;
-                foreach (var filter in filters)
+                if (bmTables != null)
                 {
-                    if (!string.IsNullOrEmpty(filter))
+                    var filters = txtTableFilter.Text.Split(',');
+                    var filterString = "";
+                    var i = 0;
+                    foreach (var filter in filters)
                     {
-                        filterString += i == 0 ? "TableName LIKE '%" + filter + "%'" : " OR TableName LIKE '%" + filter + "%'";
-                        i++;
-                    }
-                };
-                ((DataView)bmTables.List).RowFilter = filterString;
-            }
+                        if (!string.IsNullOrEmpty(filter))
+                        {
+                            filterString += i == 0 ? $"TableName LIKE '%{filter}%' OR TableDescription LIKE '%{filter}%'" : $" OR TableName LIKE '%{filter}%' OR TableDescription LIKE '%{filter}%'";
 
-            if (bmSps != null)
+                            //filterString += i == 0 ? $"TableName LIKE '%{filter}%'" : " OR TableName LIKE '%" + filter + "%'";
+                            i++;
+                        }
+                    };
+                    ((DataView)bmTables.List).RowFilter = filterString;
+                }
+
+                if (bmSps != null)
+                {
+                    var filters = txtTableFilter.Text.Split(',');
+                    var filterString = "";
+                    var i = 0;
+                    foreach (var filter in filters)
+                    {
+                        if (!string.IsNullOrEmpty(filter))
+                        {
+                            filterString += i == 0 ? "SPECIFIC_NAME LIKE '%" + filter + "%'" : " OR SPECIFIC_NAME LIKE '%" + filter + "%'";
+                            i++;
+                        }
+                    };
+                    //((DataView)bmSps.List).RowFilter = "SPECIFIC_NAME LIKE '%" + txtSpFilter.Text + "%'";
+                    ((DataView)bmSps.List).RowFilter = filterString;
+                }
+
+            }
+            catch (Exception)
             {
-                var filters = txtTableFilter.Text.Split(',');
-                var filterString = "";
-                var i = 0;
-                foreach (var filter in filters)
-                {
-                    if (!string.IsNullOrEmpty(filter))
-                    {
-                        filterString += i == 0 ? "SPECIFIC_NAME LIKE '%" + filter + "%'" : " OR SPECIFIC_NAME LIKE '%" + filter + "%'";
-                        i++;
-                    }
-                };
-                //((DataView)bmSps.List).RowFilter = "SPECIFIC_NAME LIKE '%" + txtSpFilter.Text + "%'";
-                ((DataView)bmSps.List).RowFilter = filterString;
-            }
 
+            }
         }
 
         #endregion

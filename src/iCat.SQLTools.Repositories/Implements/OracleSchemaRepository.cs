@@ -2,6 +2,7 @@
 using iCat.SQLTools.Repositories.Enums;
 using iCat.SQLTools.Repositories.Interfaces;
 using iCat.SQLTools.Shareds.Enums;
+using Microsoft.Data.SqlClient;
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Data;
@@ -107,6 +108,16 @@ namespace iCat.SQLTools.Repositories.Implements
             sbSQL.Append("    ALL_TAB_IDENTITY_COLS ID ON A.OWNER = ID.OWNER AND A.TABLE_NAME = ID.TABLE_NAME AND A.COLUMN_NAME = ID.COLUMN_NAME ");
             sbSQL.Append("WHERE ");
             sbSQL.Append("    A.OWNER = USER ");
+
+            //var conn = (OracleConnection)_factory.GetConnection(key).Connection;
+            //conn.Open();
+            //var cmd = new OracleCommand(sbSQL.ToString(), conn);
+            //cmd.InitialLONGFetchSize = -1;
+            //var dr = cmd.ExecuteReader();
+            //while (dr.Read())
+            //{
+            //    var result = dr;
+            //}
             return ExecuteGetDataTable(key, sbSQL.ToString(), Consts.strColumns);
         }
 
@@ -138,6 +149,7 @@ namespace iCat.SQLTools.Repositories.Implements
             sbSQL.Append("WHERE ");
             sbSQL.Append("    cons.constraint_type = 'R' ");
             sbSQL.Append("    AND cons.owner = USER ");
+
             return ExecuteGetDataTable(key, sbSQL.ToString(), Consts.strFKs);
         }
 
@@ -206,6 +218,7 @@ namespace iCat.SQLTools.Repositories.Implements
             var conn = (OracleConnection)_factory.GetConnection(key).Connection;
             var da = new OracleDataAdapter(script, conn);
             da.SelectCommand.CommandTimeout = 999;
+            da.SelectCommand.InitialLONGFetchSize = -1;
             da.Fill(dt);
             return dt;
         }
