@@ -93,6 +93,7 @@
             dOName = new DataGridViewTextBoxColumn();
             dSystem_Type_Name = new DataGridViewTextBoxColumn();
             dError_Message = new DataGridViewTextBoxColumn();
+            btnExportDBDiagramIOER = new Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTables).BeginInit();
             tabControl1.SuspendLayout();
@@ -249,6 +250,7 @@
             // 
             // groupBox6
             // 
+            groupBox6.Controls.Add(btnExportDBDiagramIOER);
             groupBox6.Controls.Add(btnExportDBDiagramIO);
             groupBox6.Controls.Add(btnExportExcel);
             groupBox6.Location = new Point(70, 520);
@@ -898,6 +900,18 @@
             dError_Message.ReadOnly = true;
             dError_Message.Width = 122;
             // 
+            // btnExportDBDiagramIOER
+            // 
+            btnExportDBDiagramIOER.AllowDrop = true;
+            btnExportDBDiagramIOER.Location = new Point(9, 190);
+            btnExportDBDiagramIOER.Margin = new Padding(6, 4, 6, 4);
+            btnExportDBDiagramIOER.Name = "btnExportDBDiagramIOER";
+            btnExportDBDiagramIOER.Size = new Size(414, 64);
+            btnExportDBDiagramIOER.TabIndex = 6;
+            btnExportDBDiagramIOER.Text = "Export to dbdiagram.io For ER";
+            btnExportDBDiagramIOER.UseVisualStyleBackColor = true;
+            btnExportDBDiagramIOER.Click += btnExportDBDiagramIOER_Click;
+            // 
             // frmTables
             // 
             AutoScaleDimensions = new SizeF(17F, 32F);
@@ -1017,5 +1031,6 @@
         private System.Windows.Forms.Button btnUpdateAllDescription;
         private Button btnExportDBDiagramIO;
         private DataGridViewCheckBoxColumn dIsChecked;
+        private Button btnExportDBDiagramIOER;
     }
 }
