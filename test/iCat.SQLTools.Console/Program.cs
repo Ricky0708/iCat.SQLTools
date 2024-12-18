@@ -21,7 +21,7 @@ namespace iCat.SQLTools.ConsoleTest
             var host = CreateHostBuilder().Build();
 
             //string connectionString = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.99.2)(PORT=1521))(CONNECT_DATA=(SID=XE)));User Id=sys;Password=Aa123456;DBA Privilege=SYSDBA;";
-            string connectionString = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=52.249.217.76)(PORT=1521))(CONNECT_DATA=(SID=ORCL)));User Id=FINANCE;Password=ILoveETC&*(789";
+            string connectionString = "";
             var service = host.Services.GetService<ISchemaService>();
             var ds = service.GetDatasetFromDB("Oracle", Repositories.Enums.ConnectionType.Oracle);
             var tableScheme = service.GetTableSchema("Oracle", Repositories.Enums.ConnectionType.Oracle, "SELECT * FROM TB_FIN_SALEEMPTYINV", "TB_FIN_SALEEMPTYINV");
@@ -50,7 +50,7 @@ namespace iCat.SQLTools.ConsoleTest
                     services.AddSingleton<IDBProvider>(s =>
                     {
                         var result = new DBProvider();
-                        result.AddOrUpdateDbClient("Oracle", Repositories.Enums.ConnectionType.Oracle, "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=172.21.146.15)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=172.21.146.16)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=fugodev.sensengo.com.tw)));User Id=finance;Password=finance");
+                        result.AddOrUpdateDbClient("Oracle", Repositories.Enums.ConnectionType.Oracle, "");
                         return result;
                     });
                 });
