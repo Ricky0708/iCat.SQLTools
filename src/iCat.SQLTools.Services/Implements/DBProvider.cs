@@ -38,12 +38,16 @@ namespace iCat.SQLTools.Services.Implements
             {
                 if (_dbClients.TryGetValue(key, out var dbClient))
                 {
-
                     dbClient = connectionType switch
                     {
                         ConnectionType.MSSQL => () => new DBClient(new SqlConnection(connectionString)),
                         ConnectionType.MySQL => () => new DBClient(new MySqlConnection(connectionString)),
-                        ConnectionType.Oracle => () => new DBClient(new OracleConnection(connectionString)),
+                        ConnectionType.Oracle => () => {
+                            var conn = new OracleConnection(connectionString); 
+                            conn.KeepAlive = true;
+                            return new DBClient(conn); 
+                        }
+                        ,
                         _ => throw new NotImplementedException(),
                     };
                 }

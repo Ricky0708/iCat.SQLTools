@@ -21,12 +21,12 @@ namespace iCat.SQLTools.ConsoleTest
             var host = CreateHostBuilder().Build();
 
             //string connectionString = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.99.2)(PORT=1521))(CONNECT_DATA=(SID=XE)));User Id=sys;Password=Aa123456;DBA Privilege=SYSDBA;";
-            string connectionString = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.99.2)(PORT=1521))(CONNECT_DATA=(SID=XE)));User Id=TESTDB;Password=Aa123456";
+            string connectionString = "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=52.249.217.76)(PORT=1521))(CONNECT_DATA=(SID=ORCL)));User Id=FINANCE;Password=ILoveETC&*(789";
             var service = host.Services.GetService<ISchemaService>();
             var ds = service.GetDatasetFromDB("Oracle", Repositories.Enums.ConnectionType.Oracle);
-            var tableScheme = service.GetTableSchema("Oracle", Repositories.Enums.ConnectionType.Oracle, "SELECT * FROM TB_FIN_ACCOUNTPAYABLEPRODUCT", "TB_FIN_ACCOUNTPAYABLEPRODUCT");
-            var resultClass = service.GenerateClassWithSummary(tableScheme, ds.Tables["Columns"], "", "", "Test", "SELECT * FROM TB_FIN_ACCOUNTPAYABLEPRODUCT ");
-            var resultSelect = service.GenerateDapperScript(ds.Tables["Columns"], "TB_FIN_ACCOUNTPAYABLEPRODUCT", Shareds.Enums.ScriptKind.Select, Shareds.Enums.ParameterType.Oracle);
+            var tableScheme = service.GetTableSchema("Oracle", Repositories.Enums.ConnectionType.Oracle, "SELECT * FROM TB_FIN_SALEEMPTYINV", "TB_FIN_SALEEMPTYINV");
+            var resultClass = service.GenerateClassWithSummary(tableScheme, ds.Tables["Columns"], "", "", "Test", "SELECT * FROM TB_FIN_SALEEMPTYINV");
+            var resultSelect = service.GenerateDapperScript(ds.Tables["Columns"], "TB_FIN_SALEEMPTYINV", Shareds.Enums.ScriptKind.Select, Shareds.Enums.ParameterType.Oracle);
         }
         static IHostBuilder CreateHostBuilder()
         {
@@ -41,8 +41,6 @@ namespace iCat.SQLTools.ConsoleTest
 
 
                     services.AddScoped<ISchemaService, SchemaService>();
-                    services.AddScoped<ISchemaRepository, MSSQLSchemaRepository>();
-                    services.AddScoped<ISchemaRepository, MySQLSchemaRepository>();
                     services.AddScoped<ISchemaRepository, OracleSchemaRepository>();
 
                     services.AddSingleton<DatasetManagerFactory>();

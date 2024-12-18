@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 namespace iCat.SQLTools.Services.Implements
 {
@@ -23,13 +24,15 @@ namespace iCat.SQLTools.Services.Implements
         private const string dtIndexes = "Indexes";
         #endregion
 
-        public string GenerateScript(DataSet ds, StringCase nameCase, bool isShowDescriptionAfterColName = false)
+        public string GenerateScript(DataSet ds, StringCase nameCase, bool isShowDescriptionAfterColName = false, bool sortByColName = false)
         {
             DataView dvTables = ds.Tables[dtTables].DefaultView;
             DataView dvColumns = ds.Tables[dtColumns].DefaultView;
+            DataView dvIdx = ds.Tables[dtIndexes].DefaultView;
 
             //lisk tables and views
             var deleteScript = "";
+            var idxScript = "";
             var result = new StringBuilder();
             foreach (DataRow dr in ds.Tables[dtTables].Rows)
             {
@@ -40,7 +43,8 @@ namespace iCat.SQLTools.Services.Implements
                     string tableType = dr["TableType"].ToString();
                     dvTables.RowFilter = "TableName = '" + tableName + "'";
                     dvColumns.RowFilter = "TableName = '" + tableName + "'";
-                    dvColumns.Sort = "IsPk DESC";
+                    dvColumns.Sort = $"IsPk DESC, {(sortByColName ? "ColName" : "ordinal_position")}";
+                    dvIdx.RowFilter = "TableName = '" + tableName + "'";
                     result.Append($"Table {dr["TableName"].ToString()}{(isShowDescriptionAfterColName ? $"_{tableDescription}" : "")} [note: '{tableDescription}'] {{ \r\n");
                     foreach (DataRowView col in dvColumns)
                     {
@@ -71,6 +75,20 @@ namespace iCat.SQLTools.Services.Implements
                         var colProperty = $"[{string.Join(", ", colProperties)}]";
                         result.Append($"    {colName}{colType}{colLength}{colProperty} \r\n");
                     }
+                    //var a = ds.Tables[dtIndexes].AsEnumerable().Select(p => p["TableName"].ToString());
+                    //var indexes = ds.Tables[dtIndexes].AsEnumerable().Where(p => p["TableName"].ToString() == tableName).GroupBy(p => p["INDEXNAME"]);
+                    //foreach (var index in indexes)
+                    //{
+                    //    foreach (var col in index)
+                    //    {
+                    //        var tempDV = ds.Tables[dtColumns].DefaultView;
+                    //        tempDV.RowFilter = $"TableName = '{tableName}' AND ColName = '{col["ColName"]}'";
+                    //        if (tempDV[0]["IsPK"].ToString() != "1")
+                    //        {
+
+                    //        }
+                    //    }
+                    //}
                     result.Append($"}} \r\n");
                     result.Append($"\r\n");
                     deleteScript += $"DROP TABLE {tableName} CASCADE CONSTRAINTS;\r\n";

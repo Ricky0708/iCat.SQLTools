@@ -4,6 +4,7 @@ using System.IO;
 using System.Data;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
+using System.Linq;
 
 
 namespace iCat.SQLTools.Shareds.Shareds
@@ -142,7 +143,7 @@ namespace iCat.SQLTools.Shareds.Shareds
                     i++;
                 }
             }
-
+            //var a = string.Join("\r\n", Result.Where(p => !string.IsNullOrEmpty(p)).ToArray().Distinct());
             //list sps ans funcs
             foreach (DataRow dr in _ds.Tables[dtSpsAndFuncs].Rows)
             {
@@ -203,7 +204,7 @@ namespace iCat.SQLTools.Shareds.Shareds
         #endregion
 
         #region pivate generat sheet method
-
+        //public List<string> Result { get; set; } = new List<string>();
         private string CreateSheet_TableAndView(DataView dvTables, DataView dvColumns, DataView dvIndexes, DataView dvFks)
         {
             string tableName = dvTables[0]["TableName"].ToString();
@@ -233,7 +234,10 @@ namespace iCat.SQLTools.Shareds.Shareds
             colHead.CreateCell(2).SetCellValue("Type"); colHead.GetCell(2).CellStyle = cellStyleHead;
             colHead.CreateCell(3).SetCellValue("Length"); colHead.GetCell(3).CellStyle = cellStyleHead;
             colHead.CreateCell(4).SetCellValue("IsNull"); colHead.GetCell(4).CellStyle = cellStyleHead;
-            colHead.CreateCell(5).SetCellValue("Description"); colHead.GetCell(5).CellStyle = cellStyleHead;
+            colHead.CreateCell(5).SetCellValue("ChineseName"); colHead.GetCell(5).CellStyle = cellStyleHead;
+            colHead.CreateCell(6).SetCellValue("Description"); colHead.GetCell(6).CellStyle = cellStyleHead;
+            colHead.CreateCell(7).SetCellValue("DomainId"); colHead.GetCell(7).CellStyle = cellStyleHead;
+            colHead.CreateCell(8).SetCellValue("OriginalName"); colHead.GetCell(8).CellStyle = cellStyleHead;
 
             //columns body row
             for (int n = 0; n < dvColumns.Count; n++)
@@ -245,8 +249,12 @@ namespace iCat.SQLTools.Shareds.Shareds
                 colBody.CreateCell(2).SetCellValue(dvColumns[n]["ColType"].ToString()); colBody.GetCell(2).CellStyle = cellStyle;
                 colBody.CreateCell(3).SetCellValue(dvColumns[n]["ColLength"].ToString()); colBody.GetCell(3).CellStyle = cellStyle;
                 colBody.CreateCell(4).SetCellValue((dvColumns[n]["IsNullable"].ToString() == "1").ToString().Replace("False", "")); colBody.GetCell(4).CellStyle = cellStyle;
-                colBody.CreateCell(5).SetCellValue(dvColumns[n]["ColDescription"].ToString()); colBody.GetCell(5).CellStyle = cellStyle;
-
+                var descriptionResult = dvColumns[n]["ColDescription"].ToString()!.Split('#');
+                colBody.CreateCell(5).SetCellValue(descriptionResult.Length > 0 ? descriptionResult[0] : dvColumns[n]["ColDescription"].ToString()); colBody.GetCell(5).CellStyle = cellStyle;
+                colBody.CreateCell(6).SetCellValue(descriptionResult.Length > 1 ? descriptionResult[1] : ""); colBody.GetCell(6).CellStyle = cellStyle;
+                colBody.CreateCell(7).SetCellValue(descriptionResult.Length > 2 ? descriptionResult[2] : ""); colBody.GetCell(7).CellStyle = cellStyle;
+                colBody.CreateCell(8).SetCellValue(descriptionResult.Length > 3 ? descriptionResult[3] : ""); colBody.GetCell(8).CellStyle = cellStyle;
+                //if (descriptionResult.Length > 2) Result.Add(descriptionResult[2]);
             }
 
 
@@ -259,6 +267,9 @@ namespace iCat.SQLTools.Shareds.Shareds
             fkHead.CreateCell(3).SetCellValue("MasterCol"); fkHead.GetCell(3).CellStyle = cellStyleHead;
             fkHead.CreateCell(4).SetCellValue("DetailTable"); fkHead.GetCell(4).CellStyle = cellStyleHead;
             fkHead.CreateCell(5).SetCellValue("DetailCol"); fkHead.GetCell(5).CellStyle = cellStyleHead;
+            fkHead.CreateCell(6).SetCellValue("DetailCol"); fkHead.GetCell(6).CellStyle = cellStyleHead;
+            fkHead.CreateCell(7).SetCellValue("DetailCol"); fkHead.GetCell(7).CellStyle = cellStyleHead;
+            fkHead.CreateCell(8).SetCellValue("DetailCol"); fkHead.GetCell(8).CellStyle = cellStyleHead;
             //fks row
             for (int n = 0; n < dvFks.Count; n++)
             {
@@ -270,6 +281,9 @@ namespace iCat.SQLTools.Shareds.Shareds
                 fkBody.CreateCell(3).SetCellValue(dvFks[n]["ReferencedColumn"].ToString()); fkBody.GetCell(3).CellStyle = cellStyle;
                 fkBody.CreateCell(4).SetCellValue((dvFks[n]["ParentTable"].ToString())); fkBody.GetCell(4).CellStyle = cellStyle;
                 fkBody.CreateCell(5).SetCellValue(dvFks[n]["ParentColumn"].ToString()); fkBody.GetCell(5).CellStyle = cellStyle;
+                fkBody.CreateCell(6).SetCellValue(""); fkBody.GetCell(6).CellStyle = cellStyle;
+                fkBody.CreateCell(7).SetCellValue(""); fkBody.GetCell(7).CellStyle = cellStyle;
+                fkBody.CreateCell(8).SetCellValue(""); fkBody.GetCell(8).CellStyle = cellStyle;
             }
             //pk & ix row head
             i += 3;
@@ -280,7 +294,10 @@ namespace iCat.SQLTools.Shareds.Shareds
             pixHead.CreateCell(3).SetCellValue(""); pixHead.GetCell(3).CellStyle = cellStyleHead;
             pixHead.CreateCell(4).SetCellValue(""); pixHead.GetCell(4).CellStyle = cellStyleHead;
             pixHead.CreateCell(5).SetCellValue(""); pixHead.GetCell(5).CellStyle = cellStyleHead;
-            sheet.AddMergedRegion(new CellRangeAddress(i, i, 2, 5));
+            pixHead.CreateCell(6).SetCellValue(""); pixHead.GetCell(6).CellStyle = cellStyleHead;
+            pixHead.CreateCell(7).SetCellValue(""); pixHead.GetCell(7).CellStyle = cellStyleHead;
+            pixHead.CreateCell(8).SetCellValue(""); pixHead.GetCell(8).CellStyle = cellStyleHead;
+            sheet.AddMergedRegion(new CellRangeAddress(i, i, 2, 8));
 
             //pk & ix row
             for (int n = 0; n < dvIndexes.Count; n++)
@@ -293,7 +310,10 @@ namespace iCat.SQLTools.Shareds.Shareds
                 indexBody.CreateCell(3).SetCellValue(""); indexBody.GetCell(3).CellStyle = cellStyle;
                 indexBody.CreateCell(4).SetCellValue(""); indexBody.GetCell(4).CellStyle = cellStyle;
                 indexBody.CreateCell(5).SetCellValue(""); indexBody.GetCell(5).CellStyle = cellStyle;
-                sheet.AddMergedRegion(new CellRangeAddress(i, i, 2, 5));
+                indexBody.CreateCell(6).SetCellValue(""); indexBody.GetCell(6).CellStyle = cellStyle;
+                indexBody.CreateCell(7).SetCellValue(""); indexBody.GetCell(7).CellStyle = cellStyle;
+                indexBody.CreateCell(8).SetCellValue(""); indexBody.GetCell(8).CellStyle = cellStyle;
+                sheet.AddMergedRegion(new CellRangeAddress(i, i, 2, 8));
             }
 
 
@@ -303,6 +323,9 @@ namespace iCat.SQLTools.Shareds.Shareds
             sheet.SetColumnWidth(3, 8000);
             sheet.SetColumnWidth(4, 8000);
             sheet.SetColumnWidth(5, 8000);
+            sheet.SetColumnWidth(6, 8000);
+            sheet.SetColumnWidth(7, 8000);
+            sheet.SetColumnWidth(8, 8000);
             return tableName;
             //IRow headerRow = sheet.CreateRow(i + 3);
             //headerRow.CreateCell(0).SetCellValue(dr["TableName"].ToString());

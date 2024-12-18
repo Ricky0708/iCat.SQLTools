@@ -108,6 +108,7 @@ namespace iCat.SQLTools.Repositories.Implements
             sbSQL.Append("    ALL_TAB_IDENTITY_COLS ID ON A.OWNER = ID.OWNER AND A.TABLE_NAME = ID.TABLE_NAME AND A.COLUMN_NAME = ID.COLUMN_NAME ");
             sbSQL.Append("WHERE ");
             sbSQL.Append("    A.OWNER = USER ");
+            sbSQL.Append("ORDER BY ordinal_position ");
 
             //var conn = (OracleConnection)_factory.GetConnection(key).Connection;
             //conn.Open();

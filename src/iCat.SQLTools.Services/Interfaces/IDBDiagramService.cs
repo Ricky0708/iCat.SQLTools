@@ -8,6 +8,6 @@ namespace iCat.SQLTools.Services.Interfaces
 {
     public interface IDBDiagramService
     {
-        string GenerateScript(DataSet ds, StringCase nameCase, bool isShowDescriptionAfterColName = false);
+        string GenerateScript(DataSet ds, StringCase nameCase, bool isShowDescriptionAfterColName = false, bool sortByColName = false);
     }
 }

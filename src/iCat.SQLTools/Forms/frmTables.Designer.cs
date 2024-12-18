@@ -39,14 +39,18 @@
             txtTableFilter = new CustomControlleres.PlaceholderTextBox();
             tabControl1 = new TabControl();
             tabCommand = new TabPage();
+            txDbDiagramResult = new RichTextBox();
+            panel2 = new Panel();
             groupBox6 = new GroupBox();
+            chkNoteInName = new CheckBox();
+            chkToUpperCase = new CheckBox();
             btnExportDBDiagramIO = new Button();
             btnExportExcel = new Button();
-            groupBox5 = new GroupBox();
-            btnSaveToXml = new Button();
             groupBox4 = new GroupBox();
             btnUpdateAllDescription = new Button();
             btnUpdateDescription = new Button();
+            groupBox5 = new GroupBox();
+            btnSaveToXml = new Button();
             tabTablesAndCols = new TabPage();
             splitContainer1 = new SplitContainer();
             splitContainer5 = new SplitContainer();
@@ -93,14 +97,15 @@
             dOName = new DataGridViewTextBoxColumn();
             dSystem_Type_Name = new DataGridViewTextBoxColumn();
             dError_Message = new DataGridViewTextBoxColumn();
-            btnExportDBDiagramIOER = new Button();
+            chkSortByColName = new CheckBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTables).BeginInit();
             tabControl1.SuspendLayout();
             tabCommand.SuspendLayout();
+            panel2.SuspendLayout();
             groupBox6.SuspendLayout();
-            groupBox5.SuspendLayout();
             groupBox4.SuspendLayout();
+            groupBox5.SuspendLayout();
             tabTablesAndCols.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -137,7 +142,7 @@
             // panel1
             // 
             panel1.Margin = new Padding(8, 6, 8, 6);
-            panel1.Size = new Size(1273, 86);
+            panel1.Size = new Size(2442, 86);
             // 
             // groupBox1
             // 
@@ -148,7 +153,7 @@
             groupBox1.Margin = new Padding(6, 4, 6, 4);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(6, 4, 6, 4);
-            groupBox1.Size = new Size(405, 1073);
+            groupBox1.Size = new Size(789, 1207);
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
             groupBox1.Text = "Tables";
@@ -165,7 +170,7 @@
             dgvTables.Name = "dgvTables";
             dgvTables.RowHeadersWidth = 82;
             dgvTables.RowTemplate.Height = 50;
-            dgvTables.Size = new Size(393, 980);
+            dgvTables.Size = new Size(777, 1114);
             dgvTables.TabIndex = 0;
             // 
             // dIsChecked
@@ -216,7 +221,7 @@
             txtTableFilter.Margin = new Padding(17, 8, 17, 8);
             txtTableFilter.Name = "txtTableFilter";
             txtTableFilter.PlaceHolder = "Write something here to filter Table";
-            txtTableFilter.Size = new Size(393, 46);
+            txtTableFilter.Size = new Size(777, 46);
             txtTableFilter.TabIndex = 1;
             txtTableFilter.TextChanged += Filter;
             // 
@@ -230,30 +235,51 @@
             tabControl1.Margin = new Padding(6, 4, 6, 4);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1273, 1140);
+            tabControl1.Size = new Size(2442, 1274);
             tabControl1.TabIndex = 2;
             tabControl1.TabStop = false;
             // 
             // tabCommand
             // 
-            tabCommand.Controls.Add(groupBox6);
-            tabCommand.Controls.Add(groupBox5);
-            tabCommand.Controls.Add(groupBox4);
+            tabCommand.Controls.Add(txDbDiagramResult);
+            tabCommand.Controls.Add(panel2);
             tabCommand.Location = new Point(8, 47);
             tabCommand.Margin = new Padding(6, 4, 6, 4);
             tabCommand.Name = "tabCommand";
             tabCommand.Padding = new Padding(6, 4, 6, 4);
-            tabCommand.Size = new Size(1257, 1085);
+            tabCommand.Size = new Size(2426, 1219);
             tabCommand.TabIndex = 1;
             tabCommand.Text = "Command";
             tabCommand.UseVisualStyleBackColor = true;
             // 
+            // txDbDiagramResult
+            // 
+            txDbDiagramResult.Dock = DockStyle.Fill;
+            txDbDiagramResult.Location = new Point(896, 4);
+            txDbDiagramResult.Name = "txDbDiagramResult";
+            txDbDiagramResult.Size = new Size(1524, 1211);
+            txDbDiagramResult.TabIndex = 7;
+            txDbDiagramResult.Text = "";
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(groupBox6);
+            panel2.Controls.Add(groupBox4);
+            panel2.Controls.Add(groupBox5);
+            panel2.Dock = DockStyle.Left;
+            panel2.Location = new Point(6, 4);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(890, 1211);
+            panel2.TabIndex = 8;
+            // 
             // groupBox6
             // 
-            groupBox6.Controls.Add(btnExportDBDiagramIOER);
+            groupBox6.Controls.Add(chkSortByColName);
+            groupBox6.Controls.Add(chkNoteInName);
+            groupBox6.Controls.Add(chkToUpperCase);
             groupBox6.Controls.Add(btnExportDBDiagramIO);
             groupBox6.Controls.Add(btnExportExcel);
-            groupBox6.Location = new Point(70, 520);
+            groupBox6.Location = new Point(28, 495);
             groupBox6.Margin = new Padding(6, 4, 6, 4);
             groupBox6.Name = "groupBox6";
             groupBox6.Padding = new Padding(6, 4, 6, 4);
@@ -261,6 +287,26 @@
             groupBox6.TabIndex = 6;
             groupBox6.TabStop = false;
             groupBox6.Text = "Generator";
+            // 
+            // chkNoteInName
+            // 
+            chkNoteInName.AutoSize = true;
+            chkNoteInName.Location = new Point(21, 261);
+            chkNoteInName.Name = "chkNoteInName";
+            chkNoteInName.Size = new Size(321, 36);
+            chkNoteInName.TabIndex = 7;
+            chkNoteInName.Text = "Bring Note after Name";
+            chkNoteInName.UseVisualStyleBackColor = true;
+            // 
+            // chkToUpperCase
+            // 
+            chkToUpperCase.AutoSize = true;
+            chkToUpperCase.Location = new Point(21, 208);
+            chkToUpperCase.Name = "chkToUpperCase";
+            chkToUpperCase.Size = new Size(228, 36);
+            chkToUpperCase.TabIndex = 7;
+            chkToUpperCase.Text = "To Upper Case";
+            chkToUpperCase.UseVisualStyleBackColor = true;
             // 
             // btnExportDBDiagramIO
             // 
@@ -285,34 +331,11 @@
             btnExportExcel.UseVisualStyleBackColor = true;
             btnExportExcel.Click += btnExportExcel_Click;
             // 
-            // groupBox5
-            // 
-            groupBox5.Controls.Add(btnSaveToXml);
-            groupBox5.Location = new Point(521, 70);
-            groupBox5.Margin = new Padding(6, 4, 6, 4);
-            groupBox5.Name = "groupBox5";
-            groupBox5.Padding = new Padding(6, 4, 6, 4);
-            groupBox5.Size = new Size(340, 440);
-            groupBox5.TabIndex = 5;
-            groupBox5.TabStop = false;
-            groupBox5.Text = "XML";
-            // 
-            // btnSaveToXml
-            // 
-            btnSaveToXml.Location = new Point(9, 46);
-            btnSaveToXml.Margin = new Padding(6, 4, 6, 4);
-            btnSaveToXml.Name = "btnSaveToXml";
-            btnSaveToXml.Size = new Size(295, 64);
-            btnSaveToXml.TabIndex = 5;
-            btnSaveToXml.Text = "Save To Xml";
-            btnSaveToXml.UseVisualStyleBackColor = true;
-            btnSaveToXml.Click += btnSaveToXml_Click;
-            // 
             // groupBox4
             // 
             groupBox4.Controls.Add(btnUpdateAllDescription);
             groupBox4.Controls.Add(btnUpdateDescription);
-            groupBox4.Location = new Point(70, 70);
+            groupBox4.Location = new Point(28, 17);
             groupBox4.Margin = new Padding(6, 4, 6, 4);
             groupBox4.Name = "groupBox4";
             groupBox4.Padding = new Padding(6, 4, 6, 4);
@@ -343,6 +366,29 @@
             btnUpdateDescription.UseVisualStyleBackColor = true;
             btnUpdateDescription.Click += Update_Description_Click;
             // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(btnSaveToXml);
+            groupBox5.Location = new Point(506, 17);
+            groupBox5.Margin = new Padding(6, 4, 6, 4);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Padding = new Padding(6, 4, 6, 4);
+            groupBox5.Size = new Size(340, 440);
+            groupBox5.TabIndex = 5;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "XML";
+            // 
+            // btnSaveToXml
+            // 
+            btnSaveToXml.Location = new Point(9, 46);
+            btnSaveToXml.Margin = new Padding(6, 4, 6, 4);
+            btnSaveToXml.Name = "btnSaveToXml";
+            btnSaveToXml.Size = new Size(295, 64);
+            btnSaveToXml.TabIndex = 5;
+            btnSaveToXml.Text = "Save To Xml";
+            btnSaveToXml.UseVisualStyleBackColor = true;
+            btnSaveToXml.Click += btnSaveToXml_Click;
+            // 
             // tabTablesAndCols
             // 
             tabTablesAndCols.Controls.Add(splitContainer1);
@@ -350,7 +396,7 @@
             tabTablesAndCols.Margin = new Padding(6, 4, 6, 4);
             tabTablesAndCols.Name = "tabTablesAndCols";
             tabTablesAndCols.Padding = new Padding(6, 4, 6, 4);
-            tabTablesAndCols.Size = new Size(1257, 1085);
+            tabTablesAndCols.Size = new Size(2426, 1219);
             tabTablesAndCols.TabIndex = 0;
             tabTablesAndCols.Text = "Tables & Columns";
             tabTablesAndCols.UseVisualStyleBackColor = true;
@@ -371,8 +417,8 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(splitContainer5);
-            splitContainer1.Size = new Size(1245, 1077);
-            splitContainer1.SplitterDistance = 409;
+            splitContainer1.Size = new Size(2414, 1211);
+            splitContainer1.SplitterDistance = 793;
             splitContainer1.SplitterWidth = 8;
             splitContainer1.TabIndex = 2;
             splitContainer1.TabStop = false;
@@ -393,8 +439,8 @@
             // splitContainer5.Panel2
             // 
             splitContainer5.Panel2.Controls.Add(splitContainer2);
-            splitContainer5.Size = new Size(828, 1077);
-            splitContainer5.SplitterDistance = 299;
+            splitContainer5.Size = new Size(1613, 1211);
+            splitContainer5.SplitterDistance = 336;
             splitContainer5.SplitterWidth = 16;
             splitContainer5.TabIndex = 2;
             splitContainer5.TabStop = false;
@@ -407,7 +453,7 @@
             groupBox2.Margin = new Padding(53, 16, 53, 16);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(53, 16, 53, 16);
-            groupBox2.Size = new Size(824, 295);
+            groupBox2.Size = new Size(1609, 332);
             groupBox2.TabIndex = 0;
             groupBox2.TabStop = false;
             groupBox2.Text = "Columns Info";
@@ -424,7 +470,7 @@
             dgvColumns.Name = "dgvColumns";
             dgvColumns.RowHeadersWidth = 82;
             dgvColumns.RowTemplate.Height = 24;
-            dgvColumns.Size = new Size(718, 224);
+            dgvColumns.Size = new Size(1503, 261);
             dgvColumns.TabIndex = 1;
             dgvColumns.TabStop = false;
             // 
@@ -535,8 +581,8 @@
             // splitContainer2.Panel2
             // 
             splitContainer2.Panel2.Controls.Add(groupBox3);
-            splitContainer2.Size = new Size(828, 762);
-            splitContainer2.SplitterDistance = 150;
+            splitContainer2.Size = new Size(1613, 859);
+            splitContainer2.SplitterDistance = 169;
             splitContainer2.SplitterWidth = 16;
             splitContainer2.TabIndex = 1;
             splitContainer2.TabStop = false;
@@ -549,7 +595,7 @@
             groupBox7.Margin = new Padding(53, 16, 53, 16);
             groupBox7.Name = "groupBox7";
             groupBox7.Padding = new Padding(53, 16, 53, 16);
-            groupBox7.Size = new Size(824, 146);
+            groupBox7.Size = new Size(1609, 165);
             groupBox7.TabIndex = 0;
             groupBox7.TabStop = false;
             groupBox7.Text = "PK && IX";
@@ -566,7 +612,7 @@
             dgvIndexes.Name = "dgvIndexes";
             dgvIndexes.RowHeadersWidth = 82;
             dgvIndexes.RowTemplate.Height = 24;
-            dgvIndexes.Size = new Size(718, 75);
+            dgvIndexes.Size = new Size(1503, 94);
             dgvIndexes.TabIndex = 2;
             dgvIndexes.TabStop = false;
             // 
@@ -596,7 +642,7 @@
             groupBox3.Margin = new Padding(53, 16, 53, 16);
             groupBox3.Name = "groupBox3";
             groupBox3.Padding = new Padding(53, 16, 53, 16);
-            groupBox3.Size = new Size(824, 592);
+            groupBox3.Size = new Size(1609, 670);
             groupBox3.TabIndex = 1;
             groupBox3.TabStop = false;
             groupBox3.Text = "FK";
@@ -615,7 +661,7 @@
             dgvFK.ReadOnly = true;
             dgvFK.RowHeadersWidth = 82;
             dgvFK.RowTemplate.Height = 24;
-            dgvFK.Size = new Size(718, 521);
+            dgvFK.Size = new Size(1503, 599);
             dgvFK.TabIndex = 2;
             dgvFK.TabStop = false;
             // 
@@ -666,7 +712,7 @@
             tabSpsAndFuncs.Margin = new Padding(6, 4, 6, 4);
             tabSpsAndFuncs.Name = "tabSpsAndFuncs";
             tabSpsAndFuncs.Padding = new Padding(6, 4, 6, 4);
-            tabSpsAndFuncs.Size = new Size(1257, 1085);
+            tabSpsAndFuncs.Size = new Size(2426, 1219);
             tabSpsAndFuncs.TabIndex = 2;
             tabSpsAndFuncs.Text = "SP & Func";
             tabSpsAndFuncs.UseVisualStyleBackColor = true;
@@ -686,8 +732,8 @@
             // splitContainer3.Panel2
             // 
             splitContainer3.Panel2.Controls.Add(splitContainer4);
-            splitContainer3.Size = new Size(1245, 1077);
-            splitContainer3.SplitterDistance = 728;
+            splitContainer3.Size = new Size(2414, 1211);
+            splitContainer3.SplitterDistance = 1411;
             splitContainer3.SplitterWidth = 8;
             splitContainer3.TabIndex = 0;
             splitContainer3.TabStop = false;
@@ -706,7 +752,7 @@
             dgvSpsAndFuncs.ReadOnly = true;
             dgvSpsAndFuncs.RowHeadersWidth = 82;
             dgvSpsAndFuncs.RowTemplate.Height = 24;
-            dgvSpsAndFuncs.Size = new Size(728, 1031);
+            dgvSpsAndFuncs.Size = new Size(1411, 1165);
             dgvSpsAndFuncs.TabIndex = 3;
             // 
             // dSPECIFIC_NAME
@@ -753,7 +799,7 @@
             txtSpFilter.Margin = new Padding(17, 8, 17, 8);
             txtSpFilter.Name = "txtSpFilter";
             txtSpFilter.PlaceHolder = "Write something here to filter SP && Func";
-            txtSpFilter.Size = new Size(728, 46);
+            txtSpFilter.Size = new Size(1411, 46);
             txtSpFilter.TabIndex = 4;
             txtSpFilter.TextChanged += Filter;
             // 
@@ -772,8 +818,8 @@
             // splitContainer4.Panel2
             // 
             splitContainer4.Panel2.Controls.Add(dgvOutPutParams);
-            splitContainer4.Size = new Size(509, 1077);
-            splitContainer4.SplitterDistance = 484;
+            splitContainer4.Size = new Size(995, 1211);
+            splitContainer4.SplitterDistance = 544;
             splitContainer4.SplitterWidth = 16;
             splitContainer4.TabIndex = 0;
             splitContainer4.TabStop = false;
@@ -791,7 +837,7 @@
             dgvInputParams.ReadOnly = true;
             dgvInputParams.RowHeadersWidth = 82;
             dgvInputParams.RowTemplate.Height = 24;
-            dgvInputParams.Size = new Size(509, 484);
+            dgvInputParams.Size = new Size(995, 544);
             dgvInputParams.TabIndex = 1;
             dgvInputParams.TabStop = false;
             // 
@@ -857,7 +903,7 @@
             dgvOutPutParams.ReadOnly = true;
             dgvOutPutParams.RowHeadersWidth = 82;
             dgvOutPutParams.RowTemplate.Height = 24;
-            dgvOutPutParams.Size = new Size(509, 577);
+            dgvOutPutParams.Size = new Size(995, 651);
             dgvOutPutParams.TabIndex = 1;
             dgvOutPutParams.TabStop = false;
             // 
@@ -900,23 +946,21 @@
             dError_Message.ReadOnly = true;
             dError_Message.Width = 122;
             // 
-            // btnExportDBDiagramIOER
+            // chkSortByColName
             // 
-            btnExportDBDiagramIOER.AllowDrop = true;
-            btnExportDBDiagramIOER.Location = new Point(9, 190);
-            btnExportDBDiagramIOER.Margin = new Padding(6, 4, 6, 4);
-            btnExportDBDiagramIOER.Name = "btnExportDBDiagramIOER";
-            btnExportDBDiagramIOER.Size = new Size(414, 64);
-            btnExportDBDiagramIOER.TabIndex = 6;
-            btnExportDBDiagramIOER.Text = "Export to dbdiagram.io For ER";
-            btnExportDBDiagramIOER.UseVisualStyleBackColor = true;
-            btnExportDBDiagramIOER.Click += btnExportDBDiagramIOER_Click;
+            chkSortByColName.AutoSize = true;
+            chkSortByColName.Location = new Point(21, 316);
+            chkSortByColName.Name = "chkSortByColName";
+            chkSortByColName.Size = new Size(269, 36);
+            chkSortByColName.TabIndex = 8;
+            chkSortByColName.Text = "Sort By Col Name";
+            chkSortByColName.UseVisualStyleBackColor = true;
             // 
             // frmTables
             // 
             AutoScaleDimensions = new SizeF(17F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1273, 1226);
+            ClientSize = new Size(2442, 1360);
             Controls.Add(tabControl1);
             Margin = new Padding(8, 4, 8, 4);
             Name = "frmTables";
@@ -928,9 +972,11 @@
             ((System.ComponentModel.ISupportInitialize)dgvTables).EndInit();
             tabControl1.ResumeLayout(false);
             tabCommand.ResumeLayout(false);
+            panel2.ResumeLayout(false);
             groupBox6.ResumeLayout(false);
-            groupBox5.ResumeLayout(false);
+            groupBox6.PerformLayout();
             groupBox4.ResumeLayout(false);
+            groupBox5.ResumeLayout(false);
             tabTablesAndCols.ResumeLayout(false);
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel2.ResumeLayout(false);
@@ -1031,6 +1077,10 @@
         private System.Windows.Forms.Button btnUpdateAllDescription;
         private Button btnExportDBDiagramIO;
         private DataGridViewCheckBoxColumn dIsChecked;
-        private Button btnExportDBDiagramIOER;
+        private RichTextBox txDbDiagramResult;
+        private Panel panel2;
+        private CheckBox chkNoteInName;
+        private CheckBox chkToUpperCase;
+        private CheckBox chkSortByColName;
     }
 }
